@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'designs/ButtonsDesign.dart';
@@ -12,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale:  state.local,
       home: LanguagePage(),
     );
   }
@@ -25,7 +27,7 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-  Locale locale=Locale().languageCode;
+  Locale locale;//Locale().languageCode;
   void setLocale(Locale value) {
     setState(() {
       locale = value;
@@ -48,19 +50,15 @@ class _LanguagePageState extends State<LanguagePage> {
                       style: TextStyle(fontSize: 14)
                   ),
                   style: ButtonsDesign.roundedButtons(),
-                  onPressed: () => null
-              ),
-              TextButton(
-                  child: Text(
-                      "العربية".toUpperCase(),
-                      style: TextStyle(fontSize: 14)
-                  ),
-                  style: ButtonsDesign.roundedButtons(),
 
-                  onPressed: () =>  {
-                   setLocale(Locale.fromSubtags(languageCode: 'en'))
-                  }
               ),
+
+              ButtonsDesign.buttonsTextAction(
+
+                "ff"
+              );
+
+
             ],
           ),
 
