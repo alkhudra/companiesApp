@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class CustomColors {
   Color primaryGreenColor = Color.fromRGBO(103, 156, 65, 100);
-  Color primaryWhiteColor = Color.fromRGBO(255, 255, 255, 100);
-  Color backgroundColor = Color.fromRGBO(255, 255, 255, 100);
+  Color primaryWhiteColor = Colors.white;//Color.fromRGBO(255, 255, 255, 100);
+  Color backgroundColor =  Colors.white;//Color.fromRGBO(255, 255, 255, 100);
   Color cardBackgroundColor = Color.fromRGBO(232, 255, 224, 100);
   Color darkBlueColor = Color.fromRGBO(10, 60, 72, 100);
   Color brownColor = Color.fromRGBO(116, 73, 34, 100);

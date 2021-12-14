@@ -1,8 +1,6 @@
-import 'dart:ffi';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'designs/ButtonsDesign.dart';
 
 void main() {
@@ -21,50 +19,53 @@ class MyApp extends StatelessWidget {
 }
 
 class LanguagePage extends StatefulWidget {
-
   @override
   _LanguagePageState createState() => _LanguagePageState();
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-  Locale locale;//Locale().languageCode;
-  void setLocale(Locale value) {
-    setState(() {
-      locale = value;
-    });
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: SafeArea(
-        child: Center(
+        body: Center(
+      child: SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height / 3,
+          padding: EdgeInsets.fromLTRB(20,20,20,0),
           child: Column(
             children: [
-              Text(AppLocalizations.of(context)!.helloWorld),
-              TextButton(
-                  child: Text(
-                      "english".toUpperCase(),
-                      style: TextStyle(fontSize: 14)
-                  ),
-                  style: ButtonsDesign.roundedButtons(),
-
+              Image(
+                height: 100,
+                image: AssetImage('images/logo.jpg'),
               ),
-
-              ButtonsDesign.buttonsTextAction(
-
-                "ff"
-              );
-
-
+              SizedBox(
+                height: 15,
+              ),
+              MaterialButton(
+                onPressed: () {
+                  print('hello');
+                },
+                height: ButtonsDesign.buttonsHeight,
+                shape: StadiumBorder(),
+                child: ButtonsDesign.buttonsText('English'),
+                color: CustomColors().primaryGreenColor,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              MaterialButton(
+                onPressed: () {
+                  print('hello');
+                },
+                height: ButtonsDesign.buttonsHeight,
+                shape: StadiumBorder(),
+                child: ButtonsDesign.buttonsText('العربية'),
+                color: CustomColors().primaryGreenColor,
+              ),
             ],
           ),
-
         ),
-
       ),
-    );
+    ));
   }
 }
