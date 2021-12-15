@@ -23,7 +23,7 @@ class DemoLocalization {
   }
 
   String translate(String key) {
-    return _localizedValues[key];
+    return "_localizedValues[key]";
   }
 
   // static member to have simple access to the delegate from Material App

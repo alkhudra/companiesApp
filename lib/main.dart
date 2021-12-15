@@ -120,6 +120,12 @@ class _MyAppState extends State<MyApp> {
           ),
         ))*/,
         onGenerateRoute: CustomRouter.generatedRoute,
+
+        /************
+        * if first time in app show language page
+         * if already login show home page
+         * if logout show welcome page without language page
+        * **********/
         initialRoute: homeRoute,
       );
   //  }

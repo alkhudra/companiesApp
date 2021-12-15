@@ -1,39 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
-import 'package:khudrah_companies/locale/language_const.dart';
-import 'package:khudrah_companies/pages/welcome_page.dart';
+import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:khudrah_companies/router/route_constants.dart';
 
-class HomePage extends StatefulWidget {
+import 'login_page.dart';
+
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({ Key? key }) : super(key: key);
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-
-/*  void _changeLanguage(Language language) async {
-    Locale _locale = await setLocale(language.languageCode);
-    MyApp.setLocale(context, _locale);
-  }*/
-
-  void _showSuccessDialog() {
-    showTimePicker(context: context, initialTime: TimeOfDay.now());
-  }
-
-  void onLanguageButtonPressed(String localeName){
-    //todo: edit locale problem
-
-    print(getTranslated(context, 'personal_information'));
-
-    // direct to login or sign up page
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return WelcomePage();
-    }));
-  }
-
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,12 +33,12 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: MaterialButton(
                 onPressed: () {
-                  onLanguageButtonPressed('ar');
+                  onButtonPressed(signupRoute);
                 },
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
-                child: ButtonsDesign.buttonsText('عربي',CustomColors().primaryWhiteColor),
-                color: CustomColors().brownColor,
+                child: ButtonsDesign.buttonsText('Create an account',CustomColors().primaryWhiteColor),
+                color: CustomColors().primaryGreenColor,
               ),
             ),
             SizedBox(
@@ -67,17 +48,26 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: MaterialButton(
                 onPressed: () {
-                  onLanguageButtonPressed('ar');
+                  onButtonPressed(loginRoute);
                 },
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
-                child: ButtonsDesign.buttonsText('english',CustomColors().primaryWhiteColor),
-                color: CustomColors().primaryGreenColor,
+                child: ButtonsDesign.buttonsText('Login' , CustomColors().blackColor),
+                color: CustomColors().grayColor,
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void onButtonPressed(String s) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      if (s == loginRoute)
+        return LogInPage();
+      else
+        return SignUpPage();
+    }));
   }
 }
