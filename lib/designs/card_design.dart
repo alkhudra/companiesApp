@@ -6,7 +6,7 @@ class CardDesign {
     return BoxDecoration(
       boxShadow: [
         BoxShadow(
-            color: CustomColors().cardBackgroundColor,
+            color: CustomColors().cardShadowBackgroundColor,
             offset: Offset(0.2, 6.0),
             blurRadius: 6.0,
             spreadRadius: -2.0),

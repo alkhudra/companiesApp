@@ -4,6 +4,7 @@ import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
+import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class LogInPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _LogInPageState extends State<LogInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
+  //todo: text design on iphone and android
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,32 +77,44 @@ class _LogInPageState extends State<LogInPage> {
                 ),
                 Container(
                     height: 30,
+                    padding: EdgeInsets.only(right: 10, left: 10),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, "myRoute");
                       },
-                      child: Text("Forget Password?",
+                      child: Text("Forget Password ?",
                           style: TextStyle(
-                              color: CustomColors().primaryGreenColor,
-                              fontWeight: FontWeight.bold)),
+                              color: CustomColors().primaryGreenColor)),
                     )),
                 Container(
                     height: 30,
+                    padding: EdgeInsets.only(right: 10, left: 10),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "myRoute");
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return SignUpPage();
+                        }));
                       },
-                      child: Text("create new account?",
-                          style: TextStyle(
-                              color: CustomColors().primaryGreenColor,
-                              fontWeight: FontWeight.bold)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("New User?  ",
+                              style:
+                                  TextStyle(color: CustomColors().blackColor)),
+                          Text("Sign Up",
+                              style: TextStyle(
+                                  color: CustomColors().primaryGreenColor))
+                        ],
+                      ),
                     )),
                 Container(
                     height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.only(left: 90, right: 90, top: 10),
+                    margin: EdgeInsets.only(left: 50, right: 50),
                     child: MaterialButton(
                       onPressed: () {
                         //  onLanguageButtonPressed('ar');
+                        print(emailController.text.toLowerCase());
                       },
                       shape: StadiumBorder(),
                       child: ButtonsDesign.buttonsText(

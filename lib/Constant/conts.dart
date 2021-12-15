@@ -1,0 +1,1 @@
+const validPhone= 'valid phone number';
