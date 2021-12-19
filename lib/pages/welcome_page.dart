@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'login_page.dart';
 
@@ -37,7 +39,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 },
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
-                child: ButtonsDesign.buttonsText('Create an account',CustomColors().primaryWhiteColor),
+                child: ButtonsDesign.buttonsText(LocaleKeys.create_account.tr(),CustomColors().primaryWhiteColor),
                 color: CustomColors().primaryGreenColor,
               ),
             ),
@@ -52,7 +54,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 },
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
-                child: ButtonsDesign.buttonsText('Login' , CustomColors().blackColor),
+                child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr() , CustomColors().blackColor),
                 color: CustomColors().grayColor,
               ),
             ),

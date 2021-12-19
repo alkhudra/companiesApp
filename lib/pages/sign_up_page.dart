@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
+import 'package:khudrah_companies/dialogs/alret_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
+import 'package:khudrah_companies/pages/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -22,14 +25,18 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController brunchesController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
+  final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController commercialNoController = TextEditingController();
-
+  bool isBtnEnabled = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //todo:
+      /********
+       *
+       * design problems:
+       * height of card  , width of main column,place of btn
+       * *********/
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
         child: Stack(
@@ -51,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
               margin: EdgeInsets.only(top: 250, left: 40, right: 30),
               width: 300,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                     height: 60,
@@ -61,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('Owner Name'),
+                      decoration: textFieldDecoration(LocaleKeys.owner_name.tr()),
                     ),
                   ),
                   SizedBox(
@@ -76,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('Company Name'),
+                      decoration: textFieldDecoration(LocaleKeys.owner_name.tr()),
                     ),
                   ),
                   SizedBox(
@@ -202,10 +209,35 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       )),
                   Container(
+
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding: EdgeInsets.only(right: 10, left: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                            Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return LogInPage();
+                            }));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Already have an account ?  ",
+                                style: TextStyle(
+                                    color: CustomColors().blackColor)),
+                            Text("Log in ".toUpperCase(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors().primaryGreenColor))
+                          ],
+                        ),
+                      )),
+                  Container(
                       height: ButtonsDesign.buttonsHeight,
                       margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
                       child: MaterialButton(
                         onPressed: () {
+                        if(isBtnEnabled)
                           continueSignUp();
                         },
                         shape: StadiumBorder(),
@@ -222,9 +254,20 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  void showErrorDialog(String txt){
+    isBtnEnabled = true;
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => showMessageDialog(context,missingInfo,txt));
+
+  }
+
   void continueSignUp() {
+
     if (ownerController.value.text == '') {
-      print('owner name');
+     // print('owner name');
+
+      showErrorDialog( 'Owner Name');
       return;
     }
 
@@ -278,5 +321,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
       //// continue sign
     }
+
+    isBtnEnabled = false;
+
+    print('continue sign in ');
   }
 }

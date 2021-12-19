@@ -1,0 +1,21 @@
+{
+
+  "create_account": "إنشاء حساب جديد",
+  "log_in": "تسجيل الدخول",
+
+  "forget_pass": "نسيت كلمة المرور ؟ ",
+  "new_user": "مستخدم جديد ؟  ",
+
+  "owner_name": "اسم المالك",
+  "company_name": "اسم الشركة",
+  "name": "اسم",
+  "name_hint": "أدخل أسمك",
+  "email": "البريد الإلكتروني",
+  "email_hint": "أدخل بريدك الالكتروني",
+  "date_of_birth": "تاريخ الولادة",
+  "required_field": "يتطلب حقلا",
+  "submit_info": "إرسال معلومات",
+  "about_us": "معلومات عنا",
+  "settings": "الإعدادات",
+  "change_language": "تغيير اللغة"
+}

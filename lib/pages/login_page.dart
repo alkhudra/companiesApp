@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
+import 'package:khudrah_companies/dialogs/alret_dialog.dart';
+import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
@@ -17,11 +20,17 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+  bool isBtnEnabled = true;
 
-  //todo: text design on iphone and android
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //todo:
+      /********
+       *
+       * design problems:
+       * height of card  , width of main column ,place of btn
+       * *********/
       backgroundColor: CustomColors().backgroundColor,
       body: Stack(
         children: [
@@ -113,8 +122,8 @@ class _LogInPageState extends State<LogInPage> {
                     margin: EdgeInsets.only(left: 50, right: 50),
                     child: MaterialButton(
                       onPressed: () {
-                        //  onLanguageButtonPressed('ar');
-                        print(emailController.text.toLowerCase());
+                        if(isBtnEnabled)
+                          logIn();
                       },
                       shape: StadiumBorder(),
                       child: ButtonsDesign.buttonsText(
@@ -127,5 +136,39 @@ class _LogInPageState extends State<LogInPage> {
         ],
       ),
     );
+  }
+
+
+
+  void showErrorDialog(String txt){
+    isBtnEnabled = true;
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => showMessageDialog(context,missingInfo,txt));
+
+  }
+
+  void logIn() {
+
+    if (emailController.value.text == '') {
+      print('owner name');
+      return;
+    }
+
+    if(isValidEmail(emailController.value.text) == false){
+      print('not valid email');
+      return;
+    }
+
+
+    if (passController.value.text == '') {
+      print('owner name');
+      return;
+    }
+
+    isBtnEnabled = false;
+
+    print('continue log in ');
+
   }
 }

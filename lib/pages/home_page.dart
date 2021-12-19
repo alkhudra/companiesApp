@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
-import 'package:khudrah_companies/locale/language_const.dart';
 import 'package:khudrah_companies/pages/welcome_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,23 +11,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-/*  void _changeLanguage(Language language) async {
-    Locale _locale = await setLocale(language.languageCode);
-    MyApp.setLocale(context, _locale);
-  }*/
 
-  void _showSuccessDialog() {
-    showTimePicker(context: context, initialTime: TimeOfDay.now());
-  }
-
-  void onLanguageButtonPressed(String localeName){
+  void onLanguageButtonPressed(BuildContext context , String localeName) async{
     //todo: edit locale problem
 
-    print(getTranslated(context, 'personal_information'));
 
-    // direct to login or sign up page
+    if(localeName == 'en')
+      await context.setLocale(Locale('en'));
+    else   await context.setLocale(Locale('ar'));
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return WelcomePage();
@@ -52,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: MaterialButton(
                 onPressed: () {
-                  onLanguageButtonPressed('ar');
+                  onLanguageButtonPressed(context,'ar');
                 },
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
@@ -67,7 +59,7 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: MaterialButton(
                 onPressed: () {
-                  onLanguageButtonPressed('ar');
+                  onLanguageButtonPressed(context,'en');
                 },
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
