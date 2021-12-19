@@ -2,19 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 Widget showMessageDialog(BuildContext context, String title, String txt) {
-  if(Platform.isIOS){
+  if (Platform.isIOS) {
     return CupertinoAlertDialog(
       // backgroundColor: CustomColors().cardBackgroundColor1,
       title: Text(title), // To display the title it is optional
       content: Text(txt), // Message which will be pop up on the screen
       actions: [
-       dialogBtn(context),
+        dialogBtn(context),
       ],
     );
-  }else{
+  } else {
     return AlertDialog(
       // backgroundColor: CustomColors().cardBackgroundColor1,
       title: Text(title), // To display the title it is optional
@@ -25,18 +27,16 @@ Widget showMessageDialog(BuildContext context, String title, String txt) {
       ],
     );
   }
-
 }
 
-
-FlatButton dialogBtn(BuildContext context){
- return FlatButton(
+FlatButton dialogBtn(BuildContext context) {
+  return FlatButton(
     textColor: CustomColors().primaryGreenColor,
     onPressed: () {
-      Navigator.pop(context, 'Cancel');
+      Navigator.pop(context, LocaleKeys.cancel.tr());
     },
     child: Text(
-      'Ok'.toUpperCase(),
+      LocaleKeys.okay.tr(),
       style: TextStyle(fontWeight: FontWeight.bold),
     ),
   );

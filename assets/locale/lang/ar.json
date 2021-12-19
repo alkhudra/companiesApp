@@ -1,21 +1,36 @@
 {
-
+  "alkhadra": "الخضرة المتحدة ",
   "create_account": "إنشاء حساب جديد",
   "log_in": "تسجيل الدخول",
-
+  "already_have_account": " لديك حساب ؟",
   "forget_pass": "نسيت كلمة المرور ؟ ",
   "new_user": "مستخدم جديد ؟  ",
-
+  "terms_conditions_note": "بالضغط على استمرار فإنك توافق على  ",
+  "terms_conditions": "الشروط والأحكام",
+  "continue_btn": "استمرار",
   "owner_name": "اسم المالك",
   "company_name": "اسم الشركة",
-  "name": "اسم",
-  "name_hint": "أدخل أسمك",
   "email": "البريد الإلكتروني",
-  "email_hint": "أدخل بريدك الالكتروني",
-  "date_of_birth": "تاريخ الولادة",
-  "required_field": "يتطلب حقلا",
-  "submit_info": "إرسال معلومات",
-  "about_us": "معلومات عنا",
-  "settings": "الإعدادات",
-  "change_language": "تغيير اللغة"
+  "phone": "رقم الجوال",
+  "password": "كلمة السر",
+  "confirm_pass": "تأكيد كلمة السر",
+  "commercial_no": "رقم السجل التجاري",
+  "brunches_no": "كم عدد الفروع ؟",
+  "email_required": "رجاء قم بكتاية بريدك الالكتروني",
+  "pass_required": "رجاء قم بكتابة كلمة السر",
+  "owner_required": "رجاء قم بكتابة اسم المالك",
+  "company_required": "رجاء قم بكتابة اسم الشركة",
+  "commercial_no_required": "رجاء قم بكتابة رقم السجل التجاري",
+  "brunches_no_required": "رجاء قم بكتابة عدد الفروع التي لديك ",
+  "confirm_pass_required": "رجاء قم بتأكيد كلمة السر",
+  "phone_required": "رجاء قم بكتابة رقم جوالك",
+  "email_not_valid": " البريد الكتروني غير صحيح",
+  "not_match_pass": "خطأ في تطابق كلمة السر ، حاول مجددا ",
+  "phone_start_error": "رقم الجوال يجب ان يبدأ ب 05",
+  "phone_length_error": "رقم الجوال يجب ان يتكون من عشرة خانات ",
+ "error": "يوجد خطأ",
+  "ok": "موافق",
+  "cancel": "الغاء",
+
+
 }

@@ -11,6 +11,7 @@ import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/pages/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -25,7 +26,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController brunchesController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController commercialNoController = TextEditingController();
   bool isBtnEnabled = true;
   @override
@@ -68,7 +70,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration(LocaleKeys.owner_name.tr()),
+                      decoration:
+                          textFieldDecoration(LocaleKeys.owner_name.tr()),
                     ),
                   ),
                   SizedBox(
@@ -83,7 +86,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration(LocaleKeys.owner_name.tr()),
+                      decoration:
+                          textFieldDecoration(LocaleKeys.company_name.tr()),
                     ),
                   ),
                   SizedBox(
@@ -99,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('Email'),
+                      decoration: textFieldDecoration(LocaleKeys.email.tr()),
                     ),
                   ),
                   SizedBox(
@@ -115,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('Phone'),
+                      decoration: textFieldDecoration(LocaleKeys.phone.tr()),
                     ),
                   ),
                   SizedBox(
@@ -131,7 +135,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
                       decoration:
-                          textFieldDecoration('Commercial Registration No'),
+                          textFieldDecoration(LocaleKeys.commercial_no.tr()),
                     ),
                   ),
                   SizedBox(
@@ -146,7 +150,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('How Many Brunches ?'),
+                      decoration:
+                          textFieldDecoration(LocaleKeys.brunches_no.tr()),
                     ),
                   ),
                   SizedBox(
@@ -162,7 +167,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('Password'),
+                      decoration: textFieldDecoration(LocaleKeys.password.tr()),
                     ),
                   ),
                   SizedBox(
@@ -177,7 +182,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(
                           color: CustomColors().blackColor,
                           fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration('Confirm Password'),
+                      decoration:
+                          textFieldDecoration(LocaleKeys.confirm_pass.tr()),
                     ),
                   ),
                   SizedBox(
@@ -198,10 +204,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("By tapping Sign up you accept all  ",
+                            Text(LocaleKeys.terms_conditions_note.tr(),
                                 style: TextStyle(
                                     color: CustomColors().blackColor)),
-                            Text("terms and condition",
+                            Text(LocaleKeys.terms_conditions.tr(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: CustomColors().primaryGreenColor))
@@ -209,23 +215,22 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       )),
                   Container(
-
                       margin: EdgeInsets.only(bottom: 5),
                       padding: EdgeInsets.only(right: 10, left: 10),
                       child: GestureDetector(
                         onTap: () {
-                            Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                              return LogInPage();
-                            }));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return LogInPage();
+                          }));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Already have an account ?  ",
+                            Text(LocaleKeys.already_have_account.tr(),
                                 style: TextStyle(
                                     color: CustomColors().blackColor)),
-                            Text("Log in ".toUpperCase(),
+                            Text(LocaleKeys.log_in.tr().toUpperCase(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: CustomColors().primaryGreenColor))
@@ -237,12 +242,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
                       child: MaterialButton(
                         onPressed: () {
-                        if(isBtnEnabled)
-                          continueSignUp();
+                          if (isBtnEnabled) continueSignUp();
                         },
                         shape: StadiumBorder(),
                         child: ButtonsDesign.buttonsText(
-                            'continue', CustomColors().primaryWhiteColor),
+                            LocaleKeys.continue_btn.tr(),
+                            CustomColors().primaryWhiteColor),
                         color: CustomColors().primaryGreenColor,
                       ))
                 ],
@@ -254,40 +259,43 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void showErrorDialog(String txt){
+  void showErrorDialog(String txt) {
     isBtnEnabled = true;
     showDialog<String>(
         context: context,
-        builder: (BuildContext context) => showMessageDialog(context,missingInfo,txt));
-
+        builder: (BuildContext context) =>
+            showMessageDialog(context, LocaleKeys.error.tr(), txt));
   }
 
   void continueSignUp() {
-
     if (ownerController.value.text == '') {
-     // print('owner name');
+      // print('owner name');
 
-      showErrorDialog( 'Owner Name');
+      showErrorDialog(LocaleKeys.owner_required.tr());
+
       return;
     }
 
     if (companyNameController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.company_required.tr());
       return;
     }
 
     if (emailController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.email_required.tr());
+
       return;
     }
 
-    if(isValidEmail(emailController.value.text) == false){
-      print('not valid email');
+    if (isValidEmail(emailController.value.text) == false) {
+      showErrorDialog(LocaleKeys.email_not_valid.tr());
+
       return;
     }
 
     if (phoneController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.phone_required.tr());
+
       return;
     }
     if (isValidPhone(phoneController.value.text) != validPhone) {
@@ -296,27 +304,31 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     if (commercialNoController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.commercial_no_required.tr());
+
       return;
     }
 
     if (brunchesController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.brunches_no_required.tr());
+
       return;
     }
 
     if (passwordController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.pass_required.tr());
+
       return;
     }
 
     if (confirmPasswordController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.confirm_pass_required.tr());
+
       return;
     }
 
     if (passwordController.value.text != confirmPasswordController.value.text) {
-      print('not match pass ');
+      showErrorDialog(LocaleKeys.not_match_pass.tr());
       return;
 
       //// continue sign

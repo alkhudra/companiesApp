@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
@@ -9,7 +10,7 @@ import 'package:khudrah_companies/dialogs/alret_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
 
@@ -63,7 +64,7 @@ class _LogInPageState extends State<LogInPage> {
                         color: CustomColors().blackColor,
                         fontWeight: FontWeight.bold),
                     decoration:
-                        textFieldDecorationWithIcon('Email', Icons.email),
+                        textFieldDecorationWithIcon(LocaleKeys.email.tr(), Icons.email),
                   ),
                 ),
                 SizedBox(
@@ -78,7 +79,7 @@ class _LogInPageState extends State<LogInPage> {
                         color: CustomColors().blackColor,
                         fontWeight: FontWeight.bold),
                     decoration: textFieldDecorationWithIcon(
-                        'Password', Icons.lock_outline),
+                        LocaleKeys.password.tr(), Icons.lock_outline),
                   ),
                 ),
                 SizedBox(
@@ -91,7 +92,7 @@ class _LogInPageState extends State<LogInPage> {
                       onTap: () {
                         Navigator.pushNamed(context, "myRoute");
                       },
-                      child: Text("Forget Password ?",
+                      child: Text(LocaleKeys.forget_pass.tr(),
                           style: TextStyle(
                               color: CustomColors().primaryGreenColor)),
                     )),
@@ -108,10 +109,10 @@ class _LogInPageState extends State<LogInPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("New User?  ",
+                          Text(LocaleKeys.new_user.tr(),
                               style:
                                   TextStyle(color: CustomColors().blackColor)),
-                          Text("Sign Up",
+                          Text(LocaleKeys.create_account.tr(),
                               style: TextStyle(
                                   color: CustomColors().primaryGreenColor))
                         ],
@@ -127,7 +128,7 @@ class _LogInPageState extends State<LogInPage> {
                       },
                       shape: StadiumBorder(),
                       child: ButtonsDesign.buttonsText(
-                          'sign in', CustomColors().primaryWhiteColor),
+                          LocaleKeys.log_in.tr(), CustomColors().primaryWhiteColor),
                       color: CustomColors().primaryGreenColor,
                     ))
               ],
@@ -144,25 +145,25 @@ class _LogInPageState extends State<LogInPage> {
     isBtnEnabled = true;
     showDialog<String>(
         context: context,
-        builder: (BuildContext context) => showMessageDialog(context,missingInfo,txt));
+        builder: (BuildContext context) => showMessageDialog(context, LocaleKeys.error.tr(),txt));
 
   }
 
   void logIn() {
 
     if (emailController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.email_required.tr());
       return;
     }
 
     if(isValidEmail(emailController.value.text) == false){
-      print('not valid email');
+      showErrorDialog(LocaleKeys.email_not_valid.tr());
       return;
     }
 
 
     if (passController.value.text == '') {
-      print('owner name');
+      showErrorDialog(LocaleKeys.pass_required.tr());
       return;
     }
 

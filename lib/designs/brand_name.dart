@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 Widget brandName(logoW, logoH, fontS) {
@@ -26,7 +28,7 @@ Widget brandName(logoW, logoH, fontS) {
               color: CustomColors().primaryGreenColor,
             ),
             children: <TextSpan> [
-              TextSpan(text: "Alkhudra United"),
+              TextSpan(text: LocaleKeys.alkhadra.tr()),
             ]
         ),
       ),
