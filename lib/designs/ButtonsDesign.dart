@@ -6,7 +6,7 @@ class ButtonsDesign {
 
   static TextStyle buttonsTextStyle(Color color) {
     return TextStyle(
-      fontSize: 20,
+      fontSize: 15,
       fontWeight: FontWeight.bold,
       color: color,
     );

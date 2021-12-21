@@ -4,7 +4,15 @@
   "log_in": "تسجيل الدخول",
   "already_have_account": " لديك حساب ؟",
   "forget_pass": "نسيت كلمة المرور ؟ ",
+  "reset_password": "استعادة كلمة المرور",
+"enter_email" : "ادخل بريدك الالكتروني",
   "new_user": "مستخدم جديد ؟  ",
+  "send_code": "ارسال الرمز",
+  "resend_code": "إعادة ارسال رمز التحقق",
+  "verify": "تحقق",
+  "sign_up": "التسجيل",
+  "auth_note": "",
+  "enter_code": "ادخل رمز التحقق",
   "terms_conditions_note": "بالضغط على استمرار فإنك توافق على  ",
   "terms_conditions": "الشروط والأحكام",
   "continue_btn": "استمرار",
@@ -28,9 +36,7 @@
   "not_match_pass": "خطأ في تطابق كلمة السر ، حاول مجددا ",
   "phone_start_error": "رقم الجوال يجب ان يبدأ ب 05",
   "phone_length_error": "رقم الجوال يجب ان يتكون من عشرة خانات ",
- "error": "يوجد خطأ",
+  "error": "يوجد خطأ",
   "ok": "موافق",
-  "cancel": "الغاء",
-
-
+  "cancel": "الغاء"
 }

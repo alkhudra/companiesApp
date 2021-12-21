@@ -3,5 +3,5 @@
 
 
 abstract class ButtonInterfaces{
-  void onChange();
+  void onChange(String txt);
 }

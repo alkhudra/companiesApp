@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class CardDesign {
+  static const double cardsHeight = 350;
+  static const double cardsWidth = 400;
+
   static BoxDecoration largeCardDesign() {
     return BoxDecoration(
       boxShadow: [

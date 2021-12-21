@@ -11,6 +11,10 @@ import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
 
@@ -63,8 +67,8 @@ class _LogInPageState extends State<LogInPage> {
                     style: TextStyle(
                         color: CustomColors().blackColor,
                         fontWeight: FontWeight.bold),
-                    decoration:
-                        textFieldDecorationWithIcon(LocaleKeys.email.tr(), Icons.email),
+                    decoration: textFieldDecorationWithIcon(
+                        LocaleKeys.email.tr(), Icons.email),
                   ),
                 ),
                 SizedBox(
@@ -90,7 +94,32 @@ class _LogInPageState extends State<LogInPage> {
                     padding: EdgeInsets.only(right: 10, left: 10),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "myRoute");
+                        showDialog(
+                                builder: (BuildContext context) =>
+                                    showCustomTextFieldDialog(
+                                        context/*, LocaleKeys.reset_password.tr()*/),
+                                context: context)
+                            .then((userEmail) {
+                          if (userEmail == null)
+                            return;
+                          else {
+                            //todo: send email to database
+                            if(userEmail != '' ) {
+                              print(userEmail);
+                              showDialog(
+                                  builder: (BuildContext context) =>
+                                      showPinDialog(context ,'email',false),
+                                  context: context).then((newPass) {
+                                    if(newPass == success)
+                                      {
+
+                                      }
+                              });
+
+                            }
+                          }
+                        });
+
                       },
                       child: Text(LocaleKeys.forget_pass.tr(),
                           style: TextStyle(
@@ -123,12 +152,11 @@ class _LogInPageState extends State<LogInPage> {
                     margin: EdgeInsets.only(left: 50, right: 50),
                     child: MaterialButton(
                       onPressed: () {
-                        if(isBtnEnabled)
-                          logIn();
+                        if (isBtnEnabled) logIn();
                       },
                       shape: StadiumBorder(),
-                      child: ButtonsDesign.buttonsText(
-                          LocaleKeys.log_in.tr(), CustomColors().primaryWhiteColor),
+                      child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr(),
+                          CustomColors().primaryWhiteColor),
                       color: CustomColors().primaryGreenColor,
                     ))
               ],
@@ -139,28 +167,24 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 
-
-
-  void showErrorDialog(String txt){
+  void showErrorDialog(String txt) {
     isBtnEnabled = true;
     showDialog<String>(
         context: context,
-        builder: (BuildContext context) => showMessageDialog(context, LocaleKeys.error.tr(),txt));
-
+        builder: (BuildContext context) =>
+            showMessageDialog(context, LocaleKeys.error.tr(), txt));
   }
 
   void logIn() {
-
     if (emailController.value.text == '') {
       showErrorDialog(LocaleKeys.email_required.tr());
       return;
     }
 
-    if(isValidEmail(emailController.value.text) == false){
+    if (isValidEmail(emailController.value.text) == false) {
       showErrorDialog(LocaleKeys.email_not_valid.tr());
       return;
     }
-
 
     if (passController.value.text == '') {
       showErrorDialog(LocaleKeys.pass_required.tr());
@@ -170,6 +194,83 @@ class _LogInPageState extends State<LogInPage> {
     isBtnEnabled = false;
 
     print('continue log in ');
-
   }
+////---------------------------
+
+
+  Widget showCustomTextFieldDialog(BuildContext context) {
+    String code = 'get this code from DB here ';
+    String errorMessage = LocaleKeys.email_not_valid.tr();
+
+    bool visible = false;
+    final TextEditingController controller = TextEditingController();
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      //this right here
+      child: Container(
+        height: CardDesign.cardsHeight,
+        width: CardDesign.cardsWidth,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              LocaleKeys.reset_password.tr(),
+              style: TextStyle(
+                fontSize: 20,
+                color: CustomColors().darkBlueColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20),
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.emailAddress,
+                style: TextStyle(
+                    color: CustomColors().blackColor,
+                    fontWeight: FontWeight.bold),
+                decoration: textFieldDecorationWithIcon(
+                    LocaleKeys.email.tr(), Icons.email),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            if ( visible == true)
+              Text(errorMessage),
+            SizedBox(
+              height: 35,
+            ),
+            Container(
+                height: ButtonsDesign.buttonsHeight,
+                margin: EdgeInsets.only(left: 50, right: 50),
+                child: MaterialButton(
+                  onPressed: () {
+
+                    //todo: solve show error message
+                    setState(() {
+                      if (controller.text != '' && !isValidEmail(controller.text)){
+                        visible = true;
+                        }
+                      else
+                        Navigator.pop(context, controller.text);
+                    });
+
+                  },
+                  shape: StadiumBorder(),
+                  child: ButtonsDesign.buttonsText(LocaleKeys.sign_up.tr(),
+                      CustomColors().primaryWhiteColor),
+                  color: CustomColors().primaryGreenColor,
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+////---------------------------
+
+
 }

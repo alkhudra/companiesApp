@@ -2,6 +2,7 @@ abstract class LocaleKeys {
   static const alkhadra = "alkhadra";
 
   static const forget_pass = "forget_pass";
+  static const reset_password = "reset_password";
   static const new_user = "new_user";
   static const create_account = "create_account";
   static const log_in = "log_in";
@@ -9,7 +10,7 @@ abstract class LocaleKeys {
   static const terms_conditions = "terms_conditions";
   static const terms_conditions_note = "terms_conditions_note";
   static const continue_btn = "continue_btn";
-
+  static const enter_email = "enter_email";
   static const commercial_no = "commercial_no";
   static const phone = "phone";
   static const email = "email";
@@ -18,11 +19,15 @@ abstract class LocaleKeys {
   static const brunches_no = "brunches_no";
   static const owner_name = 'owner_name';
   static const company_name = 'company_name';
-
+  static const send_code = 'send_code';
+  static const resend_code = 'resend_code';
+  static const verify = "verify";
+  static const enter_code = 'enter_code';
+  static const  auth_note='auth_note';
+  static const  sign_up="sign_up";
   static const error = 'error';
-  static const okay = 'ok';
+  static const ok = 'ok';
   static const cancel = 'cancel';
-
 
   static const email_required = "email_required";
   static const pass_required = "pass_required";

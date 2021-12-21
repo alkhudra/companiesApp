@@ -4,6 +4,14 @@
   "log_in": "Sign In",
   "already_have_account": "Already Have an Account ?",
   "forget_pass": "Forget Password ?",
+  "reset_password": "Reset Password ",
+  "enter_email": "Enter your Email",
+  "send_code": "Send Code",
+  "resend_code": "Resend Code",
+  "enter_code": "Enter Code",
+  "verify" : "verify",
+  "sign_up": "Sign Up",
+  "auth_note": "Thank you for choosing AlKhadra United Company. Please wait until the data is validated and the verification code will be sent to you on your email.",
   "new_user": "New User?  ",
   "terms_conditions_note": "By tapping Sign up you accept all  ",
   "terms_conditions": "terms and condition",
@@ -28,7 +36,6 @@
   "not_match_pass": "Password doesn't match, please try again",
   "phone_start_error": "Phone must starts with 05 ",
   "phone_length_error": "Phone must be 10 numbers ",
-
   "error": "Error",
   "ok": "OK",
   "cancel": "Cancel"

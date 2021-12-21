@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
@@ -337,5 +339,7 @@ class _SignUpPageState extends State<SignUpPage> {
     isBtnEnabled = false;
 
     print('continue sign in ');
+
+    showPinDialog(context, 'email',true);
   }
 }
