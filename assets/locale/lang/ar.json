@@ -11,6 +11,9 @@
   "resend_code": "إعادة ارسال رمز التحقق",
   "verify": "تحقق",
   "sign_up": "التسجيل",
+  "enter_code_note": "ادخل الرمز المرسل الى   ",
+  "resend_code_note": "لم يصلك رمز تحقق ؟ ",
+
   "auth_note": "",
   "enter_code": "ادخل رمز التحقق",
   "terms_conditions_note": "بالضغط على استمرار فإنك توافق على  ",

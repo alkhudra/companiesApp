@@ -21,6 +21,7 @@ abstract class LocaleKeys {
   static const company_name = 'company_name';
   static const send_code = 'send_code';
   static const resend_code = 'resend_code';
+  static const resend_code_note ="resend_code_note";
   static const verify = "verify";
   static const enter_code = 'enter_code';
   static const  auth_note='auth_note';
@@ -29,6 +30,7 @@ abstract class LocaleKeys {
   static const ok = 'ok';
   static const cancel = 'cancel';
 
+  static const enter_code_note="enter_code_note";
   static const email_required = "email_required";
   static const pass_required = "pass_required";
   static const owner_required = "owner_required";

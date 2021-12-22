@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
@@ -96,7 +98,7 @@ class _LogInPageState extends State<LogInPage> {
                       onTap: () {
                         showDialog(
                                 builder: (BuildContext context) =>
-                                    showCustomTextFieldDialog(
+                                    showEnterEmailDialog(
                                         context/*, LocaleKeys.reset_password.tr()*/),
                                 context: context)
                             .then((userEmail) {
@@ -107,8 +109,8 @@ class _LogInPageState extends State<LogInPage> {
                             if(userEmail != '' ) {
                               print(userEmail);
                               showDialog(
-                                  builder: (BuildContext context) =>
-                                      showPinDialog(context ,'email',false),
+                                  builder: (BuildContext context ) =>
+                                      showPinDialog(context ,userEmail,false),
                                   context: context).then((newPass) {
                                     if(newPass == success)
                                       {
@@ -198,9 +200,8 @@ class _LogInPageState extends State<LogInPage> {
 ////---------------------------
 
 
-  Widget showCustomTextFieldDialog(BuildContext context) {
-    String code = 'get this code from DB here ';
-    String errorMessage = LocaleKeys.email_not_valid.tr();
+  Widget showEnterEmailDialog(BuildContext context) {
+    String errorMessage = "enter your mail to send code ";
 
     bool visible = false;
     final TextEditingController controller = TextEditingController();
@@ -226,7 +227,15 @@ class _LogInPageState extends State<LogInPage> {
             ),
             Container(
               margin: EdgeInsets.only(left: 20, right: 20),
-              child: TextField(
+              child: TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+
+                  if (!isValidEmail(controller.text)){
+                   return LocaleKeys.email_not_valid.tr();
+
+                  }
+                },
                 controller: controller,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
@@ -236,11 +245,7 @@ class _LogInPageState extends State<LogInPage> {
                     LocaleKeys.email.tr(), Icons.email),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            if ( visible == true)
-              Text(errorMessage),
+
             SizedBox(
               height: 35,
             ),
@@ -252,10 +257,8 @@ class _LogInPageState extends State<LogInPage> {
 
                     //todo: solve show error message
                     setState(() {
-                      if (controller.text != '' && !isValidEmail(controller.text)){
-                        visible = true;
-                        }
-                      else
+                      if (controller.text != '')
+
                         Navigator.pop(context, controller.text);
                     });
 
@@ -271,6 +274,5 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 ////---------------------------
-
 
 }

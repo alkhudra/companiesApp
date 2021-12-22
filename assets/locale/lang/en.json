@@ -11,6 +11,8 @@
   "enter_code": "Enter Code",
   "verify" : "verify",
   "sign_up": "Sign Up",
+  "enter_code_note": "Enter the code send to   ",
+  "resend_code_note": "You didn't receive a code ?  ",
   "auth_note": "Thank you for choosing AlKhadra United Company. Please wait until the data is validated and the verification code will be sent to you on your email.",
   "new_user": "New User?  ",
   "terms_conditions_note": "By tapping Sign up you accept all  ",
