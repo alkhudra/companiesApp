@@ -5,12 +5,12 @@ import 'package:khudrah_companies/pages/welcome_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class HomePage extends StatefulWidget {
+class LanguagePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _LanguagePageState createState() => _LanguagePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LanguagePageState extends State<LanguagePage> {
 
 
   void onLanguageButtonPressed(BuildContext context , String localeName) async{

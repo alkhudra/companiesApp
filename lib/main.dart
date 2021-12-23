@@ -4,6 +4,10 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
+import 'Constant/pref_cont.dart';
+import 'helpers/pref_manager.dart';
+import 'helpers/shared_pref_helper.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -18,28 +22,17 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  // Locale _locale;
-  //const MyApp({ Key key}) : super(key: key);
-/*  static void setLocale(BuildContext context, Locale newLocale) {
-
-    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
-    state!.setLocale(newLocale);
-  }*/
-
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Flutter Localization Demo",
-      color:  CustomColors().primaryGreenColor,
+      color: CustomColors().primaryGreenColor,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
       locale: context.locale,
@@ -50,9 +43,22 @@ class _MyAppState extends State<MyApp> {
        * if already login show home page
        * if logout show welcome page without language page
        * **********/
-      initialRoute: homeRoute,
+      initialRoute: getRout(),
     );
     //  }
   }
-}
 
+  String getRout() {
+    String routName;
+
+    if (!SharedPrefsManager.getBool(firstLogin))
+      routName = languageRoute;
+   else if (!SharedPrefsManager.getBool(isNew))
+      routName = signupRoute;
+    else if (SharedPrefsManager.getBool(isLoggedIn))
+      routName = homeRoute;// change to home
+    else
+      routName = welcomeRoute;
+    return routName;
+  }
+}
