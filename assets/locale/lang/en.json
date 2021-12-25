@@ -40,5 +40,14 @@
   "phone_length_error": "Phone must be 10 numbers ",
   "error": "Error",
   "ok": "OK",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+
+  "enter_brunch_phone" : "Enter Brunch Phone",
+  "enter_brunch_address" : "Enter Brunch Address",
+   "enter_brunch_city" : "Enter Brunch City",
+ "enter_brunch_country" : "Choose Brunch Country",
+ "enter_brunch_zip_code" : "Enter Brunch Zip Code",
+  "add_brunch": "Add Brunch",
+  "add_location": "Add Location in Map"
+
 }

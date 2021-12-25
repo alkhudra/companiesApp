@@ -43,4 +43,15 @@ abstract class LocaleKeys {
   static const not_match_pass = "not_match_pass";
   static const phone_start_error = "phone_start_error";
   static const phone_length_error = "phone_length_error";
+
+  static const enter_brunch_phone = "enter_brunch_phone";
+  static const enter_brunch_address = "enter_brunch_address";
+  static const enter_brunch_city = "enter_brunch_city";
+  static const enter_brunch_country = "enter_brunch_country";
+  static const enter_brunch_zip_code = "enter_brunch_zip_code";
+  static const add_brunch = "add_brunch";
+  static const add_location = "add_location";
+  static const ksa = "ksa";
+
+
 }

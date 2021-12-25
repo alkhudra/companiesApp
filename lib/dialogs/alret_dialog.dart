@@ -6,6 +6,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
+import 'package:khudrah_companies/pages/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -147,7 +148,7 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
                   if (controller.text != '' && controller.text == code) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return SignUpPage();
+                      return AddBrunchesPage();
                     }));
                   }
                 },
@@ -164,7 +165,7 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
 
 ////---------------------------
 Widget showPinDialog(BuildContext context, String userEmail, bool newUser) {
-  int numberOfSecToWait = 60;
+  int numberOfSecToWait = 120;
   String code = '1234'; //'get this code from DB here ';
   final TextEditingController controller = TextEditingController();
   StreamController<ErrorAnimationType> errorController =
@@ -252,16 +253,21 @@ Widget showPinDialog(BuildContext context, String userEmail, bool newUser) {
                     print("Allowing to paste $text");
                     //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                     //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                    return true;
+                    return false;
                   },
                   onChanged: (String value) {},
                   onCompleted: (v) {
                     if (newUser) {
                       //show auth code dialog
-                      showAuthPinDialog(context, 'email');
+                      showDialog(
+                          builder: (BuildContext context ) =>
+                              showAuthPinDialog(context, userEmail),
+                          context: context);
+
                     } else {
                       //// reset password
                       resetPassword(context, code, controller, errorController);
+
                     }
                   },
                 ),

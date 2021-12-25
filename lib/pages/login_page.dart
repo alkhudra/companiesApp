@@ -61,24 +61,24 @@ class _LogInPageState extends State<LogInPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 60,
-                  child: TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(
-                        color: CustomColors().blackColor,
-                        fontWeight: FontWeight.bold),
-                    decoration: textFieldDecorationWithIcon(
-                        LocaleKeys.email.tr(), Icons.email),
-                  ),
+                TextFieldDesign.textFieldStyle(
+                  context: context,
+                  verMarg: 5,
+                  horMarg: 0,
+                  controller: emailController,
+                  kbType: TextInputType.emailAddress,
+                  lbTxt: LocaleKeys.email.tr(),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 60,
-                  child: TextField(
+
+                 TextFieldDesign.textFieldStyle(
+                      context: context,
+                      verMarg: 5,
+                      horMarg: 0,
+                      controller: passController,
+                      kbType: TextInputType.visiblePassword,
+                      lbTxt: LocaleKeys.password.tr(),
+                    ),
+              /*    child: TextField(
                     controller: passController,
                     keyboardType: TextInputType.visiblePassword,
                     style: TextStyle(
@@ -86,8 +86,9 @@ class _LogInPageState extends State<LogInPage> {
                         fontWeight: FontWeight.bold),
                     decoration: textFieldDecorationWithIcon(
                         LocaleKeys.password.tr(), Icons.lock_outline),
-                  ),
-                ),
+                  ),*/
+
+
                 SizedBox(
                   height: 50,
                 ),

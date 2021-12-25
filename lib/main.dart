@@ -43,12 +43,13 @@ class _MyAppState extends State<MyApp> {
        * if already login show home page
        * if logout show welcome page without language page
        * **********/
-      initialRoute: getRout(),
+      initialRoute: homeRoute/*getRout()*/,
     );
     //  }
   }
 
   String getRout() {
+    //todo: edit problem with shared preference
     String routName;
 
     if (!SharedPrefsManager.getBool(firstLogin))

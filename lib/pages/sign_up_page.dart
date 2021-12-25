@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
@@ -31,6 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
       TextEditingController();
   final TextEditingController commercialNoController = TextEditingController();
   bool isBtnEnabled = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,134 +63,70 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: ownerController,
-                      keyboardType: TextInputType.name,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration:
-                          textFieldDecoration(LocaleKeys.owner_name.tr()),
-                    ),
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: ownerController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.owner_name.tr(),
                   ),
-                  SizedBox(
-                    height: 10,
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: companyNameController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.company_name.tr(),
                   ),
-                  /******/
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: companyNameController,
-                      keyboardType: TextInputType.name,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration:
-                          textFieldDecoration(LocaleKeys.company_name.tr()),
-                    ),
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: emailController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.email.tr(),
                   ),
-                  SizedBox(
-                    height: 10,
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: phoneController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.phone.tr(),
                   ),
-                  /******/
-
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration(LocaleKeys.email.tr()),
-                    ),
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: commercialNoController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.commercial_no.tr(),
                   ),
-                  SizedBox(
-                    height: 10,
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: brunchesController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.brunches_no.tr(),
                   ),
-                  /******/
-
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration(LocaleKeys.phone.tr()),
-                    ),
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: passwordController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.password.tr(),
                   ),
-                  SizedBox(
-                    height: 10,
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: confirmPasswordController,
+                    kbType: TextInputType.visiblePassword,
+                    lbTxt: LocaleKeys.confirm_pass.tr(),
                   ),
-                  /******/
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: commercialNoController,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration:
-                          textFieldDecoration(LocaleKeys.commercial_no.tr()),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  /******/
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: brunchesController,
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration:
-                          textFieldDecoration(LocaleKeys.brunches_no.tr()),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  /******/
-
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration: textFieldDecoration(LocaleKeys.password.tr()),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  /******/
-                  Container(
-                    height: 60,
-                    child: TextField(
-                      controller: confirmPasswordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      style: TextStyle(
-                          color: CustomColors().blackColor,
-                          fontWeight: FontWeight.bold),
-                      decoration:
-                          textFieldDecoration(LocaleKeys.confirm_pass.tr()),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  /******/
                   Container(
                       margin: EdgeInsets.only(bottom: 10),
                       padding: EdgeInsets.only(right: 10, left: 10),
@@ -243,7 +179,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
                       child: MaterialButton(
                         onPressed: () {
-                          if (isBtnEnabled) continueSignUp();
+                          if (isBtnEnabled)
+                            continueSignUp(emailController.text);
                         },
                         shape: StadiumBorder(),
                         child: ButtonsDesign.buttonsText(
@@ -268,7 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
             showMessageDialog(context, LocaleKeys.error.tr(), txt));
   }
 
-  void continueSignUp() {
+  void continueSignUp(String userEmail) {
     if (ownerController.value.text == '') {
       // print('owner name');
 
@@ -339,6 +276,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
     print('continue sign in ');
 
-    showPinDialog(context, 'email',true);
+    showDialog(
+            builder: (BuildContext context) =>
+                showPinDialog(context, userEmail, true),
+            context: context)
+        .then((value) {});
   }
 }

@@ -41,5 +41,13 @@
   "phone_length_error": "رقم الجوال يجب ان يتكون من عشرة خانات ",
   "error": "يوجد خطأ",
   "ok": "موافق",
-  "cancel": "الغاء"
+  "cancel": "الغاء",
+  "enter_brunch_phone" : "ادخل رقم الفرع",
+  "enter_brunch_address" : "ادخل عنوان الفرع",
+  "enter_brunch_city" : "ادخل مدينة الفرع",
+  "enter_brunch_country" : "اختار الدولة",
+  "enter_brunch_zip_code" : "الرمز البريدي",
+  "add_brunch": "إضافة الفرع",
+  "add_location": "إختار الموقع من الخريطة",
+  "ksa": "المملكة العربية السعودية"
 }
