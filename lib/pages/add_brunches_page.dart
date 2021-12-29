@@ -5,8 +5,10 @@ import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
+import 'package:khudrah_companies/pages/pick_location_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddBrunchesPage extends StatefulWidget {
   const AddBrunchesPage({Key? key}) : super(key: key);
@@ -23,6 +25,17 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
   final TextEditingController zipCodeController = TextEditingController();
 
   String dropdownValue = LocaleKeys.enter_brunch_country.tr();
+
+
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,62 +100,57 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                     kbType: TextInputType.text,
                     lbTxt: LocaleKeys.enter_brunch_city.tr(),
                   ),
-
                   DropdownButton<String>(
                       value: dropdownValue,
                       style: TextStyle(color: CustomColors().blackColor),
                       underline: Container(
-                        margin: EdgeInsets.symmetric(horizontal:0, vertical: 15),
-
+                        color: CustomColors().primaryGreenColor,
+                        height: 1,
+                          margin:    EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                /*        margin:
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width / 1.15,
-                        height: MediaQuery.of(context).size.height / 15,
+                        height: 12,//MediaQuery.of(context).size.height / 15,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(60),
                           border: Border.all(
                               color: CustomColors().primaryGreenColor,
                               width: 1.5),
-                        ),
+                        ),*/
                       ),
                       icon: const Icon(Icons.arrow_drop_down_sharp),
-
-
                       onChanged: (String? newValue) {
                         setState(() {
                           dropdownValue = newValue!;
                         });
                       },
-                      items: <String>[LocaleKeys.enter_brunch_country.tr(),LocaleKeys.ksa.tr()]
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>[
+                        LocaleKeys.enter_brunch_country.tr(),
+                        LocaleKeys.ksa.tr()
+                      ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList()),
-
-                  Container(
-                    height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: Row(
-                      children: [
-                        MaterialButton(
-                          onPressed: () {},
-                          shape: StadiumBorder(),
-                          child: ButtonsDesign.buttonsText(
-                              LocaleKeys.add_location.tr(),
-                              CustomColors().primaryWhiteColor),
-                          color: CustomColors().primaryGreenColor,
-                        ),
-                        Icon(Icons.my_location,
-                            color: CustomColors().primaryWhiteColor),
-                      ],
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(LocaleKeys.add_location.tr()),
                   ),
+
                   Container(
                       height: ButtonsDesign.buttonsHeight,
                       margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+
+                              return PickLocationPage();
+                          }));
+                        },
                         shape: StadiumBorder(),
                         child: ButtonsDesign.buttonsText(
                             LocaleKeys.add_brunch.tr(),

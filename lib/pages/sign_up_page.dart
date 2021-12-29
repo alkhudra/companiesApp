@@ -8,6 +8,9 @@ import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/alret_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/register_response_model.dart';
+import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -237,7 +240,7 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
     if (isValidPhone(phoneController.value.text) != validPhone) {
-      print(isValidPhone(phoneController.value.text));
+      showErrorDialog(isValidPhone(phoneController.value.text));
       return;
     }
 
@@ -276,10 +279,34 @@ class _SignUpPageState extends State<SignUpPage> {
 
     print('continue sign in ');
 
-    showDialog(
-            builder: (BuildContext context) =>
-                showPinDialog(context, userEmail, true),
-            context: context)
-        .then((value) {});
+    //---------------------------
+
+    RegisterRepository registerRepository = RegisterRepository();
+    registerRepository
+        .registerUser(
+            emailController.text,
+            passwordController.text,
+            confirmPasswordController.text,
+            phoneController.text,
+            ownerController.text,
+            companyNameController.text,
+            commercialNoController.text,
+            int.parse(brunchesController.text))
+        .then((result) {
+      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+        showErrorDialog(result.message);
+        return;
+      }
+      RegisterResponseModel model = result.result;
+      print(model.userId);
+
+      ///save user id in shared preference
+      ///
+      showDialog(
+              builder: (BuildContext context) =>
+                  showPinDialog(context, userEmail, true),
+              context: context)
+          .then((value) {});
+    });
   }
 }

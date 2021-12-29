@@ -20,11 +20,15 @@ dependencies:
   pin_code_fields: ^7.3.0
   flutter_pin_code_fields: ^1.1.0
   retrofit: any
+  json_annotation: any
   logger: any
   cupertino_icons: ^1.0.2
+  google_maps_flutter: ^2.0.9
+  geolocator: ^8.0.1
 
 dev_dependencies:
   retrofit_generator: any
+  json_serializable: any
   build_runner: any
   flutter_test:
     sdk: flutter
@@ -37,6 +41,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
 
   # To add assets to your application, add an assets section, like this:
   assets:

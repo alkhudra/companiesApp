@@ -86,11 +86,7 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
               blinkWhenObscuring: true,
               animationType: AnimationType.fade,
               validator: (v) {
-                if (v!.length < 3) {
-                  return "I'm from validator";
-                } else {
-                  return null;
-                }
+
               },
               pinTheme: PinTheme(
                 inactiveFillColor: CustomColors().primaryWhiteColor,
@@ -118,20 +114,24 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
                 print("Allowing to paste $text");
                 //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                 //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                return true;
+                return false;
               },
               onChanged: (String value) {
                 print(value);
               },
             ),
           ),
+
           SizedBox(
-            height: 30,
-          ),
+            height: 10,
+          )
+          ,
           Container(
-            height: 30,
+
+            alignment: Alignment.center,
             padding: EdgeInsets.only(right: 10, left: 10),
             child: Text(
+
               LocaleKeys.auth_note.tr(),
               style: TextStyle(
                   color: CustomColors().primaryGreenColor, fontSize: 15.0),
