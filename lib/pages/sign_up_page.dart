@@ -277,7 +277,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     isBtnEnabled = false;
 
-    print('continue sign in ');
+    print('continue sign up ');
 
     //---------------------------
 
@@ -294,6 +294,9 @@ class _SignUpPageState extends State<SignUpPage> {
             int.parse(brunchesController.text))
         .then((result) {
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+        if(
+        result.apiStatus.code == ApiResponseType.BadRequest
+        )
         showErrorDialog(result.message);
         return;
       }
@@ -301,7 +304,8 @@ class _SignUpPageState extends State<SignUpPage> {
       print(model.userId);
 
       ///save user id in shared preference
-      ///
+      /// show message check your email
+      /// an d progress bar
       showDialog(
               builder: (BuildContext context) =>
                   showPinDialog(context, userEmail, true),
