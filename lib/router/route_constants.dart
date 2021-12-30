@@ -5,3 +5,4 @@ const String loginRoute = "login";
 const String signupRoute = "signup";
 const String welcomeRoute = "welcome";
 const String languageRoute = "welcome";
+const String noPage="noPage";

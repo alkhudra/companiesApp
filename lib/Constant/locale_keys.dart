@@ -16,7 +16,7 @@ abstract class LocaleKeys {
   static const email = "email";
   static const password = "password";
   static const confirm_pass = "confirm_pass";
-  static const brunches_no = "brunches_no";
+  static const branches_no = "branches_no";
   static const owner_name = 'owner_name';
   static const company_name = 'company_name';
   static const send_code = 'send_code';
@@ -36,7 +36,7 @@ abstract class LocaleKeys {
   static const owner_required = "owner_required";
   static const company_required = "company_required";
   static const commercial_no_required = "commercial_no_required";
-  static const brunches_no_required = "brunches_no_required";
+  static const branches_no_required = "branches_no_required";
   static const confirm_pass_required = "confirm_pass_required";
   static const phone_required = "phone_required";
   static const email_not_valid = "email_not_valid";
@@ -44,14 +44,17 @@ abstract class LocaleKeys {
   static const phone_start_error = "phone_start_error";
   static const phone_length_error = "phone_length_error";
 
-  static const enter_brunch_phone = "enter_brunch_phone";
-  static const enter_brunch_address = "enter_brunch_address";
-  static const enter_brunch_city = "enter_brunch_city";
-  static const enter_brunch_country = "enter_brunch_country";
-  static const enter_brunch_zip_code = "enter_brunch_zip_code";
-  static const add_brunch = "add_brunch";
+  static const enter_branch_phone = "enter_branch_phone";
+  static const enter_branch_address = "enter_branch_address";
+  static const enter_branch_city = "enter_branch_city";
+  static const enter_branch_country = "enter_branch_country";
+  static const enter_branch_zip_code = "enter_branch_zip_code";
+  static const add_branch = "add_branch";
   static const add_location = "add_location";
   static const ksa = "ksa";
+  static const wait = "wait";
+  static const commercial_no_error ="commercial_no_error";
+  static const registered_success ="registered_success";
 
 
 }

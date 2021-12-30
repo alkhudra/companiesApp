@@ -10,21 +10,21 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class AddBrunchesPage extends StatefulWidget {
-  const AddBrunchesPage({Key? key}) : super(key: key);
+class AddbranchesPage extends StatefulWidget {
+  const AddbranchesPage({Key? key}) : super(key: key);
 
   @override
-  _AddBrunchesPageState createState() => _AddBrunchesPageState();
+  _AddbranchesPageState createState() => _AddbranchesPageState();
 }
 
-class _AddBrunchesPageState extends State<AddBrunchesPage> {
+class _AddbranchesPageState extends State<AddbranchesPage> {
   final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController zipCodeController = TextEditingController();
 
-  String dropdownValue = LocaleKeys.enter_brunch_country.tr();
+  String dropdownValue = LocaleKeys.enter_branch_country.tr();
 
 
   late GoogleMapController mapController;
@@ -74,7 +74,7 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                     horMarg: 0,
                     controller: phoneController,
                     kbType: TextInputType.phone,
-                    lbTxt: LocaleKeys.enter_brunch_phone.tr(),
+                    lbTxt: LocaleKeys.enter_branch_phone.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
                     context: context,
@@ -82,7 +82,7 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                     horMarg: 0,
                     controller: addressController,
                     kbType: TextInputType.name,
-                    lbTxt: LocaleKeys.enter_brunch_address.tr(),
+                    lbTxt: LocaleKeys.enter_branch_address.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
                     context: context,
@@ -90,7 +90,7 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                     horMarg: 0,
                     controller: zipCodeController,
                     kbType: TextInputType.number,
-                    lbTxt: LocaleKeys.enter_brunch_zip_code.tr(),
+                    lbTxt: LocaleKeys.enter_branch_zip_code.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
                     context: context,
@@ -98,7 +98,7 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                     horMarg: 0,
                     controller: cityController,
                     kbType: TextInputType.text,
-                    lbTxt: LocaleKeys.enter_brunch_city.tr(),
+                    lbTxt: LocaleKeys.enter_branch_city.tr(),
                   ),
                   DropdownButton<String>(
                       value: dropdownValue,
@@ -126,7 +126,7 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                         });
                       },
                       items: <String>[
-                        LocaleKeys.enter_brunch_country.tr(),
+                        LocaleKeys.enter_branch_country.tr(),
                         LocaleKeys.ksa.tr()
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -153,7 +153,7 @@ class _AddBrunchesPageState extends State<AddBrunchesPage> {
                         },
                         shape: StadiumBorder(),
                         child: ButtonsDesign.buttonsText(
-                            LocaleKeys.add_brunch.tr(),
+                            LocaleKeys.add_branch.tr(),
                             CustomColors().primaryWhiteColor),
                         color: CustomColors().primaryGreenColor,
                       ))

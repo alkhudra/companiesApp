@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       localizationsDelegates: context.localizationDelegates,
       locale: context.locale,
       onGenerateRoute: CustomRouter.generatedRoute,
-
+      theme: ThemeData(accentColor: CustomColors().primaryGreenColor),
       /************
        * if first time in app show language page
        * if already login show home page
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     );
     //  }
   }
-
+/*
   String getRout() {
     //todo: edit problem with shared preference
     String routName;
@@ -61,5 +61,5 @@ class _MyAppState extends State<MyApp> {
     else
       routName = welcomeRoute;
     return routName;
-  }
+  }*/
 }

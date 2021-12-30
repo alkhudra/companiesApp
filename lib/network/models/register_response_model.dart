@@ -8,7 +8,7 @@ import 'package:khudrah_companies/network/models/error_response.dart';
 class RegisterResponseModel {
   RegisterResponseModel({
       String? message, 
-      String? userId,
+      required String userId,
     ErrorResponse? error}){
     _message = message;
     _userId = userId;
@@ -23,11 +23,11 @@ class RegisterResponseModel {
     //_error!.status = json['']
   }
   String? _message;
-  String? _userId;
+  String _userId='';
  ErrorResponse? _error ;
 
   String? get message => _message;
-  String? get userId => _userId;
+  String get userId => _userId;
 
   ErrorResponse? get error => _error;
 

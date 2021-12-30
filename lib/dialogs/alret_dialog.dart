@@ -7,46 +7,12 @@ import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/pages/add_brunches_page.dart';
+import 'package:khudrah_companies/pages/login_page.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-Widget showMessageDialog(BuildContext context, String title, String txt) {
-  if (Platform.isIOS) {
-    return CupertinoAlertDialog(
-      // backgroundColor: CustomColors().cardBackgroundColor1,
-      title: Text(title), // To display the title it is optional
-      content: Text(txt), // Message which will be pop up on the screen
-      actions: [
-        messageDialogBtns(context),
-      ],
-    );
-  } else {
-    return AlertDialog(
-      // backgroundColor: CustomColors().cardBackgroundColor1,
-      title: Text(title), // To display the title it is optional
-      content: Text(txt), // Message which will be pop up on the screen
-// Action widget which will provide the user to acknowledge the choice
-      actions: [
-        messageDialogBtns(context),
-      ],
-    );
-  }
-}
-
-FlatButton messageDialogBtns(BuildContext context) {
-  return FlatButton(
-    textColor: CustomColors().primaryGreenColor,
-    onPressed: () {
-      Navigator.pop(context, 'cancel');
-    },
-    child: Text(
-      LocaleKeys.ok.tr(),
-      style: TextStyle(fontWeight: FontWeight.bold),
-    ),
-  );
-}
 
 ////---------------------------
 Widget showAuthPinDialog(BuildContext context, String userEmail) {
@@ -148,7 +114,7 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
                   if (controller.text != '' && controller.text == code) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AddBrunchesPage();
+                      return AddbranchesPage();
                     }));
                   }
                 },

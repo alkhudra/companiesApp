@@ -14,7 +14,6 @@ class _LanguagePageState extends State<LanguagePage> {
 
 
   void onLanguageButtonPressed(BuildContext context , String localeName) async{
-    //todo: edit locale problem
 
 
     if(localeName == 'en')

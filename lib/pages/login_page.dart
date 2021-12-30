@@ -9,12 +9,14 @@ import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/alret_dialog.dart';
+import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class LogInPage extends StatefulWidget {
@@ -175,7 +177,7 @@ class _LogInPageState extends State<LogInPage> {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.error.tr(), txt));
+            showMessageDialog(context, LocaleKeys.error.tr(), txt,noPage));
   }
 
   void logIn() {
