@@ -14,9 +14,11 @@ import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/string_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
+import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -36,6 +38,7 @@ class _LogInPageState extends State<LogInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   bool isBtnEnabled = true;
+  bool isForgetPassBtnEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -95,31 +98,11 @@ class _LogInPageState extends State<LogInPage> {
                     padding: EdgeInsets.only(right: 10, left: 10),
                     child: GestureDetector(
                       onTap: () {
-                        showDialog(
-                                builder: (BuildContext context) =>
-                                    showEnterEmailDialog(
-                                        context/*, LocaleKeys.reset_password.tr()*/),
-                                context: context)
-                            .then((userEmail) {
-                          if (userEmail == null)
-                            return;
-                          else {
-                            //todo: send email to database
-                            if(userEmail != '' ) {
-                              print(userEmail);
-                              showDialog(
-                                  builder: (BuildContext context ) =>
-                                      showPinDialog(context ,userEmail,false),
-                                  context: context).then((newPass) {
-                                    if(newPass == success)
-                                      {
-
-                                      }
-                              });
-
-                            }
-                          }
-                        });
+                        if (isForgetPassBtnEnabled)
+                          showDialog(
+                              builder: (BuildContext context ) =>
+                                  showEnterEmailDialog(context ),
+                              context: context);
 
                       },
                       child: Text(LocaleKeys.forget_pass.tr(),
@@ -169,6 +152,7 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   void showErrorDialog(String txt) {
+    isForgetPassBtnEnabled = true;
     isBtnEnabled = true;
     showDialog<String>(
         context: context,
@@ -232,6 +216,8 @@ class _LogInPageState extends State<LogInPage> {
 
     Navigator.pop(context);
 
+
+    //todo: check user status and show message if not registered
     directToHomePage();
     });
   }
@@ -239,9 +225,7 @@ class _LogInPageState extends State<LogInPage> {
 
 
   Widget showEnterEmailDialog(BuildContext context) {
-    String errorMessage = "enter your mail to send code ";
 
-    bool visible = false;
     final TextEditingController controller = TextEditingController();
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -264,7 +248,7 @@ class _LogInPageState extends State<LogInPage> {
               height: 20,
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
+              margin: EdgeInsets.only(left: 10, right: 10),
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
@@ -292,17 +276,10 @@ class _LogInPageState extends State<LogInPage> {
                 margin: EdgeInsets.only(left: 50, right: 50),
                 child: MaterialButton(
                   onPressed: () {
-
-                    //todo: solve show error message
-                    setState(() {
-                      if (controller.text != '')
-
-                        Navigator.pop(context, controller.text);
-                    });
-
+                    forgetPasswordProcess(controller.text);
                   },
                   shape: StadiumBorder(),
-                  child: ButtonsDesign.buttonsText(LocaleKeys.sign_up.tr(),
+                  child: ButtonsDesign.buttonsText(LocaleKeys.reset_password.tr(),
                       CustomColors().primaryWhiteColor),
                   color: CustomColors().primaryGreenColor,
                 ))
@@ -318,6 +295,53 @@ class _LogInPageState extends State<LogInPage> {
         MaterialPageRoute(builder: (context) {
           return HomePage();
         }));
+  }
+
+  void forgetPasswordProcess(String userEmail) {
+    if(userEmail != '' ) {
+      isForgetPassBtnEnabled = false;
+
+      print(userEmail);
+      //----------show progress----------------
+
+      showLoaderDialog(context);
+      //----------start api ----------------
+      RegisterRepository registerRepository = RegisterRepository();
+      registerRepository.forgetPassword(userEmail) .then((result) async {
+        //-------- fail response ---------
+
+        if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+          /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
+          Navigator.pop(context);
+          showErrorDialog(result.message);
+          return;
+        }
+
+        //-------- success response ---------
+
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+
+          isForgetPassBtnEnabled = true;
+            return EnterCodePage(userEmail: userEmail,);
+        }));
+      });
+
+
+      //    Navigator.pop(context, controller.text);
+      //---------------
+ /*     showDialog(
+          builder: (BuildContext context ) =>
+              showPinDialog(context ,userEmail,false),
+          context: context).then((newPass) {
+        if(newPass == success)
+        {
+
+        }
+      });*/
+    }
   }
   }
 

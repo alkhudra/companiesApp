@@ -1,8 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:khudrah_companies/network/models/error_response.dart';
 
-/// message : "The company user has been created, and an email confirmation has been sent"
-/// userId : "8e651da2-9dc6-44a7-95cf-bc3d12fe2fe1"
+
 @JsonSerializable()
 
 class RegisterResponseModel {

@@ -6,7 +6,9 @@ abstract class ApiConst {
   static const String login_url = '/account/login';
   static const String get_user_info_url = '/account/getRegisteredUser';
   static const String update_profile_url = '/account/updateUser';
-  static const String reset_profile_url = '/account/resetPassword';
+  static const String reset_password_url = '/account/resetPassword';
   static const String forget_password_url = '/account/forgetPassword';
   static const String send_code_url = '/account/sendCode';
+  static const String check_password_token_url = '/account/checkPasswordToken';
+
 }
