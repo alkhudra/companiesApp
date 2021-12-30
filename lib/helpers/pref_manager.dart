@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsManager {
@@ -44,6 +45,20 @@ class SharedPrefsManager {
     return p.setDouble(key, value);
   }
 
+
+
+  static Map getFromJson(String key){
+    String json = '';
+    getString(key).then((value) => json = value);
+    Map userMap = jsonDecode(json);
+    return userMap;
+  }
+
+
+  static Future setToJson(String key , Object object){
+    String json = jsonEncode(object);
+    return SharedPrefsManager.setString(key, json);
+  }
   // helper
 
   static Future<SharedPreferences> get prefs => SharedPreferences.getInstance();

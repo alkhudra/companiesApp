@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
+import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/pages/welcome_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,6 +21,7 @@ class _LanguagePageState extends State<LanguagePage> {
       await context.setLocale(Locale('en'));
     else   await context.setLocale(Locale('ar'));
 
+    PreferencesHelper.setSelectedLanguage(localeName);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return WelcomePage();
     }));

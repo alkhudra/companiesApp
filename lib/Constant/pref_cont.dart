@@ -1,4 +1,4 @@
-const  languageKey = "currentLanguage";
+const  currentLanguage = "currentLanguage";
 const  headerLanguageKey = "selectedLanguage";
 const  smsCode = "smsCode";
 const  isNew = "isNew";
@@ -16,8 +16,7 @@ const  lat = "lat";
 const  lag = "lag";
 const  imageLink = "imageLink";
 const  settingTxt = "setting";
-const  userEstatesCount = "userEstatesCount";
-const  userReservationCount = "userReservationCount";
+
 const  profileData = "profileData";
 const  bankData = "bankData";
 const  userName = "userName";

@@ -66,8 +66,51 @@ class RegisterRepository {
       log("Got error : $errorCode -> $errorMessage");
 
       var apiResponseType = ApiResponse.convert(errorCode);
-      // とりあえずここではサーバー側のエラーメッセージを表示するようにしとく
       return ApiResponse(apiResponseType, null, errorMessage);
     });
   }
+
+
+  //--------------------------
+
+  Future<ApiResponse> loginUser(
+      String email,
+      String password) async {
+    if (email == null ||
+        password == null ) {
+      return ApiResponse(ApiResponseType.BadRequest, null, '');
+    }
+
+    Map<String, dynamic> hashMap = {
+      "email": email,
+      "password": password,
+
+    };
+
+    return await _client
+        .registerUser(hashMap)
+        .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
+        .catchError((e) {
+
+      int errorCode = 0;
+      String errorMessage = "";
+      switch (e.runtimeType) {
+        case DioError:
+
+          final res = (e as DioError).response;
+          if (res != null) {
+            errorCode = res.statusCode!;
+            errorMessage = res.statusMessage!;
+          }
+          break;
+        default:
+      }
+      log("Got error : $errorCode -> $errorMessage");
+
+      var apiResponseType = ApiResponse.convert(errorCode);
+      return ApiResponse(apiResponseType, null, errorMessage);
+    });
+  }
+
+
 }

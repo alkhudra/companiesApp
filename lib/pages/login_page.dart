@@ -10,7 +10,13 @@ import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/alret_dialog.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
+import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -80,16 +86,6 @@ class _LogInPageState extends State<LogInPage> {
                       kbType: TextInputType.visiblePassword,
                       lbTxt: LocaleKeys.password.tr(),
                     ),
-              /*    child: TextField(
-                    controller: passController,
-                    keyboardType: TextInputType.visiblePassword,
-                    style: TextStyle(
-                        color: CustomColors().blackColor,
-                        fontWeight: FontWeight.bold),
-                    decoration: textFieldDecorationWithIcon(
-                        LocaleKeys.password.tr(), Icons.lock_outline),
-                  ),*/
-
 
                 SizedBox(
                   height: 50,
@@ -199,6 +195,45 @@ class _LogInPageState extends State<LogInPage> {
     isBtnEnabled = false;
 
     print('continue log in ');
+
+    //----------show progress----------------
+
+    showLoaderDialog(context);
+    //----------start api ----------------
+    RegisterRepository registerRepository = RegisterRepository();
+    registerRepository.loginUser(emailController.text, passController.text) .then((result) async {
+    //-------- fail response ---------
+
+    //todo: edit after adjustments
+    if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+    /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
+    Navigator.pop(context);
+    showErrorDialog(result.message);
+    return;
+    }
+
+    //-------- success response ---------
+    UserModel model = result.result;
+    if(model.user != null) {
+      print(model.user!.id);
+
+      PreferencesHelper.setUserID(model.user!.id);
+      PreferencesHelper.getUserID.then((value) => print(value));
+
+      PreferencesHelper.setUserToken(model.token);
+      PreferencesHelper.getUserToken.then((value) => print(value));
+
+
+      PreferencesHelper.setUser(model.user!);
+      PreferencesHelper.getUser.then((value) => print(value.toString()));
+
+    }
+
+
+    Navigator.pop(context);
+
+    directToHomePage();
+    });
   }
 ////---------------------------
 
@@ -276,6 +311,14 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
   }
-////---------------------------
 
-}
+  void directToHomePage() {
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) {
+          return HomePage();
+        }));
+  }
+  }
+
+

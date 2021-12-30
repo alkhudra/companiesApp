@@ -5,21 +5,24 @@ import 'branches/branches_model.dart';
 
 class UserModel {
   UserModel({
-      User? user, 
-      String? token,}){
+    required User user,
+    required String token,
+  }) {
     _user = user;
     _token = token;
-}
+  }
 
   UserModel.fromJson(dynamic json) {
     _user = json['user'] != null ? User.fromJson(json['user']) : null;
     _token = json['token'];
   }
+
   User? _user;
-  String? _token;
+  String _token = '';
 
   User? get user => _user;
-  String? get token => _token;
+
+  String get token => _token;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -29,28 +32,19 @@ class UserModel {
     map['token'] = _token;
     return map;
   }
-
 }
-
-/// id : "e7e60d82-f7f0-444c-ae24-5c5c0454203b"
-/// email : "safa3.1998@hotmail.com"
-/// phoneNumber : "0553561821"
-/// ownerName : "Test"
-/// companyName : "Test"
-/// commercialRegistrationNo : "0987654321"
-/// branchNumber : 5
-/// branches : []
 
 class User {
   User({
-      String? id, 
-      String? email, 
-      String? phoneNumber, 
-      String? ownerName, 
-      String? companyName, 
-      String? commercialRegistrationNo, 
-      int? branchNumber, 
-      List<BranchesModel>? branches,}){
+    required String id,
+    String? email,
+    String? phoneNumber,
+    String? ownerName,
+    String? companyName,
+    String? commercialRegistrationNo,
+    int? branchNumber,
+    List<BranchesModel>? branches,
+  }) {
     _id = id;
     _email = email;
     _phoneNumber = phoneNumber;
@@ -59,7 +53,7 @@ class User {
     _commercialRegistrationNo = commercialRegistrationNo;
     _branchNumber = branchNumber;
     _branches = branches;
-}
+  }
 
   User.fromJson(dynamic json) {
     _id = json['id'];
@@ -76,7 +70,8 @@ class User {
       });
     }
   }
-  String? _id;
+
+  String _id = '';
   String? _email;
   String? _phoneNumber;
   String? _ownerName;
@@ -85,13 +80,20 @@ class User {
   int? _branchNumber;
   List<BranchesModel>? _branches;
 
-  String? get id => _id;
+  String get id => _id;
+
   String? get email => _email;
+
   String? get phoneNumber => _phoneNumber;
+
   String? get ownerName => _ownerName;
+
   String? get companyName => _companyName;
+
   String? get commercialRegistrationNo => _commercialRegistrationNo;
+
   int? get branchNumber => _branchNumber;
+
   List<BranchesModel>? get branches => _branches;
 
   Map<String, dynamic> toJson() {
@@ -108,5 +110,4 @@ class User {
     }
     return map;
   }
-
 }
