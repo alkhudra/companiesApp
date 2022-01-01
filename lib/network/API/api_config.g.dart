@@ -32,18 +32,18 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<RegisterResponseModel> loginUser(hashMap) async {
+  Future<LoginResponseModel> loginUser(hashMap) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RegisterResponseModel>(
+        _setStreamType<LoginResponseModel>(
             Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/account/login',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RegisterResponseModel.fromJson(_result.data!);
+    final value = LoginResponseModel.fromJson(_result.data!);
     return value;
   }
 

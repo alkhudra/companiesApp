@@ -7,6 +7,7 @@ import 'package:khudrah_companies/network/models/user_model.dart';
 class PreferencesHelper {
   static Future<String> get getUserID => SharedPrefsManager.getString(userID);
 
+
   static Future setUserID(String value) =>
       SharedPrefsManager.setString(userID, value);
 
@@ -23,7 +24,10 @@ class PreferencesHelper {
 
   static Future<User> get getUser async => User.fromJson(SharedPrefsManager.getFromJson(currentUser));
 
-  static Future setUser(User user) => SharedPrefsManager.setToJson(currentUser, user);
+  static Future setUser(User user) {
+    user = User.fromJson(user);
+    return SharedPrefsManager.setToJson(currentUser, user);
+  }
 
 
 /*  Future<void> clear() async {

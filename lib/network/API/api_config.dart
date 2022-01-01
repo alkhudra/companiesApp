@@ -2,9 +2,11 @@ import 'dart:collection';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/network/models/login_response_model.dart';
 import 'package:khudrah_companies/network/models/register_class.dart';
 import 'package:khudrah_companies/network/models/register_response_model.dart';
 import 'package:khudrah_companies/network/models/string_response_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 part 'api_config.g.dart';
@@ -53,7 +55,7 @@ abstract class RestClient {
   Future<RegisterResponseModel> registerUser(@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.login_url)
-  Future<RegisterResponseModel> loginUser(@Body() Map<String, dynamic> hashMap);
+  Future<LoginResponseModel> loginUser(@Body() Map<String, dynamic> hashMap);
 
 
   @POST(ApiConst.forget_password_url)

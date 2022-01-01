@@ -55,6 +55,7 @@ abstract class LocaleKeys {
   static const wait = "wait";
   static const commercial_no_error ="commercial_no_error";
   static const registered_success ="registered_success";
+  static const process_success ="process_success";
 
 
 }

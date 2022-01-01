@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/ButtonsDesign.dart';
+import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/reset_password/reset_password_page.dart';
@@ -12,68 +15,60 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 class EnterCodePage extends StatefulWidget {
   final String userEmail;
-  const EnterCodePage({Key? key,required this.userEmail}) : super(key: key);
+  const EnterCodePage({Key? key, required this.userEmail}) : super(key: key);
 
   @override
   _EnterCodePageState createState() => _EnterCodePageState();
-
 }
-
 
 class _EnterCodePageState extends State<EnterCodePage> {
   int numberOfSecToWait = 120;
   String code = '1234'; //'get this code from DB here ';
   final TextEditingController controller = TextEditingController();
-  StreamController<ErrorAnimationType> errorController =
-  StreamController<ErrorAnimationType>();
+  late StreamController<int> _events;
 
-  StreamController<int> _events = new StreamController<int>();
+  bool isBtnEnabled = true;
+  bool isResendEnabled = true;
 
-
+  String language = 'ar';
   @override
   void initState() {
     super.initState();
+    _events = new StreamController<int>();
+    PreferencesHelper.getSelectedLanguage.then((value) => language = value);
 
     numberOfSecToWait = 120;
     _events.add(numberOfSecToWait);
-    int _counter = numberOfSecToWait;
 
-    startTimer(_counter, _events);
+    startTimer(numberOfSecToWait, _events);
   }
-
 
   @override
   Widget build(BuildContext context) {
+    String email = widget.userEmail;
     return Scaffold(
       appBar: AppBar(
-        title: Text('code'),
+        backgroundColor: CustomColors().primaryGreenColor,
+        title: Text(LocaleKeys.reset_password.tr()),
       ),
       body: StreamBuilder<int>(
         stream: _events.stream,
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-          return Center(
-
+          return Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  LocaleKeys.enter_code.tr(),
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: CustomColors().darkBlueColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  LocaleKeys.enter_code_note.tr() + '\n' ,//+ userEmail,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: CustomColors().primaryGreenColor,
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: Text(
+                    LocaleKeys.enter_code_note.tr() + '\n' + email,
+                    style: TextStyle(
+                      locale: Locale(language),
+                      fontSize: 15,
+                      color: CustomColors().primaryGreenColor,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -81,66 +76,39 @@ class _EnterCodePageState extends State<EnterCodePage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10),
-                  child: PinCodeTextField(
-                    appContext: context,
-                    pastedTextStyle: TextStyle(
-                      color: CustomColors().primaryGreenColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    length: 4,
-                    // obscureText: true,
-                    blinkWhenObscuring: true,
-                    animationType: AnimationType.fade,
-
-                    errorAnimationController: errorController,
-                    pinTheme: PinTheme(
-                      errorBorderColor: CustomColors().likeColor,
-                      inactiveFillColor: CustomColors().primaryWhiteColor,
-                      selectedFillColor: CustomColors().primaryGreenColor,
-                      shape: PinCodeFieldShape.box,
-                      inactiveColor: CustomColors().primaryGreenColor,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 40,
-                      activeFillColor: CustomColors().primaryWhiteColor,
-                    ),
-                    cursorColor: CustomColors().primaryGreenColor,
-                    animationDuration: Duration(milliseconds: 300),
-                    enableActiveFill: true,
+                  child: TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
                     controller: controller,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    keyboardType: TextInputType.number,
-                    boxShadows: [
-                      BoxShadow(
-                        offset: Offset(0, 1),
-                        color: CustomColors().blackColor,
-                        blurRadius: 5,
-                      )
-                    ],
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return false;
-                    },
-                    onChanged: (String value) {},
-                    onCompleted: (v) {
-
-                        //// reset password
-                       // resetPassword(context, code, controller, errorController);
-
-
-                    },
+                    kbType: TextInputType.text,
+                    lbTxt: LocaleKeys.enter_code.tr(),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height: ButtonsDesign.buttonsHeight,
+                    margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    child: MaterialButton(
+                      onPressed: () {
+                        if (isBtnEnabled) sendCodeToDB(email);
+                      },
+                      shape: StadiumBorder(),
+                      child: ButtonsDesign.buttonsText(
+                          LocaleKeys.continue_btn.tr(),
+                          CustomColors().primaryWhiteColor),
+                      color: CustomColors().primaryGreenColor,
+                    )),
                 SizedBox(
                   height: 30,
                 ),
                 Container(
                   height: 30,
                   padding: EdgeInsets.only(right: 10, left: 10),
-                  child:  Text(
-                    LocaleKeys.resend_code_note.tr()+'\n',
+                  child: Text(
+                    LocaleKeys.resend_code_note.tr() + '\n',
                     style: TextStyle(
                         color: CustomColors().primaryGreenColor,
                         fontSize: 15.0),
@@ -154,12 +122,17 @@ class _EnterCodePageState extends State<EnterCodePage> {
                   padding: EdgeInsets.only(right: 10, left: 10),
                   child: GestureDetector(
                     onTap: () {
-                      //todo:resend code
-
                       //you can tap if only finish timer
-                      if(snapshot.data.toString() == '0')
-                        resendCode();
-                        print(snapshot.data.toString());
+                      if (snapshot.data.toString() == '0') {
+                        setState(() {
+                          controller.text ='';
+                          _events.add(numberOfSecToWait);
+                          startTimer(numberOfSecToWait, _events);
+                          resendCode(email);
+                          print(snapshot.data.toString());
+                        });
+
+                      }
                     },
                     child: Text(
                       (snapshot.data.toString() != '0')
@@ -182,8 +155,6 @@ class _EnterCodePageState extends State<EnterCodePage> {
     );
   }
 
-
-
   void startTimer(int _counter, StreamController<int> _events) {
     Timer.periodic(Duration(seconds: 1), (timer) {
       //setState(() {
@@ -196,19 +167,27 @@ class _EnterCodePageState extends State<EnterCodePage> {
 
   //-------------------
 
-  void sendCodeToDB(){
+  void sendCodeToDB(String userEmail) {
+    if (controller.text == '') {
+      showErrorDialog(LocaleKeys.enter_code_note.tr());
+      return;
+    }
 
+    isBtnEnabled = false;
 
     showLoaderDialog(context);
+    print(userEmail + " " + controller.text);
     //----------start api ----------------
     RegisterRepository registerRepository = RegisterRepository();
-    registerRepository.sendPasswordToken('userEmail','') .then((result) async {
+    registerRepository
+        .sendPasswordToken(userEmail, controller.text)
+        .then((result) async {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
         /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
         Navigator.pop(context);
-        showErrorDialog(result.message);
+        showErrorDialog(result.apiStatus.message);
         return;
       }
 
@@ -217,20 +196,25 @@ class _EnterCodePageState extends State<EnterCodePage> {
       Navigator.pop(context);
 
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-
-        return ResetPasswordPage();
+        Map<String, String> dataMap = {
+          "email": userEmail,
+          "token": controller.text
+        };
+        return ResetPasswordPage(dataMap: dataMap);
       }));
     });
   }
 
   //-------------------
-  void resendCode() {
-
-
+  void resendCode(String userEmail) {
+    isResendEnabled = false;
     showLoaderDialog(context);
+
+    //-------- success response ---------
+
     //----------start api ----------------
     RegisterRepository registerRepository = RegisterRepository();
-    registerRepository.forgetPassword('mmsaj000@hotmail.com') .then((result) async {
+    registerRepository.forgetPassword(userEmail).then((result) async {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
@@ -239,19 +223,19 @@ class _EnterCodePageState extends State<EnterCodePage> {
         showErrorDialog(result.message);
         return;
       }
-
-      //-------- success response ---------
-
       Navigator.pop(context);
-      initState();
     });
+
+    //  initState();
   }
+
   //-------------------
   void showErrorDialog(String txt) {
-
+    isBtnEnabled = true;
+    isResendEnabled = true;
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.error.tr(), txt,noPage));
+            showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 }

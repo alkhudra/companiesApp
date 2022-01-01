@@ -14,6 +14,7 @@ import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/login_response_model.dart';
 import 'package:khudrah_companies/network/models/string_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
@@ -197,11 +198,12 @@ class _LogInPageState extends State<LogInPage> {
     }
 
     //-------- success response ---------
-    UserModel model = result.result;
+    LoginResponseModel model = result.result;
+    print(model.user.toString());
     if(model.user != null) {
       print(model.user!.id);
 
-      PreferencesHelper.setUserID(model.user!.id);
+      PreferencesHelper.setUserID(model.user.id);
       PreferencesHelper.getUserID.then((value) => print(value));
 
       PreferencesHelper.setUserToken(model.token);
