@@ -47,11 +47,18 @@ class SharedPrefsManager {
 
 
 
-  static Map getFromJson(String key){
-    String json = '';
-    getString(key).then((value) => json = value);
-    Map userMap = jsonDecode(json);
-    return userMap;
+  static dynamic getFromJson(String key){
+    String json='';
+
+    getString(key).then((value) {
+      json = value;
+      Map<String,dynamic> userMap = jsonDecode(json);
+      print('json to get user from local : $userMap');
+
+      return userMap;
+    });
+
+
   }
 
 

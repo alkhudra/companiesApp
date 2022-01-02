@@ -16,7 +16,6 @@ import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/login_response_model.dart';
 import 'package:khudrah_companies/network/models/string_response_model.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
@@ -27,6 +26,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import 'add_brunches_page.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
@@ -81,16 +82,14 @@ class _LogInPageState extends State<LogInPage> {
                   kbType: TextInputType.emailAddress,
                   lbTxt: LocaleKeys.email.tr(),
                 ),
-
-                 TextFieldDesign.textFieldStyle(
-                      context: context,
-                      verMarg: 5,
-                      horMarg: 0,
-                      controller: passController,
-                      kbType: TextInputType.visiblePassword,
-                      lbTxt: LocaleKeys.password.tr(),
-                    ),
-
+                TextFieldDesign.textFieldStyle(
+                  context: context,
+                  verMarg: 5,
+                  horMarg: 0,
+                  controller: passController,
+                  kbType: TextInputType.visiblePassword,
+                  lbTxt: LocaleKeys.password.tr(),
+                ),
                 SizedBox(
                   height: 50,
                 ),
@@ -101,10 +100,9 @@ class _LogInPageState extends State<LogInPage> {
                       onTap: () {
                         if (isForgetPassBtnEnabled)
                           showDialog(
-                              builder: (BuildContext context ) =>
-                                  showEnterEmailDialog(context ),
+                              builder: (BuildContext context) =>
+                                  showEnterEmailDialog(context),
                               context: context);
-
                       },
                       child: Text(LocaleKeys.forget_pass.tr(),
                           style: TextStyle(
@@ -158,7 +156,7 @@ class _LogInPageState extends State<LogInPage> {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.error.tr(), txt,noPage));
+            showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
   void logIn() {
@@ -186,48 +184,49 @@ class _LogInPageState extends State<LogInPage> {
     showLoaderDialog(context);
     //----------start api ----------------
     RegisterRepository registerRepository = RegisterRepository();
-    registerRepository.loginUser(emailController.text, passController.text) .then((result) async {
-    //-------- fail response ---------
+    registerRepository
+        .loginUser(emailController.text, passController.text)
+        .then((result) async {
+      //-------- fail response ---------
 
-    //todo: edit after adjustments
-    if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-    /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
-    Navigator.pop(context);
-    showErrorDialog(result.message);
-    return;
-    }
+      //todo: edit after adjustments
+      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
+        Navigator.pop(context);
+        showErrorDialog(result.message);
+        return;
+      }
 
-    //-------- success response ---------
-    LoginResponseModel model = result.result;
-    print(model.user.toString());
-    if(model.user != null) {
-      print(model.user!.id);
+      //-------- success response ---------
+      LoginResponseModel model = result.result;
+      print(model.user.toString());
+      User user = model.user!;
+      // if(user != null) {
+      // print(model.user.get);
 
-      PreferencesHelper.setUserID(model.user.id);
-      PreferencesHelper.getUserID.then((value) => print(value));
+      PreferencesHelper.setUserID(user.id!);
+      PreferencesHelper.getUserID.then((value) => print('user id : $value'));
 
       PreferencesHelper.setUserToken(model.token);
-      PreferencesHelper.getUserToken.then((value) => print(value));
+      PreferencesHelper.getUserToken.then((value) => print('token : $value'));
 
+      PreferencesHelper.setUser(user);
+      bool isHasBranches = user.branches!.isEmpty;
+      Navigator.pop(context);
 
-      PreferencesHelper.setUser(model.user!);
-      PreferencesHelper.getUser.then((value) => print(value.toString()));
+      if (isHasBranches)
+        addBranchesPage();
+      else
+        directToHomePage();
 
-    }
+      // }else showErrorDialog(result.message);
 
-
-    Navigator.pop(context);
-
-
-    //todo: check user status and show message if not registered
-    directToHomePage();
+      //todo: check user status and show message if not registered
     });
   }
 ////---------------------------
 
-
   Widget showEnterEmailDialog(BuildContext context) {
-
     final TextEditingController controller = TextEditingController();
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -254,10 +253,8 @@ class _LogInPageState extends State<LogInPage> {
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
-
-                  if (!isValidEmail(controller.text)){
-                   return LocaleKeys.email_not_valid.tr();
-
+                  if (!isValidEmail(controller.text)) {
+                    return LocaleKeys.email_not_valid.tr();
                   }
                 },
                 controller: controller,
@@ -269,7 +266,6 @@ class _LogInPageState extends State<LogInPage> {
                     LocaleKeys.email.tr(), Icons.email),
               ),
             ),
-
             SizedBox(
               height: 35,
             ),
@@ -281,7 +277,8 @@ class _LogInPageState extends State<LogInPage> {
                     forgetPasswordProcess(controller.text);
                   },
                   shape: StadiumBorder(),
-                  child: ButtonsDesign.buttonsText(LocaleKeys.reset_password.tr(),
+                  child: ButtonsDesign.buttonsText(
+                      LocaleKeys.reset_password.tr(),
                       CustomColors().primaryWhiteColor),
                   color: CustomColors().primaryGreenColor,
                 ))
@@ -290,17 +287,24 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
   }
+////---------------------------
 
   void directToHomePage() {
-
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) {
-          return HomePage();
-        }));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return HomePage();
+    }));
   }
+////---------------------------
+
+  void addBranchesPage() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddBranchesPage();
+    }));
+  }
+  ////---------------------------
 
   void forgetPasswordProcess(String userEmail) {
-    if(userEmail != '' ) {
+    if (userEmail != '') {
       isForgetPassBtnEnabled = false;
 
       print(userEmail);
@@ -309,10 +313,11 @@ class _LogInPageState extends State<LogInPage> {
       showLoaderDialog(context);
       //----------start api ----------------
       RegisterRepository registerRepository = RegisterRepository();
-      registerRepository.forgetPassword(userEmail) .then((result) async {
+      registerRepository.forgetPassword(userEmail).then((result) async {
         //-------- fail response ---------
 
-        if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+        if (result == null ||
+            result.apiStatus.code != ApiResponseType.OK.code) {
           /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
           Navigator.pop(context);
           showErrorDialog(result.message);
@@ -325,16 +330,16 @@ class _LogInPageState extends State<LogInPage> {
         Navigator.pop(context);
 
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-
           isForgetPassBtnEnabled = true;
-            return EnterCodePage(userEmail: userEmail,);
+          return EnterCodePage(
+            userEmail: userEmail,
+          );
         }));
       });
 
-
       //    Navigator.pop(context, controller.text);
       //---------------
- /*     showDialog(
+      /*     showDialog(
           builder: (BuildContext context ) =>
               showPinDialog(context ,userEmail,false),
           context: context).then((newPass) {
@@ -345,6 +350,4 @@ class _LogInPageState extends State<LogInPage> {
       });*/
     }
   }
-  }
-
-
+}

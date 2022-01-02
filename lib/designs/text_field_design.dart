@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class TextFieldDesign {
 
-  static textFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? lbTxt, validat}) {
+  static textFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? lbTxt, validat, enabled}) {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
@@ -17,6 +17,7 @@ class TextFieldDesign {
       ),
       child: Expanded(
         child: TextFormField(
+         enabled: enabled,
           controller: controller,
           keyboardType: kbType,
           autovalidateMode: AutovalidateMode.onUserInteraction,

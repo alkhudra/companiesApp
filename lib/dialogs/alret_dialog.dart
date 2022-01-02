@@ -114,7 +114,7 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
                   if (controller.text != '' && controller.text == code) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AddbranchesPage();
+                      return AddBranchesPage();
                     }));
                   }
                 },

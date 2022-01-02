@@ -265,6 +265,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
       return;
     }
+    if (branchesController.value.text == '0') {
+      showErrorDialog(LocaleKeys.branches_no_not_zero.tr());
+
+      return;
+    }
 
     if (passwordController.value.text == '') {
       showErrorDialog(LocaleKeys.pass_required.tr());
@@ -326,7 +331,7 @@ class _SignUpPageState extends State<SignUpPage> {
       Navigator.pop(context);
 
 
-      /// show message check your email
+
       showWelcomeDialog(context);
 
     });

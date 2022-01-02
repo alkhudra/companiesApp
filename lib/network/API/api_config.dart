@@ -6,7 +6,6 @@ import 'package:khudrah_companies/network/models/login_response_model.dart';
 import 'package:khudrah_companies/network/models/register_class.dart';
 import 'package:khudrah_companies/network/models/register_response_model.dart';
 import 'package:khudrah_companies/network/models/string_response_model.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 part 'api_config.g.dart';

@@ -109,4 +109,8 @@ class User {
     return map;
   }
 
+  @override
+  String toString() {
+    return 'User{_id: $_id, _email: $_email, _phoneNumber: $_phoneNumber, _ownerName: $_ownerName, _companyName: $_companyName, _commercialRegistrationNo: $_commercialRegistrationNo, _branchNumber: $_branchNumber, _branches: $_branches}';
+  }
 }

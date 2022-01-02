@@ -1,3 +1,6 @@
+import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 enum ApiResponseType {
   OK,
   BadRequest,
@@ -10,7 +13,6 @@ enum ApiResponseType {
 }
 
 extension ApiErrorTypeExtension on ApiResponseType {
-
   get code {
     switch (this) {
       case ApiResponseType.OK:
@@ -37,19 +39,19 @@ extension ApiErrorTypeExtension on ApiResponseType {
       case ApiResponseType.OK:
         return "";
       case ApiResponseType.BadRequest:
-        return "引数が無効です";
+
       case ApiResponseType.Forbidden:
-        return "オブジェクトを操作する権限がない為、操作できません。";
+
       case ApiResponseType.NotFound:
-        return "パスで参照されたオブジェクトは存在しません。";
+
       case ApiResponseType.MethodNotAllowed:
-        return "メソッドがパスに許可されているメソッドの1つではありません。";
+
       case ApiResponseType.Conflict:
-        return "すでに存在するオブジェクトを作成しようとしました。";
+
       case ApiResponseType.InternalServerError:
-        return "サービスの実行が何らかの原因で失敗しました。";
+        return LocaleKeys.wrong_error.tr();
       default:
-        return "サービスの実行が何らかの原因で失敗しました。";
+        return LocaleKeys.wrong_error.tr();
     }
   }
 }

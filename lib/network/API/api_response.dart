@@ -6,8 +6,7 @@ class ApiResponse {
   final dynamic result;
   final String _customMessage;
 
-  // カスタムメッセージが指定されている場合はそっちを返却
-  // そうじゃない場合はエラーコードで決まったメッセージを返却
+
   get message {
     if (_customMessage != null && _customMessage.isNotEmpty)
       return _customMessage;

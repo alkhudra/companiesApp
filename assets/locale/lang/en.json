@@ -13,7 +13,7 @@
   "sign_up": "Sign Up",
   "enter_code_note": "Enter the code send to   ",
   "resend_code_note": "You didn't receive a code ?  ",
-  "auth_note": "Thank you for choosing AlKhadra United Company. Please wait until the data is validated and the verification code will be sent to you on your email.",
+  "auth_note": "Thank you for choosing AlKhadra United Company. Please verify your email by clicking the link sent to you,then please wait until we activate your account  ",
   "new_user": "New User?  ",
   "terms_conditions_note": "By tapping Sign up you accept all  ",
   "terms_conditions": "terms and condition",
@@ -32,6 +32,7 @@
   "company_required": "Please Enter your Company Name",
   "commercial_no_required": "Please Enter your Commercial Registration no.",
   "branches_no_required": "Please Enter how many branches do you have",
+  "branches_no_not_zero": "Branches number should be at least 1 ",
   "confirm_pass_required": "Please Confirm your Password",
   "commercial_no_error" : "Commercial Registration no. must be 10 numbers ",
   "phone_required": "Please Enter your Phone",
@@ -49,8 +50,9 @@
   "enter_branch_zip_code": "Enter branch Zip Code",
   "add_branch": "Add branch",
   "add_location": "Pick Location",
-  "ksa": "Saudi Arabia",
+  "ksa": "Jeddah - Saudi Arabia",
   "process_success": "Process Success",
   "wait": "Loading .. Please wait",
-  "registered_success": "Successfully Registered"
+  "registered_success": "Successfully Registered",
+  "wrong_error": "Something Wrong Happened"
 }

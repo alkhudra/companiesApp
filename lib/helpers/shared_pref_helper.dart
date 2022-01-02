@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:khudrah_companies/Constant/pref_cont.dart';
 import 'package:khudrah_companies/helpers/pref_manager.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/models/login_response_model.dart';
 
 class PreferencesHelper {
   static Future<String> get getUserID => SharedPrefsManager.getString(userID);
@@ -25,7 +25,7 @@ class PreferencesHelper {
   static Future<User> get getUser async => User.fromJson(SharedPrefsManager.getFromJson(currentUser));
 
   static Future setUser(User user) {
-    user = User.fromJson(user);
+  //  user = User.fromJson(user);
     return SharedPrefsManager.setToJson(currentUser, user);
   }
 

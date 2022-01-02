@@ -10,14 +10,14 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class AddbranchesPage extends StatefulWidget {
-  const AddbranchesPage({Key? key}) : super(key: key);
+class AddBranchesPage extends StatefulWidget {
+  const AddBranchesPage({Key? key}) : super(key: key);
 
   @override
-  _AddbranchesPageState createState() => _AddbranchesPageState();
+  _AddBranchesPageState createState() => _AddBranchesPageState();
 }
 
-class _AddbranchesPageState extends State<AddbranchesPage> {
+class _AddBranchesPageState extends State<AddBranchesPage> {
   final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -25,7 +25,6 @@ class _AddbranchesPageState extends State<AddbranchesPage> {
   final TextEditingController zipCodeController = TextEditingController();
 
   String dropdownValue = LocaleKeys.enter_branch_country.tr();
-
 
   late GoogleMapController mapController;
 
@@ -35,10 +34,14 @@ class _AddbranchesPageState extends State<AddbranchesPage> {
     mapController = controller;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(LocaleKeys.add_branch.tr().toUpperCase()),
+        backgroundColor: CustomColors().primaryGreenColor,
+      ),
       //todo:
       /********
        *
@@ -47,67 +50,54 @@ class _AddbranchesPageState extends State<AddbranchesPage> {
        * *********/
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
-        child: Stack(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 90, left: 30, right: 30),
-              width: MediaQuery.of(context).size.width / 0.3,
-              height: MediaQuery.of(context).size.height / 0.97,
-              decoration: CardDesign.largeCardDesign(),
+              margin: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "please add youccccccccccccccr branches ",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: CustomColors().blackColor,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-            SizedBox(
-              height: 50,
+            TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
+              controller: phoneController,
+              kbType: TextInputType.phone,
+              lbTxt: LocaleKeys.enter_branch_phone.tr(),
             ),
-            brandNameMiddle(),
-            SizedBox(
-              height: 50,
+
+            TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
+              controller: zipCodeController,
+              kbType: TextInputType.number,
+              lbTxt: LocaleKeys.enter_branch_zip_code.tr(),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 250, left: 40, right: 30),
-              width: 300,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: phoneController,
-                    kbType: TextInputType.phone,
-                    lbTxt: LocaleKeys.enter_branch_phone.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: addressController,
-                    kbType: TextInputType.name,
-                    lbTxt: LocaleKeys.enter_branch_address.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: zipCodeController,
-                    kbType: TextInputType.number,
-                    lbTxt: LocaleKeys.enter_branch_zip_code.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: cityController,
-                    kbType: TextInputType.text,
-                    lbTxt: LocaleKeys.enter_branch_city.tr(),
-                  ),
-                  DropdownButton<String>(
-                      value: dropdownValue,
-                      style: TextStyle(color: CustomColors().blackColor),
-                      underline: Container(
-                        color: CustomColors().primaryGreenColor,
-                        height: 1,
-                          margin:    EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                /*        margin:
+            TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
+              controller: cityController,
+              kbType: TextInputType.text,
+              lbTxt: LocaleKeys.ksa.tr(),
+              enabled: false
+            ),
+      /*      DropdownButton<String>(
+                value: dropdownValue,
+                style: TextStyle(color: CustomColors().blackColor),
+                underline: Container(
+                  color: CustomColors().primaryGreenColor,
+                  height: 1,
+                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  *//*        margin:
                             EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width / 1.15,
@@ -117,49 +107,38 @@ class _AddbranchesPageState extends State<AddbranchesPage> {
                           border: Border.all(
                               color: CustomColors().primaryGreenColor,
                               width: 1.5),
-                        ),*/
-                      ),
-                      icon: const Icon(Icons.arrow_drop_down_sharp),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items: <String>[
-                        LocaleKeys.enter_branch_country.tr(),
-                        LocaleKeys.ksa.tr()
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList()),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(LocaleKeys.add_location.tr()),
-                  ),
-
-                  Container(
-                      height: ButtonsDesign.buttonsHeight,
-                      margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
-                      child: MaterialButton(
-                        onPressed: () {
-
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-
-                              return PickLocationPage();
-                          }));
-                        },
-                        shape: StadiumBorder(),
-                        child: ButtonsDesign.buttonsText(
-                            LocaleKeys.add_branch.tr(),
-                            CustomColors().primaryWhiteColor),
-                        color: CustomColors().primaryGreenColor,
-                      ))
-                ],
-              ),
-            ),
+                        ),*//*
+                ),
+                icon: const Icon(Icons.arrow_drop_down_sharp),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: <String>[
+                  LocaleKeys.enter_branch_country.tr(),
+                  LocaleKeys.ksa.tr()
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList()),*/
+            Container(
+                height: ButtonsDesign.buttonsHeight,
+                margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return PickLocationPage();
+                    }));
+                  },
+                  shape: StadiumBorder(),
+                  child: ButtonsDesign.buttonsText(LocaleKeys.add_branch.tr(),
+                      CustomColors().primaryWhiteColor),
+                  color: CustomColors().primaryGreenColor,
+                )),
           ],
         ),
       ),

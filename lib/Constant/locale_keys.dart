@@ -21,22 +21,24 @@ abstract class LocaleKeys {
   static const company_name = 'company_name';
   static const send_code = 'send_code';
   static const resend_code = 'resend_code';
-  static const resend_code_note ="resend_code_note";
+  static const resend_code_note = "resend_code_note";
   static const verify = "verify";
   static const enter_code = 'enter_code';
-  static const  auth_note='auth_note';
-  static const  sign_up="sign_up";
+  static const auth_note = 'auth_note';
+  static const sign_up = "sign_up";
   static const error = 'error';
   static const ok = 'ok';
   static const cancel = 'cancel';
 
-  static const enter_code_note="enter_code_note";
+  static const enter_code_note = "enter_code_note";
   static const email_required = "email_required";
   static const pass_required = "pass_required";
   static const owner_required = "owner_required";
   static const company_required = "company_required";
   static const commercial_no_required = "commercial_no_required";
   static const branches_no_required = "branches_no_required";
+  static const branches_no_not_zero = "branches_no_not_zero";
+
   static const confirm_pass_required = "confirm_pass_required";
   static const phone_required = "phone_required";
   static const email_not_valid = "email_not_valid";
@@ -53,9 +55,8 @@ abstract class LocaleKeys {
   static const add_location = "add_location";
   static const ksa = "ksa";
   static const wait = "wait";
-  static const commercial_no_error ="commercial_no_error";
-  static const registered_success ="registered_success";
-  static const process_success ="process_success";
-
-
+  static const commercial_no_error = "commercial_no_error";
+  static const registered_success = "registered_success";
+  static const process_success = "process_success";
+  static const wrong_error = "wrong_error";
 }
