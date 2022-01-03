@@ -59,4 +59,7 @@ abstract class LocaleKeys {
   static const registered_success = "registered_success";
   static const process_success = "process_success";
   static const wrong_error = "wrong_error";
+  static const pick_location_note = "pick_location_note";
+
+  static const confirm_location = "confirm_location";
 }

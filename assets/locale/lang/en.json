@@ -54,5 +54,8 @@
   "process_success": "Process Success",
   "wait": "Loading .. Please wait",
   "registered_success": "Successfully Registered",
-  "wrong_error": "Something Wrong Happened"
+  "wrong_error": "Something Wrong Happened",
+  "pick_location_note": "Click the map to select your location ",
+  "confirm_location": "Confirm Location"
+
 }

@@ -54,5 +54,9 @@
   "wait": "يتم التحميل .. رجاء قم بالانتظار قليلا",
   "process_success": "تمت العملية بنجاح",
   "registered_success": "تم التسجيل بنجاح ",
-  "wrong_error": "حدث خطأ ما "
+  "wrong_error": "حدث خطأ ما ",
+  "pick_location_note": "قم بالضغط على الخريطة لاختيار موقعك ",
+  "confirm_location": "تأكيد الموقع"
+
+
 }

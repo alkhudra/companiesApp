@@ -1,31 +1,25 @@
-import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
-import 'package:khudrah_companies/dialogs/alret_dialog.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/login_response_model.dart';
-import 'package:khudrah_companies/network/models/string_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/pages/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import 'package:khudrah_companies/router/route_constants.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'add_brunches_page.dart';
 

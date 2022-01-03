@@ -31,7 +31,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Flutter Localization Demo",
       color: CustomColors().primaryGreenColor,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,

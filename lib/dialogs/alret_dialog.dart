@@ -15,7 +15,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 
 ////---------------------------
-Widget showAuthPinDialog(BuildContext context, String userEmail) {
+/*Widget showAuthPinDialog(BuildContext context, String userEmail) {
   String code = '1234'; //'get this code from DB here ';
   final TextEditingController controller = TextEditingController();
 
@@ -127,10 +127,10 @@ Widget showAuthPinDialog(BuildContext context, String userEmail) {
       ),
     ),
   );
-}
+}*/
 
 ////---------------------------
-Widget showPinDialog(BuildContext context, String userEmail, bool newUser) {
+/*Widget showPinDialog(BuildContext context, String userEmail, bool newUser) {
   int numberOfSecToWait = 120;
   String code = '1234'; //'get this code from DB here ';
   final TextEditingController controller = TextEditingController();
@@ -284,7 +284,7 @@ Widget showPinDialog(BuildContext context, String userEmail, bool newUser) {
       },
     ),
   );
-}
+}*/
 
 void startTimer(int _counter, StreamController<int> _events) {
   Timer.periodic(Duration(seconds: 1), (timer) {

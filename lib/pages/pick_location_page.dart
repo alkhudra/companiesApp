@@ -1,410 +1,220 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/ButtonsDesign.dart';
+import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/resources/custom_colors.dart';
 
-class PickLocationPage extends StatefulWidget{
+class PickLocationPage extends StatefulWidget {
   const PickLocationPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _PickLocationPage();
-
 }
 
-class _PickLocationPage extends State<PickLocationPage>{
-  static const String _kLocationServicesDisabledMessage =
-      'Location services are disabled.';
-  static const String _kPermissionDeniedMessage = 'Permission denied.';
-  static const String _kPermissionDeniedForeverMessage =
-      'Permission denied forever.';
-  static const String _kPermissionGrantedMessage = 'Permission granted.';
+class _PickLocationPage extends State<PickLocationPage> {
+  var geoLocator = Geolocator();
+  static String selectedAddress = '';
+  late Completer<GoogleMapController> mapController = Completer();
+  List<Marker> marker = [];
+  static LatLng? latLng ;
 
-  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-  final List<_PositionItem> _positionItems = <_PositionItem>[];
-  StreamSubscription<Position>? _positionStreamSubscription;
-  StreamSubscription<ServiceStatus>? _serviceStatusStreamSubscription;
-  bool positionStreamStarted = false;
+  bool isGetLocation= false;
+  //-------------------------------
 
   @override
   void initState() {
+    //----------show progress----------------
+
+  //  showLoaderDialog(context);
+    getLatLng();
     super.initState();
-    _toggleServiceStatusStream();
   }
 
-  PopupMenuButton _createActions() {
-    return PopupMenuButton(
-      elevation: 40,
-      onSelected: (value) async {
-        switch (value) {
-          case 1:
-            _getLocationAccuracy();
-            break;
-          case 2:
-            _requestTemporaryFullAccuracy();
-            break;
-          case 3:
-            _openAppSettings();
-            break;
-          case 4:
-            _openLocationSettings();
-            break;
-          case 5:
-            setState(_positionItems.clear);
-            break;
-          default:
-            break;
-        }
-      },
-      itemBuilder: (context) => [
-        if (Platform.isIOS)
-          const PopupMenuItem(
-            child: Text("Get Location Accuracy"),
-            value: 1,
-          ),
-        if (Platform.isIOS)
-          const PopupMenuItem(
-            child: Text("Request Temporary Full Accuracy"),
-            value: 2,
-          ),
-        const PopupMenuItem(
-          child: Text("Open App Settings"),
-          value: 3,
-        ),
-        if (Platform.isAndroid)
-          const PopupMenuItem(
-            child: Text("Open Location Settings"),
-            value: 4,
-          ),
-        const PopupMenuItem(
-          child: Text("Clear"),
-          value: 5,
-        ),
-      ],
-    );
-  }
+  //-------------------------------
 
   @override
   Widget build(BuildContext context) {
-    const sizedBox = SizedBox(
-      height: 10,
-    );
-
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          _createActions()
+      appBar: appBarText(LocaleKeys.add_location.tr(), true),
+      body: Container(
+          child: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 1.5,
+            child:
+        //    if(isGetLocation)
+            GoogleMap(
+              onTap: showMarker,
+              markers: Set.from(marker),
+              onCameraMove: _onCameraMove,
+              onMapCreated: _onMapCreated,
+              zoomGesturesEnabled: true,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              initialCameraPosition: CameraPosition(target: latLng!, zoom: 11.5),
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height / 4.9,
+            width: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(50)),
+                color: CustomColors().cardBackgroundColor1),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(LocaleKeys.pick_location_note.tr().toUpperCase()),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  child: Text(
+                    selectedAddress,
+                    style: TextStyle(
+                      color: CustomColors().darkBlueColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                Container(
+                    height: ButtonsDesign.buttonsHeight,
+                    margin: EdgeInsets.all(20),
+                    child: MaterialButton(
+                      onPressed: () {
+                        Map<String, dynamic> map = {
+                          branchLatLng: latLng,
+                          branchAddress: selectedAddress
+                        };
+                        Navigator.pop(context, map);
+                      },
+                      shape: StadiumBorder(),
+                      child: ButtonsDesign.buttonsText(
+                          LocaleKeys.confirm_location.tr(),
+                          CustomColors().primaryWhiteColor),
+                      color: CustomColors().primaryGreenColor,
+                    )),
+              ],
+            ),
+          ),
         ],
-        title: Text('hello'),
-      ),
-              backgroundColor: Theme.of(context).backgroundColor,
-              body: ListView.builder(
-                itemCount: _positionItems.length,
-                itemBuilder: (context, index) {
-                  final positionItem = _positionItems[index];
-
-                  if (positionItem.type == _PositionItemType.log) {
-                    return ListTile(
-                      title: Text(positionItem.displayValue,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    );
-                  } else {
-                    return Card(
-                      child: ListTile(
-
-                        title: Text(
-                          positionItem.displayValue,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-              floatingActionButton: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    child: (_positionStreamSubscription == null ||
-                        _positionStreamSubscription!.isPaused)
-                        ? const Icon(Icons.play_arrow)
-                        : const Icon(Icons.pause),
-                    onPressed: () {
-                      positionStreamStarted = !positionStreamStarted;
-                      _toggleListening();
-                    },
-                    tooltip: (_positionStreamSubscription == null)
-                        ? 'Start position updates'
-                        : _positionStreamSubscription!.isPaused
-                        ? 'Resume'
-                        : 'Pause',
-                    backgroundColor: _determineButtonColor(),
-                  ),
-                  sizedBox,
-                  FloatingActionButton(
-                    child: const Icon(Icons.my_location),
-                    onPressed: _getCurrentPosition,
-                  ),
-                  sizedBox,
-                  FloatingActionButton(
-                    child: const Icon(Icons.bookmark),
-                    onPressed: _getLastKnownPosition,
-                  ),
-                ],
-              ),
-            );
-  }
-
-  Future<void> _getCurrentPosition() async {
-    final hasPermission = await _handlePermission();
-
-    if (!hasPermission) {
-      return;
-    }
-
-    final position = await _geolocatorPlatform.getCurrentPosition();
-    _updatePositionList(
-      _PositionItemType.position,
-      position.toString(),
+      )),
     );
   }
 
-  Future<bool> _handlePermission() async {
+  //-------------------------------
+
+  void convertToAddress(LatLng pp) async {
+    List ll = await placemarkFromCoordinates(pp.latitude, pp.longitude);
+    Placemark placeMark = ll[0];
+    String name, street, country, city, postalCode;
+    name = placeMark.name!;
+    street = placeMark.street!;
+    country = placeMark.country!;
+    city = placeMark.locality!;
+    postalCode = placeMark.postalCode!;
+    setState(() {
+      latLng = pp;
+      selectedAddress = '$name , $street , $city , $country , $postalCode';
+      print(selectedAddress);
+    });
+  }
+
+  //-------------------------------
+
+  void getLatLng() {
+    // showLoaderDialog(context);
+    Position pp;
+    determinePosition().then((value) {
+      pp = value;
+      latLng = LatLng(pp.latitude, pp.longitude);
+      //--- show marker if already selected
+      if (latLng!.longitude != 0) showMarker(latLng!);
+
+    });
+  }
+
+  //-------------------------------
+
+  Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     // Test if location services are enabled.
-    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      _updatePositionList(
-        _PositionItemType.log,
-        _kLocationServicesDisabledMessage,
-      );
-
-      return false;
+      return Future.error('Location services are disabled.');
     }
 
-    permission = await _geolocatorPlatform.checkPermission();
+    permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await _geolocatorPlatform.requestPermission();
+      permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        _updatePositionList(
-          _PositionItemType.log,
-          _kPermissionDeniedMessage,
-        );
-
-        return false;
+        return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      _updatePositionList(
-        _PositionItemType.log,
-        _kPermissionDeniedForeverMessage,
-      );
-
-      return false;
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    _updatePositionList(
-      _PositionItemType.log,
-      _kPermissionGrantedMessage,
-    );
-    return true;
+    return await Geolocator.getCurrentPosition();
   }
 
-  void _updatePositionList(_PositionItemType type, String displayValue) {
-    _positionItems.add(_PositionItem(type, displayValue));
-    setState(() {});
-  }
+  //-------------------------------
 
-  bool _isListening() => !(_positionStreamSubscription == null ||
-      _positionStreamSubscription!.isPaused);
+  void showMarker(LatLng selectedPoint) {
+    marker = [];
+    CameraPosition cameraPosition =CameraPosition(target: selectedPoint);
+    marker.add(Marker(
 
-  Color _determineButtonColor() {
-    return _isListening() ? Colors.green : Colors.red;
-  }
+     // onDragEnd: onf,
+        markerId: MarkerId(selectedPoint.toString()), position: selectedPoint));
+    convertToAddress(selectedPoint);
 
-  void _toggleServiceStatusStream() {
-    if (_serviceStatusStreamSubscription == null) {
-      final serviceStatusStream = _geolocatorPlatform.getServiceStatusStream();
-      _serviceStatusStreamSubscription =
-          serviceStatusStream.handleError((error) {
-            _serviceStatusStreamSubscription?.cancel();
-            _serviceStatusStreamSubscription = null;
-          }).listen((serviceStatus) {
-            String serviceStatusValue;
-            if (serviceStatus == ServiceStatus.enabled) {
-              if (positionStreamStarted) {
-                _toggleListening();
-              }
-              serviceStatusValue = 'enabled';
-            } else {
-              if (_positionStreamSubscription != null) {
-                setState(() {
-                  _positionStreamSubscription?.cancel();
-                  _positionStreamSubscription = null;
-                  _updatePositionList(
-                      _PositionItemType.log, 'Position Stream has been canceled');
-                });
-              }
-              serviceStatusValue = 'disabled';
-            }
-            _updatePositionList(
-              _PositionItemType.log,
-              'Location service has been $serviceStatusValue',
-            );
-          });
-    }
-  }
 
-  void _toggleListening() {
-    if (_positionStreamSubscription == null) {
-      final positionStream = _geolocatorPlatform.getPositionStream();
-      _positionStreamSubscription = positionStream.handleError((error) {
-        _positionStreamSubscription?.cancel();
-        _positionStreamSubscription = null;
-      }).listen((position) => _updatePositionList(
-        _PositionItemType.position,
-        position.toString(),
-      ));
-      _positionStreamSubscription?.pause();
-    }
-
+   // cameraPosition.target = selectedPoint;
     setState(() {
-      if (_positionStreamSubscription == null) {
-        return;
-      }
+      _onCameraMove(cameraPosition);
+    });
 
-      String statusDisplayValue;
-      if (_positionStreamSubscription!.isPaused) {
-        _positionStreamSubscription!.resume();
-        statusDisplayValue = 'resumed';
-      } else {
-        _positionStreamSubscription!.pause();
-        statusDisplayValue = 'paused';
-      }
+  }
 
-      _updatePositionList(
-        _PositionItemType.log,
-        'Listening for position updates $statusDisplayValue',
-      );
+  //-------------------------------
+
+  void _onCameraMove(CameraPosition position) {
+    setState(() {
+      latLng = position.target;
     });
   }
 
-  @override
-  void dispose() {
-    if (_positionStreamSubscription != null) {
-      _positionStreamSubscription!.cancel();
-      _positionStreamSubscription = null;
-    }
+  //-------------------------------
 
-    super.dispose();
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController.complete(controller);
+    });
   }
 
-  void _getLastKnownPosition() async {
-    final position = await _geolocatorPlatform.getLastKnownPosition();
-    if (position != null) {
-      _updatePositionList(
-        _PositionItemType.position,
-        position.toString(),
-      );
-    } else {
-      _updatePositionList(
-        _PositionItemType.log,
-        'No last known position available',
-      );
-    }
-  }
-
-  void _getLocationAccuracy() async {
-    final status = await _geolocatorPlatform.getLocationAccuracy();
-    _handleLocationAccuracyStatus(status);
-  }
-
-  void _requestTemporaryFullAccuracy() async {
-    final status = await _geolocatorPlatform.requestTemporaryFullAccuracy(
-      purposeKey: "TemporaryPreciseAccuracy",
-    );
-    _handleLocationAccuracyStatus(status);
-  }
-
-  void _handleLocationAccuracyStatus(LocationAccuracyStatus status) {
-    String locationAccuracyStatusValue;
-    if (status == LocationAccuracyStatus.precise) {
-      locationAccuracyStatusValue = 'Precise';
-    } else if (status == LocationAccuracyStatus.reduced) {
-      locationAccuracyStatusValue = 'Reduced';
-    } else {
-      locationAccuracyStatusValue = 'Unknown';
-    }
-    _updatePositionList(
-      _PositionItemType.log,
-      '$locationAccuracyStatusValue location accuracy granted.',
-    );
-  }
-
-  void _openAppSettings() async {
-    final opened = await _geolocatorPlatform.openAppSettings();
-    String displayValue;
-
-    if (opened) {
-      displayValue = 'Opened Application Settings.';
-    } else {
-      displayValue = 'Error opening Application Settings.';
-    }
-
-    _updatePositionList(
-      _PositionItemType.log,
-      displayValue,
-    );
-  }
-
-  void _openLocationSettings() async {
-    final opened = await _geolocatorPlatform.openLocationSettings();
-    String displayValue;
-
-    if (opened) {
-      displayValue = 'Opened Location Settings';
-    } else {
-      displayValue = 'Error opening Location Settings';
-    }
-
-    _updatePositionList(
-      _PositionItemType.log,
-      displayValue,
-    );
-  }
-}
-
-enum _PositionItemType {
-  log,
-  position,
-}
-
-class _PositionItem {
-  _PositionItem(this.type, this.displayValue);
-
-  final _PositionItemType type;
-  final String displayValue;
 
 }
