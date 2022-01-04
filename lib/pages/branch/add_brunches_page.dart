@@ -7,14 +7,19 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/location_helper.dart';
+import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/pages/pick_location_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AddBranchesPage extends StatefulWidget {
   // final Map<String ,dynamic>  map ;
-  const AddBranchesPage({Key? key}) : super(key: key);
+  final dynamic branchModel;
+
+  const AddBranchesPage({Key? key, required this.branchModel})
+      : super(key: key);
 
   @override
   _AddBranchesPageState createState() => _AddBranchesPageState();
@@ -30,12 +35,17 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   static LatLng latLng = LatLng(0, 0);
   static String address = LocaleKeys.enter_branch_country.tr();
 
+  String addTxt = LocaleKeys.add_branch.tr();
+  String editTxt = LocaleKeys.add_branch.tr();
+  String barAndBtnTxt = LocaleKeys.add_branch.tr();
+
 // = LatLng(ksaLat,ksaLng);
   Map<String, dynamic> alreadyUsedMap = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarText(LocaleKeys.add_branch.tr(), true),
+      appBar: appBarText(getBarAndBtnTxt(), true),
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -59,7 +69,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               controller: phoneController,
               kbType: TextInputType.phone,
               obscTxt: false,
-              lbTxt: LocaleKeys.enter_branch_phone.tr(),
+              lbTxt: getPhoneTxt(),
             ),
             TextFieldDesign.textFieldStyle(
               context: context,
@@ -68,7 +78,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               controller: zipCodeController,
               kbType: TextInputType.number,
               obscTxt: false,
-              lbTxt: LocaleKeys.enter_branch_zip_code.tr(),
+              lbTxt: getZipCodeTxt(),
             ),
             TextFieldDesign.textFieldStyle(
                 context: context,
@@ -79,18 +89,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 obscTxt: false,
                 lbTxt: LocaleKeys.ksa.tr(),
                 enabled: false),
-            Container(
-                height: ButtonsDesign.buttonsHeight,
-                margin: EdgeInsets.all(20),
-                child: MaterialButton(
-                  onPressed: () {
-                    addLocation();
-                  },
-                  shape: StadiumBorder(),
-                  child: ButtonsDesign.buttonsText(LocaleKeys.add_location.tr(),
-                      CustomColors().primaryWhiteColor),
-                  color: CustomColors().primaryGreenColor,
-                )),
+            greenBtn(LocaleKeys.add_location.tr(), EdgeInsets.all(20), () {
+              addLocation();
+            }),
             TextFieldDesign.textFieldStyle(
                 context: context,
                 verMarg: 5,
@@ -98,20 +99,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 controller: addressController,
                 kbType: TextInputType.streetAddress,
                 obscTxt: false,
-                lbTxt: address,
+                lbTxt: getAddressTxt(),
                 enabled: false),
-            Container(
-                height: ButtonsDesign.buttonsHeight,
-                margin: EdgeInsets.all(20),
-                child: MaterialButton(
-                  onPressed: () {
-                    //todo: add to db and go to list
-                  },
-                  shape: StadiumBorder(),
-                  child: ButtonsDesign.buttonsText(LocaleKeys.add_branch.tr(),
-                      CustomColors().primaryWhiteColor),
-                  color: CustomColors().primaryGreenColor,
-                )),
+            greenBtn(getBarAndBtnTxt(), EdgeInsets.all(20), () {}),
           ],
         ),
       ),
@@ -119,6 +109,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   }
 
   //---------------------------------
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   void addLocation() async {
     // ask for permission
@@ -133,6 +129,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       directToPickLocationPage(userLocation);
     }
   }
+
   //-------------------------------
 
   void directToPickLocationPage(LatLng userLocation) async {
@@ -159,4 +156,25 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     }
   }
 
+  //-----------
+
+  String getBarAndBtnTxt() {
+    return widget.branchModel != null ? editTxt : addTxt;
+  }
+
+  String getPhoneTxt() {
+    return widget.branchModel != null
+        ? editTxt
+        : LocaleKeys.enter_branch_phone.tr();
+  }
+
+  String getZipCodeTxt() {
+    return widget.branchModel != null
+        ? editTxt
+        : LocaleKeys.enter_branch_zip_code.tr();
+  }
+
+  String getAddressTxt() {
+    return widget.branchModel != null ? editTxt : address;
+  }
 }

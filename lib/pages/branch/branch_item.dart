@@ -32,7 +32,7 @@ class _BranchItemState extends State<BranchItem> {
           greenBtn(LocaleKeys.edit.tr(),
               EdgeInsets.only(left: 50, right: 50, bottom: 20), () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AddBranchesPage();
+                  return AddBranchesPage(branchModel:widget.item);
                 }));
 
               })

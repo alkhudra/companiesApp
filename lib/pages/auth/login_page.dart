@@ -8,6 +8,7 @@ import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -136,18 +137,11 @@ class _LogInPageState extends State<LogInPage> {
                   SizedBox(
                     height: scHeight * 0.05,
                   ),
-                  Container(
-                      height: ButtonsDesign.buttonsHeight,
-                      margin: EdgeInsets.only(left: 50, right: 50),
-                      child: MaterialButton(
-                        onPressed: () {
-                          if (isBtnEnabled) logIn();
-                        },
-                        shape: StadiumBorder(),
-                        child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr(),
-                            CustomColors().primaryWhiteColor),
-                        color: CustomColors().primaryGreenColor,
-                      ))
+                  greenBtn(LocaleKeys.log_in.tr(), EdgeInsets.only(left: 50, right: 50),  () {
+                    if (isBtnEnabled) logIn();
+                  })
+
+                  ,
                 ],
               ),
             ),

@@ -37,8 +37,9 @@ class _BranchListState extends State<BranchList> {
 
                 greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20),() {
 
+                  BranchModel branch;
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AddBranchesPage();
+                    return AddBranchesPage(branchModel:null,);
                   }));
                 })
               ],
