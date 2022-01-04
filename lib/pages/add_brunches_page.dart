@@ -32,7 +32,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: appBarText(LocaleKeys.add_branch.tr(), false),
+      appBar: appBarText(LocaleKeys.add_branch.tr(), true),
       //todo:
       /********
        *
@@ -61,6 +61,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               horMarg: 0,
               controller: phoneController,
               kbType: TextInputType.phone,
+              obscTxt: false,
               lbTxt: LocaleKeys.enter_branch_phone.tr(),
             ),
             TextFieldDesign.textFieldStyle(
@@ -69,6 +70,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               horMarg: 0,
               controller: zipCodeController,
               kbType: TextInputType.number,
+              obscTxt: false,
               lbTxt: LocaleKeys.enter_branch_zip_code.tr(),
             ),
             TextFieldDesign.textFieldStyle(
@@ -77,6 +79,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 horMarg: 0,
                 controller: cityController,
                 kbType: TextInputType.text,
+                obscTxt: false,
                 lbTxt: LocaleKeys.ksa.tr(),
                 enabled: false),
 
@@ -100,6 +103,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 horMarg: 0,
                 controller: addressController,
                 kbType: TextInputType.streetAddress,
+                obscTxt: false,
                 lbTxt: address,
                 enabled: false),
             Container(

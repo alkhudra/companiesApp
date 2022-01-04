@@ -62,4 +62,11 @@ abstract class LocaleKeys {
   static const pick_location_note = "pick_location_note";
 
   static const confirm_location = "confirm_location";
+
+  static const welcome_back = "Welcome Back";
+  static const search_term = "What are you looking for?";
+
+  static const add_branch_note_dialog = "add_branch_note_dialog";
+  static const add_branch_now = "add_branch_now";
+  static const later = "later";
 }

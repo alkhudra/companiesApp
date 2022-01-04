@@ -10,7 +10,8 @@ class CustomColors {
   Color cardBackgroundColor = Color.fromRGBO(232, 255, 224, 1);
   Color cardBackgroundColor1 = Color.fromRGBO(250, 254, 252, 1);
   Color cardShadowBackgroundColor = Color.fromRGBO(229, 229, 229, 1);
-
+  Color darkGrayColor = Color.fromRGBO(95, 95, 95, 1);
+  Color redColor = Colors.red;
   Color darkBlueColor = Color.fromRGBO(10, 60, 72, 1);
   Color brownColor =  Color.fromRGBO(116, 73, 34, 1);
   Color likeColor = Color.fromRGBO(255, 46, 108, 1);

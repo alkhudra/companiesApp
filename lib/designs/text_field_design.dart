@@ -3,7 +3,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class TextFieldDesign {
 
-  static textFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? lbTxt, validat, enabled}) {
+  static textFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? lbTxt, validat, enabled, obscTxt}) {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
@@ -16,14 +16,15 @@ class TextFieldDesign {
       ),
       child: Expanded(
         child: TextFormField(
-         enabled: enabled,
+          enabled: enabled,
+          obscureText: obscTxt,
           controller: controller,
           keyboardType: kbType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validat,
           style: TextStyle(
               color: CustomColors().blackColor,
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.w600),
           decoration: InputDecoration(
             labelText: lbTxt,
             labelStyle: TextStyle(
@@ -53,7 +54,7 @@ InputDecoration textFieldDecorationWithIcon(String hint, IconData icon) {
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(50.0),
       borderSide:
-          BorderSide(color: CustomColors().primaryGreenColor, width: 1.0),
+      BorderSide(color: CustomColors().primaryGreenColor, width: 1.0),
     ),
     prefixIcon: Icon(
       icon,
@@ -73,7 +74,7 @@ InputDecoration textFieldDecoration(String hint) {
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(50.0),
       borderSide:
-          BorderSide(color: CustomColors().primaryGreenColor, width: 1.0),
+      BorderSide(color: CustomColors().primaryGreenColor, width: 1.0),
     ),
   );
 }

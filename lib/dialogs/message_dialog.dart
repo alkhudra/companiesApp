@@ -34,6 +34,7 @@ Widget showMessageDialog(BuildContext context, String title, String txt,String p
   }
 }
 
+//------------------------------------
 FlatButton messageDialogBtns(BuildContext context) {
   return FlatButton(
     textColor: CustomColors().primaryGreenColor,
@@ -46,6 +47,7 @@ FlatButton messageDialogBtns(BuildContext context) {
     ),
   );
 }
+//------------------------------------
 
 
 FlatButton directToLoginPageBtns(BuildContext context) {

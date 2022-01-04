@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
@@ -8,6 +7,7 @@ import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -35,115 +35,129 @@ class _LogInPageState extends State<LogInPage> {
   final TextEditingController passController = TextEditingController();
   bool isBtnEnabled = true;
   bool isForgetPassBtnEnabled = true;
-
+  static bool isHasBranches = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //todo:
-      /********
-       *
-       * design problems:
-       * height of card  , width of main column ,place of btn
-       * *********/
-      backgroundColor: CustomColors().backgroundColor,
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 120, left: 30, right: 30),
-            width: MediaQuery.of(context).size.width / 0.3,
-            height: MediaQuery.of(context).size.height / 1.8,
-            decoration: CardDesign.largeCardDesign(),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          brandNameMiddle(),
-          SizedBox(
-            height: 50,
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 250, left: 60),
-            width: 300,
-            height: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFieldDesign.textFieldStyle(
-                  context: context,
-                  verMarg: 5,
-                  horMarg: 0,
-                  controller: emailController,
-                  kbType: TextInputType.emailAddress,
-                  lbTxt: LocaleKeys.email.tr(),
-                ),
-                TextFieldDesign.textFieldStyle(
-                  context: context,
-                  verMarg: 5,
-                  horMarg: 0,
-                  controller: passController,
-                  kbType: TextInputType.visiblePassword,
-                  lbTxt: LocaleKeys.password.tr(),
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Container(
-                    height: 30,
-                    padding: EdgeInsets.only(right: 10, left: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (isForgetPassBtnEnabled)
-                          showDialog(
-                              builder: (BuildContext context) =>
-                                  showEnterEmailDialog(context),
-                              context: context);
-                      },
-                      child: Text(LocaleKeys.forget_pass.tr(),
-                          style: TextStyle(
-                              color: CustomColors().primaryGreenColor)),
-                    )),
-                Container(
-                    height: 30,
-                    padding: EdgeInsets.only(right: 10, left: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return SignUpPage();
-                        }));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(LocaleKeys.new_user.tr(),
-                              style:
-                                  TextStyle(color: CustomColors().blackColor)),
-                          Text(LocaleKeys.create_account.tr(),
-                              style: TextStyle(
-                                  color: CustomColors().primaryGreenColor))
-                        ],
-                      ),
-                    )),
-                Container(
-                    height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.only(left: 50, right: 50),
-                    child: MaterialButton(
-                      onPressed: () {
-                        if (isBtnEnabled) logIn();
-                      },
-                      shape: StadiumBorder(),
-                      child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr(),
-                          CustomColors().primaryWhiteColor),
-                      color: CustomColors().primaryGreenColor,
-                    ))
-              ],
+    Size? size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: CustomColors().backgroundColor,
+        body: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 120, left: 30, right: 30),
+              width: MediaQuery.of(context).size.width / 0.3,
+              height: MediaQuery.of(context).size.height / 1.8,
+              decoration: CardDesign.largeCardDesign(),
             ),
-          ),
-        ],
+            // SizedBox(
+            //   height: 10,
+            // ),
+            brandNameMiddle(),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            Container(
+              margin: EdgeInsets.only(
+                  top: scHeight * 0.13,
+                  right: scWidth * 0.1,
+                  left: scWidth * 0.1),
+              // padding: EdgeInsets.symmetric(horizontal: scWidth/9, vertical: scHeight/5),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: emailController,
+                    kbType: TextInputType.emailAddress,
+                    obscTxt: false,
+                    lbTxt: LocaleKeys.email.tr(),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: passController,
+                    kbType: TextInputType.visiblePassword,
+                    obscTxt: true,
+                    lbTxt: LocaleKeys.password.tr(),
+                  ),
+                  SizedBox(
+                    height: scHeight / 20,
+                  ),
+                  Container(
+                      height: scHeight / 30,
+                      padding: EdgeInsets.only(right: 10, left: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (isForgetPassBtnEnabled)
+                            showDialog(
+                                builder: (BuildContext context) =>
+                                    showEnterEmailDialog(context),
+                                context: context);
+                        },
+                        child: Text(LocaleKeys.forget_pass.tr(),
+                            style: TextStyle(
+                                color: CustomColors().primaryGreenColor)),
+                      )),
+                  Container(
+                      height: scHeight / 33,
+                      padding: EdgeInsets.only(right: 10, left: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return SignUpPage();
+                          }));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(LocaleKeys.new_user.tr(),
+                                style: TextStyle(
+                                    color: CustomColors().blackColor)),
+                            Text(LocaleKeys.create_account.tr(),
+                                style: TextStyle(
+                                    color: CustomColors().primaryGreenColor))
+                          ],
+                        ),
+                      )),
+                  SizedBox(
+                    height: scHeight * 0.05,
+                  ),
+                  Container(
+                      height: ButtonsDesign.buttonsHeight,
+                      margin: EdgeInsets.only(left: 50, right: 50),
+                      child: MaterialButton(
+                        onPressed: () {
+                          if (isBtnEnabled) logIn();
+                        },
+                        shape: StadiumBorder(),
+                        child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr(),
+                            CustomColors().primaryWhiteColor),
+                        color: CustomColors().primaryGreenColor,
+                      ))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
+  //-------------------------
   void showErrorDialog(String txt) {
     isForgetPassBtnEnabled = true;
     isBtnEnabled = true;
@@ -152,73 +166,7 @@ class _LogInPageState extends State<LogInPage> {
         builder: (BuildContext context) =>
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
-
-  void logIn() {
-    if (emailController.value.text == '') {
-      showErrorDialog(LocaleKeys.email_required.tr());
-      return;
-    }
-
-    if (isValidEmail(emailController.value.text) == false) {
-      showErrorDialog(LocaleKeys.email_not_valid.tr());
-      return;
-    }
-
-    if (passController.value.text == '') {
-      showErrorDialog(LocaleKeys.pass_required.tr());
-      return;
-    }
-
-    isBtnEnabled = false;
-
-    print('continue log in ');
-
-    //----------show progress----------------
-
-    showLoaderDialog(context);
-    //----------start api ----------------
-    RegisterRepository registerRepository = RegisterRepository();
-    registerRepository
-        .loginUser(emailController.text, passController.text)
-        .then((result) async {
-      //-------- fail response ---------
-
-      //todo: edit after adjustments
-      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
-        Navigator.pop(context);
-        showErrorDialog(result.message);
-        return;
-      }
-
-      //-------- success response ---------
-      LoginResponseModel model = result.result;
-      print(model.user.toString());
-      User user = model.user!;
-      // if(user != null) {
-      // print(model.user.get);
-
-      PreferencesHelper.setUserID(user.id!);
-      PreferencesHelper.getUserID.then((value) => print('user id : $value'));
-
-      PreferencesHelper.setUserToken(model.token);
-      PreferencesHelper.getUserToken.then((value) => print('token : $value'));
-
-      PreferencesHelper.setUser(user);
-      bool isHasBranches = user.branches!.isEmpty;
-      Navigator.pop(context);
-
-      if (isHasBranches)
-        addBranchesPage();
-      else
-        directToHomePage();
-
-      // }else showErrorDialog(result.message);
-
-      //todo: check user status and show message if not registered
-    });
-  }
-////---------------------------
+  //-------------------------
 
   Widget showEnterEmailDialog(BuildContext context) {
     final TextEditingController controller = TextEditingController();
@@ -281,20 +229,78 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
   }
+  ////---------------------------
+
+  void logIn() {
+    if (emailController.value.text == '') {
+      showErrorDialog(LocaleKeys.email_required.tr());
+      return;
+    }
+
+    if (isValidEmail(emailController.value.text) == false) {
+      showErrorDialog(LocaleKeys.email_not_valid.tr());
+      return;
+    }
+
+    if (passController.value.text == '') {
+      showErrorDialog(LocaleKeys.pass_required.tr());
+      return;
+    }
+
+    isBtnEnabled = false;
+
+    print('continue log in ');
+
+    //----------show progress----------------
+
+    showLoaderDialog(context);
+    //----------start api ----------------
+    RegisterRepository registerRepository = RegisterRepository();
+    registerRepository
+        .loginUser(emailController.text, passController.text)
+        .then((result) async {
+      //-------- fail response ---------
+
+      //todo: edit after adjustments
+      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
+        Navigator.pop(context);
+        showErrorDialog(result.message);
+        return;
+      }
+
+      //-------- success response ---------
+      LoginResponseModel model = result.result;
+      print(model.user.toString());
+      User user = model.user!;
+      // if(user != null) {
+      // print(model.user.get);
+
+      PreferencesHelper.setUserID(user.id!);
+      PreferencesHelper.getUserID.then((value) => print('user id : $value'));
+
+      PreferencesHelper.setUserToken(model.token);
+      PreferencesHelper.getUserToken.then((value) => print('token : $value'));
+
+      PreferencesHelper.setUser(user);
+      isHasBranches = user.branches!.isNotEmpty;
+      Navigator.pop(context);
+
+      directToHomePage();
+
+      //todo: check user status and show message if not registered
+    });
+  }
+
+
 ////---------------------------
 
   void directToHomePage() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return HomePage();
+      return HomePage(isHasBranch: isHasBranches);
     }));
   }
-////---------------------------
 
-  void addBranchesPage() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage();
-    }));
-  }
   ////---------------------------
 
   void forgetPasswordProcess(String userEmail) {

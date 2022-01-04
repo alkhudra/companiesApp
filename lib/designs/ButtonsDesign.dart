@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khudrah_companies/resources/custom_colors.dart';
+
 
 class ButtonsDesign {
   static const double buttonsHeight = 50;

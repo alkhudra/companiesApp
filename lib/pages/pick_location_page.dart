@@ -185,7 +185,7 @@ class _PickLocationPage extends State<PickLocationPage> {
 
   void showMarker(LatLng selectedPoint) {
     marker = [];
-    CameraPosition cameraPosition =CameraPosition(target: selectedPoint);
+    CameraPosition(target: selectedPoint);
     marker.add(Marker(
 
      // onDragEnd: onf,
@@ -194,9 +194,9 @@ class _PickLocationPage extends State<PickLocationPage> {
 
 
    // cameraPosition.target = selectedPoint;
-    setState(() {
+/*    setState(() {
       _onCameraMove(cameraPosition);
-    });
+    });*/
 
   }
 

@@ -34,7 +34,7 @@
   "branches_no_required": "Please Enter how many branches do you have",
   "branches_no_not_zero": "Branches number should be at least 1 ",
   "confirm_pass_required": "Please Confirm your Password",
-  "commercial_no_error" : "Commercial Registration no. must be 10 numbers ",
+  "commercial_no_error": "Commercial Registration no. must be 10 numbers ",
   "phone_required": "Please Enter your Phone",
   "email_not_valid": "Email not Valid",
   "not_match_pass": "Password doesn't match, please try again",
@@ -56,6 +56,10 @@
   "registered_success": "Successfully Registered",
   "wrong_error": "Something Wrong Happened",
   "pick_location_note": "Click the map to select your location ",
-  "confirm_location": "Confirm Location"
-
+  "confirm_location": "Confirm Location",
+  "Welcome Back": "Welcome Back",
+  "What are you looking for?": "What are you looking for?",
+  "add_branch_note_dialog": "Thank you for choosing Al-Kharda app, to continue your shopping process please add your branch information, Do you want to add it now or later ?",
+  "add_branch_now": "Add Branch Now",
+  "later": "Later"
 }
