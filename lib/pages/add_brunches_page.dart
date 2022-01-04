@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
@@ -28,10 +29,11 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   static LatLng latLng = LatLng(0, 0);
   static String address = LocaleKeys.enter_branch_country.tr();
 
+// = LatLng(ksaLat,ksaLng);
+  Map<String, dynamic> alreadyUsedMap = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: appBarText(LocaleKeys.add_branch.tr(), true),
       //todo:
       /********
@@ -82,15 +84,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 obscTxt: false,
                 lbTxt: LocaleKeys.ksa.tr(),
                 enabled: false),
-
             Container(
                 height: ButtonsDesign.buttonsHeight,
                 margin: EdgeInsets.all(20),
                 child: MaterialButton(
                   onPressed: () {
-
                     addLocation();
-
                   },
                   shape: StadiumBorder(),
                   child: ButtonsDesign.buttonsText(LocaleKeys.add_location.tr(),
@@ -127,22 +126,86 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   //---------------------------------
 
   void addLocation() async {
-    //    address = '';
+    // ask for permission
+    LatLng userLocation;
+    if (alreadyUsedMap.isEmpty) {
+      getUserLatLng().then((value) {
+        userLocation = value;
+        directToPickLocationPage(userLocation);
+      });
+    } else {
+      userLocation = alreadyUsedMap[branchLatLng];
+      directToPickLocationPage(userLocation);
+    }
+  }
+  //-------------------------------
+
+  void directToPickLocationPage(LatLng userLocation) async {
     final addressMap =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return PickLocationPage();
+      return PickLocationPage(
+        userLatLng: userLocation,
+      );
     }));
 
     if (addressMap != null) {
-      Map<String, dynamic> map = addressMap;
+      alreadyUsedMap = addressMap;
 
       setState(() {
-        address = map[branchAddress] != null ? map[branchAddress] : address;
-        latLng = map[branchLatLng] != null ? map[branchLatLng] : latLng;
+        address = alreadyUsedMap[branchAddress] != null
+            ? alreadyUsedMap[branchAddress]
+            : address;
+        latLng = alreadyUsedMap[branchLatLng] != null
+            ? alreadyUsedMap[branchLatLng]
+            : latLng;
       });
-
 
       print(address);
     }
+  }
+  //-------------------------------
+
+  Future<LatLng> getUserLatLng() async => determinePosition().then((value) {
+        print('value is $value');
+        return LatLng(value.latitude, value.longitude);
+      });
+
+  //-------------------------------
+
+  Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 }

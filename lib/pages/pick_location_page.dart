@@ -13,7 +13,8 @@ import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class PickLocationPage extends StatefulWidget {
-  const PickLocationPage({Key? key}) : super(key: key);
+ final LatLng userLatLng;
+  const PickLocationPage({Key? key,required this.userLatLng}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PickLocationPage();
@@ -24,18 +25,33 @@ class _PickLocationPage extends State<PickLocationPage> {
   static String selectedAddress = '';
   late Completer<GoogleMapController> mapController = Completer();
   List<Marker> marker = [];
-  static LatLng? latLng ;
+  static LatLng confirmedLatLng = LatLng(0, 0);
+  //static LatLng userLatLng = LatLng(ksaLat,ksaLng);
 
-  bool isGetLocation= false;
+  static LatLng? temLatLng;
+  bool isGetLocation = false;
+
   //-------------------------------
+
+  LatLng initialCameraTarget() {
+    return widget.userLatLng;
+/*    if (selectedAddress == '') {
+      return userLatLng;
+    } else {
+      return confirmedLatLng;
+    }*/
+  }
 
   @override
   void initState() {
-    //----------show progress----------------
-
-  //  showLoaderDialog(context);
-    getLatLng();
     super.initState();
+
+    print(initialCameraTarget());
+    //----------show progress----------------
+    if (confirmedLatLng.longitude == 0)
+      selectedAddress = '';
+    else
+      showMarker(confirmedLatLng);
   }
 
   //-------------------------------
@@ -49,17 +65,17 @@ class _PickLocationPage extends State<PickLocationPage> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 1.5,
-            child:
-        //    if(isGetLocation)
-            GoogleMap(
+            child: GoogleMap(
               onTap: showMarker,
               markers: Set.from(marker),
-              onCameraMove: _onCameraMove,
+              //   onCameraMove: _onCameraMove,
               onMapCreated: _onMapCreated,
               zoomGesturesEnabled: true,
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
-              initialCameraPosition: CameraPosition(target: latLng!, zoom: 11.5),
+              zoomControlsEnabled: true,
+              initialCameraPosition:
+                  CameraPosition(target: initialCameraTarget(), zoom: 11.5),
             ),
           ),
           Container(
@@ -90,8 +106,9 @@ class _PickLocationPage extends State<PickLocationPage> {
                     margin: EdgeInsets.all(20),
                     child: MaterialButton(
                       onPressed: () {
+                        confirmedLatLng = temLatLng!;
                         Map<String, dynamic> map = {
-                          branchLatLng: latLng,
+                          branchLatLng: confirmedLatLng,
                           branchAddress: selectedAddress
                         };
                         Navigator.pop(context, map);
@@ -122,89 +139,28 @@ class _PickLocationPage extends State<PickLocationPage> {
     city = placeMark.locality!;
     postalCode = placeMark.postalCode!;
     setState(() {
-      latLng = pp;
+      temLatLng = pp;
       selectedAddress = '$name , $street , $city , $country , $postalCode';
       print(selectedAddress);
     });
   }
 
-  //-------------------------------
-
-  void getLatLng() {
-    // showLoaderDialog(context);
-    Position pp;
-    determinePosition().then((value) {
-      pp = value;
-      latLng = LatLng(pp.latitude, pp.longitude);
-      //--- show marker if already selected
-      if (latLng!.longitude != 0) showMarker(latLng!);
-
-    });
-  }
-
-  //-------------------------------
-
-  Future<Position> determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
-  }
 
   //-------------------------------
 
   void showMarker(LatLng selectedPoint) {
     marker = [];
-    CameraPosition(target: selectedPoint);
     marker.add(Marker(
-
-     // onDragEnd: onf,
         markerId: MarkerId(selectedPoint.toString()), position: selectedPoint));
     convertToAddress(selectedPoint);
-
-
-   // cameraPosition.target = selectedPoint;
-/*    setState(() {
-      _onCameraMove(cameraPosition);
-    });*/
-
+    temLatLng = selectedPoint;
   }
 
   //-------------------------------
 
   void _onCameraMove(CameraPosition position) {
     setState(() {
-      latLng = position.target;
+      confirmedLatLng = position.target;
     });
   }
 
@@ -215,6 +171,4 @@ class _PickLocationPage extends State<PickLocationPage> {
       mapController.complete(controller);
     });
   }
-
-
 }

@@ -27,6 +27,7 @@ dependencies:
   geolocator: ^8.0.1
   geocoding: ^2.0.1
   carousel_slider: ^4.0.0
+  permission_handler: ^8.1.6
 
 dev_dependencies:
   retrofit_generator: any
