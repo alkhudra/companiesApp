@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/pages/language_page.dart';
-import 'package:khudrah_companies/pages/login_page.dart';
-import 'package:khudrah_companies/pages/sign_up_page.dart';
+import 'package:khudrah_companies/pages/auth/login_page.dart';
+import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
 import 'package:khudrah_companies/pages/welcome_page.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 

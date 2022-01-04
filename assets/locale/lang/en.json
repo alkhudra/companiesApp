@@ -61,5 +61,7 @@
   "What are you looking for?": "What are you looking for?",
   "add_branch_note_dialog": "Thank you for choosing Al-Kharda app, to continue your shopping process please add your branch information, Do you want to add it now or later ?",
   "add_branch_now": "Add Branch Now",
-  "later": "Later"
+  "later": "Later",
+  "add_new_branch": "Add New Branch",
+  "edit": "Edit"
 }

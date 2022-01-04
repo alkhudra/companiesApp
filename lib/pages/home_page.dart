@@ -9,7 +9,7 @@ import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
-import 'add_brunches_page.dart';
+import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {

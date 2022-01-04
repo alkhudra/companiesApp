@@ -69,4 +69,6 @@ abstract class LocaleKeys {
   static const add_branch_note_dialog = "add_branch_note_dialog";
   static const add_branch_now = "add_branch_now";
   static const later = "later";
+  static const edit = "edit";
+  static const add_new_branch = "add_new_branch";
 }

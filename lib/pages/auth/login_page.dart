@@ -15,13 +15,13 @@ import 'package:khudrah_companies/network/models/login_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
-import 'package:khudrah_companies/pages/sign_up_page.dart';
+import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:khudrah_companies/router/route_constants.dart';
 
-import 'add_brunches_page.dart';
+import '../branch/add_brunches_page.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
