@@ -4,8 +4,8 @@ import 'package:khudrah_companies/network/models/error_response.dart';
 
 @JsonSerializable()
 
-class RegisterResponseModel {
-  RegisterResponseModel({
+class SuccessRegisterResponseModel {
+  SuccessRegisterResponseModel({
       String? message, 
       required String userId,
     ErrorResponse? error}){
@@ -16,7 +16,7 @@ class RegisterResponseModel {
 
 }
 
-  RegisterResponseModel.fromJson(dynamic json) {
+  SuccessRegisterResponseModel.fromJson(dynamic json) {
     _message = json['message'];
     _userId = json['userId'];
     //_error!.status = json['']

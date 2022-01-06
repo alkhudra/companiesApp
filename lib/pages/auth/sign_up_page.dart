@@ -14,7 +14,7 @@ import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/pref_manager.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/auth/register_response_model.dart';
+import 'package:khudrah_companies/network/models/auth/success_register_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -78,7 +78,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     verMarg: 5,
                     horMarg: 0,
                     controller: ownerController,
-                    kbType: TextInputType.visiblePassword,
+                    kbType: TextInputType.name,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.owner_name.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -86,7 +87,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     verMarg: 5,
                     horMarg: 0,
                     controller: companyNameController,
-                    kbType: TextInputType.visiblePassword,
+                    kbType: TextInputType.name,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.company_name.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -94,7 +96,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     verMarg: 5,
                     horMarg: 0,
                     controller: emailController,
-                    kbType: TextInputType.visiblePassword,
+                    kbType: TextInputType.emailAddress,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.email.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -102,7 +105,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     verMarg: 5,
                     horMarg: 0,
                     controller: phoneController,
-                    kbType: TextInputType.visiblePassword,
+                    kbType: TextInputType.phone,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.phone.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -110,7 +114,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     verMarg: 5,
                     horMarg: 0,
                     controller: commercialNoController,
-                    kbType: TextInputType.visiblePassword,
+                    kbType: TextInputType.number,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.commercial_no.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -118,7 +123,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     verMarg: 5,
                     horMarg: 0,
                     controller: branchesController,
-                    kbType: TextInputType.visiblePassword,
+                    kbType: TextInputType.number,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.branches_no.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -127,6 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     horMarg: 0,
                     controller: passwordController,
                     kbType: TextInputType.visiblePassword,
+                    obscTxt: true,
                     lbTxt: LocaleKeys.password.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
@@ -135,6 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     horMarg: 0,
                     controller: confirmPasswordController,
                     kbType: TextInputType.visiblePassword,
+                    obscTxt: true,
                     lbTxt: LocaleKeys.confirm_pass.tr(),
                   ),
                   Container(
@@ -322,7 +330,7 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       //-------- success response ---------
-      RegisterResponseModel model = result.result;
+      SuccessRegisterResponseModel model = result.result;
       print(model.userId);
 
       PreferencesHelper.setUserID(model.userId);

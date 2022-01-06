@@ -16,18 +16,18 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<RegisterResponseModel> registerUser(hashMap) async {
+  Future<SuccessRegisterResponseModel> registerUser(hashMap) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RegisterResponseModel>(
+        _setStreamType<SuccessRegisterResponseModel>(
             Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
                 .compose(_dio.options, '/account/register',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RegisterResponseModel.fromJson(_result.data!);
+    final value = SuccessRegisterResponseModel.fromJson(_result.data!);
     return value;
   }
 
