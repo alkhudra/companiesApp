@@ -69,5 +69,6 @@
   "zipcode_length_error": "Zip Code must be 5 numbers  ",
   "address_required": "Please Pick The branch address from the Map ",
   "waiting_approval": "Thank you for choosing AlKhadra United Company. please wait until we activate your account ",
-  "worng_password": "Wrong Password , if you forget your password click forget password below"
+  "worng_password": "Wrong Password , if you forget your password click forget password below",
+  "worng_syntax_password": "Make sure your password at least 6 and at max 50 characters long. It must have at least one non alphanumeric character, at least one digit ('0'-'9'), at least one lowercase('a' - 'z') and at least one uppercase('A' - 'Z')"
 }

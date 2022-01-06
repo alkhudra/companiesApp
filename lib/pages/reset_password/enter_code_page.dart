@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
+import 'package:khudrah_companies/designs/app_bar_txt.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/reset_password/reset_password_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -20,7 +22,8 @@ class EnterCodePage extends StatefulWidget {
   final String userEmail;
   final String code;
 
-  const EnterCodePage({Key? key, required this.userEmail,required this.code}) : super(key: key);
+  const EnterCodePage({Key? key, required this.userEmail, required this.code})
+      : super(key: key);
 
   @override
   _EnterCodePageState createState() => _EnterCodePageState();
@@ -34,6 +37,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
   bool isBtnEnabled = true;
   bool isResendEnabled = true;
 
+  static String correctCode = '';
   String language = 'ar';
   @override
   void initState() {
@@ -41,9 +45,9 @@ class _EnterCodePageState extends State<EnterCodePage> {
     _events = new StreamController<int>();
     PreferencesHelper.getSelectedLanguage.then((value) => language = value);
 
-    numberOfSecToWait = 120;
+    numberOfSecToWait = 10;
     _events.add(numberOfSecToWait);
-
+    correctCode = widget.code;
     startTimer(numberOfSecToWait, _events);
   }
 
@@ -51,10 +55,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
   Widget build(BuildContext context) {
     String email = widget.userEmail;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomColors().primaryGreenColor,
-        title: Text(LocaleKeys.reset_password.tr()),
-      ),
+      appBar:  appBarText(LocaleKeys.enter_code.tr(), true),
       body: StreamBuilder<int>(
         stream: _events.stream,
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
@@ -83,6 +84,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
                     horMarg: 0,
                     controller: controller,
                     kbType: TextInputType.text,
+                    obscTxt: false,
                     lbTxt: LocaleKeys.enter_code.tr(),
                   ),
                 ),
@@ -126,13 +128,13 @@ class _EnterCodePageState extends State<EnterCodePage> {
                       //you can tap if only finish timer
                       if (snapshot.data.toString() == '0') {
                         setState(() {
-                          controller.text ='';
+                          isBtnEnabled = true;
+                          controller.text = '';
                           _events.add(numberOfSecToWait);
                           startTimer(numberOfSecToWait, _events);
                           resendCode(email);
                           print(snapshot.data.toString());
                         });
-
                       }
                     },
                     child: Text(
@@ -173,17 +175,14 @@ class _EnterCodePageState extends State<EnterCodePage> {
       showErrorDialog(LocaleKeys.enter_code_note.tr());
       return;
     }
-    if (controller.text != widget.code) {
+    if (controller.text != correctCode) {
       showErrorDialog(LocaleKeys.code_not_match.tr());
       return;
     }
     isBtnEnabled = false;
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      Map<String, String> dataMap = {
-        "email": userEmail,
-        "token": widget.code
-      };
+      Map<String, String> dataMap = {"email": userEmail, "token": widget.code};
       return ResetPasswordPage(dataMap: dataMap);
     }));
   }
@@ -193,7 +192,6 @@ class _EnterCodePageState extends State<EnterCodePage> {
     isResendEnabled = false;
     showLoaderDialog(context);
 
-    //-------- success response ---------
 
     //----------start api ----------------
     RegisterRepository registerRepository = RegisterRepository();
@@ -201,15 +199,16 @@ class _EnterCodePageState extends State<EnterCodePage> {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
         Navigator.pop(context);
         showErrorDialog(result.message);
         return;
       }
+      ForgetPasswordResponseModel model = result.result;
+      correctCode = model.code!;
+      print(correctCode);
       Navigator.pop(context);
     });
 
-    //  initState();
   }
 
   //-------------------

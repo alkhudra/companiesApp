@@ -78,4 +78,6 @@ abstract class LocaleKeys {
   static const address_required = "address_required";
   static const waiting_approval= "waiting_approval";
   static const  worng_password="worng_password";
+  static const  worng_syntax_password="worng_syntax_password";
+
 }

@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
+import 'package:khudrah_companies/designs/app_bar_txt.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -29,9 +33,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-     appBar: AppBar(
-       title: Text(LocaleKeys.reset_password.tr()),
-     ),
+     appBar: appBarText(LocaleKeys.reset_password.tr(), true),
       //todo:
       /********
        *
@@ -63,7 +65,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   verMarg: 5,
                   horMarg: 0,
                   controller: passController,
-                  kbType: TextInputType.emailAddress,
+                  kbType: TextInputType.visiblePassword,
+                  obscTxt: false,
                   lbTxt: LocaleKeys.password.tr(),
                 ),
 
@@ -73,6 +76,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   horMarg: 0,
                   controller: confirmPassController,
                   kbType: TextInputType.visiblePassword,
+                  obscTxt: false,
                   lbTxt: LocaleKeys.confirm_pass.tr(),
                 ),
 
@@ -125,8 +129,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     isBtnEnabled = false;
 
-    //---------
-
 
     //----------show progress----------------
 
@@ -139,9 +141,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     registerRepository.resetPassword(email, passController.text,confirmPassController.text,token) .then((result) async {
       //-------- fail response ---------
 
-      //todo: edit after adjustments
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
         Navigator.pop(context);
         showErrorDialog(result.message);
         return;
@@ -150,10 +150,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       //-------- success response ---------
       Navigator.pop(context);
 
-      String model = result.result;
+      MessageResponseModel model = result.result;
+
 
       if(model != null)
-      showSuccessDialog(context, model);
+      showSuccessDialog(context, model.message!);
 
 
     });

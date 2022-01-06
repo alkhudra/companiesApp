@@ -168,6 +168,8 @@ class RegisterRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
+            if(errorCode == 500)
+              errorMessage = res.data['Message'];
           }
           break;
         default:
@@ -180,6 +182,7 @@ class RegisterRepository {
   }
 
   //-----------------
+/*
   Future<ApiResponse> sendPasswordToken(String email, String token) async {
     if (email == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
@@ -199,6 +202,7 @@ class RegisterRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
+
           }
           break;
         default:
@@ -209,6 +213,7 @@ class RegisterRepository {
       return ApiResponse(apiResponseType, null, errorMessage);
     });
   }
+*/
 
   //-----------------
 
@@ -237,6 +242,11 @@ class RegisterRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
+            if (errorCode == 500) {
+              errorMessage = res.data['Message'];
+            }else if(errorCode ==400){
+              errorMessage = LocaleKeys.worng_syntax_password.tr();
+            }
           }
           break;
         default:
