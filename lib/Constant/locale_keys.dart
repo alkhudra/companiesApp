@@ -79,5 +79,7 @@ abstract class LocaleKeys {
   static const waiting_approval= "waiting_approval";
   static const  worng_password="worng_password";
   static const  worng_syntax_password="worng_syntax_password";
+  static const wrong_email="wrong_email";
+  static const pass_changed_done="pass_changed_done";
 
 }

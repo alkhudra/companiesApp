@@ -322,7 +322,7 @@ class _LogInPageState extends State<LogInPage> {
         ForgetPasswordResponseModel model = result.result;
         if(model.code == ''){
           Navigator.pop(context);
-          showErrorDialog(LocaleKeys.email_not_valid.tr());
+          showErrorDialog(LocaleKeys.wrong_email.tr());
           return;
         }
         Navigator.pop(context);

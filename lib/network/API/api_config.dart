@@ -1,6 +1,7 @@
 
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
+import 'package:khudrah_companies/network/models/auth/fail_reset_password_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/success_register_response_model.dart';
@@ -63,7 +64,7 @@ abstract class RestClient {
   Future<String> sendCodeForgetPassword(@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.reset_password_url)
-  Future<MessageResponseModel> resetPassword(@Body() Map<String, dynamic> hashMap);
+  Future<FailResetPasswordResponseModel> resetPassword(@Body() Map<String, dynamic> hashMap);
 
 //---------------branch ----------------
   @POST(ApiConst.add_branch_url)

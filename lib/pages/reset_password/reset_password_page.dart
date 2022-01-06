@@ -176,7 +176,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.registered_success.tr(),message ,loginRoute));
+            showMessageDialog(context, LocaleKeys.pass_changed_done.tr(),message ,loginRoute));
 
   }
 

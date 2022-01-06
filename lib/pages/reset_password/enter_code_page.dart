@@ -45,7 +45,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
     _events = new StreamController<int>();
     PreferencesHelper.getSelectedLanguage.then((value) => language = value);
 
-    numberOfSecToWait = 10;
+    numberOfSecToWait = 120;
     _events.add(numberOfSecToWait);
     correctCode = widget.code;
     startTimer(numberOfSecToWait, _events);

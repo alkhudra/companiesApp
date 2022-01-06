@@ -7,9 +7,10 @@ import 'package:khudrah_companies/network/API/api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/auth/fail_class.dart';
+import 'package:khudrah_companies/network/models/auth/fail_register_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/network/models/auth/fail_reset_password_response_model.dart';
 
 class RegisterRepository {
   final RestClient _client;
@@ -67,7 +68,7 @@ class RegisterRepository {
                 errorMessage = res.data['message'];
               } else {
                 final de = jsonDecode(res.data.toString());
-                FailClass model = FailClass.fromJson(de);
+                FailRegisterResponseModel model = FailRegisterResponseModel.fromJson(de);
                 if (model.errors!.confirmPassword!.isNotEmpty) {
                   errorMessage = model.errors!.confirmPassword!.first;
                 } else
@@ -170,6 +171,8 @@ class RegisterRepository {
             errorMessage = res.statusMessage!;
             if(errorCode == 500)
               errorMessage = res.data['Message'];
+            else  if(errorCode == 400)
+              errorMessage = LocaleKeys.email_not_valid.tr();
           }
           break;
         default:
@@ -245,7 +248,27 @@ class RegisterRepository {
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
             }else if(errorCode ==400){
-              errorMessage = LocaleKeys.worng_syntax_password.tr();
+
+
+              print(res.data);
+              String map = res.data.toString();
+              if (map.contains('message')) {
+                errorMessage = res.data['message'];
+              } else {
+                final de = jsonDecode(res.data.toString());
+                FailResetPasswordResponseModel model = FailResetPasswordResponseModel.fromJson(de);
+                if (model.errors!.confirmPassword!.isNotEmpty) {
+                  errorMessage = model.errors!.confirmPassword!.first;
+                }
+                else if (model.errors!.email!.isNotEmpty) {
+                  errorMessage = model.errors!.email!.first;
+                }
+                else  if (model.errors!.token!.isNotEmpty) {
+                  errorMessage = model.errors!.token!.first;
+                }
+                else
+                  errorMessage = model.errors!.password!.first;
+              }
             }
           }
           break;

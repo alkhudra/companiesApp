@@ -255,7 +255,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   }
 
   String getAddressTxt() {
-    return widget.branchModel != null ? editTxt : LocaleKeys.enter_branch_country.tr();
+    return widget.branchModel != null ? editTxt : LocaleKeys.enter_branch_address.tr();
   }
 
 }
