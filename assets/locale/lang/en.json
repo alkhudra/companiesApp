@@ -63,5 +63,11 @@
   "add_branch_now": "Add Branch Now",
   "later": "Later",
   "add_new_branch": "Add New Branch",
-  "edit": "Edit"
+  "edit": "Edit",
+  "code_not_match": "Wrong code, please check your email or click resend code to get a new code ",
+  "zipcode_required": "Please Enter the branch Zip Code ",
+  "zipcode_length_error": "Zip Code must be 5 numbers  ",
+  "address_required": "Please Pick The branch address from the Map ",
+  "waiting_approval": "Thank you for choosing AlKhadra United Company. please wait until we activate your account ",
+  "worng_password": "Wrong Password , if you forget your password click forget password below"
 }

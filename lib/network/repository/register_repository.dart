@@ -1,12 +1,15 @@
 import 'dart:collection';
 import 'dart:developer';
 
+import 'package:khudrah_companies/Constant/conts.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/network/API/api_config.dart';
 
 import 'package:dio/dio.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-
+import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 class RegisterRepository {
   final RestClient _client;
 
@@ -101,6 +104,29 @@ class RegisterRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
+
+            if(errorCode == 400){
+              FailLoginResponseModel model = FailLoginResponseModel.fromJson(res.data);
+
+              if(model.companyStatus == null)
+                errorMessage = model.message!;
+              else{
+                switch(model.companyStatus)
+                {
+                  case waiting_confirmation:
+                    errorMessage =LocaleKeys.auth_note.tr();
+                    break;
+                  case waiting_approval:
+                    errorMessage =LocaleKeys.waiting_approval.tr();
+                    break;
+                  case registered:
+                    errorMessage = LocaleKeys.worng_password.tr();
+                    break;
+                }
+              }
+            }else if(errorCode == 500){
+              errorMessage = res.data['Message'];
+            }
           }
           break;
         default:

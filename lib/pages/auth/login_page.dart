@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
@@ -12,7 +13,9 @@ import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/login_response_model.dart';
+import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
+import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
+import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
@@ -255,20 +258,17 @@ class _LogInPageState extends State<LogInPage> {
         .then((result) async {
       //-------- fail response ---------
 
-      //todo: edit after adjustments
-      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
+      if (result.apiStatus.code != ApiResponseType.OK.code) {
         Navigator.pop(context);
         showErrorDialog(result.message);
         return;
       }
 
       //-------- success response ---------
-      LoginResponseModel model = result.result;
+      SuccessLoginResponseModel model = SuccessLoginResponseModel.fromJson(result.result);
+
       print(model.user.toString());
       User user = model.user!;
-      // if(user != null) {
-      // print(model.user.get);
 
       PreferencesHelper.setUserID(user.id!);
       PreferencesHelper.getUserID.then((value) => print('user id : $value'));
@@ -282,7 +282,6 @@ class _LogInPageState extends State<LogInPage> {
 
       directToHomePage();
 
-      //todo: check user status and show message if not registered
     });
   }
 
@@ -320,6 +319,12 @@ class _LogInPageState extends State<LogInPage> {
 
         //-------- success response ---------
 
+        ForgetPasswordResponseModel model = result.result;
+        if(model.code == ''){
+          Navigator.pop(context);
+          showErrorDialog(LocaleKeys.email_not_valid.tr());
+          return;
+        }
         Navigator.pop(context);
         Navigator.pop(context);
 
@@ -327,6 +332,7 @@ class _LogInPageState extends State<LogInPage> {
           isForgetPassBtnEnabled = true;
           return EnterCodePage(
             userEmail: userEmail,
+            code: model.code!,
           );
         }));
       });

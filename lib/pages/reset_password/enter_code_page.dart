@@ -18,7 +18,9 @@ import 'package:easy_localization/easy_localization.dart';
 
 class EnterCodePage extends StatefulWidget {
   final String userEmail;
-  const EnterCodePage({Key? key, required this.userEmail}) : super(key: key);
+  final String code;
+
+  const EnterCodePage({Key? key, required this.userEmail,required this.code}) : super(key: key);
 
   @override
   _EnterCodePageState createState() => _EnterCodePageState();
@@ -26,7 +28,6 @@ class EnterCodePage extends StatefulWidget {
 
 class _EnterCodePageState extends State<EnterCodePage> {
   int numberOfSecToWait = 120;
-  String code = '1234'; //'get this code from DB here ';
   final TextEditingController controller = TextEditingController();
   late StreamController<int> _events;
 
@@ -172,37 +173,19 @@ class _EnterCodePageState extends State<EnterCodePage> {
       showErrorDialog(LocaleKeys.enter_code_note.tr());
       return;
     }
-
+    if (controller.text != widget.code) {
+      showErrorDialog(LocaleKeys.code_not_match.tr());
+      return;
+    }
     isBtnEnabled = false;
 
-    showLoaderDialog(context);
-    print(userEmail + " " + controller.text);
-    //----------start api ----------------
-    RegisterRepository registerRepository = RegisterRepository();
-    registerRepository
-        .sendPasswordToken(userEmail, controller.text)
-        .then((result) async {
-      //-------- fail response ---------
-
-      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
-        Navigator.pop(context);
-        showErrorDialog(result.apiStatus.message);
-        return;
-      }
-
-      //-------- success response ---------
-
-      Navigator.pop(context);
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        Map<String, String> dataMap = {
-          "email": userEmail,
-          "token": controller.text
-        };
-        return ResetPasswordPage(dataMap: dataMap);
-      }));
-    });
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      Map<String, String> dataMap = {
+        "email": userEmail,
+        "token": widget.code
+      };
+      return ResetPasswordPage(dataMap: dataMap);
+    }));
   }
 
   //-------------------

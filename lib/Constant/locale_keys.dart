@@ -71,4 +71,11 @@ abstract class LocaleKeys {
   static const later = "later";
   static const edit = "edit";
   static const add_new_branch = "add_new_branch";
+  static const code_not_match = "code_not_match";
+
+  static const zipcode_required = "zipcode_required";
+  static const zipcode_length_error = "zipcode_length_error";
+  static const address_required = "address_required";
+  static const waiting_approval= "waiting_approval";
+  static const  worng_password="worng_password";
 }
