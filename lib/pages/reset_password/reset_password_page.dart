@@ -150,7 +150,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       //-------- success response ---------
       Navigator.pop(context);
 
-      MessageResponseModel model = result.result;
+      MessageResponseModel model = MessageResponseModel.fromJson( result.result);
 
 
       if(model != null)

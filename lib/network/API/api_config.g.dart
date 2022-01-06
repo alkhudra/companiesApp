@@ -77,18 +77,17 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<FailResetPasswordResponseModel> resetPassword(hashMap) async {
+  Future<dynamic> resetPassword(hashMap) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<FailResetPasswordResponseModel>(
-            Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/account/resetPassword',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = FailResetPasswordResponseModel.fromJson(_result.data!);
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
+        Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            .compose(_dio.options, '/account/resetPassword',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
     return value;
   }
 

@@ -64,7 +64,7 @@ abstract class RestClient {
   Future<String> sendCodeForgetPassword(@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.reset_password_url)
-  Future<FailResetPasswordResponseModel> resetPassword(@Body() Map<String, dynamic> hashMap);
+  Future<dynamic> resetPassword(@Body() Map<String, dynamic> hashMap);
 
 //---------------branch ----------------
   @POST(ApiConst.add_branch_url)

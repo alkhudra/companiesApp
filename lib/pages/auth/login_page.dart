@@ -213,6 +213,7 @@ class _LogInPageState extends State<LogInPage> {
                 margin: EdgeInsets.only(left: 50, right: 50),
                 child: MaterialButton(
                   onPressed: () {
+                    if(isForgetPassBtnEnabled)
                     forgetPasswordProcess(controller.text);
                   },
                   shape: StadiumBorder(),
