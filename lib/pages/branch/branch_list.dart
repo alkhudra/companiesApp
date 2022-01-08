@@ -25,7 +25,7 @@ class _BranchListState extends State<BranchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarText(LocaleKeys.add_branch.tr(), true),
+        appBar: appBarText(LocaleKeys.my_branch.tr(), true),
         backgroundColor: CustomColors().backgroundColor,
         body: SingleChildScrollView(
           child:Container(

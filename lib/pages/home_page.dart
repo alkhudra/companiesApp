@@ -4,13 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/greeting_text.dart';
+import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
+import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'dart:math' as math;
 
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,6 +29,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //------------------------
+  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   void showAddBranchDialog() async {
     await Future.delayed(Duration(milliseconds: 50));
@@ -67,126 +72,181 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  final imgList = [
-    'https://images.unsplash.com/photo-1575218823251-f9d243b6f720?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8dmVnZXRhYmxlc3xlbnwwfDB8MHx8&auto=format&fit=crop&w=700&q=60',
-    'https://images.unsplash.com/photo-1562347810-18a0d370ba36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGZydWl0c3xlbnwwfDB8MHx8&auto=format&fit=crop&w=700&q=60',
-    'https://images.unsplash.com/photo-1522184216316-3c25379f9760?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHZlZ2V0YWJsZXN8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60',
-    'https://images.unsplash.com/photo-1563699498778-aa8246fa5456?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzN8fHZlZ2V0YWJsZXN8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60',
-    'https://images.unsplash.com/photo-1583507171283-0d663f8416c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjJ8fHZlZ2V0YWJsZXxlbnwwfDB8MHx8&auto=format&fit=crop&w=700&q=60',
-    'https://images.unsplash.com/photo-1562051725-cc35a65c8227?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGZydWl0c3xlbnwwfDB8MHx8&auto=format&fit=crop&w=700&q=60',
-  ];
-
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          color: CustomColors().backgroundColor,
+
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+
+    return SafeArea(
+      child: Scaffold(
+        key: _scaffoldState,
+        body: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //greeting user
               Container(
                 child: greeting(context),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              //row of: menu bar + search bar + search button
+              SizedBox(height: 10,),
               Container(
-                child: searchBar(context, searchController),
+                child: searchBar(searchController),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              //image slideshow
+              SizedBox(height: 20,),
+
               Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.height / 4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Center(
-                  //Image slideshow
-                  //could replace images with different urls in imgList
-                  child: Stack(
-                    children: [
-                      CarouselSlider.builder(
-                        //number of images
-                        itemCount: imgList.length,
-                        itemBuilder: (context, index, realIndex) {
-                          final urlImage = imgList[index];
-                          return buildImg(urlImage, index);
-                        },
-                        options: CarouselOptions(
-                          // pageSnapping: false,
-                          // enableInfiniteScroll: false,
-                          height: 200,
-                          autoPlay: true,
-                          // enlargeCenterPage: true,
+                width: scWidth*15,
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Text(LocaleKeys.categories.tr(),
+                  style: TextStyle(
+                    color: CustomColors().darkBlueColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),),
+              ),
+              SizedBox(height: 10,),
+              Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('images/fruitsnveg.png'),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(width: 10,),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('images/fruits.png'),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('images/veg.png'),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                height: 100,
-                child: greenBtn('click to list ', EdgeInsets.zero, (){
-
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return BranchList( items: [], );
-                  }));
-
-                }),
-              )
-              ,
+              SizedBox(height: 10,),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: scWidth*0.4,
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    child: Text(LocaleKeys.trending_deals.tr(),
+                      style: TextStyle(
+                        color: CustomColors().darkBlueColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),),
+                  ),
+                  SizedBox(width: scWidth*0.35,),
+                  Container(
+                    child: Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.rotationY(math.pi),
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back_ios,
+                          color: CustomColors().primaryGreenColor,),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              productCard(context, 0, 'Avocado', 22),
+              Divider(
+                thickness: 5,
+                color: CustomColors().grayColor,
+              ),
+              productCard(context, 0, 'Melons', 6.95),
+              Divider(
+                thickness: 5,
+                color: CustomColors().grayColor,
+              ),
+              productCard(context, 0, 'Carrots',8.56),
+              Divider(
+                thickness: 5,
+                color: CustomColors().grayColor,
+              ),
             ],
           ),
         ),
+        drawer: drawerDesign(context),
+
       ),
     );
   }
 
-  Widget buildImg(String urlImage, int index) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Stack(
+  Widget searchBar(seController) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // SizedBox(width: 10,),
+
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 1),
-            color: CustomColors().grayColor,
-            child: Image.network(
-              urlImage,
-              fit: BoxFit.cover,
+            child: IconButton(
+              icon: Icon(Icons.menu_rounded,),
+              color: CustomColors().brownColor,
+              iconSize: 28,
+              onPressed: () {
+                _scaffoldState.currentState!.openDrawer();
+              },
             ),
           ),
+
+          // SizedBox(width: 5,),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 1),
-            decoration: BoxDecoration(
-              color: CustomColors().blackColor,
-              gradient: LinearGradient(
-                begin: FractionalOffset.topCenter,
-                end: FractionalOffset.bottomCenter,
-                colors: [
-                  CustomColors().blackColor.withOpacity(0.4),
-                  CustomColors().blackColor.withOpacity(0.8),
-                ],
-              ),
+            margin: EdgeInsets.only(left: 5, right: 5),
+            width: MediaQuery.of(context).size.width/1.4,
+            child: TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 2,
+              horMarg: 0,
+              controller: seController,
+              kbType: TextInputType.text,
+              lbTxt: LocaleKeys.search_term.tr(),
+              obscTxt: false,
             ),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(left: 10, right: 10, bottom: 30),
-            child: Text(
-              'Freshly Delivered To The Door \n of Your Restaurant',
-              style: TextStyle(
-                color: CustomColors().primaryWhiteColor,
-                fontWeight: FontWeight.w700,
+          SizedBox(width: 5,),
+          GestureDetector(
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              width: MediaQuery.of(context).size.width*0.08,
+              height: MediaQuery.of(context).size.height*0.04,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/logo.png'),
+                ),
               ),
             ),
+            onTap: () {},
           ),
         ],
       ),

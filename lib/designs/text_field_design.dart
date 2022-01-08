@@ -16,6 +16,7 @@ class TextFieldDesign {
       ),
       child: Expanded(
         child: TextFormField(
+
           enabled: enabled,
           obscureText: obscTxt,
           controller: controller,
@@ -43,6 +44,86 @@ class TextFieldDesign {
       ),
     );
   }
+
+
+
+  static disableTextFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? lbTxt, validat, enabled, obscTxt}) {
+    return Container(
+
+      alignment: Alignment.center,
+      margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
+      width: MediaQuery.of(context).size.width/1.15,
+      height: MediaQuery.of(context).size.height/15,
+      decoration: BoxDecoration(
+        color: CustomColors().grayColor,
+        borderRadius: BorderRadius.circular(60),
+        border: Border.all(color: CustomColors().primaryGreenColor,
+            width: 1.5),
+      ),
+      child: Expanded(
+        child: TextFormField(
+          enabled: enabled,
+          obscureText: obscTxt,
+          controller: controller,
+          keyboardType: kbType,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validat,
+          style: TextStyle(
+              color: CustomColors().blackColor,
+              fontWeight: FontWeight.w600),
+          decoration: InputDecoration(
+            labelText: lbTxt,
+            labelStyle: TextStyle(
+                color: CustomColors().blackColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w400
+            ),
+
+            contentPadding: EdgeInsets.only(left: 20,right: 20),
+
+            focusColor: CustomColors().blackColor,
+            border: InputBorder.none,
+            counterText: "",
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  static editTextFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? initValue, validat}) {
+    return Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
+      width: MediaQuery.of(context).size.width/1.15,
+      height: MediaQuery.of(context).size.height/15,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(60),
+        border: Border.all(color: CustomColors().primaryGreenColor,
+            width: 1.5),
+      ),
+      child: Expanded(
+        child: TextFormField(
+          initialValue: initValue,
+          controller: controller,
+          keyboardType: kbType,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validat,
+          style: TextStyle(
+              color: CustomColors().blackColor,
+              fontWeight: FontWeight.w600),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(left: 20,right: 20),
+
+            focusColor: CustomColors().blackColor,
+            border: InputBorder.none,
+            counterText: "",
+          ),
+        ),
+      ),
+    );
+  }
+
 
 }
 InputDecoration textFieldDecorationWithIcon(String hint, IconData icon) {

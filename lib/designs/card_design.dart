@@ -17,7 +17,7 @@ class CardDesign {
       ],
       borderRadius: BorderRadius.circular(50),
       color: CustomColors().cardBackgroundColor1,
-      border: Border.all(color: CustomColors().cardBackgroundColor),
+      border: Border.all(color: CustomColors().cardBackgroundColor1),
     );
   }
 }

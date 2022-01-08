@@ -76,10 +76,23 @@ abstract class LocaleKeys {
   static const zipcode_required = "zipcode_required";
   static const zipcode_length_error = "zipcode_length_error";
   static const address_required = "address_required";
-  static const waiting_approval= "waiting_approval";
-  static const  worng_password="worng_password";
-  static const  worng_syntax_password="worng_syntax_password";
-  static const wrong_email="wrong_email";
-  static const pass_changed_done="pass_changed_done";
-
+  static const waiting_approval = "waiting_approval";
+  static const worng_password = "worng_password";
+  static const worng_syntax_password = "worng_syntax_password";
+  static const wrong_email = "wrong_email";
+  static const pass_changed_done = "pass_changed_done";
+  static const categories = "Categories";
+  static const trending_deals = "Trending Deals";
+  static const add_btn = "ADD";
+  static const edit_profile = 'EDIT PROFILE';
+  static const edit_profile_title = 'Edit Profile';
+  static const languages = 'Languages';
+  static const contact_us = 'Contact Us';
+  static const log_out = 'Log Out';
+  static const change_owner_name = 'Change Owner Name';
+  static const comp_name = 'Change Company Name';
+  static const change_email = 'Change Email';
+  static const change_phone = 'Change Phone Number';
+  static const save_changes = 'SAVE';
+  static const my_branch = "my_branch";
 }

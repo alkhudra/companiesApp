@@ -88,15 +88,18 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               obscTxt: false,
               lbTxt: getZipCodeTxt(),
             ),
-            TextFieldDesign.textFieldStyle(
-                context: context,
-                verMarg: 5,
-                horMarg: 0,
-                controller: cityCountryController,
-                kbType: TextInputType.text,
-                obscTxt: false,
-                lbTxt: LocaleKeys.ksa.tr(),
-                enabled: false),
+             TextFieldDesign.disableTextFieldStyle(
+                  context: context,
+                  verMarg: 5,
+                  horMarg: 0,
+                  controller: cityCountryController,
+                  kbType: TextInputType.text,
+                  obscTxt: false,
+                  lbTxt: LocaleKeys.ksa.tr(),
+                  enabled: false),
+
+
+
             greenBtn(LocaleKeys.add_location.tr(), EdgeInsets.all(20), () {
               addLocation();
             }),
@@ -105,15 +108,21 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 verMarg: 5,
                 horMarg: 0,
                 controller: addressController,
-                kbType: TextInputType.streetAddress,
+                kbType: TextInputType.multiline,
                 obscTxt: false,
                 lbTxt: getAddressTxt(),
                 enabled: false),
-            greenBtn(getBarAndBtnTxt(), EdgeInsets.all(20), () {
 
-              if(isAddBtnEnabled) addBranch();
 
-            }),
+
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: greenBtn(getBarAndBtnTxt(), EdgeInsets.all(20), () {
+
+                if(isAddBtnEnabled) addBranch();
+
+              }),
+            ),
           ],
         ),
       ),
@@ -251,7 +260,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   String getZipCodeTxt() {
     return widget.branchModel != null
         ? editTxt
-        : LocaleKeys.enter_branch_zip_code.tr();
+        : '12345';//LocaleKeys.enter_branch_zip_code.tr();
   }
 
   String getAddressTxt() {
