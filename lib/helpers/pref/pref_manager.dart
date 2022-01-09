@@ -7,7 +7,7 @@ class SharedPrefsManager {
 
   static Future<bool> getBool(String key) async {
     final p = await prefs;
-    return p.getBool(key) ?? false;
+    return p.getBool(key) ?? true;
   }
 
   static Future setBool(String key, bool value) async {

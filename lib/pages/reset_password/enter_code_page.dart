@@ -37,7 +37,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
   bool isBtnEnabled = true;
   bool isResendEnabled = true;
 
-  static String correctCode = '';
+  static late String correctCode ;
   String language = 'ar';
   @override
   void initState() {
@@ -215,9 +215,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
   void showErrorDialog(String txt) {
     isBtnEnabled = true;
     isResendEnabled = true;
-    showDialog<String>(
-        context: context,
-        builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
+    showErrorMessageDialog(context ,txt);
+
   }
 }

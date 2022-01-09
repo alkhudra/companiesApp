@@ -321,7 +321,6 @@ class _SignUpPageState extends State<SignUpPage> {
         .then((result) async {
       //-------- fail response ---------
 
-      //todo: edit after adjustments
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
         /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
         Navigator.pop(context);
@@ -336,6 +335,9 @@ class _SignUpPageState extends State<SignUpPage> {
       PreferencesHelper.setUserID(model.userId);
       PreferencesHelper.getUserID.then((value) =>  print( value));
 
+
+      PreferencesHelper.setUserLoggedIn(false);
+      PreferencesHelper.setUserFirstLogIn(false);
       Navigator.pop(context);
 
 

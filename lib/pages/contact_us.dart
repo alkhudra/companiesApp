@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
-import 'package:khudrah_companies/pages/language_page.dart';
+import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 import 'contact_us.dart';

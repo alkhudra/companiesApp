@@ -5,6 +5,39 @@ import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 
 class PreferencesHelper {
+  static Future<bool> get getIsUserFirstLogIn => SharedPrefsManager.getBool(firstLogin);
+  static Future setUserFirstLogIn(bool value) =>
+      SharedPrefsManager.setBool(firstLogin, value);
+  static bool? isUserFirstLogIn(){
+    PreferencesHelper.getIsUserFirstLogIn.then((value) {
+      return value;
+    });
+  }
+
+  //----------------
+  static Future<bool> get getIsUserLoggedIn => SharedPrefsManager.getBool(isLoggedIn);
+  static Future setUserLoggedIn(bool value) =>
+      SharedPrefsManager.setBool(isLoggedIn, value);
+  static bool? isUserLoggedIn(){
+    PreferencesHelper.getIsUserLoggedIn.then((value) {
+      return value;
+    });
+  }
+  //------------------
+
+  static Future<bool> get getIsUserLoggedOut => SharedPrefsManager.getBool(isLoggedOut);
+  static Future setUserLoggedOut(bool value) =>
+      SharedPrefsManager.setBool(isLoggedOut, value);
+  static bool? isUserLoggedOut(){
+    PreferencesHelper.getIsUserLoggedOut.then((value) {
+      return value;
+    });
+  }
+
+  //------------------
+
+
+
   static Future<String> get getUserID => SharedPrefsManager.getString(userID);
   static Future setUserID(String value) =>
       SharedPrefsManager.setString(userID, value);

@@ -5,6 +5,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
+import 'package:khudrah_companies/dialogs/passowrd_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
@@ -16,7 +17,7 @@ import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
-import 'package:khudrah_companies/pages/language_page.dart';
+import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
@@ -38,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
       branchNoController;
 
   bool isBtnEnabled = true;
-  static bool isHasBranch = true;
+  static bool isHasBranch = true,isForgetPassBtnEnabled = true;
 
   static String companyName = '',
       ownerName= '',
@@ -158,6 +159,11 @@ class _EditProfileState extends State<EditProfile> {
                         EdgeInsets.only(left: 20, right: 20, top: 20), () {
                       if (isBtnEnabled) editProfileInfo();
                     }),
+                    greenBtn(LocaleKeys.reset_password.tr(),
+                        EdgeInsets.only(left: 20, right: 20, top: 20), () {
+                      if(isForgetPassBtnEnabled)
+                          resetPasswordProcess();
+                        }),
                   ],
                 ),
               ),
@@ -299,5 +305,14 @@ class _EditProfileState extends State<EditProfile> {
         Navigator.pop(context);
       }
     });
+  }
+
+
+  //------------------------------
+  void resetPasswordProcess() {
+    showDialog(
+        builder: (BuildContext context) =>
+            showEnterEmailDialog(context,isForgetPassBtnEnabled),
+        context: context);
   }
 }

@@ -4,8 +4,6 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
-import 'Constant/pref_cont.dart';
-import 'helpers/pref/pref_manager.dart';
 import 'helpers/pref/shared_pref_helper.dart';
 
 Future<void> main() async {
@@ -22,6 +20,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key ,}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -37,28 +37,22 @@ class _MyAppState extends State<MyApp> {
       locale: context.locale,
       onGenerateRoute: CustomRouter.generatedRoute,
       theme: ThemeData(accentColor: CustomColors().primaryGreenColor),
-      /************
-       * if first time in app show language page
-       * if already login show home page
-       * if logout show welcome page without language page
-       * **********/
-      initialRoute: editInfoRoute/*getRout()*/,
+
+      initialRoute:getRout(),
     );
-    //  }
+
   }
-/*
   String getRout() {
-    //todo: edit problem with shared preference
     String routName;
 
-    if (!SharedPrefsManager.getBool(firstLogin))
+    if (PreferencesHelper.isUserFirstLogIn()!)
       routName = languageRoute;
-   else if (!SharedPrefsManager.getBool(isNew))
-      routName = signupRoute;
-    else if (SharedPrefsManager.getBool(isLoggedIn))
-      routName = homeRoute;// change to home
+   else if (PreferencesHelper.isUserLoggedIn()!)
+      routName = homeRoute;
+    else if (PreferencesHelper.isUserLoggedOut()!)
+      routName = welcomeRoute;
     else
       routName = welcomeRoute;
     return routName;
-  }*/
+  }
 }

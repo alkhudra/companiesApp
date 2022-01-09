@@ -7,9 +7,11 @@ import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
+import 'package:khudrah_companies/dialogs/passowrd_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/forget_pass_helper.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -108,7 +110,7 @@ class _LogInPageState extends State<LogInPage> {
                           if (isForgetPassBtnEnabled)
                             showDialog(
                                 builder: (BuildContext context) =>
-                                    showEnterEmailDialog(context),
+                                    showEnterEmailDialog(context,isForgetPassBtnEnabled),
                                 context: context);
                         },
                         child: Text(LocaleKeys.forget_pass.tr(),
@@ -163,70 +165,7 @@ class _LogInPageState extends State<LogInPage> {
         builder: (BuildContext context) =>
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
-  //-------------------------
 
-  Widget showEnterEmailDialog(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      //this right here
-      child: Container(
-        height: CardDesign.cardsHeight,
-        width: CardDesign.cardsWidth,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              LocaleKeys.reset_password.tr(),
-              style: TextStyle(
-                fontSize: 20,
-                color: CustomColors().darkBlueColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (!isValidEmail(controller.text)) {
-                    return LocaleKeys.email_not_valid.tr();
-                  }
-                },
-                controller: controller,
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(
-                    color: CustomColors().blackColor,
-                    fontWeight: FontWeight.bold),
-                decoration: textFieldDecorationWithIcon(
-                    LocaleKeys.email.tr(), Icons.email),
-              ),
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            Container(
-                height: ButtonsDesign.buttonsHeight,
-                margin: EdgeInsets.only(left: 50, right: 50),
-                child: MaterialButton(
-                  onPressed: () {
-                    if(isForgetPassBtnEnabled)
-                    forgetPasswordProcess(controller.text);
-                  },
-                  shape: StadiumBorder(),
-                  child: ButtonsDesign.buttonsText(
-                      LocaleKeys.reset_password.tr(),
-                      CustomColors().primaryWhiteColor),
-                  color: CustomColors().primaryGreenColor,
-                ))
-          ],
-        ),
-      ),
-    );
-  }
   ////---------------------------
 
   void logIn() {
@@ -278,6 +217,8 @@ class _LogInPageState extends State<LogInPage> {
       PreferencesHelper.getUserToken.then((value) => print('token : $value'));
 
       PreferencesHelper.setUser(user);
+      PreferencesHelper.setUserLoggedIn(true);
+      PreferencesHelper.setUserFirstLogIn(false);
       isHasBranches = user.branches!.isNotEmpty;
       Navigator.pop(context);
 
@@ -297,58 +238,5 @@ class _LogInPageState extends State<LogInPage> {
 
   ////---------------------------
 
-  void forgetPasswordProcess(String userEmail) {
-    if (userEmail != '') {
-      isForgetPassBtnEnabled = false;
 
-      print(userEmail);
-      //----------show progress----------------
-
-      showLoaderDialog(context);
-      //----------start api ----------------
-      RegisterRepository registerRepository = RegisterRepository();
-      registerRepository.forgetPassword(userEmail).then((result) async {
-        //-------- fail response ---------
-
-        if (result == null ||
-            result.apiStatus.code != ApiResponseType.OK.code) {
-          /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
-          Navigator.pop(context);
-          showErrorDialog(result.message);
-          return;
-        }
-
-        //-------- success response ---------
-
-        ForgetPasswordResponseModel model = result.result;
-        if(model.code == ''){
-          Navigator.pop(context);
-          showErrorDialog(LocaleKeys.wrong_email.tr());
-          return;
-        }
-        Navigator.pop(context);
-        Navigator.pop(context);
-
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          isForgetPassBtnEnabled = true;
-          return EnterCodePage(
-            userEmail: userEmail,
-            code: model.code!,
-          );
-        }));
-      });
-
-      //    Navigator.pop(context, controller.text);
-      //---------------
-      /*     showDialog(
-          builder: (BuildContext context ) =>
-              showPinDialog(context ,userEmail,false),
-          context: context).then((newPass) {
-        if(newPass == success)
-        {
-
-        }
-      });*/
-    }
-  }
 }

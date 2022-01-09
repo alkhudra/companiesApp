@@ -1,17 +1,19 @@
 const  currentLanguage = "currentLanguage";
 const  headerLanguageKey = "selectedLanguage";
 const  smsCode = "smsCode";
-const  isNew = "isNew";
 const  userPhone = "userPhone";
+
 const  firstLogin = "FirstLogInKey";
+const isLoggedOut ="isLoggedOut";
+const  isLoggedIn = "isLoggedIn";
+
 
 const  currentUser = "currentUser";
 const  tokenType = "tokenType";
 const  token = "token";
 const  notificationID = "notificationID";
 const  notificationCount = "notificationCount";
-const isLoggedOut ="isLoggedOut";
-const  isLoggedIn = "isLoggedIn";
+
 const  lat = "lat";
 const  lag = "lag";
 const  imageLink = "imageLink";
