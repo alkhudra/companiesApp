@@ -86,5 +86,9 @@
   "Change Email" : "Change Email",
   "Change Phone Number" : "Change Phone Number",
   "SAVE" : "SAVE",
-  "worng_syntax_password": "Make sure your password at least 6 and at max 50 characters long. It must have at least one non alphanumeric character, at least one digit ('0'-'9'), at least one lowercase('a' - 'z') and at least one uppercase('A' - 'Z')"
+  "worng_syntax_password": "Make sure your password at least 6 and at max 50 characters long. It must have at least one non alphanumeric character, at least one digit ('0'-'9'), at least one lowercase('a' - 'z') and at least one uppercase('A' - 'Z')",
+  "App Language" : "App Language",
+  "Preferred Language for The App" : "Preferred Language for The App",
+  "English" : "English",
+  "Arabic" : "arabic"
 }

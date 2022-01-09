@@ -143,7 +143,11 @@ class _LogInPageState extends State<LogInPage> {
                     height: scHeight * 0.05,
                   ),
                   greenBtn(LocaleKeys.log_in.tr(), EdgeInsets.only(left: 50, right: 50),  () {
-                    if (isBtnEnabled) logIn();
+                    // if (isBtnEnabled) logIn();
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => HomePage(isHasBranch: true),
+                      ),
+                    );
                   })
 
                   ,

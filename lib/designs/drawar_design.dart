@@ -6,6 +6,7 @@ import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
 import 'package:khudrah_companies/pages/edit_profile.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
+import 'package:khudrah_companies/pages/language/language_setting.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 Drawer drawerDesign(context) {
@@ -97,7 +98,7 @@ Drawer drawerDesign(context) {
             Navigator.pop(context);
             Navigator.push(context,
               MaterialPageRoute(
-                  builder: (context) => LanguagePage()
+                  builder: (context) => LanguageSetting()
               ),
             );
           },

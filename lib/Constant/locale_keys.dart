@@ -95,4 +95,8 @@ abstract class LocaleKeys {
   static const change_phone = 'Change Phone Number';
   static const save_changes = 'SAVE';
   static const my_branch = "my_branch";
+  static const app_lang ="App Language";
+  static const select_lang ="Preferred Language for The App";
+  static const english ="English";
+  static const arabic ="Arabic";
 }
