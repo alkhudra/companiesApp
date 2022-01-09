@@ -8,3 +8,4 @@ const String languageRoute = "language";
 const String noPage="noPage";
 const String editInfoRoute="editInfo";
 const String mainRoute="mainRoute";
+const String contactUs="contactUs";

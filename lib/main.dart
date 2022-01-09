@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: CustomRouter.generatedRoute,
       theme: ThemeData(accentColor: CustomColors().primaryGreenColor),
 
-      initialRoute:getRout(),
+      initialRoute:contactUs//getRout(),
     );
 
   }
