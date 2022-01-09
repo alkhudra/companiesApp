@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:khudrah_companies/Constant/pref_cont.dart';
-import 'package:khudrah_companies/helpers/pref_manager.dart';
+import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 
 class PreferencesHelper {

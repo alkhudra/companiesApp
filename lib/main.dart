@@ -5,8 +5,8 @@ import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 import 'Constant/pref_cont.dart';
-import 'helpers/pref_manager.dart';
-import 'helpers/shared_pref_helper.dart';
+import 'helpers/pref/pref_manager.dart';
+import 'helpers/pref/shared_pref_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
        * if already login show home page
        * if logout show welcome page without language page
        * **********/
-      initialRoute: homeRoute/*getRout()*/,
+      initialRoute: editInfoRoute/*getRout()*/,
     );
     //  }
   }

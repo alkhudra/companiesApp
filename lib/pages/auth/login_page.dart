@@ -11,7 +11,7 @@ import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
-import 'package:khudrah_companies/helpers/shared_pref_helper.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';

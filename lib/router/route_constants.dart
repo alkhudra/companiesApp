@@ -4,5 +4,6 @@ const String settingsRoute = "settings";
 const String loginRoute = "login";
 const String signupRoute = "signup";
 const String welcomeRoute = "welcome";
-const String languageRoute = "welcome";
+const String languageRoute = "language";
 const String noPage="noPage";
+const String editInfoRoute="editInfo";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/pages/edit_profile.dart';
 import 'package:khudrah_companies/pages/language_page.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
@@ -17,6 +18,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => LanguagePage());
       case welcomeRoute:
         return MaterialPageRoute(builder: (_) => WelcomePage());
+      case editInfoRoute:
+        return MaterialPageRoute(builder: (_) => EditProfile());
       default:
         return MaterialPageRoute(builder: (_) => LanguagePage());
     }

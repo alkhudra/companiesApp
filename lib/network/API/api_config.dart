@@ -1,12 +1,6 @@
 
 import 'package:khudrah_companies/Constant/api_const.dart';
-import 'package:khudrah_companies/Constant/conts.dart';
-import 'package:khudrah_companies/network/models/auth/fail_reset_password_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
-import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-import 'package:khudrah_companies/network/models/auth/success_register_response_model.dart';
-import 'package:khudrah_companies/network/models/message_response_model.dart';
-import 'package:khudrah_companies/network/models/string_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 part 'api_config.g.dart';
@@ -66,6 +60,11 @@ abstract class RestClient {
   @POST(ApiConst.reset_password_url)
   Future<dynamic> resetPassword(@Body() Map<String, dynamic> hashMap);
 
+  @POST(ApiConst.update_profile_url)
+  Future<dynamic> updateProfileInfo(@Field() String companyId ,@Body() Map<String, dynamic> hashMap);
+
+  @GET(ApiConst.get_user_info_url)
+  Future<dynamic> getUserInfo(@Field() String companyId);
 //---------------branch ----------------
   @POST(ApiConst.add_branch_url)
   Future<String> addNewBranch(@Field() String companyId ,@Body() Map<String, dynamic> hashMap);

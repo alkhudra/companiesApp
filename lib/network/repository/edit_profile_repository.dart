@@ -1,17 +1,17 @@
+import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_config.dart';
+import 'package:dio/dio.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/auth/fail_edit_profile_response_model.dart';
 
-class BranchRepository {
+class EditProfileRepository {
   late final RestClient _client;
 
-  //todo: handle error
-
-  BranchRepository([RestClient? client]) {
+  EditProfileRepository([RestClient? client]) {
 //    String selectedLanguage = PreferencesHelper.getLanguage()!;
     String token = PreferencesHelper.getToken()!;
     Map<String, dynamic> headerMap = {
@@ -24,34 +24,31 @@ class BranchRepository {
     ));
   }
 
-  Future<ApiResponse> addNewBranch(
-      String companyId,
-      String branchName,
+//-----------------
+
+  Future<ApiResponse> updateProfile(
+      String companyID,
+      String email,
       String phoneNumber,
-      String adress,
-      String zipCode,
-      double longitude,
-      double latitude) async {
-    if (branchName == null ||
-        phoneNumber == null ||
-        adress == null ||
-        zipCode == null ||
-        longitude == null ||
-        latitude == null) {
+      String ownerName,
+      String companyName,
+      String commercialRegistrationNo,
+      int branchNumber) async {
+    if (email == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
 
     Map<String, dynamic> hashMap = {
-      "branchName": branchName,
+      "email": email,
       "phoneNumber": phoneNumber,
-      "adress": adress,
-      "zipCode": zipCode,
-      "longitude": longitude,
-      "latitude": latitude
+      "ownerName": ownerName,
+      "companyName": companyName,
+      "commercialRegistrationNo": commercialRegistrationNo,
+      "branchNumber": branchNumber
     };
 
     return await _client
-        .addNewBranch(companyId, hashMap)
+        .updateProfileInfo(companyID,hashMap)
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
         .catchError((e) {
       int errorCode = 0;
@@ -62,6 +59,23 @@ class BranchRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
+            if (errorCode == 500) {
+              errorMessage = res.data['Message'];
+            } else if (errorCode == 400) {
+              print(res.data);
+              String map = res.data.toString();
+              if (map.contains('message')) {
+                errorMessage = res.data['message'];
+              } else {
+                final de = jsonDecode(res.data.toString());
+                FailEditProfileResponseModel model =
+                    FailEditProfileResponseModel.fromJson(de);
+                if (model.errors!.commercialRegistrationNo!.isNotEmpty) {
+                  errorMessage = model.errors!.commercialRegistrationNo!.first;
+                } else
+                  errorMessage = model.errors!.phoneNumber!.first;
+              }
+            }
           }
           break;
         default:

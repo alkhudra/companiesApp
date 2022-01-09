@@ -91,7 +91,7 @@ class TextFieldDesign {
   }
 
 
-  static editTextFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? initValue, validat}) {
+  static editTextFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, /*String? initValue,*/ validat}) {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
@@ -104,7 +104,8 @@ class TextFieldDesign {
       ),
       child: Expanded(
         child: TextFormField(
-          initialValue: initValue,
+
+        //  initialValue: initValue,
           controller: controller,
           keyboardType: kbType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -114,7 +115,7 @@ class TextFieldDesign {
               fontWeight: FontWeight.w600),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(left: 20,right: 20),
-
+       //     hintText: initValue,
             focusColor: CustomColors().blackColor,
             border: InputBorder.none,
             counterText: "",
