@@ -99,4 +99,6 @@ abstract class LocaleKeys {
   static const select_lang ="Preferred Language for The App";
   static const english ="English";
   static const arabic ="Arabic";
+  static const credit ="credit";
+  static const branch_list ="Branch List";
 }

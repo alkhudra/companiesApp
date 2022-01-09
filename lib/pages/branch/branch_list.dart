@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
+import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -25,26 +27,25 @@ class _BranchListState extends State<BranchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarText(LocaleKeys.my_branch.tr(), true),
+      appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
+      endDrawer: drawerDesign(context),
         backgroundColor: CustomColors().backgroundColor,
         body: SingleChildScrollView(
-          child:Container(
-            child: Column(
-              children: [
-                ListView.builder(itemBuilder: (context,index){
-                  return  BranchItem(item: widget.items[index]);
-                }),
+          // child: Column(
+          //   children: [
+          //     ListView.builder(itemBuilder: (context,index){
+          //       return  BranchItem(item: widget.items[index]);
+          //     }),
 
-                greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20),() {
+          //     greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20),() {
 
-                  BranchModel branch;
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AddBranchesPage(branchModel:null,);
-                  }));
-                })
-              ],
-            ),
-          ),
+          //       BranchModel branch;
+          //       Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //         return AddBranchesPage(branchModel:null,);
+          //       }));
+          //     })
+          //   ],
+          // ),
         ));
   }
 }

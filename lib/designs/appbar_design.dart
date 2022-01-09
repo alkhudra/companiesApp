@@ -3,7 +3,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-AppBar appBarDesign(context) {
+AppBar appBarDesign(context, title) {
 
   return AppBar(
           leading: GestureDetector(
@@ -30,7 +30,7 @@ AppBar appBarDesign(context) {
               Container(
                 // margin: EdgeInsets.only(top: scHeight/7.5),
                 child: Center(
-                  child: Text(LocaleKeys.app_lang.tr(), 
+                  child: Text(title, 
                   style: TextStyle(
                   ),),
                 ),

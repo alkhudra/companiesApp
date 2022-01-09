@@ -47,7 +47,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[100],
-        appBar: appBarDesign(context),
+        appBar: appBarDesign(context, LocaleKeys.app_lang.tr()),
         body: Container(
               // margin: EdgeInsets.only(top: 100),
               width: double.infinity,
