@@ -191,6 +191,25 @@ class _HomePageState extends State<HomePage> {
                 thickness: 5,
                 color: CustomColors().grayColor,
               ),
+              SizedBox(height: 10,),
+              Container(
+                width: scWidth*0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: CustomColors().cardShadowBackgroundColor,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    //add progress loader while loading more results
+                  },
+                  child: Text(LocaleKeys.load_more.tr(), 
+                  style: TextStyle(
+                    color: CustomColors().darkBlueColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700
+                  ),)),
+                ),
+                SizedBox(height: 10,),
             ],
           ),
         ),

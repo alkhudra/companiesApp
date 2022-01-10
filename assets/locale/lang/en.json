@@ -93,5 +93,10 @@
   "Arabic" : "arabic",
   "credit" : "Credit",
   "Branch List" : "Branch List",
-  "My Branches" : "My Branches"
+  "My Branches" : "My Branches",
+  "Favorites" : "Favorites",
+  "Cart" : "Cart",
+  "My Orders" : "My Orders",
+  "Notifications" : "Notifications",
+  "Load More" : "LOAD MORE"
 }

@@ -17,7 +17,7 @@ class CustomColors {
   Color likeColor = Color.fromRGBO(255, 46, 108, 1);
   Color unlikeColor = Color.fromRGBO(136, 125, 125, 1);
   Color blackColor = Color.fromRGBO(34, 41, 46, 1);
-
+  Color lightGreen = Color.fromRGBO(93, 204, 58, 1);
 
   Color logOutBG = Color.fromRGBO(255, 236, 232, 1);
   Color logOut = Color.fromRGBO(254, 110, 76, 1);

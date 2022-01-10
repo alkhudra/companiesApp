@@ -93,7 +93,11 @@
   "Arabic" : "اللغة العربية",
   "credit" : "الرصيد",
   "Branch List" : "قائمة الفروع",
-  "My Branches" : "قائمة فروعي"
-
-
+  "My Branches" : "قائمة فروعي",
+  "Home" : "المفضلة",
+  "Favorites" : "المفضلة",
+  "Cart" : "عربة التسوق",
+  "My Orders" : "طلباتي",
+  "Notifications" : "الإشعارات",
+  "Load More" : "عرض المزيد"
 }

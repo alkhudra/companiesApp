@@ -102,4 +102,10 @@ abstract class LocaleKeys {
   static const credit ="credit";
   static const branch_list ="Branch List";
   static const my_branches ="My Branches";
+  static const home ="Home";
+  static const favorites ="Favorites";
+  static const cart ="Cart";
+  static const my_orders ="My Orders";
+  static const notifications ="Notifications";
+  static const load_more ="Load More";
 }
