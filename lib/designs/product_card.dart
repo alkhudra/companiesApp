@@ -11,8 +11,8 @@ Widget productCard(context, count, proName, proPrice) {
         //left side of card
         Container(
           margin: EdgeInsets.only(bottom: 5),
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.height * 0.2,
+          width: MediaQuery.of(context).size.width * 0.17,
+          height: MediaQuery.of(context).size.height * 0.17,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('images/orange_shape.png'),
@@ -38,7 +38,7 @@ Widget productCard(context, count, proName, proPrice) {
               height: 30,
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.27,
+              width: MediaQuery.of(context).size.width * 0.23,
               height: MediaQuery.of(context).size.height * 0.05,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
