@@ -44,102 +44,100 @@ class _LanguageSettingState extends State<LanguageSetting> {
     double scHeight = size.height;
 
       
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: appBarDesign(context, LocaleKeys.app_lang.tr()),
-        body: Container(
-              // margin: EdgeInsets.only(top: 100),
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height,
-              color: CustomColors().primaryWhiteColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    child: Text(LocaleKeys.select_lang.tr()+':',
-                    style: TextStyle(
-                      color: CustomColors().blackColor.withOpacity(0.7),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600
-                    ),),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-            Container(
-            margin: EdgeInsets.only(left: 40, right: 40),
-            child: MaterialButton(
-              onPressed: () {
-                onLanguageButtonPressed(context,'ar');
-              },
-              height: ButtonsDesign.buttonsHeight,
-              shape: StadiumBorder(),
-              child: ButtonsDesign.buttonsText('عربي',CustomColors().primaryWhiteColor),
-              color: CustomColors().brownColor,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
+    return Scaffold(
+      // backgroundColor: Colors.grey[100],
+      appBar: appBarDesign(context, LocaleKeys.app_lang.tr()),
+      body: Container(
+            // margin: EdgeInsets.only(top: 100),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            color: CustomColors().primaryWhiteColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Text(LocaleKeys.select_lang.tr()+':',
+                  style: TextStyle(
+                    color: CustomColors().blackColor.withOpacity(0.7),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600
+                  ),),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
           Container(
-            margin: EdgeInsets.only(left: 40, right: 40),
-            child: MaterialButton(
-              onPressed: () {
-                onLanguageButtonPressed(context,'en');
-              },
-              height: ButtonsDesign.buttonsHeight,
-              shape: StadiumBorder(),
-              child: ButtonsDesign.buttonsText('english',CustomColors().primaryWhiteColor),
-              color: CustomColors().primaryGreenColor,
+          margin: EdgeInsets.only(left: 40, right: 40),
+          child: MaterialButton(
+            onPressed: () {
+              onLanguageButtonPressed(context,'ar');
+            },
+            height: ButtonsDesign.buttonsHeight,
+            shape: StadiumBorder(),
+            child: ButtonsDesign.buttonsText('عربي',CustomColors().primaryWhiteColor),
+            color: CustomColors().brownColor,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 40, right: 40),
+          child: MaterialButton(
+            onPressed: () {
+              onLanguageButtonPressed(context,'en');
+            },
+            height: ButtonsDesign.buttonsHeight,
+            shape: StadiumBorder(),
+            child: ButtonsDesign.buttonsText('english',CustomColors().primaryWhiteColor),
+            color: CustomColors().primaryGreenColor,
+          ),
+        ),
+                // ListTile(
+                //   title: Text(LocaleKeys.english.tr(),
+                //   style: TextStyle(
+                //     color: kLogoGreen,
+                //     fontWeight: FontWeight.w700
+                //   ),),
+                //   leading: Radio<Languages>(
+                //     activeColor: kLogoGreen,
+                //     value: Languages.english,
+                //     groupValue: _character,
+                //     onChanged: (Languages? value) {
+                //       setState(() {
+                //         _character = value;
+                //         onLanguageButtonPressed(context,'en');
+                //       });
+                //     },
+                //   ),
+                // ),
+                //add english button
+
+                // ListTile(
+                //   title: Text(LocaleKeys.arabic.tr(),
+                //   style: TextStyle(
+                //     color: kLogoGreen,
+                //     fontWeight: FontWeight.w700
+                //   ),),
+                //   leading: Radio<Languages>(
+                //     activeColor: kLogoGreen,
+                //     value: Languages.arabic,
+                //     groupValue: _character,
+                //     onChanged: (Languages? value) {
+                //       setState(() {
+                //         _character = value;
+                //         onLanguageButtonPressed(context,'ar');
+                //       });
+                //     },
+                //   ),
+                // ),
+                //add arabic button
+              ],
             ),
           ),
-                  // ListTile(
-                  //   title: Text(LocaleKeys.english.tr(),
-                  //   style: TextStyle(
-                  //     color: kLogoGreen,
-                  //     fontWeight: FontWeight.w700
-                  //   ),),
-                  //   leading: Radio<Languages>(
-                  //     activeColor: kLogoGreen,
-                  //     value: Languages.english,
-                  //     groupValue: _character,
-                  //     onChanged: (Languages? value) {
-                  //       setState(() {
-                  //         _character = value;
-                  //         onLanguageButtonPressed(context,'en');
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  //add english button
-
-                  // ListTile(
-                  //   title: Text(LocaleKeys.arabic.tr(),
-                  //   style: TextStyle(
-                  //     color: kLogoGreen,
-                  //     fontWeight: FontWeight.w700
-                  //   ),),
-                  //   leading: Radio<Languages>(
-                  //     activeColor: kLogoGreen,
-                  //     value: Languages.arabic,
-                  //     groupValue: _character,
-                  //     onChanged: (Languages? value) {
-                  //       setState(() {
-                  //         _character = value;
-                  //         onLanguageButtonPressed(context,'ar');
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  //add arabic button
-                ],
-              ),
-            ),
-        endDrawer: drawerDesign(context),
-      ),
+      endDrawer: drawerDesign(context),
     );
   }
 }

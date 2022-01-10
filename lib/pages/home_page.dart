@@ -110,12 +110,14 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10,),
               Center(
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  //add listview for veg and fruits and
+                  //make "all" fixed
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      width: 100,
-                      height: 100,
+                      width: scWidth*0.16,
+                      height: scHeight*0.13,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('images/fruitsnveg.png'),
@@ -124,9 +126,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(width: 10,),
                     Container(
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      width: 100,
-                      height: 100,
+                      width: scWidth*0.16,
+                      height: scHeight*0.13,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('images/fruits.png'),
@@ -135,9 +136,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(width: 10,),
                     Container(
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      width: 100,
-                      height: 100,
+                      width: scWidth*0.16,
+                      height: scHeight*0.13,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('images/veg.png'),
@@ -208,9 +208,16 @@ class _HomePageState extends State<HomePage> {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // SizedBox(width: 10,),
-
-          //menu button previous position
-
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.menu_rounded,),
+              color: CustomColors().brownColor,
+              iconSize: 33,
+              onPressed: () {
+                _scaffoldState.currentState!.openDrawer();
+              },
+            ),
+          ),
           SizedBox(width: 5,),
           Container(
             margin: EdgeInsets.only(left: 5, right: 5),
@@ -240,16 +247,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {},
           ),
           SizedBox(width: 5,),
-          Container(
-            child: IconButton(
-              icon: Icon(Icons.menu_rounded,),
-              color: CustomColors().brownColor,
-              iconSize: 33,
-              onPressed: () {
-                _scaffoldState.currentState!.openDrawer();
-              },
-            ),
-          ),
+
         ],
       ),
     );

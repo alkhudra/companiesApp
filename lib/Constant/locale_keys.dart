@@ -101,4 +101,5 @@ abstract class LocaleKeys {
   static const arabic ="Arabic";
   static const credit ="credit";
   static const branch_list ="Branch List";
+  static const my_branches ="My Branches";
 }

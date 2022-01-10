@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/helpers/contact_helper.dart';
@@ -20,235 +21,221 @@ class _ContactUsState extends State<ContactUs> {
 
   String email='ALKhadra@gmail.com' , phone=' +966554878942' , whatsApp = ' +966554878942';
   double lat =0.0,lng=0.0;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: CustomColors().primaryGreenColor,
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              centerTitle: true,
-              // collapsedHeight: 200,
-              title: Text(
-                LocaleKeys.contact_us.tr(),
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22),
+
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+
+    return Scaffold(
+      // backgroundColor: CustomColors().grayColor,
+      appBar: appBarDesign(context, LocaleKeys.contact_us.tr()),
+      body: Container(
+              margin: EdgeInsets.only(top: 5),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: CustomColors().primaryWhiteColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
               ),
-              flexibleSpace: Stack(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Positioned.fill(
-                    left: 180,
-                    child: Image.asset('images/grapevector.png'),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    child: brandName(100.0, 100.0, 22.0),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          print('phone');
+                          directToPhoneCall(phone);
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              width: scWidth*0.17,
+                              height: scHeight*0.13,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage('images/product_icon.png'),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.phone,
+                                color: CustomColors().darkBlueColor.withOpacity(0.8),
+                                size: 35,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              alignment: Alignment.center,
+                              width: scWidth*0.4,
+                              child: Text(
+                                phone,
+                                style: TextStyle(
+                                    color: CustomColors().darkBlueColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          print('email');
+                          sendMail(email);
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              // margin: EdgeInsets.only(left: 10),
+                              width: scWidth*0.17,
+                              height: scHeight*0.13,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('images/product_icon.png'),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.alternate_email_outlined,
+                                color: CustomColors().darkBlueColor,
+                                size: 35,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              alignment: Alignment.center,
+                              width: scWidth*0.4,
+                              child: Text(
+                                email,
+                                style: TextStyle(
+                                    color: CustomColors().darkBlueColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: scHeight/16,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          print('whats');
+                          openWhatsApp(whatsApp);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              width: scWidth*0.17,
+                              height: scHeight*0.13,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('images/product_icon.png'),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.sms_outlined,
+                                color: CustomColors().darkBlueColor,
+                                size: 35,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              alignment: Alignment.center,
+                              width: scWidth*0.4,
+                              child: Text(
+                                whatsApp,
+                                style: TextStyle(
+                                    color: CustomColors().darkBlueColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          print('location');
+                          openMap(lat,lng);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              width: scWidth*0.17,
+                              height: scHeight*0.13,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('images/product_icon.png'),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.fmd_good_sharp,
+                                color: CustomColors().darkBlueColor,
+                                size: 35,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              // margin: EdgeInsets.only(left: 10),
+                              alignment: Alignment.center,
+                              width: scWidth*0.4,
+                              child: Text(
+                                'Our Location',
+                                style: TextStyle(
+                                    color: CustomColors().darkBlueColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              expandedHeight: 160,
-              elevation: 0.0,
-              backgroundColor: CustomColors().primaryGreenColor,
-              iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: CustomColors().primaryWhiteColor,
-                onPressed: () => Navigator.pop(context),
-              ),
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                // margin: EdgeInsets.only(top: 100),
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  color: CustomColors().primaryWhiteColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      child: brandName(100.0, 100.0, 22.0),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            print('phone');
-                            directToPhoneCall(phone);
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage('images/product_icon.png'),
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.phone,
-                                  color: CustomColors().blackColor,
-                                  size: 48,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  phone,
-                                  style: TextStyle(
-                                      color: CustomColors().blackColor,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 35,
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            print('email');
-                            sendMail(email);
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('images/product_icon.png'),
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.mail_outline,
-                                  color: CustomColors().blackColor,
-                                  size: 48,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  email,
-                                  style: TextStyle(
-                                      color: CustomColors().blackColor,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            print('whats');
-                            openWhatsApp(whatsApp);
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('images/product_icon.png'),
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.sms_outlined,
-                                  color: CustomColors().blackColor,
-                                  size: 48,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  whatsApp,
-                                  style: TextStyle(
-                                      color: CustomColors().blackColor,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 35,
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            print('location');
-                            openMap(lat,lng);
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('images/product_icon.png'),
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.fmd_good_sharp,
-                                  color: CustomColors().blackColor,
-                                  size: 48,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  'Our Location',
-                                  style: TextStyle(
-                                      color: CustomColors().blackColor,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        endDrawer: drawerDesign(context),
-      ),
+      endDrawer: drawerDesign(context),
     );
   }
 }

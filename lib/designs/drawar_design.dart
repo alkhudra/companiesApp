@@ -90,7 +90,7 @@ Drawer drawerDesign(context) {
                 child: Icon(Icons.storefront_rounded, color: CustomColors().branch),
               ),
               SizedBox(width: 10,),
-              Text(LocaleKeys.add_branch.tr(), style: TextStyle(
+              Text(LocaleKeys.my_branches.tr(), style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
               ),),
