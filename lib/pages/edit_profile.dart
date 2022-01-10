@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
@@ -70,106 +71,76 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBarDesign(context, LocaleKeys.edit_profile_title.tr()),
         backgroundColor: Colors.grey[100],
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              centerTitle: true,
-              // collapsedHeight: 200,
-              title: Text(
-                LocaleKeys.edit_profile_title.tr(),
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22),
-              ),
-              flexibleSpace: Stack(
-                children: [
-                  Positioned.fill(
-                    left: 180,
-                    child: Image.asset('images/grapevector.png'),
-                  ),
-                ],
-              ),
-              expandedHeight: 160,
-              elevation: 0.0,
-              backgroundColor: CustomColors().primaryGreenColor,
-              iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: CustomColors().primaryWhiteColor,
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                alignment: Alignment.topCenter,
-                // margin: EdgeInsets.only(top: 100),
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height,
-                color: CustomColors().primaryWhiteColor,
-                child: Column(
-                  children: [
-                    TextFieldDesign.editTextFieldStyle(
-                      context: context,
-                      verMarg: 20,
-                      horMarg: 20,
-                      controller: ownNameController,
-                      kbType: TextInputType.name,
-                      //  initValue: LocaleKeys.owner_name.tr(),
-                    ),
-                    TextFieldDesign.editTextFieldStyle(
-                      context: context,
-                      verMarg: 0,
-                      horMarg: 20,
-                      controller: compNameController,
-                      kbType: TextInputType.name,
-                      //initValue: LocaleKeys.comp_name.tr(),
-                    ),
-                    TextFieldDesign.editTextFieldStyle(
-                      context: context,
-                      verMarg: 20,
-                      horMarg: 20,
-                      controller: emailController,
-                      kbType: TextInputType.emailAddress,
-                      // initValue: LocaleKeys.change_email.tr(),
-                    ),
-                    TextFieldDesign.editTextFieldStyle(
-                      context: context,
-                      verMarg: 0,
-                      horMarg: 20,
-                      controller: phoneController,
-                      kbType: TextInputType.phone,
-                      //  initValue: LocaleKeys.change_phone.tr(),
-                    ),
-                    TextFieldDesign.editTextFieldStyle(
-                      context: context,
-                      verMarg: 20,
-                      horMarg: 20,
-                      controller: commercialNoController,
-                      kbType: TextInputType.number,
-                      //   initValue: LocaleKeys.commercial_no.tr(),
-                    ),
-                    TextFieldDesign.editTextFieldStyle(
-                      context: context,
-                      verMarg: 0,
-                      horMarg: 20,
-                      controller: branchNoController,
-                      kbType: TextInputType.number,
-                      //    initValue: LocaleKeys.branches_no.tr(),
-                    ),
-                    greenBtn(LocaleKeys.save_changes.tr(),
-                        EdgeInsets.only(left: 20, right: 20, top: 20), () {
-                      if (isBtnEnabled) editProfileInfo();
-                    }),
-                    greenBtn(LocaleKeys.reset_password.tr(),
-                        EdgeInsets.only(left: 20, right: 20, top: 20), () {
-                      if(isForgetPassBtnEnabled)
-                          resetPasswordProcess();
-                        }),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        body: Container(
+            alignment: Alignment.topCenter,
+            // margin: EdgeInsets.only(top: 100),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            color: CustomColors().primaryWhiteColor,
+          //   child: Column(
+          //     children: [
+          //       TextFieldDesign.editTextFieldStyle(
+          //         context: context,
+          //         verMarg: 20,
+          //         horMarg: 20,
+          //         controller: ownNameController,
+          //         kbType: TextInputType.name,
+          //         //  initValue: LocaleKeys.owner_name.tr(),
+          //       ),
+          //       TextFieldDesign.editTextFieldStyle(
+          //         context: context,
+          //         verMarg: 0,
+          //         horMarg: 20,
+          //         controller: compNameController,
+          //         kbType: TextInputType.name,
+          //         //initValue: LocaleKeys.comp_name.tr(),
+          //       ),
+          //       TextFieldDesign.editTextFieldStyle(
+          //         context: context,
+          //         verMarg: 20,
+          //         horMarg: 20,
+          //         controller: emailController,
+          //         kbType: TextInputType.emailAddress,
+          //         // initValue: LocaleKeys.change_email.tr(),
+          //       ),
+          //       TextFieldDesign.editTextFieldStyle(
+          //         context: context,
+          //         verMarg: 0,
+          //         horMarg: 20,
+          //         controller: phoneController,
+          //         kbType: TextInputType.phone,
+          //         //  initValue: LocaleKeys.change_phone.tr(),
+          //       ),
+          //       TextFieldDesign.editTextFieldStyle(
+          //         context: context,
+          //         verMarg: 20,
+          //         horMarg: 20,
+          //         controller: commercialNoController,
+          //         kbType: TextInputType.number,
+          //         //   initValue: LocaleKeys.commercial_no.tr(),
+          //       ),
+          //       TextFieldDesign.editTextFieldStyle(
+          //         context: context,
+          //         verMarg: 0,
+          //         horMarg: 20,
+          //         controller: branchNoController,
+          //         kbType: TextInputType.number,
+          //         //    initValue: LocaleKeys.branches_no.tr(),
+          //       ),
+          //       greenBtn(LocaleKeys.save_changes.tr(),
+          //           EdgeInsets.only(left: 20, right: 20, top: 20), () {
+          //         if (isBtnEnabled) editProfileInfo();
+          //       }),
+          //       greenBtn(LocaleKeys.reset_password.tr(),
+          //           EdgeInsets.only(left: 20, right: 20, top: 20), () {
+          //         if(isForgetPassBtnEnabled)
+          //             resetPasswordProcess();
+          //           }),
+          //     ],
+          //   ),
+          ),
         endDrawer: drawerDesign(context),
       ),
     );

@@ -209,18 +209,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           // SizedBox(width: 10,),
 
-          Container(
-            child: IconButton(
-              icon: Icon(Icons.menu_rounded,),
-              color: CustomColors().brownColor,
-              iconSize: 28,
-              onPressed: () {
-                _scaffoldState.currentState!.openDrawer();
-              },
-            ),
-          ),
+          //menu button previous position
 
-          // SizedBox(width: 5,),
+          SizedBox(width: 5,),
           Container(
             margin: EdgeInsets.only(left: 5, right: 5),
             width: MediaQuery.of(context).size.width/1.4,
@@ -247,6 +238,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             onTap: () {},
+          ),
+          SizedBox(width: 5,),
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.menu_rounded,),
+              color: CustomColors().brownColor,
+              iconSize: 33,
+              onPressed: () {
+                _scaffoldState.currentState!.openDrawer();
+              },
+            ),
           ),
         ],
       ),
