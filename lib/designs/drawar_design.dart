@@ -13,6 +13,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 Drawer drawerDesign(context) {
   return Drawer(
     child: ListView(
+      padding: EdgeInsets.all(0.0),
       children: [
         Container(
           width: 100,
@@ -37,6 +38,7 @@ Drawer drawerDesign(context) {
               // ),
               Container(
                 //TODO: replace with company variable from DB
+                margin: EdgeInsets.only(top: 40),
                 child: Text('Company Name', style: TextStyle(
                   color: CustomColors().primaryWhiteColor,
                   fontSize: 21,
