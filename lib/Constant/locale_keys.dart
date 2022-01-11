@@ -105,7 +105,8 @@ abstract class LocaleKeys {
   static const home ="Home";
   static const favorites ="Favorites";
   static const cart ="Cart";
-  static const my_orders ="My Orders";
+  static const my_orders ="Orders";
   static const notifications ="Notifications";
   static const load_more ="Load More";
+  static const account_setting ="Account";
 }

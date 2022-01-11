@@ -94,9 +94,11 @@
   "credit" : "Credit",
   "Branch List" : "Branch List",
   "My Branches" : "My Branches",
+  "Home" : "Home",
   "Favorites" : "Favorites",
   "Cart" : "Cart",
-  "My Orders" : "My Orders",
+  "Orders" : "Orders",
   "Notifications" : "Notifications",
-  "Load More" : "LOAD MORE"
+  "Load More" : "LOAD MORE",
+  "Account" : "Account"
 }

@@ -17,7 +17,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
     return Scaffold(
       //add body
       endDrawer: drawerDesign(context),
-      appBar: appBarDesign(context, LocaleKeys.credit.tr()),
+      appBar: appBarDesign(context, LocaleKeys.my_orders.tr()),
     );
   }
 }

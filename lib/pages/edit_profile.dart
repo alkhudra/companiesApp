@@ -17,6 +17,7 @@ import 'package:khudrah_companies/network/models/auth/success_login_response_mod
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -223,7 +224,8 @@ class _EditProfileState extends State<EditProfile> {
       showSuccessMessage(context, model.message!);
 
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomePage(isHasBranch: isHasBranch);
+        //replace with dashboard
+        return DashboardPage(isHasBranch: isHasBranch);
       }));
     });
   }

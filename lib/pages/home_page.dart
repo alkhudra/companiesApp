@@ -14,6 +14,7 @@ import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
+import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'dart:math' as math;
 
@@ -269,7 +270,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              //REMOVE BEFORE PUSH
+              Navigator.push(context, 
+              MaterialPageRoute(
+                builder: (context) => DashboardPage(isHasBranch: false,)));
+
+            },
           ),
           SizedBox(width: 5,),
 

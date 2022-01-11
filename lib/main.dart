@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
+import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -63,7 +64,7 @@ static  bool isUserLoggedIn =false;
     if(isUserFirstLogin == true && isUserLoggedIn == false)
     return LanguagePage();
     if(isUserFirstLogin == false && isUserLoggedIn == true)
-     return HomePage(isHasBranch: true,);
+     return DashboardPage(isHasBranch: true,);
     if(isUserFirstLogin == false && isUserLoggedIn == false)
       return LogInPage();
     else  return LanguagePage();

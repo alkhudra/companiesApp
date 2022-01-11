@@ -19,6 +19,7 @@ import 'package:khudrah_companies/network/models/auth/fail_login_response_model.
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
@@ -231,7 +232,8 @@ class _LogInPageState extends State<LogInPage> {
 
   void directToHomePage() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return HomePage(isHasBranch: isHasBranches);
+      //replace to dashboard
+      return DashboardPage(isHasBranch: isHasBranches);
     }));
   }
 

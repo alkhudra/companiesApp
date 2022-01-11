@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/pages/account/account_settings.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
@@ -61,7 +62,7 @@ Drawer drawerDesign(context) {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => EditProfile())
+                      builder: (context) => AccountSettings())
                   );
                 },
                 child: Container(
@@ -71,7 +72,7 @@ Drawer drawerDesign(context) {
                     color: CustomColors().primaryWhiteColor,
                     borderRadius: BorderRadius.circular(40),
                   ),
-                  child: Center(child: Text(LocaleKeys.edit_profile.tr(),
+                  child: Center(child: Text(LocaleKeys.account_setting.tr(),
                     style: TextStyle(color: CustomColors().primaryGreenColor,
                         fontWeight: FontWeight.w700),)),
                 ),

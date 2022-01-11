@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
+import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/edit_profile.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
@@ -23,9 +24,9 @@ class CustomRouter {
       case editInfoRoute:
         return MaterialPageRoute(builder: (_) => EditProfile());
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => HomePage(isHasBranch: true));
+        return MaterialPageRoute(builder: (_) => DashboardPage(isHasBranch: true));
       default:
-        return MaterialPageRoute(builder: (_) => HomePage(isHasBranch: true));
+        return MaterialPageRoute(builder: (_) => DashboardPage(isHasBranch: true));
     }
   }
 }

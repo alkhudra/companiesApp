@@ -4,20 +4,21 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({ Key? key }) : super(key: key);
+
+class AccountSettings extends StatefulWidget {
+  const AccountSettings({ Key? key }) : super(key: key);
 
   @override
-  _NotificationsPageState createState() => _NotificationsPageState();
+  _AccountSettingsState createState() => _AccountSettingsState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
+class _AccountSettingsState extends State<AccountSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //add body
       endDrawer: drawerDesign(context),
-      appBar: appBarDesign(context, LocaleKeys.notifications.tr()),
+      appBar: appBarDesign(context, LocaleKeys.account_setting.tr()),
     );
   }
 }

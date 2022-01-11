@@ -94,10 +94,11 @@
   "credit" : "الرصيد",
   "Branch List" : "قائمة الفروع",
   "My Branches" : "قائمة فروعي",
-  "Home" : "المفضلة",
+  "Home" : "الرئيسية",
   "Favorites" : "المفضلة",
   "Cart" : "عربة التسوق",
-  "My Orders" : "طلباتي",
+  "Orders" : "طلباتي",
   "Notifications" : "الإشعارات",
-  "Load More" : "عرض المزيد"
+  "Load More" : "عرض المزيد",
+  "Account" : "إعدادات الحساب"
 }
