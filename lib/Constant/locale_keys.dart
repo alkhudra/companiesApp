@@ -109,4 +109,5 @@ abstract class LocaleKeys {
   static const notifications ="Notifications";
   static const load_more ="Load More";
   static const account_setting ="Account";
+  static const change_password ="Change Password";
 }
