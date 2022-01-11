@@ -49,6 +49,7 @@ Widget productCard(context, count, proName, proPrice) {
                 icon: Icon(
                   Icons.shopping_cart,
                   color: CustomColors().primaryWhiteColor,
+                  size: 21,
                 ),
                 label: Text(
                   LocaleKeys.add_btn,

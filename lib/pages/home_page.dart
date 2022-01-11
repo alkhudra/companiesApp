@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w700
                   ),)),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 30,),
             ],
           ),
         ),
@@ -270,13 +270,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            onTap: () {
-              //REMOVE BEFORE PUSH
-              Navigator.push(context, 
-              MaterialPageRoute(
-                builder: (context) => DashboardPage(isHasBranch: false,)));
-
-            },
+            onTap: () {},
           ),
           SizedBox(width: 5,),
 
