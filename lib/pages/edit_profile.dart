@@ -69,80 +69,78 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBarDesign(context, LocaleKeys.edit_profile_title.tr()),
-        backgroundColor: Colors.grey[100],
-        body: Container(
-            alignment: Alignment.topCenter,
-            // margin: EdgeInsets.only(top: 100),
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            color: CustomColors().primaryWhiteColor,
-          //   child: Column(
-          //     children: [
-          //       TextFieldDesign.editTextFieldStyle(
-          //         context: context,
-          //         verMarg: 20,
-          //         horMarg: 20,
-          //         controller: ownNameController,
-          //         kbType: TextInputType.name,
-          //         //  initValue: LocaleKeys.owner_name.tr(),
-          //       ),
-          //       TextFieldDesign.editTextFieldStyle(
-          //         context: context,
-          //         verMarg: 0,
-          //         horMarg: 20,
-          //         controller: compNameController,
-          //         kbType: TextInputType.name,
-          //         //initValue: LocaleKeys.comp_name.tr(),
-          //       ),
-          //       TextFieldDesign.editTextFieldStyle(
-          //         context: context,
-          //         verMarg: 20,
-          //         horMarg: 20,
-          //         controller: emailController,
-          //         kbType: TextInputType.emailAddress,
-          //         // initValue: LocaleKeys.change_email.tr(),
-          //       ),
-          //       TextFieldDesign.editTextFieldStyle(
-          //         context: context,
-          //         verMarg: 0,
-          //         horMarg: 20,
-          //         controller: phoneController,
-          //         kbType: TextInputType.phone,
-          //         //  initValue: LocaleKeys.change_phone.tr(),
-          //       ),
-          //       TextFieldDesign.editTextFieldStyle(
-          //         context: context,
-          //         verMarg: 20,
-          //         horMarg: 20,
-          //         controller: commercialNoController,
-          //         kbType: TextInputType.number,
-          //         //   initValue: LocaleKeys.commercial_no.tr(),
-          //       ),
-          //       TextFieldDesign.editTextFieldStyle(
-          //         context: context,
-          //         verMarg: 0,
-          //         horMarg: 20,
-          //         controller: branchNoController,
-          //         kbType: TextInputType.number,
-          //         //    initValue: LocaleKeys.branches_no.tr(),
-          //       ),
-          //       greenBtn(LocaleKeys.save_changes.tr(),
-          //           EdgeInsets.only(left: 20, right: 20, top: 20), () {
-          //         if (isBtnEnabled) editProfileInfo();
-          //       }),
-          //       greenBtn(LocaleKeys.reset_password.tr(),
-          //           EdgeInsets.only(left: 20, right: 20, top: 20), () {
-          //         if(isForgetPassBtnEnabled)
-          //             resetPasswordProcess();
-          //           }),
-          //     ],
-          //   ),
+    return Scaffold(
+      appBar: appBarDesign(context, LocaleKeys.edit_profile_title.tr()),
+      backgroundColor: Colors.grey[100],
+      body: Container(
+          alignment: Alignment.topCenter,
+          // margin: EdgeInsets.only(top: 100),
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          color: CustomColors().primaryWhiteColor,
+          child: Column(
+            children: [
+              TextFieldDesign.editTextFieldStyle(
+                context: context,
+                verMarg: 20,
+                horMarg: 20,
+                controller: ownNameController,
+                kbType: TextInputType.name,
+                //  initValue: LocaleKeys.owner_name.tr(),
+              ),
+              TextFieldDesign.editTextFieldStyle(
+                context: context,
+                verMarg: 0,
+                horMarg: 20,
+                controller: compNameController,
+                kbType: TextInputType.name,
+                //initValue: LocaleKeys.comp_name.tr(),
+              ),
+              TextFieldDesign.editTextFieldStyle(
+                context: context,
+                verMarg: 20,
+                horMarg: 20,
+                controller: emailController,
+                kbType: TextInputType.emailAddress,
+                // initValue: LocaleKeys.change_email.tr(),
+              ),
+              TextFieldDesign.editTextFieldStyle(
+                context: context,
+                verMarg: 0,
+                horMarg: 20,
+                controller: phoneController,
+                kbType: TextInputType.phone,
+                //  initValue: LocaleKeys.change_phone.tr(),
+              ),
+              TextFieldDesign.editTextFieldStyle(
+                context: context,
+                verMarg: 20,
+                horMarg: 20,
+                controller: commercialNoController,
+                kbType: TextInputType.number,
+                //   initValue: LocaleKeys.commercial_no.tr(),
+              ),
+              TextFieldDesign.editTextFieldStyle(
+                context: context,
+                verMarg: 0,
+                horMarg: 20,
+                controller: branchNoController,
+                kbType: TextInputType.number,
+                //    initValue: LocaleKeys.branches_no.tr(),
+              ),
+              greenBtn(LocaleKeys.save_changes.tr(),
+                  EdgeInsets.only(left: 20, right: 20, top: 20), () {
+                if (isBtnEnabled) editProfileInfo();
+              }),
+              greenBtn(LocaleKeys.reset_password.tr(),
+                  EdgeInsets.only(left: 20, right: 20, top: 20), () {
+                if(isForgetPassBtnEnabled)
+                    resetPasswordProcess();
+                  }),
+            ],
           ),
-        endDrawer: drawerDesign(context),
-      ),
+        ),
+      endDrawer: drawerDesign(context),
     );
   }
 

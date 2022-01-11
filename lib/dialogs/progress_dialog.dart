@@ -34,6 +34,7 @@ CupertinoAlertDialog iosProgress() {
 
 Widget alertContent(){
  return Column(
+   mainAxisSize: MainAxisSize.min,
     children: [
       CircularProgressIndicator(color: CustomColors().primaryGreenColor,),
       SizedBox(

@@ -33,47 +33,45 @@ class _LanguagePageState extends State<LanguagePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: CustomColors().backgroundColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: brandName(250.0, 250.0, 30.0),
+    return Scaffold(
+      backgroundColor: CustomColors().backgroundColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: brandName(250.0, 250.0, 30.0),
+          ),
+          SizedBox(
+            height: 60,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: MaterialButton(
+              onPressed: () {
+                onLanguageButtonPressed(context,'ar');
+              },
+              height: ButtonsDesign.buttonsHeight,
+              shape: StadiumBorder(),
+              child: ButtonsDesign.buttonsText('عربي',CustomColors().primaryWhiteColor),
+              color: CustomColors().brownColor,
             ),
-            SizedBox(
-              height: 60,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: MaterialButton(
+              onPressed: () {
+                onLanguageButtonPressed(context,'en');
+              },
+              height: ButtonsDesign.buttonsHeight,
+              shape: StadiumBorder(),
+              child: ButtonsDesign.buttonsText('english',CustomColors().primaryWhiteColor),
+              color: CustomColors().primaryGreenColor,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: MaterialButton(
-                onPressed: () {
-                  onLanguageButtonPressed(context,'ar');
-                },
-                height: ButtonsDesign.buttonsHeight,
-                shape: StadiumBorder(),
-                child: ButtonsDesign.buttonsText('عربي',CustomColors().primaryWhiteColor),
-                color: CustomColors().brownColor,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: MaterialButton(
-                onPressed: () {
-                  onLanguageButtonPressed(context,'en');
-                },
-                height: ButtonsDesign.buttonsHeight,
-                shape: StadiumBorder(),
-                child: ButtonsDesign.buttonsText('english',CustomColors().primaryWhiteColor),
-                color: CustomColors().primaryGreenColor,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

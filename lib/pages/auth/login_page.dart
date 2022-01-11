@@ -48,111 +48,109 @@ class _LogInPageState extends State<LogInPage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: CustomColors().backgroundColor,
-        body: Stack(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 120, left: 30, right: 30),
-              width: MediaQuery.of(context).size.width / 0.3,
-              height: MediaQuery.of(context).size.height / 1.8,
-              decoration: CardDesign.largeCardDesign(),
-            ),
-            // SizedBox(
-            //   height: 10,
-            // ),
-            brandNameMiddle(),
-            // SizedBox(
-            //   height: 10,
-            // ),
-            Container(
-              margin: EdgeInsets.only(
-                  top: scHeight * 0.13,
-                  right: scWidth * 0.1,
-                  left: scWidth * 0.1),
-              // padding: EdgeInsets.symmetric(horizontal: scWidth/9, vertical: scHeight/5),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: emailController,
-                    kbType: TextInputType.emailAddress,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.email.tr(),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: passController,
-                    kbType: TextInputType.visiblePassword,
-                    obscTxt: true,
-                    lbTxt: LocaleKeys.password.tr(),
-                  ),
-                  SizedBox(
-                    height: scHeight / 20,
-                  ),
-                  Container(
-                      height: scHeight / 30,
-                      padding: EdgeInsets.only(right: 10, left: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (isForgetPassBtnEnabled)
-                            showDialog(
-                                builder: (BuildContext context) =>
-                                    showEnterEmailDialog(context,isForgetPassBtnEnabled),
-                                context: context);
-                        },
-                        child: Text(LocaleKeys.forget_pass.tr(),
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor)),
-                      )),
-                  Container(
-                      height: scHeight / 33,
-                      padding: EdgeInsets.only(right: 10, left: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return SignUpPage();
-                          }));
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(LocaleKeys.new_user.tr(),
-                                style: TextStyle(
-                                    color: CustomColors().blackColor)),
-                            Text(LocaleKeys.create_account.tr(),
-                                style: TextStyle(
-                                    color: CustomColors().primaryGreenColor))
-                          ],
-                        ),
-                      )),
-                  SizedBox(
-                    height: scHeight * 0.05,
-                  ),
-                  greenBtn(LocaleKeys.log_in.tr(), EdgeInsets.only(left: 50, right: 50),  () {
-                     if (isBtnEnabled) logIn();
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: CustomColors().backgroundColor,
+      body: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 120, left: 30, right: 30),
+            width: MediaQuery.of(context).size.width / 0.3,
+            height: MediaQuery.of(context).size.height / 1.8,
+            decoration: CardDesign.largeCardDesign(),
+          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          brandNameMiddle(),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          Container(
+            margin: EdgeInsets.only(
+                top: scHeight * 0.13,
+                right: scWidth * 0.1,
+                left: scWidth * 0.1),
+            // padding: EdgeInsets.symmetric(horizontal: scWidth/9, vertical: scHeight/5),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFieldDesign.textFieldStyle(
+                  context: context,
+                  verMarg: 5,
+                  horMarg: 0,
+                  controller: emailController,
+                  kbType: TextInputType.emailAddress,
+                  obscTxt: false,
+                  lbTxt: LocaleKeys.email.tr(),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                TextFieldDesign.textFieldStyle(
+                  context: context,
+                  verMarg: 5,
+                  horMarg: 0,
+                  controller: passController,
+                  kbType: TextInputType.visiblePassword,
+                  obscTxt: true,
+                  lbTxt: LocaleKeys.password.tr(),
+                ),
+                SizedBox(
+                  height: scHeight / 20,
+                ),
+                Container(
+                    height: scHeight / 30,
+                    padding: EdgeInsets.only(right: 10, left: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (isForgetPassBtnEnabled)
+                          showDialog(
+                              builder: (BuildContext context) =>
+                                  showEnterEmailDialog(context,isForgetPassBtnEnabled),
+                              context: context);
+                      },
+                      child: Text(LocaleKeys.forget_pass.tr(),
+                          style: TextStyle(
+                              color: CustomColors().primaryGreenColor)),
+                    )),
+                Container(
+                    height: scHeight / 33,
+                    padding: EdgeInsets.only(right: 10, left: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return SignUpPage();
+                        }));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(LocaleKeys.new_user.tr(),
+                              style: TextStyle(
+                                  color: CustomColors().blackColor)),
+                          Text(LocaleKeys.create_account.tr(),
+                              style: TextStyle(
+                                  color: CustomColors().primaryGreenColor))
+                        ],
+                      ),
+                    )),
+                SizedBox(
+                  height: scHeight * 0.05,
+                ),
+                greenBtn(LocaleKeys.log_in.tr(), EdgeInsets.only(left: 50, right: 50),  () {
+                   if (isBtnEnabled) logIn();
 
-                  })
+                })
 
-                  ,
-                ],
-              ),
+                ,
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
