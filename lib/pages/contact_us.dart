@@ -19,7 +19,7 @@ class ContactUs extends StatefulWidget {
 
 class _ContactUsState extends State<ContactUs> {
 
-  String email='ALKhadra@gmail.com' , phone=' +966554878942' , whatsApp = ' +966554878942';
+  String email='ALKhadra@gmail.com' , phone='+966554878942' , whatsApp = '+966590803061';
   double lat =0.0,lng=0.0;
 
   @override

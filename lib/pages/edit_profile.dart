@@ -53,10 +53,10 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    companyID = PreferencesHelper.getCompanyID()!;
+    //companyID = PreferencesHelper.getCompanyID()!;
     //------------
 
-    getUserInfo();
+   // getUserInfo();
 
     //------------
     ownNameController = TextEditingController(text: ownerName);

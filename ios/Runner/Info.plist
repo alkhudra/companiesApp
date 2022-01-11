@@ -47,6 +47,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
@@ -58,5 +59,16 @@
 
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>This app needs access to location when open and in the background.</string>
+
+
+    	<key>LSApplicationQueriesSchemes</key>
+        <array>
+
+         <string>https</string>
+           <string>http</string>
+           <string>tel</string>
+           <string>mailto</string>
+
+        </array>
 </dict>
 </plist>

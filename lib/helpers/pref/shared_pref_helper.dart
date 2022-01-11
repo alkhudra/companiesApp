@@ -10,8 +10,10 @@ class PreferencesHelper {
       SharedPrefsManager.setBool(firstLogin, value);
   static bool? isUserFirstLogIn(){
     PreferencesHelper.getIsUserFirstLogIn.then((value) {
-      return value;
+
+      return value ;
     });
+
   }
 
   //----------------
@@ -20,8 +22,12 @@ class PreferencesHelper {
       SharedPrefsManager.setBool(isLoggedIn, value);
   static bool? isUserLoggedIn(){
     PreferencesHelper.getIsUserLoggedIn.then((value) {
+
       return value;
+
     });
+
+
   }
   //------------------
 
@@ -32,6 +38,7 @@ class PreferencesHelper {
     PreferencesHelper.getIsUserLoggedOut.then((value) {
       return value;
     });
+
   }
 
   //------------------

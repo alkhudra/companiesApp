@@ -4,8 +4,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 //--------------
 void directToPhoneCall(String number) async {
-  if (await canLaunch('tel:+$number')) {
-    await launch('tel:+$number');
+
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: number,
+  );
+
+
+  if (await canLaunch(launchUri.toString())) {
+    await launch(launchUri.toString());
+  } else {
+    throw 'Could not launch $launchUri';
   }
 }
 
@@ -38,7 +47,16 @@ void sendMail(String email) async {
 
 void openWhatsApp(String phone)async{
 
-  String uri= 'https://api.whatsapp.com/send?phone=$phone';
+  String message = 'hello ';
+  String uri;
+  if (Platform.isAndroid) {
+    // add the [https]
+    uri= "https://wa.me/$phone/?text=${Uri.parse(message)}"; // new line
+  } else {
+    // add the [https]
+    uri= "https://api.whatsapp.com/send?phone=$phone";   //=${Uri.parse(message)}"; // new line
+  }
+//  String uri= 'https://api.whatsapp.com/send?phone=$phone';
   if (await canLaunch(uri)) {
     await launch(uri);
   } else {

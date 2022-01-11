@@ -2,6 +2,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
 import 'package:khudrah_companies/pages/credit_page.dart';
@@ -228,9 +230,10 @@ Drawer drawerDesign(context) {
           ),
           onTap: () {
             Navigator.pop(context);
+            PreferencesHelper.setUserLoggedIn(false);
             Navigator.push(context,
               MaterialPageRoute(
-                  builder: (context) => EditProfile()
+                  builder: (context) => LogInPage()
               ),
             );
           },

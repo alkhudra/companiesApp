@@ -1,4 +1,5 @@
 import 'package:khudrah_companies/designs/appbar_design.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 // import 'package:alkhudhrah_app/designs/bottom_nav_bar.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
@@ -30,7 +31,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
     if(localeName == 'en')
       await context.setLocale(Locale('en'));
     else   await context.setLocale(Locale('ar'));
-
+    PreferencesHelper.setSelectedLanguage(localeName);
     // Navigator.push(context, MaterialPageRoute(builder: (context) {
     //   return LanguageSetting();
     // }));

@@ -63,12 +63,13 @@ class _EnterCodePageState extends State<EnterCodePage> {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(15),
                   child: Text(
-                    LocaleKeys.enter_code_note.tr() + '\n' + email,
+                    LocaleKeys.enter_code_note.tr() +  email,
                     style: TextStyle(
                       locale: Locale(language),
-                      fontSize: 15,
+                      fontSize: 20,
                       color: CustomColors().primaryGreenColor,
                     ),
                   ),

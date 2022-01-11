@@ -329,7 +329,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       //-------- success response ---------
-      SuccessRegisterResponseModel model = result.result;
+      print(result.result);
+      SuccessRegisterResponseModel model = SuccessRegisterResponseModel.fromJson(result.result);
       print(model.userId);
 
       PreferencesHelper.setUserID(model.userId);
