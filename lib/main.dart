@@ -38,13 +38,15 @@ static  bool isUserLoggedIn =false;
   Widget build(BuildContext context) {
 
     return MaterialApp(
-
       debugShowCheckedModeBanner: false,
       color: CustomColors().primaryGreenColor,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
       locale: context.locale,
-      theme: ThemeData(accentColor: CustomColors().primaryGreenColor),
+      theme: ThemeData(
+        accentColor: CustomColors().primaryGreenColor,
+        primarySwatch: Colors.green,
+      ),
       home:getRout() ,
     );
   }

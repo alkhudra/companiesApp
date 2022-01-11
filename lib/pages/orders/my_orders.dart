@@ -4,14 +4,14 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class CartPage extends StatefulWidget {
-  const CartPage({ Key? key }) : super(key: key);
+class MyOrdersPage extends StatefulWidget {
+  const MyOrdersPage({ Key? key }) : super(key: key);
 
   @override
-  _CartPageState createState() => _CartPageState();
+  _MyOrdersPageState createState() => _MyOrdersPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class _MyOrdersPageState extends State<MyOrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

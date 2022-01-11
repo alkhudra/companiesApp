@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/greeting_text.dart';
@@ -80,13 +81,18 @@ class _HomePageState extends State<HomePage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    return SafeArea(
+    //set appbar color, since homepage has no app bar
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
       child: Scaffold(
         key: _scaffoldState,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(height: 35,),
               //greeting user
               Container(
                 child: greeting(context),
@@ -96,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                 child: searchBar(searchController),
               ),
               SizedBox(height: 20,),
-
+    
               Container(
                 width: scWidth*15,
                 padding: EdgeInsets.only(left: 20, right: 20),
@@ -214,7 +220,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         drawer: drawerDesign(context),
-
+    
       ),
     );
   }
