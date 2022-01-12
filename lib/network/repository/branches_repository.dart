@@ -8,22 +8,30 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 
 class BranchRepository {
   late final RestClient _client;
+  static String token ='';
 
-  //todo: handle error
 
   BranchRepository([RestClient? client]) {
 //    String selectedLanguage = PreferencesHelper.getLanguage()!;
-    String token = PreferencesHelper.getToken()!;
-    Map<String, dynamic> headerMap = {
-      //  "language" : "$selectedLanguage",
-      "Authorization": "Bearer $token"
-    };
+   PreferencesHelper.getUserToken.then((value) {
+     token = value;
+   });
 
-    _client = RestClient(Dio(
-      BaseOptions(contentType: 'application/json', headers: headerMap),
-    ));
+   Map<String, dynamic> headerMap = {
+     //  "language" : "$selectedLanguage",
+     "Authorization": "Bearer $token"
+   };
+   print('map is $headerMap');
+
+   _client = RestClient(Dio(
+     BaseOptions(contentType: 'application/json', headers: headerMap),
+   ));
   }
 
+
+
+
+  //-----------------------------------
   Future<ApiResponse> addNewBranch(
       String companyId,
       String branchName,
@@ -62,6 +70,9 @@ class BranchRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
+            if (errorCode == 500) {
+              errorMessage = res.data['Message'];
+            }
           }
           break;
         default:

@@ -283,35 +283,4 @@ class RegisterRepository {
 
   //-----------------
 
-  Future<ApiResponse> getUserInfo(String companyID) async {
-    if (companyID == null) {
-      return ApiResponse(ApiResponseType.BadRequest, null, '');
-    }
-
-
-    return await _client
-        .getUserInfo(companyID)
-        .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
-        .catchError((e) {
-      int errorCode = 0;
-      String errorMessage = "";
-      switch (e.runtimeType) {
-        case DioError:
-          final res = (e as DioError).response;
-          if (res != null) {
-            errorCode = res.statusCode!;
-            errorMessage = res.statusMessage!;
-            if (errorCode == 500) {
-              errorMessage = res.data['Message'];
-            }
-          }
-          break;
-        default:
-      }
-      log("Got error : $errorCode -> $errorMessage");
-
-      var apiResponseType = ApiResponse.convert(errorCode);
-      return ApiResponse(apiResponseType, null, errorMessage);
-    });
-  }
 }

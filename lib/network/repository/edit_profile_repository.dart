@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:khudrah_companies/helpers/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_config.dart';
 import 'package:dio/dio.dart';
@@ -8,22 +9,47 @@ import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/fail_edit_profile_response_model.dart';
 
-class EditProfileRepository {
+class ProfileRepository {
   late final RestClient _client;
 
-  EditProfileRepository([RestClient? client]) {
-//    String selectedLanguage = PreferencesHelper.getLanguage()!;
-    String token = PreferencesHelper.getToken()!;
-    Map<String, dynamic> headerMap = {
-      //  "language" : "$selectedLanguage",
-      "Authorization": "Bearer $token"
-    };
-
+  ProfileRepository(Map<String, dynamic> headerMap) {
     _client = RestClient(Dio(
       BaseOptions(contentType: 'application/json', headers: headerMap),
     ));
   }
 
+
+
+
+  Future<ApiResponse> getUserInfo(String companyID) async {
+    if (companyID == null) {
+      return ApiResponse(ApiResponseType.BadRequest, null, '');
+    }
+    return await _client
+        .getUserInfo(companyID)
+        .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
+        .catchError((e) {
+      int errorCode = 0;
+      String errorMessage = "";
+      switch (e.runtimeType) {
+        case DioError:
+          final res = (e as DioError).response;
+          if (res != null) {
+            errorCode = res.statusCode!;
+            errorMessage = res.statusMessage!;
+            if (errorCode == 500) {
+              errorMessage = res.data['Message'];
+            }
+          }
+          break;
+        default:
+      }
+      log("Got error : $errorCode -> $errorMessage");
+
+      var apiResponseType = ApiResponse.convert(errorCode);
+      return ApiResponse(apiResponseType, null, errorMessage);
+    });
+  }
 //-----------------
 
   Future<ApiResponse> updateProfile(
@@ -48,7 +74,7 @@ class EditProfileRepository {
     };
 
     return await _client
-        .updateProfileInfo(companyID,hashMap)
+        .updateProfileInfo(companyID, hashMap)
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
         .catchError((e) {
       int errorCode = 0;

@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -11,37 +12,7 @@ part 'api_config.g.dart';
 * */
 @RestApi(baseUrl: ApiConst.basic_url)
 abstract class RestClient {
-  //todo:with token , language
-
-  factory RestClient(Dio dio, {String? baseUrl}) = _RestClient;/*()
-
-  {
-    {
-
-      dio.options = BaseOptions(
-          receiveTimeout: 30000,
-          connectTimeout: 30000,
-          contentType: 'application/json',
-           *//* If needed headers *//* *//*
-
-
-   *//*        if (withToken) {
-        String tokenType = PreferencesHelper.getTokenType("Bearer");
-        String token = PreferencesHelper.getToken("");
-
-        requestBuilder.header("Authorization", tokenType + " " + token);
-      }
-          headers: {
-           // 'Authorization': 'Basic ZGlzYXBpdXNlcjpkaXMjMTIz',
-            'X-ApiKey': 'ZGslzIzEyMw==',
-            'Content-Type': 'application/json'
-          }
-      );
-
-      return _RestClient(dio,withToken,baseUrl:baseUrl);
-    }
-  }*/
-
+  factory RestClient(Dio dio, {String? baseUrl}) = _RestClient;
   //---------------auth ----------------
 
   @POST(ApiConst.register_url)
@@ -61,22 +32,22 @@ abstract class RestClient {
   Future<dynamic> resetPassword(@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.update_profile_url)
-  Future<dynamic> updateProfileInfo(@Field() String companyId ,@Body() Map<String, dynamic> hashMap);
+  Future<dynamic> updateProfileInfo(@Path() String id ,@Body() Map<String, dynamic> hashMap);
 
   @GET(ApiConst.get_user_info_url)
-  Future<dynamic> getUserInfo(@Field() String companyId);
+  Future<dynamic> getUserInfo(@Path() String id);
 //---------------branch ----------------
   @POST(ApiConst.add_branch_url)
-  Future<String> addNewBranch(@Field() String companyId ,@Body() Map<String, dynamic> hashMap);
+  Future<String> addNewBranch(@Query('') String companyId ,@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.update_branch_url)
-  Future<String> editBranch(@Field() String branchId ,@Body() Map<String, dynamic> hashMap);
+  Future<String> editBranch(@Query('') String branchId ,@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.delete_branch_url)
-  Future<String> deleteBranch(@Field() String branchId );
+  Future<String> deleteBranch(@Query('') String branchId );
 
   @GET(ApiConst.get_branch_url)
-  Future<String> getAllBranches(@Field() String companyId ,@Body() Map<String, dynamic> hashMap);
+  Future<String> getAllBranches(@Query('') String companyId ,@Body() Map<String, dynamic> hashMap);
 
 
 
