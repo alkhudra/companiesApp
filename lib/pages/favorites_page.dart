@@ -16,8 +16,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //add body
-      endDrawer: drawerDesign(context),
-      appBar: appBarDesign(context, LocaleKeys.favorites.tr()),
+      // endDrawer: drawerDesign(context),
+      appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
     );
   }
 }

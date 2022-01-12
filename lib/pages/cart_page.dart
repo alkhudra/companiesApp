@@ -17,7 +17,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       //add body
       endDrawer: drawerDesign(context),
-      appBar: appBarDesign(context, LocaleKeys.credit.tr()),
+      appBar: bnbAppBar(context, LocaleKeys.cart.tr()),
     );
   }
 }

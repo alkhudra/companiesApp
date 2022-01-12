@@ -52,16 +52,21 @@ class _DashboardPageState extends State<DashboardPage> {
           AssetImage('images/logo.png'),
           size: 35,
         ),
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            currentScreen = CartPage();
+            currentTab = 2;
+          });
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        notchMargin: 6,
+        notchMargin: 4,
         child: Container(
           height: 55,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -69,7 +74,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 children: [
                   //Left tab bar icons
                   MaterialButton(
-                    minWidth: 30,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: 20,
                     onPressed: () {
                       setState(() {
                         //ishasbranch could be set to false later
@@ -98,8 +104,9 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
                   ),
-                  MaterialButton(
-                    minWidth: 30,
+                                    MaterialButton(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: 20,
                     onPressed: () {
                       setState(() {
                         currentScreen = NotificationsPage();
@@ -129,14 +136,26 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ],
               ),
+              Container(
+                // color: Colors.red,
+                alignment: Alignment.bottomCenter,
+                child: Text(LocaleKeys.cart.tr(),
+                style: TextStyle(
+                  color: currentTab == 2
+                          ? CustomColors().primaryGreenColor 
+                          : CustomColors().grayColor,
+                ),
+                ),
+              ),
+              SizedBox(width: 10,),
               //Right tab bar icons
               Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //Left tab bar icons
                   MaterialButton(
-                    minWidth: 40,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: 20,
                     onPressed: () {
                       setState(() {
                         currentScreen = MyOrdersPage();
@@ -164,8 +183,9 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
                   ),
-                  MaterialButton(
-                    minWidth: 40,
+                                    MaterialButton(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: 20,
                     onPressed: () {
                       setState(() {
                         currentScreen = FavoritesPage();
@@ -193,6 +213,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
                   ),
+
                 ],
               ),
             ],

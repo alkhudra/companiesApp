@@ -16,8 +16,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //add body
-      endDrawer: drawerDesign(context),
-      appBar: appBarDesign(context, LocaleKeys.my_orders.tr()),
+      // endDrawer: drawerDesign(context),
+      appBar: bnbAppBar(context, LocaleKeys.my_orders.tr()),
     );
   }
 }

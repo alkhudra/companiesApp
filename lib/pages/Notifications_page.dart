@@ -16,8 +16,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //add body
-      endDrawer: drawerDesign(context),
-      appBar: appBarDesign(context, LocaleKeys.notifications.tr()),
+      // endDrawer: drawerDesign(context),
+      appBar: bnbAppBar(context, LocaleKeys.notifications.tr()),
     );
   }
 }
