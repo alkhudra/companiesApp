@@ -8,7 +8,7 @@ import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
 import 'package:khudrah_companies/pages/credit_page.dart';
-import 'package:khudrah_companies/pages/edit_profile.dart';
+import 'package:khudrah_companies/pages/account/edit_profile.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/pages/language/language_setting.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';

@@ -13,7 +13,7 @@ import 'package:khudrah_companies/dialogs/passowrd_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
-import 'package:khudrah_companies/helpers/network_helper.dart';
+import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
@@ -28,7 +28,7 @@ import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
-import 'contact_us.dart';
+import '../contact_us.dart';
 
 class EditProfile extends StatefulWidget {
   final User user;

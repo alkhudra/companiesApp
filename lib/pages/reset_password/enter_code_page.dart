@@ -38,13 +38,10 @@ class _EnterCodePageState extends State<EnterCodePage> {
   bool isResendEnabled = true;
 
   static late String correctCode ;
-  String language = 'ar';
   @override
   void initState() {
     super.initState();
     _events = new StreamController<int>();
-    PreferencesHelper.getSelectedLanguage.then((value) => language = value);
-
     numberOfSecToWait = 120;
     _events.add(numberOfSecToWait);
     correctCode = widget.code;
@@ -68,7 +65,6 @@ class _EnterCodePageState extends State<EnterCodePage> {
                   child: Text(
                     LocaleKeys.enter_code_note.tr() +  email,
                     style: TextStyle(
-                      locale: Locale(language),
                       fontSize: 20,
                       color: CustomColors().primaryGreenColor,
                     ),

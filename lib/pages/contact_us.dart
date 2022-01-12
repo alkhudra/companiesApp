@@ -8,7 +8,7 @@ import 'package:khudrah_companies/helpers/contact_helper.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 import 'contact_us.dart';
-import 'edit_profile.dart';
+import 'account/edit_profile.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
