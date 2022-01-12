@@ -76,8 +76,9 @@ class _LogInPageState extends State<LogInPage> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: scHeight*0.19,),
                 TextFieldDesign.textFieldStyle(
                   context: context,
                   verMarg: 5,
@@ -140,7 +141,7 @@ class _LogInPageState extends State<LogInPage> {
                       ),
                     )),
                 SizedBox(
-                  height: scHeight * 0.05,
+                  height: scHeight * 0.065,
                 ),
                 greenBtn(LocaleKeys.log_in.tr(), EdgeInsets.only(left: 50, right: 50),  () {
                    if (isBtnEnabled) logIn();

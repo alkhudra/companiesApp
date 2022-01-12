@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/greeting_text.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
@@ -88,12 +89,14 @@ class _HomePageState extends State<HomePage> {
         statusBarColor: Colors.transparent,
       ),
       child: Scaffold(
+        endDrawer: drawerDesign(context),
+        appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
         key: _scaffoldState,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 35,),
+              // SizedBox(height: 35,),
               //greeting user
               Container(
                 child: greeting(context),
@@ -220,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        drawer: drawerDesign(context),
+        // drawer: drawerDesign(context),
     
       ),
     );
@@ -230,24 +233,24 @@ class _HomePageState extends State<HomePage> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // SizedBox(width: 10,),
-          Container(
-            child: IconButton(
-              icon: Icon(Icons.menu_rounded,),
-              color: CustomColors().brownColor,
-              iconSize: 33,
-              onPressed: () {
-                _scaffoldState.currentState!.openDrawer();
-              },
-            ),
-          ),
+          // Container(
+          //   child: IconButton(
+          //     icon: Icon(Icons.menu_rounded,),
+          //     color: CustomColors().brownColor,
+          //     iconSize: 33,
+          //     onPressed: () {
+          //       _scaffoldState.currentState!.openDrawer();
+          //     },
+          //   ),
+          // ),
           SizedBox(width: 5,),
           Container(
             margin: EdgeInsets.only(left: 5, right: 5),
-            width: MediaQuery.of(context).size.width/1.4,
+            width: MediaQuery.of(context).size.width/1.3,
             child: TextFieldDesign.textFieldStyle(
               context: context,
               verMarg: 2,

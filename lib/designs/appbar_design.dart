@@ -13,7 +13,7 @@ AppBar appBarDesign(context, title) {
             },
           ),
           backgroundColor: CustomColors().primaryGreenColor,
-          // centerTitle: true,
+          centerTitle: true,
           title: Stack(
             alignment: Alignment.center,
             children: [
@@ -38,4 +38,38 @@ AppBar appBarDesign(context, title) {
             ],
           ),
         );
+}
+
+
+
+//Appbar for Homepage
+
+AppBar homeAppBarDesign(context, title) {
+
+  return AppBar(
+    centerTitle: true,
+    automaticallyImplyLeading: false,
+    backgroundColor: CustomColors().primaryGreenColor,
+    title: Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/7.5, left: MediaQuery.of(context).size.width/2.8),
+          width: MediaQuery.of(context).size.width*0.8,
+          height: MediaQuery.of(context).size.height*0.2,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/grapevector.png'),
+            ),
+          ),
+        ),
+        Container(
+          // margin: EdgeInsets.only(top: scHeight/7.5),
+          child: Text(title, 
+          style: TextStyle(
+          ),),
+        ),
+      ],
+    ),
+  );
 }
