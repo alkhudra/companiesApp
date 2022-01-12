@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefsManager {
 //-----------------------------------
 
-
   static Future<bool> getBool(String key) async {
     final p = await prefs;
     return p.getBool(key) ?? true;
@@ -46,29 +45,12 @@ class SharedPrefsManager {
     return p.setDouble(key, value);
   }
 
-
-
-  static dynamic getFromJson(String key){
-    String json='';
-    Map<String,dynamic>  userMap;
-    getString(key).then((value) {
-
-      json = value;
-       userMap = jsonDecode(json);
-
-
-      print('json to get user from local : $userMap');
-
-      return userMap;
-
-    });
-
-
-
+  static dynamic getFromJson(String key) async {
+    String json = await getString(key);
+    return jsonDecode(json);
   }
 
-
-  static Future setToJson(String key , Object object){
+  static Future setToJson(String key, Object object) {
     String json = jsonEncode(object);
     return SharedPrefsManager.setString(key, json);
   }

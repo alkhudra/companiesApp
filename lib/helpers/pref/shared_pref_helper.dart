@@ -81,7 +81,10 @@ class PreferencesHelper {
   }
   //--------------------
 
-  static Future<User> get getUser async => /*User.fromJson(*/SharedPrefsManager.getFromJson(currentUser);//);
+  static Future<User> get getUser async {
+    Map<String,dynamic>  userMap = await SharedPrefsManager.getFromJson(currentUser);
+    return User.fromJson(userMap);
+  }
 
   static Future setUser(User user) {
   //  user = User.fromJson(user);

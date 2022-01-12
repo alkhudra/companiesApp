@@ -62,38 +62,16 @@ class _AccountSettingsState extends State<AccountSettings> {
 
     showLoaderDialog(context);
 
-    Map<String, dynamic> headerMap = await getHeaderMap();
-    String companyID = await PreferencesHelper.getUserID;
+    User user = await PreferencesHelper.getUser;
+    print(user.toString());
+    Navigator.pop(context);
 
-    ProfileRepository registerRepository = ProfileRepository(headerMap);
-    registerRepository
-        .getUserInfo(
-      companyID,
-    )
-        .then((result) async {
-      //-------- fail response ---------
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditProfile(
+                  user: user,
+                )));
 
-      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        Navigator.pop(context);
-        showErrorMessageDialog(context, result.message);
-        return;
-      }
-
-      //-------- success response ---------
-      // model = result.result;
-
-      User user = User.fromJson(result.result);
-      print(user.toString());
-      Navigator.pop(context);
-
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EditProfile(
-                    user: user,
-                  )));
-    });
-
-    //----------start api ----------------
   }
 }
