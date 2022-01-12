@@ -81,7 +81,7 @@ class PreferencesHelper {
   }
   //--------------------
 
-  static Future<User> get getUser async => User.fromJson(SharedPrefsManager.getFromJson(currentUser));
+  static Future<User> get getUser async => /*User.fromJson(*/SharedPrefsManager.getFromJson(currentUser);//);
 
   static Future setUser(User user) {
   //  user = User.fromJson(user);

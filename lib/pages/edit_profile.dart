@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/Constant/pref_cont.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
@@ -10,6 +13,8 @@ import 'package:khudrah_companies/dialogs/passowrd_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
+import 'package:khudrah_companies/helpers/network_helper.dart';
+import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -26,46 +31,50 @@ import 'package:khudrah_companies/router/route_constants.dart';
 import 'contact_us.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  final User user;
+  const EditProfile({Key? key,required this.user}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  late TextEditingController ownNameController,
-      compNameController,
-      commercialNoController,
-      emailController,
-      phoneController,
-      branchNoController;
+  late TextEditingController ownNameController = TextEditingController(),
+      compNameController = TextEditingController(),
+      commercialNoController = TextEditingController(),
+      emailController = TextEditingController(),
+      phoneController = TextEditingController(),
+      branchNoController = TextEditingController();
 
   bool isBtnEnabled = true;
-  static bool isHasBranch = true,isForgetPassBtnEnabled = true;
+  static bool isHasBranch = true, isForgetPassBtnEnabled = true;
 
-  static String companyName = '',
-      ownerName= '',
-      email= '',
-      phoneNumber= '',
-      commercialNo= '',
-      branchNo= '',
-      companyID= '';
+  static String companyID = '';
 
   @override
   void initState() {
     super.initState();
-    //companyID = PreferencesHelper.getCompanyID()!;
-    //------------
 
-   // getUserInfo();
+
+    companyID = widget.user.id!;
+    ownNameController.text= widget.user.ownerName!;
+    compNameController.text= widget.user.companyName!;
+    commercialNoController.text= widget.user.commercialRegistrationNo!;
+    phoneController.text= widget.user.phoneNumber!;
+    emailController.text= widget.user.email!;
+    branchNoController.text= widget.user.branchNumber!.toString();
+
 
     //------------
-    ownNameController = TextEditingController(text: ownerName);
-    compNameController = TextEditingController(text: companyName);
-    commercialNoController = TextEditingController(text: commercialNo);
-    emailController = TextEditingController(text: email);
-    phoneController = TextEditingController(text: phoneNumber);
-    branchNoController = TextEditingController(text: branchNo);
+  }
+
+  static _read() async {
+    SharedPrefsManager.getString(currentUser).then((value) {
+      return jsonDecode(value);
+    });
+    // return SharedPrefsManager.getFromJson(currentUser);
+
+    // map ;
   }
 
   @override
@@ -74,78 +83,74 @@ class _EditProfileState extends State<EditProfile> {
       appBar: appBarDesign(context, LocaleKeys.edit_profile_title.tr()),
       backgroundColor: Colors.grey[100],
       body: Container(
-          alignment: Alignment.topCenter,
-          // margin: EdgeInsets.only(top: 100),
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          color: CustomColors().primaryWhiteColor,
-          child: Column(
-            children: [
-              TextFieldDesign.editTextFieldStyle(
-                context: context,
-                verMarg: 20,
-                horMarg: 20,
-                controller: ownNameController,
-                kbType: TextInputType.name,
-                //  initValue: LocaleKeys.owner_name.tr(),
-              ),
-              TextFieldDesign.editTextFieldStyle(
-                context: context,
-                verMarg: 0,
-                horMarg: 20,
-                controller: compNameController,
-                kbType: TextInputType.name,
-                //initValue: LocaleKeys.comp_name.tr(),
-              ),
-              TextFieldDesign.editTextFieldStyle(
-                context: context,
-                verMarg: 20,
-                horMarg: 20,
-                controller: emailController,
-                kbType: TextInputType.emailAddress,
-                // initValue: LocaleKeys.change_email.tr(),
-              ),
-              TextFieldDesign.editTextFieldStyle(
-                context: context,
-                verMarg: 0,
-                horMarg: 20,
-                controller: phoneController,
-                kbType: TextInputType.phone,
-                //  initValue: LocaleKeys.change_phone.tr(),
-              ),
-              TextFieldDesign.editTextFieldStyle(
-                context: context,
-                verMarg: 20,
-                horMarg: 20,
-                controller: commercialNoController,
-                kbType: TextInputType.number,
-                //   initValue: LocaleKeys.commercial_no.tr(),
-              ),
-              TextFieldDesign.editTextFieldStyle(
-                context: context,
-                verMarg: 0,
-                horMarg: 20,
-                controller: branchNoController,
-                kbType: TextInputType.number,
-                //    initValue: LocaleKeys.branches_no.tr(),
-              ),
-              greenBtn(LocaleKeys.save_changes.tr(),
-                  EdgeInsets.only(left: 20, right: 20, top: 20), () {
-                if (isBtnEnabled) editProfileInfo();
-              }),
-              greenBtn(LocaleKeys.reset_password.tr(),
-                  EdgeInsets.only(left: 20, right: 20, top: 20), () {
-                if(isForgetPassBtnEnabled)
-                    resetPasswordProcess();
-                  }),
-            ],
-          ),
+        alignment: Alignment.topCenter,
+        // margin: EdgeInsets.only(top: 100),
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height,
+        color: CustomColors().primaryWhiteColor,
+        child: Column(
+          children: [
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
+              verMarg: 20,
+              horMarg: 20,
+              controller: ownNameController,
+              kbType: TextInputType.name,
+              //  initValue: LocaleKeys.owner_name.tr(),
+            ),
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
+              verMarg: 0,
+              horMarg: 20,
+              controller: compNameController,
+              kbType: TextInputType.name,
+              //initValue: LocaleKeys.comp_name.tr(),
+            ),
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
+              verMarg: 20,
+              horMarg: 20,
+              controller: emailController,
+              kbType: TextInputType.emailAddress,
+              // initValue: LocaleKeys.change_email.tr(),
+            ),
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
+              verMarg: 0,
+              horMarg: 20,
+              controller: phoneController,
+              kbType: TextInputType.phone,
+              //  initValue: LocaleKeys.change_phone.tr(),
+            ),
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
+              verMarg: 20,
+              horMarg: 20,
+              controller: commercialNoController,
+              kbType: TextInputType.number,
+              //   initValue: LocaleKeys.commercial_no.tr(),
+            ),
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
+              verMarg: 0,
+              horMarg: 20,
+              controller: branchNoController,
+              kbType: TextInputType.number,
+              //    initValue: LocaleKeys.branches_no.tr(),
+            ),
+            greenBtn(LocaleKeys.save_changes.tr(),
+                EdgeInsets.only(left: 20, right: 20, top: 20), () {
+              if (isBtnEnabled) editProfileInfo();
+            }),
+
+          ],
         ),
+      ),
       endDrawer: drawerDesign(context),
     );
   }
 
-  void editProfileInfo() {
+  void editProfileInfo() async{
     if (ownNameController.value.text == '') {
       showErrorDialog(LocaleKeys.owner_required.tr());
 
@@ -179,6 +184,17 @@ class _EditProfileState extends State<EditProfile> {
       return;
     }
 
+    if (commercialNoController.value.text == '') {
+      showErrorDialog(LocaleKeys.commercial_no_required.tr());
+
+      return;
+    }
+    if (commercialNoController.value.text.length != 10) {
+      showErrorDialog(LocaleKeys.commercial_no_error.tr());
+
+      return;
+    }
+
     if (branchNoController.value.text == '') {
       showErrorDialog(LocaleKeys.branches_no_required.tr());
 
@@ -199,35 +215,40 @@ class _EditProfileState extends State<EditProfile> {
     showLoaderDialog(context);
     //----------start api ----------------
 
-    EditProfileRepository editProfileRepository = EditProfileRepository();
-    editProfileRepository
-        .updateProfile(
-            companyID,
-            emailController.text,
-            phoneController.text,
-            ownNameController.text,
-            compNameController.text,
-            commercialNoController.text,
-            int.parse(branchNoController.text))
-        .then((result) async {
-      //-------- fail response ---------
+    Map<String, dynamic> headerMap = await getHeaderMap();
 
-      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+      ProfileRepository editProfileRepository = ProfileRepository(headerMap);
+      print('company id $companyID');
+      editProfileRepository
+          .updateProfile(
+          companyID,
+          emailController.text,
+          phoneController.text,
+          ownNameController.text,
+          compNameController.text,
+          commercialNoController.text,
+          int.parse(branchNoController.text))
+          .then((result) async {
+        //-------- fail response ---------
+
+        if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+          Navigator.pop(context);
+          showErrorDialog(result.message);
+          return;
+        }
+
+        //-------- success response ---------
+        MessageResponseModel model = MessageResponseModel.fromJson(result.result);
         Navigator.pop(context);
-        showErrorDialog(result.message);
-        return;
-      }
+        showSuccessMessage(context, model.message!);
 
-      //-------- success response ---------
-      MessageResponseModel model = result.result;
-      Navigator.pop(context);
-      showSuccessMessage(context, model.message!);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //replace with dashboard
+          return DashboardPage(isHasBranch: isHasBranch);
+        }));
+      });
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //replace with dashboard
-        return DashboardPage(isHasBranch: isHasBranch);
-      }));
-    });
+
   }
 
   void showErrorDialog(String txt) {
@@ -238,52 +259,12 @@ class _EditProfileState extends State<EditProfile> {
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
-  void getUserInfo() {
-    print('get user info ');
-    //----------show progress----------------
-
-    showLoaderDialog(context);
-
-    //----------start api ----------------
-
-    RegisterRepository registerRepository = RegisterRepository();
-    registerRepository
-        .getUserInfo(
-      companyID,
-    )
-        .then((result) async {
-      //-------- fail response ---------
-
-      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        Navigator.pop(context);
-        showErrorDialog(result.message);
-        return;
-      }
-
-      //-------- success response ---------
-      SuccessLoginResponseModel model = result.result;
-
-      if (model.user != null) {
-        User user = model.user!;
-        email = user.email!;
-        ownerName = user.ownerName!;
-        companyName = user.companyName!;
-        commercialNo = user.commercialRegistrationNo!;
-        branchNo = user.branchNumber!.toString();
-        phoneNumber = user.phoneNumber!;
-        isHasBranch = user.branches!.isNotEmpty;
-
-        Navigator.pop(context);
-      }
-    });
-  }
-
 
   //------------------------------
   void resetPasswordProcess() {
     showDialog(
         builder: (BuildContext context) =>
-            showEnterEmailDialog(context,isForgetPassBtnEnabled),
+            showEnterEmailDialog(context, isForgetPassBtnEnabled),
         context: context);
   }
 }

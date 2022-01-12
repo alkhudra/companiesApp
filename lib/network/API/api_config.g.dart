@@ -92,14 +92,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<dynamic> updateProfileInfo(companyId, hashMap) async {
+  Future<dynamic> updateProfileInfo(id, hashMap) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/account/updateUser',
+            .compose(_dio.options, '/account/updateUser/$id',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
@@ -107,13 +107,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<dynamic> getUserInfo(companyId) async {
+  Future<dynamic> getUserInfo(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = {'companyId': companyId};
+    final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/account/getRegisteredUser',
+            .compose(_dio.options, '/account/getRegisteredUser/$id',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
@@ -123,7 +123,7 @@ class _RestClient implements RestClient {
   @override
   Future<String> addNewBranch(companyId, hashMap) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'': companyId};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
     final _result = await _dio.fetch<String>(_setStreamType<String>(
@@ -138,7 +138,7 @@ class _RestClient implements RestClient {
   @override
   Future<String> editBranch(branchId, hashMap) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'': branchId};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
     final _result = await _dio.fetch<String>(_setStreamType<String>(
@@ -153,8 +153,8 @@ class _RestClient implements RestClient {
   @override
   Future<String> deleteBranch(branchId) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = {'branchId': branchId};
+    final queryParameters = <String, dynamic>{r'': branchId};
+    final _data = <String, dynamic>{};
     final _result = await _dio.fetch<String>(_setStreamType<String>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
             .compose(_dio.options, '/branch/deleteBranch',
@@ -167,7 +167,7 @@ class _RestClient implements RestClient {
   @override
   Future<String> getAllBranches(companyId, hashMap) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'': companyId};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
     final _result = await _dio.fetch<String>(_setStreamType<String>(

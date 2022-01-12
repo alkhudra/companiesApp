@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsManager {
@@ -49,14 +50,19 @@ class SharedPrefsManager {
 
   static dynamic getFromJson(String key){
     String json='';
-
+    Map<String,dynamic>  userMap;
     getString(key).then((value) {
+
       json = value;
-      Map<String,dynamic> userMap = jsonDecode(json);
+       userMap = jsonDecode(json);
+
+
       print('json to get user from local : $userMap');
 
       return userMap;
+
     });
+
 
 
   }

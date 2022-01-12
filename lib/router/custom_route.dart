@@ -21,8 +21,7 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => LanguagePage());
       case welcomeRoute:
         return MaterialPageRoute(builder: (_) => WelcomePage());
-      case editInfoRoute:
-        return MaterialPageRoute(builder: (_) => EditProfile());
+
       case homeRoute:
         return MaterialPageRoute(builder: (_) => DashboardPage(isHasBranch: true));
       default:
