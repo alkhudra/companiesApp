@@ -7,24 +7,23 @@ import 'package:easy_localization/easy_localization.dart';
 Widget greeting(context) {
   return Container(
     width: MediaQuery.of(context).size.width*0.9,
-    child: Column(
+    height: 25,
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 10,),
         Container(
           child: Text(LocaleKeys.welcome_back.tr(), 
             style: TextStyle(color: CustomColors().darkGrayColor,
             fontSize: 14),
           ),
         ),
-        SizedBox(height: 5,),
         Container(
-          padding: EdgeInsets.only(left: 5, right: 5),
-          child: Text('Username', 
+          padding: EdgeInsets.only(left: 3, right: 3),
+          child: Text(', username', 
             style: TextStyle(color: CustomColors().darkBlueColor,
-            fontSize: 18,
-            fontWeight: FontWeight.w800),
+            fontSize: 17.5,
+            fontWeight: FontWeight.w700),
           ),
         ),
       ],
