@@ -50,6 +50,11 @@ class _BranchListState extends State<BranchList> {
   }
 
   Widget _buildList(BuildContext context, List<BranchModel>? snapshot) {
+
+      Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+
     return Column(children: [
       Expanded(
         child: ListView.builder(itemBuilder: (context, index) {

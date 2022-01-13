@@ -103,7 +103,7 @@ class _PickLocationPage extends State<PickLocationPage> {
                 ),
                 Container(
                     height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.all(20),
+                    margin: EdgeInsets.all(10),
                     child: MaterialButton(
                       onPressed: () {
                         confirmedLatLng = temLatLng!;
