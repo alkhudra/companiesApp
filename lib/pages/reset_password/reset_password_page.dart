@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
+import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
@@ -32,14 +34,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   bool isBtnEnabled= true;
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-     appBar: appBarText(LocaleKeys.reset_password.tr(), true),
-      //todo:
-      /********
-       *
-       * design problems:
-       * height of card  , width of main column ,place of btn
-       * *********/
+
+    Size? size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+
+    return Scaffold(
+      appBar: appBarDesign(context, LocaleKeys.reset_password.tr()),
+      resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors().backgroundColor,
       body: Stack(
         children: [
@@ -49,17 +51,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             height: MediaQuery.of(context).size.height / 1.8,
             decoration: CardDesign.largeCardDesign(),
           ),
-          SizedBox(
-            height: 50,
-          ),
-
+          // SizedBox(
+          //   height: 10,
+          // ),
+          brandNameMiddle(),
+          // SizedBox(
+          //   height: 10,
+          // ),
           Container(
-            margin: EdgeInsets.only(top: 250, left: 60),
-            width: 300,
-            height: 300,
+            margin: EdgeInsets.only(
+                top: scHeight * 0.13,
+                right: scWidth * 0.1,
+                left: scWidth * 0.1),
+            // padding: EdgeInsets.symmetric(horizontal: scWidth/9, vertical: scHeight/5),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: scHeight*0.19,),
                 TextFieldDesign.textFieldStyle(
                   context: context,
                   verMarg: 5,
@@ -100,12 +110,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           CustomColors().primaryWhiteColor),
                       color: CustomColors().primaryGreenColor,
                     ))
+
+                ,
               ],
             ),
           ),
         ],
       ),
-    );;
+    );
+
   }
 
   void startReset

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
@@ -52,7 +53,8 @@ class _EnterCodePageState extends State<EnterCodePage> {
   Widget build(BuildContext context) {
     String email = widget.userEmail;
     return Scaffold(
-      appBar:  appBarText(LocaleKeys.enter_code.tr(), true),
+      appBar: appBarDesign(context, LocaleKeys.enter_code.tr()),
+
       body: StreamBuilder<int>(
         stream: _events.stream,
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
