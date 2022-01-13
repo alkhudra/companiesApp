@@ -9,12 +9,15 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class PickLocationPage extends StatefulWidget {
- final LatLng userLatLng;
-  const PickLocationPage({Key? key,required this.userLatLng}) : super(key: key);
+  final LatLng userLatLng;
+  const PickLocationPage({Key? key, required this.userLatLng})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PickLocationPage();
@@ -59,7 +62,7 @@ class _PickLocationPage extends State<PickLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarText(LocaleKeys.add_location.tr(), true),
+      appBar: appBarDesign(context, LocaleKeys.add_location.tr()),
       body: Container(
           child: Column(
         children: [
@@ -101,24 +104,18 @@ class _PickLocationPage extends State<PickLocationPage> {
                     ),
                   ),
                 ),
-                Container(
-                    height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.all(20),
-                    child: MaterialButton(
-                      onPressed: () {
-                        confirmedLatLng = temLatLng!;
-                        Map<String, dynamic> map = {
-                          branchLatLng: confirmedLatLng,
-                          branchAddress: selectedAddress
-                        };
-                        Navigator.pop(context, map);
-                      },
-                      shape: StadiumBorder(),
-                      child: ButtonsDesign.buttonsText(
-                          LocaleKeys.confirm_location.tr(),
-                          CustomColors().primaryWhiteColor),
-                      color: CustomColors().primaryGreenColor,
-                    )),
+                greenBtn(LocaleKeys.confirm_location.tr(), EdgeInsets.all(20),
+                    () {
+                  confirmedLatLng = temLatLng!;
+                  Map<String, dynamic> map = {
+                    branchLatLng: confirmedLatLng,
+                    branchAddress: selectedAddress
+                  };
+                  Navigator.pop(context, map);
+                  confirmedLatLng = LatLng(0, 0);
+                  temLatLng = LatLng(0, 0);
+                  selectedAddress = '';
+                }),
               ],
             ),
           ),
@@ -144,7 +141,6 @@ class _PickLocationPage extends State<PickLocationPage> {
       print(selectedAddress);
     });
   }
-
 
   //-------------------------------
 

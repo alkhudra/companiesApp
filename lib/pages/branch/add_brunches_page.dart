@@ -6,6 +6,7 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
@@ -14,7 +15,9 @@ import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/pick_location_page.dart';
@@ -25,8 +28,7 @@ import 'package:khudrah_companies/router/route_constants.dart';
 class AddBranchesPage extends StatefulWidget {
   // final Map<String ,dynamic>  map ;
 
-  const AddBranchesPage({Key? key})
-      : super(key: key);
+  const AddBranchesPage({Key? key}) : super(key: key);
 
   @override
   _AddBranchesPageState createState() => _AddBranchesPageState();
@@ -34,26 +36,27 @@ class AddBranchesPage extends StatefulWidget {
 
 class _AddBranchesPageState extends State<AddBranchesPage> {
   final TextEditingController cityCountryController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController zipCodeController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
 
   static LatLng latLng = LatLng(0, 0);
-  static String address = '';
+  static String address ='';
 
   String addTxt = LocaleKeys.add_branch.tr();
   String editTxt = LocaleKeys.add_branch.tr();
   String barAndBtnTxt = LocaleKeys.add_branch.tr();
 
-  bool isAddBtnEnabled= true;
+  bool isAddBtnEnabled = true;
 
 // = LatLng(ksaLat,ksaLng);
-  Map<String, dynamic> alreadyUsedMap = {};
+  late Map<String, dynamic> alreadyUsedMap;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarText(getBarAndBtnTxt(), true),
+      appBar: appBarDesign(context, getBarAndBtnTxt()),
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -63,7 +66,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               margin: EdgeInsets.all(10),
               padding: const EdgeInsets.all(8.0),
               child: Text(
-               LocaleKeys.add_branch_note.tr(),
+                LocaleKeys.add_branch_note.tr(),
                 style: TextStyle(
                     fontSize: 15,
                     color: CustomColors().blackColor,
@@ -88,39 +91,42 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               obscTxt: false,
               lbTxt: getZipCodeTxt(),
             ),
-             TextFieldDesign.disableTextFieldStyle(
-                  context: context,
-                  verMarg: 5,
-                  horMarg: 0,
-                  controller: cityCountryController,
-                  kbType: TextInputType.text,
-                  obscTxt: false,
-                  lbTxt: LocaleKeys.ksa.tr(),
-                  enabled: false),
-
-
-
-            greenBtn(LocaleKeys.add_location.tr(), EdgeInsets.all(20), () {
+            TextFieldDesign.disableTextFieldStyle(
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: cityCountryController,
+                kbType: TextInputType.text,
+                obscTxt: false,
+                lbTxt: LocaleKeys.ksa.tr(),
+                enabled: false),
+            Container(
+              margin: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                LocaleKeys.add_location_note.tr(),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: CustomColors().blackColor,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            greenBtnWithIcon(LocaleKeys.add_location.tr(), Icons.my_location,
+                EdgeInsets.all(20), () {
               addLocation();
             }),
-            TextFieldDesign.textFieldStyle(
+            TextFieldDesign.emptyLargeFieldStyle(
                 context: context,
                 verMarg: 5,
                 horMarg: 0,
                 controller: addressController,
                 kbType: TextInputType.multiline,
-                obscTxt: false,
-                lbTxt: getAddressTxt(),
-                enabled: false),
-
-
-
+              initValue:  LocaleKeys.enter_branch_address.tr(),
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               child: greenBtn(getBarAndBtnTxt(), EdgeInsets.all(20), () {
-
-                if(isAddBtnEnabled) addBranch();
-
+                if (isAddBtnEnabled) addBranch();
               }),
             ),
           ],
@@ -133,22 +139,22 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    alreadyUsedMap = {};
+    address = '';
   }
 
   void addLocation() async {
     // ask for permission
     LatLng userLocation;
     if (alreadyUsedMap.isEmpty) {
-      getUserLatLng().then((value) {
-        userLocation = value;
-        directToPickLocationPage(userLocation);
-      });
+      userLocation = await getUserLatLng();
     } else {
       userLocation = alreadyUsedMap[branchLatLng];
-      directToPickLocationPage(userLocation);
     }
+
+    directToPickLocationPage(userLocation);
+    print(userLocation.toString());
   }
 
   //-------------------------------
@@ -171,6 +177,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
         latLng = alreadyUsedMap[branchLatLng] != null
             ? alreadyUsedMap[branchLatLng]
             : latLng;
+
+        addressController.text = address;
       });
 
       print(address);
@@ -179,7 +187,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   //-----------
 
-  void addBranch() async{
+  void addBranch() async {
     if (phoneController.value.text == '') {
       showErrorDialog(LocaleKeys.phone_required.tr());
       return;
@@ -189,7 +197,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showErrorDialog(LocaleKeys.phone_length_error.tr());
       return;
     }
-    if (!phoneController.text.startsWith('05') ) {
+    if (!phoneController.text.startsWith('05')) {
       showErrorDialog(LocaleKeys.phone_start_error.tr());
       return;
     }
@@ -202,7 +210,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showErrorDialog(LocaleKeys.zipcode_length_error.tr());
       return;
     }
-    if(address == ''){
+    if (address == '') {
       showErrorDialog(LocaleKeys.address_required.tr());
       return;
     }
@@ -215,12 +223,16 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     BranchRepository branchRepository = BranchRepository(headerMap);
-    branchRepository.addNewBranch(PreferencesHelper.getCompanyID()!,'',
-    phoneController.text,address,zipCodeController.text,latLng.longitude,latLng.latitude).then((result) async {
+    String companyID = await PreferencesHelper.getUserID;
+    User user = await PreferencesHelper.getUser;
+    String companyName = user.companyName!;
+    branchRepository
+        .addNewBranch(companyID, companyName, phoneController.text, address,
+            zipCodeController.text, latLng.longitude, latLng.latitude)
+        .then((result) async {
       //-------- fail response ---------
 
-      if (result == null ||
-          result.apiStatus.code != ApiResponseType.OK.code) {
+      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
         /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
         Navigator.pop(context);
         showErrorDialog(result.message);
@@ -228,8 +240,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       }
 
       //-------- success response ---------
-      //todo:change message
-      showSuccessMessage(context, result.message);
+      address = '';
+      alreadyUsedMap.clear();
+      MessageResponseModel messageResponseModel =
+          MessageResponseModel.fromJson(result.result);
+      showSuccessMessage(context, messageResponseModel.message!);
+      Navigator.pop(context);
       Navigator.pop(context);
 /*
       Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -237,8 +253,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
         return EnterCodePage();
       }));*/
     });
-
   }
+
   //-------------------------
   void showErrorDialog(String txt) {
     isAddBtnEnabled = true;
@@ -261,8 +277,5 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     return LocaleKeys.enter_branch_zip_code.tr();
   }
 
-  String getAddressTxt() {
-    return  LocaleKeys.enter_branch_address.tr();
-  }
 
 }

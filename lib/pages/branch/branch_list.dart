@@ -54,7 +54,7 @@ class _BranchListState extends State<BranchList> {
       Expanded(
         child: ListView.builder(itemBuilder: (context, index) {
           print( snapshot![index].toString());
-          return BranchItem(item: snapshot![index]);
+          return BranchItem(item: snapshot[index]);
         }
         ,itemCount: snapshot!.length,),
       ),

@@ -20,13 +20,9 @@ class LanguageSetting extends StatefulWidget {
 
 class _LanguageSettingState extends State<LanguageSetting> {
 
-  Languages? _character = Languages.english;
-
 
 
   void onLanguageButtonPressed(BuildContext context , String localeName) async{
-    //todo: edit locale problem
-
 
     if(localeName == 'en')
       await context.setLocale(Locale('en'));
@@ -40,11 +36,6 @@ class _LanguageSettingState extends State<LanguageSetting> {
   @override
   Widget build(BuildContext context) {
 
-    Size size = MediaQuery.of(context).size;
-    double scWidth = size.width;
-    double scHeight = size.height;
-
-      
     return Scaffold(
       // backgroundColor: Colors.grey[100],
       appBar: appBarDesign(context, LocaleKeys.app_lang.tr()),

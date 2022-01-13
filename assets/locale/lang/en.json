@@ -44,8 +44,8 @@
   "error": "Error",
   "ok": "OK",
   "cancel": "Cancel",
-  "enter_branch_phone": "Enter branch Phone",
-  "enter_branch_address": "Enter branch Address",
+  "enter_branch_phone": "Enter branch Phone Number",
+  "enter_branch_address": " branch Address",
   "enter_branch_city": "Enter branch City",
   "enter_branch_country": "Choose branch Country",
   "enter_branch_zip_code": "Enter branch Zip Code",
@@ -104,5 +104,7 @@
   "Notifications" : "Notifications",
   "Load More" : "LOAD MORE",
   "Account" : "Account",
-  "Change Password" : "Change Password"
+  "Change Password" : "Change Password",
+  "add_location_note": "Please click add location to get your exact location, you can edit the printed address after picking your location "
+
 }
