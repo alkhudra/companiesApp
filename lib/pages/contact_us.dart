@@ -94,6 +94,7 @@ class _ContactUsState extends State<ContactUs> {
                                 phone,
                                 style: TextStyle(
                                     color: CustomColors().darkBlueColor,
+                                    fontSize: 13.5,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -134,6 +135,7 @@ class _ContactUsState extends State<ContactUs> {
                                 email,
                                 style: TextStyle(
                                     color: CustomColors().darkBlueColor,
+                                    fontSize: 13.5,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -183,6 +185,7 @@ class _ContactUsState extends State<ContactUs> {
                                 whatsApp,
                                 style: TextStyle(
                                     color: CustomColors().darkBlueColor,
+                                    fontSize: 13.5,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -224,6 +227,7 @@ class _ContactUsState extends State<ContactUs> {
                                 'Our Location',
                                 style: TextStyle(
                                     color: CustomColors().darkBlueColor,
+                                    fontSize: 13.5,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
