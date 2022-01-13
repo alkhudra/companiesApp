@@ -97,7 +97,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Text(
                           LocaleKeys.home.tr(),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: currentTab == 0 
                             ? CustomColors().primaryGreenColor 
                             : CustomColors().grayColor,
@@ -127,7 +127,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Text(
                           LocaleKeys.notifications.tr(),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: currentTab == 4 
                             ? CustomColors().primaryGreenColor 
                             : CustomColors().grayColor,
@@ -175,7 +175,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Text(
                           LocaleKeys.my_orders.tr(),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: currentTab == 3 
                             ? CustomColors().primaryGreenColor 
                             : CustomColors().grayColor,
@@ -205,7 +205,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Text(
                           LocaleKeys.favorites.tr(),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: currentTab == 1 
                             ? CustomColors().primaryGreenColor 
                             : CustomColors().grayColor,
