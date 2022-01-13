@@ -10,34 +10,72 @@ import 'add_brunches_page.dart';
 
 class BranchItem extends StatefulWidget {
   final BranchModel item;
-  const BranchItem({Key? key, required this.item}) : super(key: key);
+  final int branchNumber;
+  const BranchItem({Key? key, required this.item,required this.branchNumber}) : super(key: key);
 
   @override
   _BranchItemState createState() => _BranchItemState();
 }
 
 class _BranchItemState extends State<BranchItem> {
+
+
   @override
   Widget build(BuildContext context) {
+    int branchNo = widget.branchNumber;
     return Container(
+      height: 50,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
           border: Border.fromBorderSide(BorderSide(
         color: CustomColors().primaryGreenColor,
         width: 2,
       ))),
       margin: EdgeInsets.all(10),
       child: Row(
-        children: [
-          Text(widget.item.adress.toString()),
-          greenBtn(LocaleKeys.edit.tr(),
-              EdgeInsets.only(left: 50, right: 50, bottom: 20), () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AddBranchesPage();
-                }));
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-              })
+        children: [
+          Container(
+            padding: EdgeInsets.all(5),
+            child: Text(
+              LocaleKeys.branch.tr() + " $branchNo",
+             // widget.item.adress.toString(),
+              style: TextStyle(
+                  color: CustomColors().brownColor,
+
+                  fontSize: 15),
+            ),
+          )
+          ,
+          SizedBox(
+          width: 10,
+          )
+          ,
+          Container(
+
+            padding: EdgeInsets.all(5),
+            child: Icon(Icons.edit , color: CustomColors().primaryGreenColor,)
+          ),
         ],
       ),
     );
   }
 }
+/*
+TextButton.icon(
+onPressed: () {},
+icon: Icon(
+Icons.edit,
+color: CustomColors().primaryWhiteColor,
+size: 10,
+),
+label: Text(
+LocaleKeys.edit.tr(),
+style: TextStyle(
+color: CustomColors().primaryWhiteColor,
+fontWeight: FontWeight.w600,
+),
+),
+),*/

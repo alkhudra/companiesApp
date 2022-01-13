@@ -21,6 +21,7 @@ class BranchModel {
     _companyId = companyId;
   }
 
+
   BranchModel.fromJson(dynamic json) {
     _id = json['id'];
     _phoneNumber = json['phoneNumber'];

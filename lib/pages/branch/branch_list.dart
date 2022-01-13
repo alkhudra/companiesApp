@@ -6,6 +6,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -54,7 +55,7 @@ class _BranchListState extends State<BranchList> {
       Expanded(
         child: ListView.builder(itemBuilder: (context, index) {
           print( snapshot![index].toString());
-          return BranchItem(item: snapshot[index]);
+          return BranchItem(item: snapshot[index],branchNumber: index+1,);
         }
         ,itemCount: snapshot!.length,),
       ),
@@ -72,9 +73,33 @@ class _BranchListState extends State<BranchList> {
 
   Future<List<BranchModel>?> getBranchList() async {
 
+    //----------show progress----------------
+
+    //showLoaderDialog(context);
+
     User user = await PreferencesHelper.getUser;
     print(user.toString());
+/*
+    Map<String, dynamic> headerMap = await getHeaderMap();
 
+
+    BranchRepository branchRepository = BranchRepository(headerMap);
+
+    branchRepository.getAllBranch(user.id!).then((result) async{
+
+      if (result.apiStatus.code != ApiResponseType.OK.code) {
+        Navigator.pop(context);
+        showErrorMessageDialog(context,result.message);
+        return;
+      }
+
+
+      BranchListResponseModel branchListResponseModel = BranchListResponseModel.fromJson(result.result);
+      Navigator.pop(context);
+      print(branchListResponseModel.toString());
+
+    });
+*/
 
     return user.branches;
 

@@ -58,6 +58,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: appBarWithActions(context, getBarAndBtnTxt(), () {
         backButtonClicked();
       }),
@@ -254,8 +255,10 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       MessageResponseModel messageResponseModel =
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
+
+
       Navigator.pop(context);
-      Navigator.pop(context);
+      Navigator.pop(context  );
     });
   }
 
