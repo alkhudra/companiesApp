@@ -65,6 +65,7 @@ class _DashboardPageState extends State<DashboardPage> {
         shape: CircularNotchedRectangle(),
         notchMargin: 4,
         child: Container(
+          width: MediaQuery.of(context).size.width,
           height: 55,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -105,7 +106,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
                   ),
-                                    MaterialButton(
+                  MaterialButton(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     minWidth: 20,
                     onPressed: () {
@@ -138,7 +139,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 ],
               ),
               Container(
-                // color: Colors.red,
                 alignment: Alignment.bottomCenter,
                 child: Text(LocaleKeys.cart.tr(),
                 style: TextStyle(
@@ -148,7 +148,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 ),
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: 6,),
               //Right tab bar icons
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

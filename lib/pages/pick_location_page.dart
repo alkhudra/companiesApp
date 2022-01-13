@@ -107,26 +107,6 @@ class _PickLocationPage extends State<PickLocationPage> {
                     ),
                   ),
                 ),
-<<<<<<< HEAD
-                Container(
-                    height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.all(10),
-                    child: MaterialButton(
-                      onPressed: () {
-                        confirmedLatLng = temLatLng!;
-                        Map<String, dynamic> map = {
-                          branchLatLng: confirmedLatLng,
-                          branchAddress: selectedAddress
-                        };
-                        Navigator.pop(context, map);
-                      },
-                      shape: StadiumBorder(),
-                      child: ButtonsDesign.buttonsText(
-                          LocaleKeys.confirm_location.tr(),
-                          CustomColors().primaryWhiteColor),
-                      color: CustomColors().primaryGreenColor,
-                    )),
-=======
                 greenBtn(LocaleKeys.confirm_location.tr(), EdgeInsets.only(left: 20,right: 20,top: 10),
                     () {
                   PickLocationPage.confirmedLatLng =
@@ -137,7 +117,6 @@ class _PickLocationPage extends State<PickLocationPage> {
                   };
                   Navigator.pop(context, map);
                 }),
->>>>>>> e6f3edf1d69c4b84d8080ae99b0a92ffec101d69
               ],
             ),
           ),
