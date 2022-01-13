@@ -43,6 +43,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+
     return Scaffold(
       //todo:
       /********
@@ -55,24 +60,19 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 90, left: 30, right: 30),
-              width: MediaQuery.of(context).size.width / 0.3,
-              height: MediaQuery.of(context).size.height / 0.97,
+              margin: EdgeInsets.only(top: 200, bottom: 30),
+              width: MediaQuery.of(context).size.width/0.9,
+              height: MediaQuery.of(context).size.height,
               decoration: CardDesign.largeCardDesign(),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            brandNameMiddle(),
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 250, left: 40, right: 30),
-              width: 300,
+              child: Container(
+              // color: Colors.red,
+              width: scWidth/2,
+              height: scHeight,
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: scHeight*0.09,),
                   TextFieldDesign.textFieldStyle(
                     context: context,
                     verMarg: 5,
@@ -145,8 +145,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     obscTxt: true,
                     lbTxt: LocaleKeys.confirm_pass.tr(),
                   ),
+                  SizedBox(height: scHeight*0.03,),
                   Container(
-                      margin: EdgeInsets.only(bottom: 10),
+                      margin: EdgeInsets.only(bottom: scHeight*0.01),
                       padding: EdgeInsets.only(right: 10, left: 10),
                       child: GestureDetector(
                         onTap: () {
@@ -169,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ],
                         ),
                       )),
-                  Container(
+                    Container(
                       margin: EdgeInsets.only(bottom: 5),
                       padding: EdgeInsets.only(right: 10, left: 10),
                       child: GestureDetector(
@@ -183,16 +184,18 @@ class _SignUpPageState extends State<SignUpPage> {
                             Text(LocaleKeys.already_have_account.tr(),
                                 style: TextStyle(
                                     color: CustomColors().blackColor)),
-                            Text(LocaleKeys.log_in.tr().toUpperCase(),
+                            Text(' ' + LocaleKeys.log_in.tr().toUpperCase(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: CustomColors().primaryGreenColor))
                           ],
                         ),
-                      )),
+                      )
+                    ),
+                      SizedBox(height: scHeight*0.02,),
                   Container(
                       height: ButtonsDesign.buttonsHeight,
-                      margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                      margin: EdgeInsets.only(left: 50, right: 50),
                       child: MaterialButton(
                         onPressed: () {
                           if (isBtnEnabled)
@@ -207,6 +210,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
             ),
+            ),
+            brandNameMiddle(),
           ],
         ),
       ),

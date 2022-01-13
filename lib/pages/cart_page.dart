@@ -16,7 +16,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //add body
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
       appBar: bnbAppBar(context, LocaleKeys.cart.tr()),
     );
   }
