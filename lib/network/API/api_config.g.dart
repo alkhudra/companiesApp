@@ -121,61 +121,60 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<String> addNewBranch(companyId, hashMap) async {
+  Future<dynamic> addNewBranch(id, hashMap) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'': companyId};
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/branch/addBranch',
+            .compose(_dio.options, '/branch/addBranch/$id',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+    final value = _result.data;
     return value;
   }
 
   @override
-  Future<String> editBranch(branchId, hashMap) async {
+  Future<dynamic> editBranch(id, hashMap) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'': branchId};
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(hashMap);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/branch/updateBranch',
+            .compose(_dio.options, '/branch/updateBranch/$id',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+    final value = _result.data;
     return value;
   }
 
   @override
-  Future<String> deleteBranch(branchId) async {
+  Future<dynamic> deleteBranch(id) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'': branchId};
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/branch/deleteBranch',
+            .compose(_dio.options, '/branch/deleteBranch/$id',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+    final value = _result.data;
     return value;
   }
 
   @override
-  Future<String> getAllBranches(companyId, hashMap) async {
+  Future<dynamic> getAllBranches(id) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'': companyId};
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(hashMap);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/branch/getAllBranches',
+            .compose(_dio.options, '/branch/getAllBranches/$id',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+    final value = _result.data;
     return value;
   }
 

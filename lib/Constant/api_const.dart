@@ -11,14 +11,14 @@ abstract class ApiConst {
   static const String forget_password_url = '/account/forgetPassword';
   static const String send_code_url = '/account/sendCode';
   static const String check_password_token_url = '/account/checkPasswordToken';
-  static   Map<String, dynamic> headerMap={};
+
 
   //---------------branch ----------------
 
-  static const String add_branch_url =  "/branch/addBranch";
-  static const String delete_branch_url =  "/branch/deleteBranch";
-  static const String get_branch_url =  "/branch/getAllBranches";
-  static const String update_branch_url =  "/branch/updateBranch";
+  static const String add_branch_url =  "/branch/addBranch/{id}";
+  static const String delete_branch_url =  "/branch/deleteBranch/{id}";
+  static const String get_branch_url =  "/branch/getAllBranches/{id}";
+  static const String update_branch_url =  "/branch/updateBranch/{id}";
 
 
 }

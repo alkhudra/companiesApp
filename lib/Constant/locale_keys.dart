@@ -65,7 +65,7 @@ abstract class LocaleKeys {
 
   static const welcome_back = "Welcome Back";
   static const search_term = "What are you looking for?";
-
+  static const add_branch_note = "add_branch_note";
   static const add_branch_note_dialog = "add_branch_note_dialog";
   static const add_branch_now = "add_branch_now";
   static const later = "later";
@@ -95,19 +95,19 @@ abstract class LocaleKeys {
   static const change_phone = 'Change Phone Number';
   static const save_changes = 'SAVE';
   static const my_branch = "my_branch";
-  static const app_lang ="App Language";
-  static const select_lang ="Preferred Language for The App";
-  static const english ="English";
-  static const arabic ="Arabic";
-  static const credit ="credit";
-  static const branch_list ="Branch List";
-  static const my_branches ="My Branches";
-  static const home ="Home";
-  static const favorites ="Favorites";
-  static const cart ="Cart";
-  static const my_orders ="Orders";
-  static const notifications ="Notifications";
-  static const load_more ="Load More";
-  static const account_setting ="Account";
-  static const change_password ="Change Password";
+  static const app_lang = "App Language";
+  static const select_lang = "Preferred Language for The App";
+  static const english = "English";
+  static const arabic = "Arabic";
+  static const credit = "credit";
+  static const branch_list = "Branch List";
+  static const my_branches = "My Branches";
+  static const home = "Home";
+  static const favorites = "Favorites";
+  static const cart = "Cart";
+  static const my_orders = "Orders";
+  static const notifications = "Notifications";
+  static const load_more = "Load More";
+  static const account_setting = "Account";
+  static const change_password = "Change Password";
 }

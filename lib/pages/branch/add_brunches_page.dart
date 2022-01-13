@@ -15,6 +15,7 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/pick_location_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -23,9 +24,8 @@ import 'package:khudrah_companies/router/route_constants.dart';
 
 class AddBranchesPage extends StatefulWidget {
   // final Map<String ,dynamic>  map ;
-  final dynamic branchModel;
 
-  const AddBranchesPage({Key? key, required this.branchModel})
+  const AddBranchesPage({Key? key})
       : super(key: key);
 
   @override
@@ -63,7 +63,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               margin: EdgeInsets.all(10),
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "please add youccccccccccccccr branches ",
+               LocaleKeys.add_branch_note.tr(),
                 style: TextStyle(
                     fontSize: 15,
                     color: CustomColors().blackColor,
@@ -179,7 +179,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   //-----------
 
-  void addBranch() {
+  void addBranch() async{
     if (phoneController.value.text == '') {
       showErrorDialog(LocaleKeys.phone_required.tr());
       return;
@@ -212,7 +212,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
     showLoaderDialog(context);
     //----------start api ----------------
-    BranchRepository branchRepository = BranchRepository();
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    BranchRepository branchRepository = BranchRepository(headerMap);
     branchRepository.addNewBranch(PreferencesHelper.getCompanyID()!,'',
     phoneController.text,address,zipCodeController.text,latLng.longitude,latLng.latitude).then((result) async {
       //-------- fail response ---------
@@ -248,23 +250,19 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   //----UI text -------
 
   String getBarAndBtnTxt() {
-    return widget.branchModel != null ? editTxt : addTxt;
+    return addTxt;
   }
 
   String getPhoneTxt() {
-    return widget.branchModel != null
-        ? editTxt
-        : LocaleKeys.enter_branch_phone.tr();
+    return LocaleKeys.enter_branch_phone.tr();
   }
 
   String getZipCodeTxt() {
-    return widget.branchModel != null
-        ? editTxt
-        : '12345';//LocaleKeys.enter_branch_zip_code.tr();
+    return LocaleKeys.enter_branch_zip_code.tr();
   }
 
   String getAddressTxt() {
-    return widget.branchModel != null ? editTxt : LocaleKeys.enter_branch_address.tr();
+    return  LocaleKeys.enter_branch_address.tr();
   }
 
 }

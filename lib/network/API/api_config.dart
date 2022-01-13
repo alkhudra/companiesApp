@@ -38,16 +38,16 @@ abstract class RestClient {
   Future<dynamic> getUserInfo(@Path() String id);
 //---------------branch ----------------
   @POST(ApiConst.add_branch_url)
-  Future<String> addNewBranch(@Query('') String companyId ,@Body() Map<String, dynamic> hashMap);
+  Future<dynamic> addNewBranch(@Path() String id  ,@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.update_branch_url)
-  Future<String> editBranch(@Query('') String branchId ,@Body() Map<String, dynamic> hashMap);
+  Future<dynamic> editBranch(@Path() String id  ,@Body() Map<String, dynamic> hashMap);
 
   @POST(ApiConst.delete_branch_url)
-  Future<String> deleteBranch(@Query('') String branchId );
+  Future<dynamic> deleteBranch(@Path() String id  );
 
   @GET(ApiConst.get_branch_url)
-  Future<String> getAllBranches(@Query('') String companyId ,@Body() Map<String, dynamic> hashMap);
+  Future<dynamic> getAllBranches(@Path() String id);
 
 
 
