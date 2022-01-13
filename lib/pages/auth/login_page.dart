@@ -43,6 +43,13 @@ class _LogInPageState extends State<LogInPage> {
   bool isBtnEnabled = true;
   bool isForgetPassBtnEnabled = true;
   static bool isHasBranches = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('welcome in log in  ');
+  }
   @override
   Widget build(BuildContext context) {
     Size? size = MediaQuery.of(context).size;

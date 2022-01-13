@@ -71,7 +71,6 @@ class _BranchListState extends State<BranchList> {
   }
 
   Future<List<BranchModel>?> getBranchList() async {
-    Map<String, dynamic> headerMap = await getHeaderMap();
 
     User user = await PreferencesHelper.getUser;
     print(user.toString());
@@ -79,22 +78,6 @@ class _BranchListState extends State<BranchList> {
 
     return user.branches;
 
- /*   String companyID = await PreferencesHelper.getUserID;
-    BranchRepository branchRepository = BranchRepository(headerMap);
-    List<BranchModel> list = [];
-    BranchListResponseModel branchListResponseModel =
-        BranchListResponseModel([], LocaleKeys.wrong_error.tr());
-    branchRepository.getAllBranch(companyID).then((result) async {
-      //-------- fail response ---------
-      print(result.result);
-      final de = jsonDecode(result.result.toString());
-      branchListResponseModel = BranchListResponseModel.fromJson(de);
-
-      print(branchListResponseModel.toString());
-    });
-    return branchListResponseModel;
-
-    */
 
   }
 }

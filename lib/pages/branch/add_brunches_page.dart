@@ -10,6 +10,7 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -21,6 +22,7 @@ import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/pick_location_page.dart';
+import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
@@ -40,15 +42,15 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
-
   static LatLng latLng = LatLng(0, 0);
-  static String address ='';
+  static String address = '';
 
   String addTxt = LocaleKeys.add_branch.tr();
   String editTxt = LocaleKeys.add_branch.tr();
   String barAndBtnTxt = LocaleKeys.add_branch.tr();
 
   bool isAddBtnEnabled = true;
+  bool isPickLocationBtnEnabled = true;
 
 // = LatLng(ksaLat,ksaLng);
   late Map<String, dynamic> alreadyUsedMap;
@@ -56,7 +58,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDesign(context, getBarAndBtnTxt()),
+      appBar: appBarWithActions(context, getBarAndBtnTxt(), () {
+        backButtonClicked();
+      }),
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -113,15 +117,18 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
             ),
             greenBtnWithIcon(LocaleKeys.add_location.tr(), Icons.my_location,
                 EdgeInsets.all(20), () {
-              addLocation();
+              if (isPickLocationBtnEnabled) {
+                isPickLocationBtnEnabled = false;
+                addLocation();
+              }
             }),
             TextFieldDesign.emptyLargeFieldStyle(
-                context: context,
-                verMarg: 5,
-                horMarg: 0,
-                controller: addressController,
-                kbType: TextInputType.multiline,
-              initValue:  LocaleKeys.enter_branch_address.tr(),
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
+              controller: addressController,
+              kbType: TextInputType.multiline,
+              initValue: LocaleKeys.enter_branch_address.tr(),
             ),
             Container(
               alignment: Alignment.bottomCenter,
@@ -154,6 +161,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     }
 
     directToPickLocationPage(userLocation);
+    isPickLocationBtnEnabled = true;
     print(userLocation.toString());
   }
 
@@ -233,8 +241,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        /* if (result.apiStatus.code == ApiResponseType.BadRequest)*/
-        Navigator.pop(context);
+        if (result.apiStatus.code == ApiResponseType.BadRequest)
+          Navigator.pop(context);
         showErrorDialog(result.message);
         return;
       }
@@ -242,16 +250,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       //-------- success response ---------
       address = '';
       alreadyUsedMap.clear();
+      PickLocationPage.setValues();
       MessageResponseModel messageResponseModel =
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
       Navigator.pop(context);
       Navigator.pop(context);
-/*
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        isAddBtnEnabled = true;
-        return EnterCodePage();
-      }));*/
     });
   }
 
@@ -277,5 +281,27 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     return LocaleKeys.enter_branch_zip_code.tr();
   }
 
-
+  void backButtonClicked() {
+    List<Function()> actions = [
+      () {
+        Navigator.pop(context);
+      },
+      () {
+        Navigator.pop(context);
+        PickLocationPage.setValues();
+        address = '';
+        alreadyUsedMap.clear();
+        Navigator.pop(context);
+      }
+    ];
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => showTwoBtnDialog(
+            context,
+            LocaleKeys.add_branch.tr(),
+            LocaleKeys.continue_add_branch_note_dialog.tr(),
+            LocaleKeys.continue_btn.tr(),
+            LocaleKeys.cancel.tr(),
+            actions));
+  }
 }

@@ -28,7 +28,7 @@ class _BranchItemState extends State<BranchItem> {
       margin: EdgeInsets.all(10),
       child: Row(
         children: [
-          Text(widget.item.branchName.toString()),
+          Text(widget.item.adress.toString()),
           greenBtn(LocaleKeys.edit.tr(),
               EdgeInsets.only(left: 50, right: 50, bottom: 20), () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {

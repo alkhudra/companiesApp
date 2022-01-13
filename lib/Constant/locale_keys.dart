@@ -111,4 +111,7 @@ abstract class LocaleKeys {
   static const account_setting = "Account";
   static const change_password = "Change Password";
   static const add_location_note = "add_location_note";
+
+  static const continue_add_branch_note_dialog =
+      "continue_add_branch_note_dialog";
 }
