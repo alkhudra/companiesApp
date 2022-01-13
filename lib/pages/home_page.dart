@@ -70,9 +70,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     //todo: show after calling api
-    if (widget.isHasBranch == false) {
+/*    if (widget.isHasBranch == false) {
       showAddBranchDialog();
-    }
+    }*/
   }
 
   final TextEditingController searchController = TextEditingController();

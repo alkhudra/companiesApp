@@ -16,6 +16,12 @@ class LanguagePage extends StatefulWidget {
 
 class _LanguagePageState extends State<LanguagePage> {
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('welcome in language ');
+  }
 
   void onLanguageButtonPressed(BuildContext context , String localeName) async{
 
@@ -26,9 +32,11 @@ class _LanguagePageState extends State<LanguagePage> {
   //  PreferencesHelper.setUserFirstLogIn(false);
 
     PreferencesHelper.setSelectedLanguage(localeName);
+
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return WelcomePage();
     }));
+
   }
 
   @override
@@ -75,7 +83,4 @@ class _LanguagePageState extends State<LanguagePage> {
       ),
     );
   }
-
-
-
 }

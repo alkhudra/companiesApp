@@ -17,3 +17,26 @@ Widget greenBtn(String txt,EdgeInsetsGeometry edgeInsetsGeometry, Function() onP
 }
 
 
+Widget greenBtnWithIcon(String txt,IconData icon,EdgeInsetsGeometry edgeInsetsGeometry, Function() onPressed) {
+  return Container(
+      height: ButtonsDesign.buttonsHeight,
+      margin: edgeInsetsGeometry,
+      decoration: BoxDecoration(
+
+      ),
+      child: MaterialButton(
+
+        onPressed: onPressed,
+        shape: StadiumBorder(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+         Icon(icon ,color: CustomColors().primaryWhiteColor,),
+            SizedBox(width: 15),
+            ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
+          ],
+        ),
+        color: CustomColors().primaryGreenColor,
+      ));
+}
+

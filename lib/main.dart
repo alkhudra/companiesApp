@@ -59,6 +59,7 @@ static  bool isUserLoggedIn =false;
     });
     PreferencesHelper.getIsUserLoggedIn.then((value) {
       isUserLoggedIn = value;
+
     });
     print(isUserFirstLogin);
     if(isUserFirstLogin == true && isUserLoggedIn == false)

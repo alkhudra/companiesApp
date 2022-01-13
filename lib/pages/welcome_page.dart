@@ -19,45 +19,47 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors().backgroundColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: brandName(250.0, 250.0, 30.0),
-          ),
-          SizedBox(
-            height: 60,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 10),
-            child: MaterialButton(
-              onPressed: () {
-                onButtonPressed(signupRoute);
-              },
-              height: ButtonsDesign.buttonsHeight,
-              shape: StadiumBorder(),
-              child: ButtonsDesign.buttonsText(LocaleKeys.create_account.tr(),CustomColors().primaryWhiteColor),
-              color: CustomColors().primaryGreenColor,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: CustomColors().backgroundColor,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: brandName(250.0, 250.0, 30.0),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 10),
-            child: MaterialButton(
-              onPressed: () {
-                onButtonPressed(loginRoute);
-              },
-              height: ButtonsDesign.buttonsHeight,
-              shape: StadiumBorder(),
-              child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr() , CustomColors().blackColor),
-              color: CustomColors().grayColor,
+            SizedBox(
+              height: 60,
             ),
-          ),
-        ],
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: MaterialButton(
+                onPressed: () {
+                  onButtonPressed(signupRoute);
+                },
+                height: ButtonsDesign.buttonsHeight,
+                shape: StadiumBorder(),
+                child: ButtonsDesign.buttonsText(LocaleKeys.create_account.tr(),CustomColors().primaryWhiteColor),
+                color: CustomColors().primaryGreenColor,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: MaterialButton(
+                onPressed: () {
+                  onButtonPressed(loginRoute);
+                },
+                height: ButtonsDesign.buttonsHeight,
+                shape: StadiumBorder(),
+                child: ButtonsDesign.buttonsText(LocaleKeys.log_in.tr() , CustomColors().blackColor),
+                color: CustomColors().grayColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -9,37 +9,41 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
 import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class PickLocationPage extends StatefulWidget {
- final LatLng userLatLng;
-  const PickLocationPage({Key? key,required this.userLatLng}) : super(key: key);
+  final LatLng userLatLng;
+  static LatLng confirmedLatLng = LatLng(0, 0);
+  static String selectedAddress = '';
+  static LatLng? temLatLng;
+  const PickLocationPage({Key? key, required this.userLatLng})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PickLocationPage();
+
+  static void setValues() {
+    PickLocationPage.confirmedLatLng = LatLng(0, 0);
+    temLatLng = LatLng(0, 0);
+    selectedAddress = '';
+  }
 }
 
 class _PickLocationPage extends State<PickLocationPage> {
   var geoLocator = Geolocator();
-  static String selectedAddress = '';
+
   late Completer<GoogleMapController> mapController = Completer();
   List<Marker> marker = [];
-  static LatLng confirmedLatLng = LatLng(0, 0);
-  //static LatLng userLatLng = LatLng(ksaLat,ksaLng);
 
-  static LatLng? temLatLng;
   bool isGetLocation = false;
 
   //-------------------------------
 
   LatLng initialCameraTarget() {
     return widget.userLatLng;
-/*    if (selectedAddress == '') {
-      return userLatLng;
-    } else {
-      return confirmedLatLng;
-    }*/
   }
 
   @override
@@ -48,10 +52,10 @@ class _PickLocationPage extends State<PickLocationPage> {
 
     print(initialCameraTarget());
     //----------show progress----------------
-    if (confirmedLatLng.longitude == 0)
-      selectedAddress = '';
+    if (PickLocationPage.confirmedLatLng.longitude == 0)
+      PickLocationPage.selectedAddress = '';
     else
-      showMarker(confirmedLatLng);
+      showMarker(PickLocationPage.confirmedLatLng);
   }
 
   //-------------------------------
@@ -59,7 +63,8 @@ class _PickLocationPage extends State<PickLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarText(LocaleKeys.add_location.tr(), true),
+      resizeToAvoidBottomInset: false,
+      appBar: appBarDesign(context, LocaleKeys.add_location.tr()),
       body: Container(
           child: Column(
         children: [
@@ -91,9 +96,10 @@ class _PickLocationPage extends State<PickLocationPage> {
                   child: Text(LocaleKeys.pick_location_note.tr().toUpperCase()),
                 ),
                 Container(
+                  height: 50,
                   margin: EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    selectedAddress,
+                    PickLocationPage.selectedAddress,
                     style: TextStyle(
                       color: CustomColors().darkBlueColor,
                       fontWeight: FontWeight.bold,
@@ -101,6 +107,7 @@ class _PickLocationPage extends State<PickLocationPage> {
                     ),
                   ),
                 ),
+<<<<<<< HEAD
                 Container(
                     height: ButtonsDesign.buttonsHeight,
                     margin: EdgeInsets.all(10),
@@ -119,6 +126,18 @@ class _PickLocationPage extends State<PickLocationPage> {
                           CustomColors().primaryWhiteColor),
                       color: CustomColors().primaryGreenColor,
                     )),
+=======
+                greenBtn(LocaleKeys.confirm_location.tr(), EdgeInsets.only(left: 20,right: 20,top: 10),
+                    () {
+                  PickLocationPage.confirmedLatLng =
+                      PickLocationPage.temLatLng!;
+                  Map<String, dynamic> map = {
+                    branchLatLng: PickLocationPage.confirmedLatLng,
+                    branchAddress: PickLocationPage.selectedAddress
+                  };
+                  Navigator.pop(context, map);
+                }),
+>>>>>>> e6f3edf1d69c4b84d8080ae99b0a92ffec101d69
               ],
             ),
           ),
@@ -139,12 +158,12 @@ class _PickLocationPage extends State<PickLocationPage> {
     city = placeMark.locality!;
     postalCode = placeMark.postalCode!;
     setState(() {
-      temLatLng = pp;
-      selectedAddress = '$name , $street , $city , $country , $postalCode';
-      print(selectedAddress);
+      PickLocationPage.temLatLng = pp;
+      PickLocationPage.selectedAddress =
+          '$name , $street , $city , $country , $postalCode';
+      print(PickLocationPage.selectedAddress);
     });
   }
-
 
   //-------------------------------
 
@@ -153,14 +172,14 @@ class _PickLocationPage extends State<PickLocationPage> {
     marker.add(Marker(
         markerId: MarkerId(selectedPoint.toString()), position: selectedPoint));
     convertToAddress(selectedPoint);
-    temLatLng = selectedPoint;
+    PickLocationPage.temLatLng = selectedPoint;
   }
 
   //-------------------------------
 
   void _onCameraMove(CameraPosition position) {
     setState(() {
-      confirmedLatLng = position.target;
+      PickLocationPage.confirmedLatLng = position.target;
     });
   }
 
