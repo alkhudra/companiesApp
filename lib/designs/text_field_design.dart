@@ -14,33 +14,38 @@ class TextFieldDesign {
         border: Border.all(color: CustomColors().primaryGreenColor,
             width: 1.5),
       ),
-      child: Expanded(
-        child: TextFormField(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: TextFormField(
 
-          enabled: enabled,
-          obscureText: obscTxt,
-          controller: controller,
-          keyboardType: kbType,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validat,
-          style: TextStyle(
-              color: CustomColors().blackColor,
-              fontWeight: FontWeight.w600),
-          decoration: InputDecoration(
-            labelText: lbTxt,
-            labelStyle: TextStyle(
-                color: CustomColors().blackColor.withOpacity(0.7),
-                fontSize: 16,
-                fontWeight: FontWeight.w400
+              enabled: enabled,
+              obscureText: obscTxt,
+              controller: controller,
+              keyboardType: kbType,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: validat,
+              style: TextStyle(
+                  color: CustomColors().blackColor,
+                  fontWeight: FontWeight.w600),
+              decoration: InputDecoration(
+                labelText: lbTxt,
+                labelStyle: TextStyle(
+                    color: CustomColors().blackColor.withOpacity(0.7),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400
+                ),
+
+                contentPadding: EdgeInsets.only(left: 20,right: 20),
+
+                focusColor: CustomColors().blackColor,
+                border: InputBorder.none,
+                counterText: "",
+              ),
             ),
-
-            contentPadding: EdgeInsets.only(left: 20,right: 20),
-
-            focusColor: CustomColors().blackColor,
-            border: InputBorder.none,
-            counterText: "",
           ),
-        ),
+        ],
       ),
     );
   }
