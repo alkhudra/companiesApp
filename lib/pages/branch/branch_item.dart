@@ -22,40 +22,51 @@ class _BranchItemState extends State<BranchItem> {
 
   @override
   Widget build(BuildContext context) {
+
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
     int branchNo = widget.branchNumber;
+
     return Container(
-      height: 50,
-      width: MediaQuery.of(context).size.width,
+      height: scHeight*0.08,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          border: Border.fromBorderSide(BorderSide(
-        color: CustomColors().primaryGreenColor,
-        width: 2,
-      ))),
+          borderRadius: BorderRadius.circular(10),
+          color: CustomColors().primaryWhiteColor,
+          boxShadow: [
+            BoxShadow(
+                color: CustomColors().cardShadowBackgroundColor,
+                offset: Offset(5.0, 5.0),
+                blurRadius: 5.0,
+                spreadRadius: .0),
+          ],
+        //   border: Border.fromBorderSide(BorderSide(
+        // color: CustomColors().primaryGreenColor,
+        // width: 2,
+        //   )
+        // )
+      ),
       margin: EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
         children: [
           Container(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               LocaleKeys.branch.tr() + " $branchNo",
              // widget.item.adress.toString(),
               style: TextStyle(
                   color: CustomColors().brownColor,
-
+                  fontWeight: FontWeight.w700,
                   fontSize: 15),
             ),
-          )
-          ,
-          SizedBox(
-          width: 10,
-          )
-          ,
+          ),
+          Divider(
+            thickness: 4,
+            color: CustomColors().darkGrayColor,
+          ),
           Container(
-
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.edit , color: CustomColors().primaryGreenColor,)
           ),
         ],

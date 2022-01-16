@@ -36,7 +36,7 @@ class _BranchListState extends State<BranchList> {
     return Scaffold(
         appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
         endDrawer: drawerDesign(context),
-        backgroundColor: CustomColors().backgroundColor,
+        backgroundColor: Colors.grey[100],
         body: _buildBody(context));
   }
 

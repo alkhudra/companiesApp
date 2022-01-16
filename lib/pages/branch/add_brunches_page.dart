@@ -196,6 +196,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   //-----------
 
+  //Add setState to method to update 
+  //status without restarting app
   void addBranch() async {
     if (phoneController.value.text == '') {
       showErrorDialog(LocaleKeys.phone_required.tr());

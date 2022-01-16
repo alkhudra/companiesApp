@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
+import 'package:khudrah_companies/designs/category_item.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/greeting_text.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
@@ -15,6 +16,7 @@ import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
+import 'package:khudrah_companies/pages/categories/all_category.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'dart:math' as math;
@@ -32,7 +34,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //------------------------
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   void showAddBranchDialog() async {
     await Future.delayed(Duration(milliseconds: 50));
@@ -55,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             LocaleKeys.later.tr(),
             actions));
   }
-////---------------------------
+  ////---------------------------
 
   void addBranchesPage() {
     Navigator.pop(context);
@@ -70,7 +72,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     //todo: show after calling api
-/*    if (widget.isHasBranch == false) {
+  /*    if (widget.isHasBranch == false) {
       showAddBranchDialog();
     }*/
   }
@@ -83,6 +85,16 @@ class _HomePageState extends State<HomePage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
+    List<ListItem> _items = [
+      ListItem(icon: 'images/fruits.png', navRoute: Text('FruitCategory()')),
+      ListItem(icon: 'images/veg.png', navRoute: Text('VegCategory()')),
+    ];
+    // List imgList = [
+    //   'images/fruits.png',
+    //   'images/veg.png'
+    // ];
+    
+
     //set appbar color, since homepage has no app bar
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -91,7 +103,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         endDrawer: drawerDesign(context),
         appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
-        key: _scaffoldState,
+        // key: _scaffoldState,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -118,44 +130,62 @@ class _HomePageState extends State<HomePage> {
                   ),),
               ),
               SizedBox(height: 10,),
-              Center(
-                child: Row(
-                  //add listview for veg and fruits and
-                  //make "all" fixed
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: scWidth*0.16,
-                      height: scHeight*0.13,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/fruitsnveg.png'),
-                        ),
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: scWidth*0.17,
+                    height: scHeight*0.13,
+                    child: IconButton(icon: Image(image: AssetImage('images/fruitsnveg.png')), 
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => AllCategory()),
+                        );
+                      },
                     ),
-                    SizedBox(width: 10,),
-                    Container(
-                      width: scWidth*0.16,
-                      height: scHeight*0.13,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/fruits.png'),
-                        ),
-                      ),
+                  ),
+                  Container(
+                    width: scWidth*0.8,
+                    height: scHeight*0.1,
+                    child: ListView.builder(itemBuilder: (context, index) {
+                      // print(imgList[index]);
+                          return Container(
+                            width: scWidth*0.17,
+                            height: scHeight*0.14,
+                            child: IconButton(icon: Image(image: AssetImage(_items[index].icon, )), 
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => _items[index].navRoute));
+                              },
+                            ),
+                          );
+                    }
+                    ,itemCount: _items.length,
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
                     ),
-                    SizedBox(width: 10,),
-                    Container(
-                      width: scWidth*0.16,
-                      height: scHeight*0.13,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/veg.png'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  // Container(
+                  //   width: scWidth*0.16,
+                  //   height: scHeight*0.13,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: AssetImage('images/fruits.png'),
+                  //     ),
+                  //   ),
+                  // ),
+                  // SizedBox(width: 10,),
+                  // Container(
+                  //   width: scWidth*0.16,
+                  //   height: scHeight*0.13,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: AssetImage('images/veg.png'),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
               SizedBox(height: 10,),
               Row(
@@ -281,4 +311,13 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+class ListItem {
+  String icon;
+  Widget navRoute;
+  ListItem({
+    required this.icon,
+    required this.navRoute,
+  });
 }
