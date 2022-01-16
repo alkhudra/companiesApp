@@ -130,61 +130,69 @@ class _HomePageState extends State<HomePage> {
                   ),),
               ),
               SizedBox(height: 10,),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: scWidth*0.17,
-                    height: scHeight*0.13,
-                    child: IconButton(icon: Image(image: AssetImage('images/fruitsnveg.png')), 
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => AllCategory()),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: scWidth*0.8,
-                    height: scHeight*0.1,
-                    child: ListView.builder(itemBuilder: (context, index) {
-                          return Container(
-                            width: scWidth*0.17,
-                            height: scHeight*0.14,
-                            child: IconButton(icon: Image(image: AssetImage(_items[index].icon, )), 
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => _items[index].navRoute));
-                              },
-                            ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    //all category iconbutton
+                    Container(
+                      width: scWidth*0.27,
+                      height: scHeight*0.16,
+                      child: IconButton(icon: Image(image: AssetImage('images/fruitsnveg.png')), 
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => AllCategory()),
                           );
-                    }
-                    ,itemCount: _items.length,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
+                        },
+                      ),
                     ),
-                  ),
-                  // Container(
-                  //   width: scWidth*0.16,
-                  //   height: scHeight*0.13,
-                  //   decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //       image: AssetImage('images/fruits.png'),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(width: 10,),
-                  // Container(
-                  //   width: scWidth*0.16,
-                  //   height: scHeight*0.13,
-                  //   decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //       image: AssetImage('images/veg.png'),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
+                    //fruit and veg categories iconbutton
+                    Container(
+                      width: scWidth*0.8,
+                      height: scHeight*0.16,
+                      // color: Colors.red,
+                      child: ListView.builder(itemBuilder: (context, index) {
+                            return Container(
+                              // width: scWidth*0.23,
+                              // height: scHeight*0.14,
+                              child: IconButton(icon: Image(image: AssetImage(_items[index].icon, )), 
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => _items[index].navRoute));
+                                },
+                                iconSize: 90,
+                              ),
+                            );
+                      }
+                      ,itemCount: _items.length,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      ),
+                    ),
+                    // Container(
+                    //   width: scWidth*0.16,
+                    //   height: scHeight*0.13,
+                    //   decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //       image: AssetImage('images/fruits.png'),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(width: 10,),
+                    // Container(
+                    //   width: scWidth*0.16,
+                    //   height: scHeight*0.13,
+                    //   decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //       image: AssetImage('images/veg.png'),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
               SizedBox(height: 10,),
               Row(
