@@ -47,6 +47,7 @@ void sendMail(String email) async {
 
 void openWhatsApp(String phone)async{
 
+  //add twitter and whatsapp
   String message = 'hello ';
   String uri;
   if (Platform.isAndroid) {

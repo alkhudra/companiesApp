@@ -115,4 +115,6 @@ abstract class LocaleKeys {
   static const branch = "branch";
   static const continue_add_branch_note_dialog =
       "continue_add_branch_note_dialog";
+  static const social_media = "Social Media";
+  static const twit = "Twitter";
 }

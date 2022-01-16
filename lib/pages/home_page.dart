@@ -149,7 +149,6 @@ class _HomePageState extends State<HomePage> {
                     width: scWidth*0.8,
                     height: scHeight*0.1,
                     child: ListView.builder(itemBuilder: (context, index) {
-                      // print(imgList[index]);
                           return Container(
                             width: scWidth*0.17,
                             height: scHeight*0.14,
