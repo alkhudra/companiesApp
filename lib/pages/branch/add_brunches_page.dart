@@ -37,7 +37,8 @@ class AddBranchesPage extends StatefulWidget {
 }
 
 class _AddBranchesPageState extends State<AddBranchesPage> {
-  final TextEditingController cityCountryController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -57,6 +58,20 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    String dropdownValue = LocaleKeys.select_city.tr();
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+    List<String> cities = [
+      getCityTxt(),
+      getJeddahTxt(),
+      getMakkahTxt(),
+      // LocaleKeys.select_city.tr(), 
+      // LocaleKeys.jeddah_city.tr(), 
+      // LocaleKeys.makkah_city.tr(), 
+    ];
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: appBarWithActions(context, getBarAndBtnTxt(), () {
@@ -96,11 +111,57 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               obscTxt: false,
               lbTxt: getZipCodeTxt(),
             ),
+            Container(
+              width: scWidth/1.15,
+              height: scHeight/15,
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 1, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: CustomColors().primaryGreenColor,
+                  width: 1.5,
+                )
+              ),
+              child: DropdownButtonHideUnderline(
+                child: ButtonTheme(
+                  alignedDropdown: true,
+                  child: DropdownButtonFormField<String>( 
+                    value: dropdownValue,
+                    decoration: InputDecoration.collapsed(hintText: ''),
+                    // icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    style: TextStyle(color: CustomColors().darkGrayColor),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                    },
+                    items: cities
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
+            // TextFieldDesign.textFieldStyle(
+            //   context: context,
+            //   verMarg: 5,
+            //   horMarg: 0,
+            //   controller: cityController,
+            //   kbType: TextInputType.number,
+            //   obscTxt: false,
+            //   lbTxt: getCityTxt(),
+            // ),
             TextFieldDesign.disableTextFieldStyle(
                 context: context,
                 verMarg: 5,
                 horMarg: 0,
-                controller: cityCountryController,
+                controller: countryController,
                 kbType: TextInputType.text,
                 obscTxt: false,
                 lbTxt: LocaleKeys.ksa.tr(),
@@ -284,6 +345,18 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   String getZipCodeTxt() {
     return LocaleKeys.enter_branch_zip_code.tr();
+  }
+
+  String getCityTxt() {
+    return LocaleKeys.select_city.tr();
+  }
+
+  String getJeddahTxt() {
+    return LocaleKeys.jeddah_city.tr();
+  }
+
+  String getMakkahTxt() {
+    return LocaleKeys.makkah_city.tr();
   }
 
   void backButtonClicked() {

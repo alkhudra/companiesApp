@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -89,10 +91,6 @@ class _HomePageState extends State<HomePage> {
       ListItem(icon: 'images/fruits.png', navRoute: Text('FruitCategory()')),
       ListItem(icon: 'images/veg.png', navRoute: Text('VegCategory()')),
     ];
-    // List imgList = [
-    //   'images/fruits.png',
-    //   'images/veg.png'
-    // ];
     
 
     //set appbar color, since homepage has no app bar
@@ -108,20 +106,21 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // SizedBox(height: 35,),
+              SizedBox(height: 17,),
               //greeting user
               Container(
                 child: greeting(context),
               ),
               SizedBox(height: 10,),
+              //Search bar and button
               Container(
                 child: searchBar(searchController),
               ),
               SizedBox(height: 20,),
-    
+              //Categories title
               Container(
                 width: scWidth*15,
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 15, right: 15),
                 child: Text(LocaleKeys.categories.tr(),
                   style: TextStyle(
                     color: CustomColors().darkBlueColor,
@@ -130,12 +129,12 @@ class _HomePageState extends State<HomePage> {
                   ),),
               ),
               SizedBox(height: 10,),
+              //Categories items
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     //all category iconbutton
                     Container(
@@ -153,11 +152,11 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       width: scWidth*0.8,
                       height: scHeight*0.16,
-                      // color: Colors.red,
                       child: ListView.builder(itemBuilder: (context, index) {
                             return Container(
                               // width: scWidth*0.23,
                               // height: scHeight*0.14,
+                              //TODO: change to Network image
                               child: IconButton(icon: Image(image: AssetImage(_items[index].icon, )), 
                                 onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(
@@ -195,20 +194,21 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 10,),
+              //Trending deals title and button
               Row(
-                // mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: scWidth*0.4,
-                    margin: EdgeInsets.only(left: 20, right: 20),
+                    margin: EdgeInsets.only(left: 15, right: 15),
                     child: Text(LocaleKeys.trending_deals.tr(),
                       style: TextStyle(
                         color: CustomColors().darkBlueColor,
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
-                      ),),
+                      ),
+                      overflow: TextOverflow.ellipsis,),
                   ),
-                  SizedBox(width: scWidth*0.35,),
+                  // SizedBox(width: scWidth*0.35,),
                   Container(
                     child: Transform(
                       alignment: Alignment.center,
@@ -223,6 +223,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: 10,),
+              //TODO: convert to listview
               productCard(context, 0, 'Avocado', 22),
               Divider(
                 thickness: 5,
@@ -239,6 +240,7 @@ class _HomePageState extends State<HomePage> {
                 color: CustomColors().grayColor,
               ),
               SizedBox(height: 10,),
+              //Load more button
               Container(
                 width: scWidth*0.9,
                 decoration: BoxDecoration(

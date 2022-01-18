@@ -19,8 +19,8 @@ Widget greeting(context) {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 3, right: 3),
-          //TODO: replace with user name form sharedpref
+          // padding: EdgeInsets.only(left: 3, right: 3),
+          //TODO: replace with user name from sharedpref
           child: Text(', username', 
             style: TextStyle(color: CustomColors().darkBlueColor,
             fontSize: 17.5,
