@@ -25,8 +25,12 @@ class CustomColors {
   Color language = Color.fromRGBO(170, 104, 210, 1);
   Color contactBG = Color.fromRGBO(221, 245, 244, 1);
   Color contact = Color.fromRGBO(62, 34, 111, 1);
-  Color branchBG = Color.fromRGBO(228, 243, 234, 1);
-  Color branch = Color.fromRGBO(3, 176, 169, 1);
-  Color creditBG = Color.fromRGBO(255, 246, 228, 1);
-  Color credit = Color.fromRGBO(255, 46, 108, 1);
+  Color creditBG = Color.fromRGBO(228, 243, 234, 1);
+  Color credit = Color.fromRGBO(3, 176, 169, 1);
+  Color branchBG = Color.fromRGBO(255, 246, 228, 1);
+  Color branch = Color.fromRGBO(255, 46, 108, 1);
+  Color homeBG = Color.fromRGBO(242,231,235, 1);
+  Color home = Color.fromRGBO(163,88,115, 1);
+  // Color homeBG = Color.fromRGBO(221, 245, 244, 1);
+  // Color home = Color.fromRGBO(62, 34, 111, 1);
 }

@@ -9,6 +9,7 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
@@ -91,9 +92,17 @@ class _EnterCodePageState extends State<EnterCodePage> {
                 SizedBox(
                   height: 20,
                 ),
+                // greenBtn(
+                //   LocaleKeys.continue_btn.tr(), 
+                //   EdgeInsets.only(left: 50, right: 50, bottom: 10), 
+                //   () {
+                //         if (isBtnEnabled) sendCodeToDB(email);
+                //       },
+                // ),
+
                 Container(
                     height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    margin: EdgeInsets.only(left: 50, right: 50, bottom: 10),
                     child: MaterialButton(
                       onPressed: () {
                         if (isBtnEnabled) sendCodeToDB(email);
@@ -105,7 +114,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
                       color: CustomColors().primaryGreenColor,
                     )),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Container(
                   height: 30,
@@ -118,7 +127,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Container(
                   height: 30,

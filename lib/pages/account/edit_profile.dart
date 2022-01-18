@@ -80,6 +80,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: appBarDesign(context, LocaleKeys.edit_profile_title.tr()),
       backgroundColor: Colors.grey[100],
       body: Container(
