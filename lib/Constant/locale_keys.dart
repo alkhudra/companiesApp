@@ -120,4 +120,7 @@ abstract class LocaleKeys {
   static const select_city = "City";
   static const jeddah_city = "Jeddah";
   static const makkah_city = "Makkah";
+  static const all_category = "All Products";
+  static const fruit_category = "Fruits";
+  static const veg_category = "Vegetables";
 }

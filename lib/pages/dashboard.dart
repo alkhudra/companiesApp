@@ -184,7 +184,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
                   ),
-                                    MaterialButton(
+                  MaterialButton(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     minWidth: 20,
                     onPressed: () {
@@ -214,7 +214,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
                   ),
-
                 ],
               ),
             ],

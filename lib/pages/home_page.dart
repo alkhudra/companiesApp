@@ -26,6 +26,9 @@ import 'dart:math' as math;
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'categories/fruit_category.dart';
+import 'categories/veg_category.dart';
+
 class HomePage extends StatefulWidget {
   final bool isHasBranch;
   const HomePage({Key? key, required this.isHasBranch}) : super(key: key);
@@ -86,10 +89,11 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-
+    Widget fruitNav = FruitCategory();
+    Widget vegNav = VegCategory();
     List<ListItem> _items = [
-      ListItem(icon: 'images/fruits.png', navRoute: Text('FruitCategory()')),
-      ListItem(icon: 'images/veg.png', navRoute: Text('VegCategory()')),
+      ListItem(icon: 'images/fruits.png', navRoute: fruitNav),
+      ListItem(icon: 'images/veg.png', navRoute: vegNav),
     ];
     
 
@@ -159,6 +163,7 @@ class _HomePageState extends State<HomePage> {
                               //TODO: change to Network image
                               child: IconButton(icon: Image(image: AssetImage(_items[index].icon, )), 
                                 onPressed: () {
+                                  print(_items[index].navRoute);
                                   Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => _items[index].navRoute));
                                 },
@@ -225,20 +230,8 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10,),
               //TODO: convert to listview
               productCard(context, 0, 'Avocado', 22),
-              Divider(
-                thickness: 5,
-                color: CustomColors().grayColor,
-              ),
               productCard(context, 0, 'Melons', 6.95),
-              Divider(
-                thickness: 5,
-                color: CustomColors().grayColor,
-              ),
               productCard(context, 0, 'Carrots',8.56),
-              Divider(
-                thickness: 5,
-                color: CustomColors().grayColor,
-              ),
               SizedBox(height: 10,),
               //Load more button
               Container(

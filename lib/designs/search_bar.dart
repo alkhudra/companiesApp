@@ -8,22 +8,22 @@ Widget searchBar(context, seController) {
   return Container(
     width: MediaQuery.of(context).size.width,
     child: Row(
-      // mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // SizedBox(width: 10,),
-        Container(
-          child: IconButton(
-            icon: Icon(Icons.menu_rounded,),
-            color: CustomColors().brownColor,
-            iconSize: 28,
-            onPressed: () {},
-          ),
-        ),
+        // Container(
+        //   child: IconButton(
+        //     icon: Icon(Icons.menu_rounded,),
+        //     color: CustomColors().brownColor,
+        //     iconSize: 28,
+        //     onPressed: () {},
+        //   ),
+        // ),
         // SizedBox(width: 5,),
         Container(
           margin: EdgeInsets.only(left: 5, right: 5),
-          width: MediaQuery.of(context).size.width/1.4,
+          width: MediaQuery.of(context).size.width/1.3,
           child: TextFieldDesign.textFieldStyle(
             context: context,
             verMarg: 2,
@@ -34,7 +34,7 @@ Widget searchBar(context, seController) {
             obscTxt: false,
           ),
         ),
-        SizedBox(width: 5,),
+        // SizedBox(width: 5,),
         GestureDetector(
           child: Container(
             padding: EdgeInsets.all(8.0),
