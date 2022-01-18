@@ -48,7 +48,7 @@ class _BranchItemState extends State<BranchItem> {
       ),
       margin: EdgeInsets.all(10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20),

@@ -46,18 +46,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       body: Stack(
         children: [
           Container(
+            // alignment: Alignment.center,
             margin: EdgeInsets.only(top: 120, left: 30, right: 30),
             width: MediaQuery.of(context).size.width / 0.3,
-            height: MediaQuery.of(context).size.height / 1.8,
+            height: MediaQuery.of(context).size.height / 2.1,
             decoration: CardDesign.largeCardDesign(),
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
           brandNameMiddle(),
-          // SizedBox(
-          //   height: 10,
-          // ),
           Container(
             margin: EdgeInsets.only(
                 top: scHeight * 0.13,
@@ -79,7 +74,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   obscTxt: false,
                   lbTxt: LocaleKeys.password.tr(),
                 ),
-
+                SizedBox(height: 3,),
                 TextFieldDesign.textFieldStyle(
                   context: context,
                   verMarg: 5,
@@ -91,27 +86,26 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
 
                 SizedBox(
-                  height: 50,
+                  // height: scHeight*0.15,
                 ),
-
-
+                //reset button
                 Container(
-                    height: ButtonsDesign.buttonsHeight,
-                    margin: EdgeInsets.only(left: 50, right: 50),
-                    child: MaterialButton(
-                      onPressed: () {
+                  alignment: Alignment.bottomCenter,
+                  height: ButtonsDesign.buttonsHeight,
+                  margin: EdgeInsets.only(left: 50, right: 50, top: scHeight/9.5),
+                  child: MaterialButton(
+                    onPressed: () {
 
-                        if(isBtnEnabled)
-                          startReset();
+                      if(isBtnEnabled)
+                        startReset();
 
-                      },
-                      shape: StadiumBorder(),
-                      child: ButtonsDesign.buttonsText(LocaleKeys.reset_password.tr(),
-                          CustomColors().primaryWhiteColor),
-                      color: CustomColors().primaryGreenColor,
-                    ))
-
-                ,
+                    },
+                    shape: StadiumBorder(),
+                    child: ButtonsDesign.buttonsText(LocaleKeys.reset_password.tr(),
+                        CustomColors().primaryWhiteColor),
+                    color: CustomColors().primaryGreenColor,
+                  )
+                ),
               ],
             ),
           ),

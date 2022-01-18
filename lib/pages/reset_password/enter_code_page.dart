@@ -53,6 +53,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
   Widget build(BuildContext context) {
     String email = widget.userEmail;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: appBarDesign(context, LocaleKeys.enter_code.tr()),
 
       body: StreamBuilder<int>(
