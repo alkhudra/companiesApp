@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
+import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
@@ -48,7 +49,7 @@ static  bool isUserLoggedIn =false;
         accentColor: CustomColors().primaryGreenColor,
         primarySwatch: Colors.green,
       ),
-      home:getRout() ,
+      home:AddBranchesPage() ,
     );
   }
 

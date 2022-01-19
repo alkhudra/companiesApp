@@ -40,8 +40,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController nationalIDAddressController = TextEditingController();
+  final TextEditingController nationalIDAddressController =
+      TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController districtController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
 
   static LatLng latLng = LatLng(0, 0);
   static String address = '';
@@ -49,7 +53,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   String addTxt = LocaleKeys.add_branch.tr();
   String editTxt = LocaleKeys.add_branch.tr();
   String barAndBtnTxt = LocaleKeys.add_branch.tr();
-
+  String city = '';
   bool isAddBtnEnabled = true;
   bool isPickLocationBtnEnabled = true;
 
@@ -58,8 +62,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    String dropdownValue = LocaleKeys.select_city.tr();
+    String dropdownValue = getCityTxt();
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -67,9 +70,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       getCityTxt(),
       getJeddahTxt(),
       getMakkahTxt(),
-      // LocaleKeys.select_city.tr(), 
-      // LocaleKeys.jeddah_city.tr(), 
-      // LocaleKeys.makkah_city.tr(), 
+      // LocaleKeys.select_city.tr(),
+      // LocaleKeys.jeddah_city.tr(),
+      // LocaleKeys.makkah_city.tr(),
     ];
 
     return Scaffold(
@@ -97,10 +100,37 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               context: context,
               verMarg: 5,
               horMarg: 0,
+              controller: nameController,
+              kbType: TextInputType.name,
+              obscTxt: false,
+              lbTxt: getBranchName(),
+            ),
+            TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
               controller: phoneController,
               kbType: TextInputType.phone,
               obscTxt: false,
               lbTxt: getPhoneTxt(),
+            ),
+            TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
+              controller: districtController,
+              kbType: TextInputType.name,
+              obscTxt: false,
+              lbTxt: getBranchDistrict(),
+            ),
+            TextFieldDesign.textFieldStyle(
+              context: context,
+              verMarg: 5,
+              horMarg: 0,
+              controller: streetController,
+              kbType: TextInputType.name,
+              obscTxt: false,
+              lbTxt: getBranchStreet(),
             ),
             TextFieldDesign.textFieldStyle(
               context: context,
@@ -112,21 +142,20 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               lbTxt: getNationalAddressTxt(),
             ),
             Container(
-              width: scWidth/1.15,
-              height: scHeight/15,
+              width: scWidth / 1.15,
+              height: scHeight / 15,
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 1, vertical: 5),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: CustomColors().primaryGreenColor,
-                  width: 1.5,
-                )
-              ),
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: CustomColors().primaryGreenColor,
+                    width: 1.5,
+                  )),
               child: DropdownButtonHideUnderline(
                 child: ButtonTheme(
                   alignedDropdown: true,
-                  child: DropdownButtonFormField<String>( 
+                  child: DropdownButtonFormField<String>(
                     value: dropdownValue,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
@@ -134,11 +163,13 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                     style: TextStyle(color: CustomColors().darkGrayColor),
                     onChanged: (String? newValue) {
                       setState(() {
-                        dropdownValue = newValue!;
+                        if (newValue != dropdownValue) {
+                          city = newValue!;
+                          print(city);
+                        }
                       });
                     },
-                    items: cities
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items: cities.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -148,15 +179,6 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 ),
               ),
             ),
-            // TextFieldDesign.textFieldStyle(
-            //   context: context,
-            //   verMarg: 5,
-            //   horMarg: 0,
-            //   controller: cityController,
-            //   kbType: TextInputType.number,
-            //   obscTxt: false,
-            //   lbTxt: getCityTxt(),
-            // ),
             TextFieldDesign.disableTextFieldStyle(
                 context: context,
                 verMarg: 5,
@@ -257,9 +279,13 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   //-----------
 
-  //Add setState to method to update 
+  //Add setState to method to update
   //status without restarting app
   void addBranch() async {
+    if (nameController.value.text == '') {
+      showErrorDialog(LocaleKeys.branch_name_required.tr());
+      return;
+    }
     if (phoneController.value.text == '') {
       showErrorDialog(LocaleKeys.phone_required.tr());
       return;
@@ -274,14 +300,27 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       return;
     }
 
+    if (districtController.value.text == '') {
+      showErrorDialog(LocaleKeys.branch_dist_required.tr());
+      return;
+    }
+    if (streetController.value.text == '') {
+      showErrorDialog(LocaleKeys.branch_street_required.tr());
+      return;
+    }
     if (nationalIDAddressController.value.text == '') {
-      showErrorDialog(LocaleKeys.zipcode_required.tr());
+      showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
     if (nationalIDAddressController.text.length != 4) {
-      showErrorDialog(LocaleKeys.zipcode_length_error.tr());
+      showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
+    if (city == '') {
+      showErrorDialog(LocaleKeys.branch_city_required.tr());
+      return;
+    }
+
     if (address == '') {
       showErrorDialog(LocaleKeys.address_required.tr());
       return;
@@ -296,11 +335,18 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
     BranchRepository branchRepository = BranchRepository(headerMap);
     String companyID = await PreferencesHelper.getUserID;
-    User user = await PreferencesHelper.getUser;
-    String companyName = user.companyName!;
     branchRepository
-        .addNewBranch(companyID, companyName, phoneController.text, address,
-            nationalIDAddressController.text, latLng.longitude, latLng.latitude)
+        .addNewBranch(
+            companyID,
+            nameController.text,
+            phoneController.text,
+            districtController.text,
+            streetController.text,
+            city,
+            address,
+            nationalIDAddressController.text,
+            latLng.longitude,
+            latLng.latitude)
         .then((result) async {
       //-------- fail response ---------
 
@@ -319,9 +365,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
 
-
       Navigator.pop(context);
-      Navigator.pop(context  );
+      Navigator.pop(context);
     });
   }
 
@@ -337,6 +382,18 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   String getBarAndBtnTxt() {
     return addTxt;
+  }
+
+  String getBranchName() {
+    return LocaleKeys.enter_branch_name.tr();
+  }
+
+  String getBranchDistrict() {
+    return LocaleKeys.enter_branch_district.tr();
+  }
+
+  String getBranchStreet() {
+    return LocaleKeys.enter_branch_street.tr();
   }
 
   String getPhoneTxt() {
