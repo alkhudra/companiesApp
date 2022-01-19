@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class AllCategory extends StatefulWidget {
-  const AllCategory({ Key? key }) : super(key: key);
+class TrendingDeals extends StatefulWidget {
+  const TrendingDeals({ Key? key }) : super(key: key);
 
   @override
-  _AllCategoryState createState() => _AllCategoryState();
+  _TrendingDealsState createState() => _TrendingDealsState();
 }
 
-class _AllCategoryState extends State<AllCategory> {
+class _TrendingDealsState extends State<TrendingDeals> {
 
-   TextEditingController srController = TextEditingController();
+  TextEditingController srController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class _AllCategoryState extends State<AllCategory> {
             SliverAppBar(
               centerTitle: true,
               // collapsedHeight: 200,
-              title: Text(LocaleKeys.all_category.tr(), style: TextStyle(
+              title: Text(LocaleKeys.trending_deals.tr(), style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 22
               ),),
