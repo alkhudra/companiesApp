@@ -20,6 +20,7 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
+import 'package:khudrah_companies/pages/trending_deals.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'dart:math' as math;
 
@@ -221,7 +222,10 @@ class _HomePageState extends State<HomePage> {
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios,
                           color: CustomColors().primaryGreenColor,),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => TrendingDeals()));
+                        },
                       ),
                     ),
                   ),
