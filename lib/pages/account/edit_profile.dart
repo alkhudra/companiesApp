@@ -42,6 +42,7 @@ class _EditProfileState extends State<EditProfile> {
   late TextEditingController ownNameController = TextEditingController(),
       compNameController = TextEditingController(),
       commercialNoController = TextEditingController(),
+      vatNoController = TextEditingController(),
       emailController = TextEditingController(),
       phoneController = TextEditingController(),
       branchNoController = TextEditingController();
@@ -60,6 +61,7 @@ class _EditProfileState extends State<EditProfile> {
     ownNameController.text= widget.user.ownerName!;
     compNameController.text= widget.user.companyName!;
     commercialNoController.text= widget.user.commercialRegistrationNo!;
+    vatNoController.text= widget.user.vatNo!;
     phoneController.text= widget.user.phoneNumber!;
     emailController.text= widget.user.email!;
     branchNoController.text= widget.user.branchNumber!.toString();
@@ -133,6 +135,14 @@ class _EditProfileState extends State<EditProfile> {
             ),
             TextFieldDesign.editTextFieldStyle(
               context: context,
+              verMarg: 20,
+              horMarg: 20,
+              controller: vatNoController,
+              kbType: TextInputType.number,
+              //   initValue: LocaleKeys.commercial_no.tr(),
+            ),
+            TextFieldDesign.editTextFieldStyle(
+              context: context,
               verMarg: 0,
               horMarg: 20,
               controller: branchNoController,
@@ -196,6 +206,17 @@ class _EditProfileState extends State<EditProfile> {
       return;
     }
 
+    if (vatNoController.value.text == '') {
+      showErrorDialog(LocaleKeys.vat_no_required.tr());
+
+      return;
+    }
+
+    if (vatNoController.value.text.length != 15) {
+      showErrorDialog(LocaleKeys.vat_no_error.tr());
+
+      return;
+    }
     if (branchNoController.value.text == '') {
       showErrorDialog(LocaleKeys.branches_no_required.tr());
 
@@ -228,6 +249,7 @@ class _EditProfileState extends State<EditProfile> {
           ownNameController.text,
           compNameController.text,
           commercialNoController.text,
+          vatNoController.text,
           int.parse(branchNoController.text))
           .then((result) async {
         //-------- fail response ---------

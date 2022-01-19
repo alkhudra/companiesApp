@@ -39,6 +39,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController commercialNoController = TextEditingController();
+  final TextEditingController vatNoController = TextEditingController();
+
   bool isBtnEnabled = true;
 
   @override
@@ -112,6 +114,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     kbType: TextInputType.number,
                     obscTxt: false,
                     lbTxt: LocaleKeys.commercial_no.tr(),
+                  ),
+                  TextFieldDesign.textFieldStyle(
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: vatNoController,
+                    kbType: TextInputType.number,
+                    obscTxt: false,
+                    lbTxt: LocaleKeys.vat_no.tr(),
                   ),
                   TextFieldDesign.textFieldStyle(
                     context: context,
@@ -268,6 +279,19 @@ class _SignUpPageState extends State<SignUpPage> {
 
       return;
     }
+
+
+    if (vatNoController.value.text == '') {
+      showErrorDialog(LocaleKeys.vat_no_required.tr());
+
+      return;
+    }
+
+    if (vatNoController.value.text.length != 15) {
+      showErrorDialog(LocaleKeys.vat_no_error.tr());
+
+      return;
+    }
     if (branchesController.value.text == '') {
       showErrorDialog(LocaleKeys.branches_no_required.tr());
 
@@ -317,6 +341,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ownerController.text,
             companyNameController.text,
             commercialNoController.text,
+            vatNoController.text,
             int.parse(branchesController.text))
         .then((result) async {
       //-------- fail response ---------

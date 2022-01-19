@@ -12,6 +12,7 @@ abstract class LocaleKeys {
   static const continue_btn = "continue_btn";
   static const enter_email = "enter_email";
   static const commercial_no = "commercial_no";
+  static const vat_no="vat_no";
   static const phone = "phone";
   static const email = "email";
   static const password = "password";
@@ -36,6 +37,9 @@ abstract class LocaleKeys {
   static const owner_required = "owner_required";
   static const company_required = "company_required";
   static const commercial_no_required = "commercial_no_required";
+  static const vat_no_required = "vat_no_required";
+  static const vat_no_error = "vat_no_error";
+
   static const branches_no_required = "branches_no_required";
   static const branches_no_not_zero = "branches_no_not_zero";
 

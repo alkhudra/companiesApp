@@ -59,6 +59,7 @@ class ProfileRepository {
       String ownerName,
       String companyName,
       String commercialRegistrationNo,
+      String vatNo,
       int branchNumber) async {
     if (email == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
@@ -70,6 +71,7 @@ class ProfileRepository {
       "ownerName": ownerName,
       "companyName": companyName,
       "commercialRegistrationNo": commercialRegistrationNo,
+      "vatNo": vatNo,
       "branchNumber": branchNumber
     };
 
