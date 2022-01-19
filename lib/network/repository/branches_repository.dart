@@ -61,14 +61,17 @@ class BranchRepository {
       String companyId,
       String branchName,
       String phoneNumber,
+      String distName,
+      String streetName,
+      String city,
       String adress,
-      String zipCode,
+      String nationalIDAddress,
       double longitude,
       double latitude) async {
     if (branchName == null ||
         phoneNumber == null ||
         adress == null ||
-        zipCode == null ||
+        nationalIDAddress == null ||
         longitude == null ||
         latitude == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
@@ -77,8 +80,11 @@ class BranchRepository {
     Map<String, dynamic> hashMap = {
       "branchName": branchName,
       "phoneNumber": phoneNumber,
+      "districtName": distName,
+      "streetName": streetName,
+      "city": city,
       "adress": adress,
-      "zipCode": zipCode,
+      "nationalIDAddress": nationalIDAddress,
       "longitude": longitude,
       "latitude": latitude
     };

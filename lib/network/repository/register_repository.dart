@@ -26,6 +26,7 @@ class RegisterRepository {
       String ownerName,
       String companyName,
       String commercialRegistrationNo,
+      String vatNo,
       int branchNumber) async {
     if (email == null ||
         password == null ||
@@ -34,6 +35,7 @@ class RegisterRepository {
         ownerName == null ||
         companyName == null ||
         commercialRegistrationNo == null ||
+        vatNo == null ||
         branchNumber == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
@@ -46,6 +48,7 @@ class RegisterRepository {
       "ownerName": ownerName,
       "companyName": companyName,
       "commercialRegistrationNo": commercialRegistrationNo,
+      "vatNo": vatNo,
       "branchNumber": branchNumber
     };
 

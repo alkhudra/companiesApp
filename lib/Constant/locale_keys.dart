@@ -12,6 +12,7 @@ abstract class LocaleKeys {
   static const continue_btn = "continue_btn";
   static const enter_email = "enter_email";
   static const commercial_no = "commercial_no";
+  static const vat_no = "vat_no";
   static const phone = "phone";
   static const email = "email";
   static const password = "password";
@@ -36,6 +37,9 @@ abstract class LocaleKeys {
   static const owner_required = "owner_required";
   static const company_required = "company_required";
   static const commercial_no_required = "commercial_no_required";
+  static const vat_no_required = "vat_no_required";
+  static const vat_no_error = "vat_no_error";
+
   static const branches_no_required = "branches_no_required";
   static const branches_no_not_zero = "branches_no_not_zero";
 
@@ -45,12 +49,14 @@ abstract class LocaleKeys {
   static const not_match_pass = "not_match_pass";
   static const phone_start_error = "phone_start_error";
   static const phone_length_error = "phone_length_error";
-
+  static const branch_name_required = "branch_name_required";
+  static const branch_dist_required = "branch_dist_required";
+  static const branch_street_required = "branch_street_required";
   static const enter_branch_phone = "enter_branch_phone";
   static const enter_branch_address = "enter_branch_address";
   static const enter_branch_city = "enter_branch_city";
   static const enter_branch_country = "enter_branch_country";
-  static const enter_branch_zip_code = "enter_branch_zip_code";
+  static const enter_branch_national_address = "enter_branch_national_address";
   static const add_branch = "add_branch";
   static const add_location = "add_location";
   static const ksa = "ksa";
@@ -72,9 +78,12 @@ abstract class LocaleKeys {
   static const edit = "edit";
   static const add_new_branch = "add_new_branch";
   static const code_not_match = "code_not_match";
-
-  static const zipcode_required = "zipcode_required";
-  static const zipcode_length_error = "zipcode_length_error";
+  static const enter_branch_name = "enter_branch_name";
+  static const enter_branch_district = "enter_branch_district";
+  static const enter_branch_street = "enter_branch_street";
+  static const buildingno_required = "buildingno_required";
+  static const branch_city_required = "branch_city_required";
+  static const buildingno_length_error = "buildingno_length_error";
   static const address_required = "address_required";
   static const waiting_approval = "waiting_approval";
   static const worng_password = "worng_password";

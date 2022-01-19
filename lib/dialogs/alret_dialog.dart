@@ -259,7 +259,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
                 padding: EdgeInsets.only(right: 10, left: 10),
                 child: GestureDetector(
                   onTap: () {
-                    //todo:resend code
 
                     //you can tap if only finish timer
                     if(snapshot.data.toString() == '0')
@@ -304,7 +303,6 @@ void resetPassword(
     String code,
     TextEditingController controller,
     StreamController<ErrorAnimationType> errorController) {
-  //todo: verify
   if (code == controller.text) {
     Navigator.pop(context);
 
@@ -390,7 +388,6 @@ Widget showResetPasswordDialog(BuildContext context) {
                   if (passController.text != '' &&
                       confirmPassController.text != '') {
                     if (passController.text != confirmPassController.text) {
-                      //todo : send new pass to db and send to home
                     }
                   }
                 },

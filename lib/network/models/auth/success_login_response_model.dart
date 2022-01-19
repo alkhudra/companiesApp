@@ -1,7 +1,5 @@
 import '../branches/branch_model.dart';
 
-/// user : {"id":"897fd3ea-e138-4947-aa94-6749584d1a4b","email":"nolemohd.000@gmail.com","phoneNumber":"0576543980","ownerName":"Manal test","companyName":"t","commercialRegistrationNo":"9998887779","branchNumber":4,"branches":[]}
-/// token : "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4OTdmZDNlYS1lMTM4LTQ5NDctYWE5NC02NzQ5NTg0ZDFhNGIiLCJ1bmlxdWVfbmFtZSI6Im5vbGVtb2hkLjAwMEBnbWFpbC5jb20iLCJyb2xlIjoiQ29tcGFueSIsIm5iZiI6MTY0MTA1MjA1NCwiZXhwIjoxNjQxMTM4NDU0LCJpYXQiOjE2NDEwNTIwNTR9.4Qj8Ooihja1_hP3V1_xb0GDUreo6CxRbFCiGYfxtp8F4198Ou0_GkwVryDlNCkbKcQZAMC632ZHOV3ZCPmQxTQ"
 
 class SuccessLoginResponseModel {
   SuccessLoginResponseModel({
@@ -32,14 +30,6 @@ class SuccessLoginResponseModel {
 
 }
 
-/// id : "897fd3ea-e138-4947-aa94-6749584d1a4b"
-/// email : "nolemohd.000@gmail.com"
-/// phoneNumber : "0576543980"
-/// ownerName : "Manal test"
-/// companyName : "t"
-/// commercialRegistrationNo : "9998887779"
-/// branchNumber : 4
-/// branches : []
 
 class User {
   User({
@@ -48,8 +38,9 @@ class User {
       String? phoneNumber, 
       String? ownerName, 
       String? companyName, 
-      String? commercialRegistrationNo, 
-      int? branchNumber, 
+      String? commercialRegistrationNo,
+    String? vatNo,
+    int? branchNumber,
       List<BranchModel>? branches,}){
     _id = id;
     _email = email;
@@ -57,6 +48,7 @@ class User {
     _ownerName = ownerName;
     _companyName = companyName;
     _commercialRegistrationNo = commercialRegistrationNo;
+    _vatNo = vatNo;
     _branchNumber = branchNumber;
     _branches = branches;
 }
@@ -68,6 +60,7 @@ class User {
     _ownerName = json['ownerName'];
     _companyName = json['companyName'];
     _commercialRegistrationNo = json['commercialRegistrationNo'];
+    _vatNo = json['vatNo'];
     _branchNumber = json['branchNumber'];
     if (json['branches'] != null) {
       _branches = [];
@@ -82,6 +75,7 @@ class User {
   String? _ownerName;
   String? _companyName;
   String? _commercialRegistrationNo;
+  String? _vatNo;
   int? _branchNumber;
   List<BranchModel>? _branches;
 
@@ -94,6 +88,8 @@ class User {
   int? get branchNumber => _branchNumber;
   List<BranchModel>? get branches => _branches;
 
+  String? get vatNo => _vatNo;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
@@ -102,6 +98,7 @@ class User {
     map['ownerName'] = _ownerName;
     map['companyName'] = _companyName;
     map['commercialRegistrationNo'] = _commercialRegistrationNo;
+    map['vatNo'] = _vatNo;
     map['branchNumber'] = _branchNumber;
     if (_branches != null) {
       map['branches'] = _branches?.map((v) => v.toJson()).toList();
@@ -111,6 +108,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{_id: $_id, _email: $_email, _phoneNumber: $_phoneNumber, _ownerName: $_ownerName, _companyName: $_companyName, _commercialRegistrationNo: $_commercialRegistrationNo, _branchNumber: $_branchNumber, _branches: $_branches}';
+    return 'User{_id: $_id, _email: $_email, _phoneNumber: $_phoneNumber, _ownerName: $_ownerName, _companyName: $_companyName, _commercialRegistrationNo: $_commercialRegistrationNo, _vatNo: $_vatNo, _branchNumber: $_branchNumber, _branches: $_branches}';
   }
 }

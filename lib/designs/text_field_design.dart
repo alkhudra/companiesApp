@@ -151,7 +151,8 @@ class TextFieldDesign {
           validator: validat,
           style: TextStyle(
               color: CustomColors().blackColor,
-              fontWeight: FontWeight.w600),
+            fontSize: 15
+            ),
           decoration: InputDecoration(
             labelText: initValue,
             labelStyle: TextStyle(

@@ -10,8 +10,7 @@ import 'add_brunches_page.dart';
 
 class BranchItem extends StatefulWidget {
   final BranchModel item;
-  final int branchNumber;
-  const BranchItem({Key? key, required this.item,required this.branchNumber}) : super(key: key);
+  const BranchItem({Key? key, required this.item}) : super(key: key);
 
   @override
   _BranchItemState createState() => _BranchItemState();
@@ -26,7 +25,6 @@ class _BranchItemState extends State<BranchItem> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    int branchNo = widget.branchNumber;
 
     return Container(
       height: scHeight*0.08,
@@ -53,8 +51,8 @@ class _BranchItemState extends State<BranchItem> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              LocaleKeys.branch.tr() + " $branchNo",
-             // widget.item.adress.toString(),
+
+              widget.item.branchName.toString(),
               style: TextStyle(
                   color: CustomColors().brownColor,
                   fontWeight: FontWeight.w700,
