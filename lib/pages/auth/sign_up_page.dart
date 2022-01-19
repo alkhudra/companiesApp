@@ -49,12 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
     double scHeight = size.height;
 
     return Scaffold(
-      //todo:
-      /********
-       *
-       * design problems:
-       * height of card  , width of main column,place of btn
-       * *********/
+
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
         child: Stack(

@@ -50,7 +50,7 @@ abstract class LocaleKeys {
   static const enter_branch_address = "enter_branch_address";
   static const enter_branch_city = "enter_branch_city";
   static const enter_branch_country = "enter_branch_country";
-  static const enter_branch_zip_code = "enter_branch_zip_code";
+  static const enter_branch_national_address = "enter_branch_national_address";
   static const add_branch = "add_branch";
   static const add_location = "add_location";
   static const ksa = "ksa";

@@ -40,7 +40,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController zipCodeController = TextEditingController();
+  final TextEditingController nationalIDAddressController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
   static LatLng latLng = LatLng(0, 0);
@@ -106,10 +106,10 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               context: context,
               verMarg: 5,
               horMarg: 0,
-              controller: zipCodeController,
+              controller: nationalIDAddressController,
               kbType: TextInputType.number,
               obscTxt: false,
-              lbTxt: getZipCodeTxt(),
+              lbTxt: getNationalAddressTxt(),
             ),
             Container(
               width: scWidth/1.15,
@@ -274,11 +274,11 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       return;
     }
 
-    if (zipCodeController.value.text == '') {
+    if (nationalIDAddressController.value.text == '') {
       showErrorDialog(LocaleKeys.zipcode_required.tr());
       return;
     }
-    if (zipCodeController.text.length != 5) {
+    if (nationalIDAddressController.text.length != 4) {
       showErrorDialog(LocaleKeys.zipcode_length_error.tr());
       return;
     }
@@ -300,7 +300,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     String companyName = user.companyName!;
     branchRepository
         .addNewBranch(companyID, companyName, phoneController.text, address,
-            zipCodeController.text, latLng.longitude, latLng.latitude)
+            nationalIDAddressController.text, latLng.longitude, latLng.latitude)
         .then((result) async {
       //-------- fail response ---------
 
@@ -343,8 +343,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     return LocaleKeys.enter_branch_phone.tr();
   }
 
-  String getZipCodeTxt() {
-    return LocaleKeys.enter_branch_zip_code.tr();
+  String getNationalAddressTxt() {
+    return LocaleKeys.enter_branch_national_address.tr();
   }
 
   String getCityTxt() {
