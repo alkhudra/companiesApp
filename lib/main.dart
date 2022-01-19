@@ -49,7 +49,7 @@ static  bool isUserLoggedIn =false;
         accentColor: CustomColors().primaryGreenColor,
         primarySwatch: Colors.green,
       ),
-      home:AddBranchesPage() ,
+      home:getRout() ,
     );
   }
 

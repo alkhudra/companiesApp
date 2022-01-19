@@ -71,6 +71,9 @@ class BranchRepository {
     if (branchName == null ||
         phoneNumber == null ||
         adress == null ||
+        city == null ||
+        distName == null ||
+        streetName == null ||
         nationalIDAddress == null ||
         longitude == null ||
         latitude == null) {
@@ -83,7 +86,7 @@ class BranchRepository {
       "districtName": distName,
       "streetName": streetName,
       "city": city,
-      "adress": adress,
+      "address": adress,
       "nationalIDAddress": nationalIDAddress,
       "longitude": longitude,
       "latitude": latitude
@@ -124,14 +127,20 @@ class BranchRepository {
       String branchId,
       String branchName,
       String phoneNumber,
+      String distName,
+      String streetName,
+      String city,
       String adress,
-      String zipCode,
+      String nationalIDAddress,
       double longitude,
       double latitude) async {
     if (branchName == null ||
         phoneNumber == null ||
         adress == null ||
-        zipCode == null ||
+        city == null ||
+        distName == null ||
+        streetName == null ||
+        nationalIDAddress == null ||
         longitude == null ||
         latitude == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
@@ -140,8 +149,11 @@ class BranchRepository {
     Map<String, dynamic> hashMap = {
       "branchName": branchName,
       "phoneNumber": phoneNumber,
-      "adress": adress,
-      "zipCode": zipCode,
+      "districtName": distName,
+      "streetName": streetName,
+      "city": city,
+      "address": adress,
+      "nationalAddressNo": nationalIDAddress,
       "longitude": longitude,
       "latitude": latitude
     };

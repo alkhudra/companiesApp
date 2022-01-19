@@ -265,7 +265,8 @@ Drawer drawerDesign(context) {
             ],
           ),
           onTap: () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            PreferencesHelper.setUser(null);
             PreferencesHelper.setUserLoggedIn(false);
             Navigator.push(context,
               MaterialPageRoute(

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:khudrah_companies/designs/ButtonsDesign.dart';
-import 'package:khudrah_companies/designs/app_bar_txt.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
@@ -16,31 +14,26 @@ import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
-import 'package:khudrah_companies/pages/pick_location_page.dart';
-import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
-class AddBranchesPage extends StatefulWidget {
-  // final Map<String ,dynamic>  map ;
-  const AddBranchesPage({Key? key})
-      : super(key: key);
+import '../pick_location_page.dart';
+
+class EditBranchPage extends StatefulWidget {
+  final BranchModel branchModel;
+  const EditBranchPage({Key? key, required this.branchModel}) : super(key: key);
 
   @override
-  _AddBranchesPageState createState() => _AddBranchesPageState();
+  _EditBranchPageState createState() => _EditBranchPageState();
 }
 
-class _AddBranchesPageState extends State<AddBranchesPage> {
-  static String city = '', address = '';
+class _EditBranchPageState extends State<EditBranchPage> {
+  static String city = '', address = '', branchID = '';
 
-  final TextEditingController countryController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController nationalIDAddressController =
       TextEditingController();
@@ -49,34 +42,48 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   final TextEditingController districtController = TextEditingController();
   final TextEditingController streetController = TextEditingController();
 
-  static LatLng latLng = LatLng(0, 0);
+  static LatLng? latLng;
 
-  String addTxt = LocaleKeys.add_branch.tr();
-
-  bool isAddBtnEnabled = true;
+  bool isEditBtnEnabled = true;
   bool isPickLocationBtnEnabled = true;
 
 // = LatLng(ksaLat,ksaLng);
-  late Map<String, dynamic> alreadyUsedMap;
+  late Map<String, dynamic> alreadyUsedMap={};
+  List<String> cities = [
+    LocaleKeys.select_city.tr(),
+    LocaleKeys.jeddah_city.tr(),
+    LocaleKeys.makkah_city.tr(),
+  ];
+  String dropdownValue = LocaleKeys.select_city.tr();
+  @override
+  void initState() {
+    super.initState();
+
+    branchID = widget.branchModel.id!;
+    nameController.text = widget.branchModel.branchName!;
+    districtController.text = widget.branchModel.district!;
+    streetController.text = widget.branchModel.street!;
+    nationalIDAddressController.text = widget.branchModel.nationalID!;
+    phoneController.text = widget.branchModel.phoneNumber!;
+    addressController.text = widget.branchModel.adress!.toString();
+    city = widget.branchModel.city!;
+
+    double lat = widget.branchModel.latitude!.toDouble();
+    double lng = widget.branchModel.longitude!.toDouble();
+    latLng = LatLng(lat, lng);
+    address = widget.branchModel.adress!;
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = getCityTxt();
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    List<String> cities = [
-      getCityTxt(),
-      getJeddahTxt(),
-      getMakkahTxt(),
-      // LocaleKeys.select_city.tr(),
-      // LocaleKeys.jeddah_city.tr(),
-      // LocaleKeys.makkah_city.tr(),
-    ];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: appBarWithActions(context, getBarAndBtnTxt(), () {
+      appBar: appBarWithActions(context, LocaleKeys.edit_branch.tr(), () {
         backButtonClicked();
       }),
       backgroundColor: CustomColors().backgroundColor,
@@ -155,11 +162,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField<String>(
-                    value: dropdownValue,
+                    value:dropdownValue,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
                     style: TextStyle(color: CustomColors().darkGrayColor),
+
                     onChanged: (String? newValue) {
                       setState(() {
                         if (newValue != dropdownValue) {
@@ -214,24 +222,15 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
             ),
             Container(
               alignment: Alignment.bottomCenter,
-              child: greenBtn(getBarAndBtnTxt(), EdgeInsets.all(20), () {
-                if (isAddBtnEnabled) addBranch();
+              child:
+                  greenBtn(LocaleKeys.edit_branch.tr(), EdgeInsets.all(20), () {
+                if (isEditBtnEnabled) editBranch();
               }),
             ),
           ],
         ),
       ),
     );
-  }
-
-  //---------------------------------
-
-  @override
-  void initState() {
-    super.initState();
-
-    alreadyUsedMap = {};
-    address = '';
   }
 
   void addLocation() async {
@@ -280,7 +279,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   //Add setState to method to update
   //status without restarting app
-  void addBranch() async {
+  void editBranch() async {
     if (nameController.value.text == '') {
       showErrorDialog(LocaleKeys.branch_name_required.tr());
       return;
@@ -311,7 +310,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
-    if (nationalIDAddressController.text.length != 4) {
+    if (nationalIDAddressController.text.length != 5) {
       showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
@@ -325,7 +324,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       return;
     }
 
-    isAddBtnEnabled = true;
+    isEditBtnEnabled = true;
     //----------show progress----------------
 
     showLoaderDialog(context);
@@ -333,10 +332,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     BranchRepository branchRepository = BranchRepository(headerMap);
-    String companyID = await PreferencesHelper.getUserID;
     branchRepository
-        .addNewBranch(
-            companyID,
+        .editBranch(
+            branchID,
             nameController.text,
             phoneController.text,
             districtController.text,
@@ -344,8 +342,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
             city,
             address,
             nationalIDAddressController.text,
-            latLng.longitude,
-            latLng.latitude)
+            latLng!.longitude,
+            latLng!.latitude)
         .then((result) async {
       //-------- fail response ---------
 
@@ -371,49 +369,14 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
 
   //-------------------------
   void showErrorDialog(String txt) {
-    isAddBtnEnabled = true;
+    isEditBtnEnabled = true;
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
-  //----UI text -------
 
-  String getBarAndBtnTxt() {
-    return addTxt;
-  }
-
-  String getBranchName() {
-    return LocaleKeys.enter_branch_name.tr();
-  }
-
-  String getBranchDistrict() {
-    return LocaleKeys.enter_branch_district.tr();
-  }
-
-  String getBranchStreet() {
-    return LocaleKeys.enter_branch_street.tr();
-  }
-
-  String getPhoneTxt() {
-    return LocaleKeys.enter_branch_phone.tr();
-  }
-
-  String getNationalAddressTxt() {
-    return LocaleKeys.enter_branch_national_address.tr();
-  }
-
-  String getCityTxt() {
-    return LocaleKeys.select_city.tr();
-  }
-
-  String getJeddahTxt() {
-    return LocaleKeys.jeddah_city.tr();
-  }
-
-  String getMakkahTxt() {
-    return LocaleKeys.makkah_city.tr();
-  }
+  //-------------------------
 
   void backButtonClicked() {
     List<Function()> actions = [
@@ -432,10 +395,31 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
         context: context,
         builder: (BuildContext context) => showTwoBtnDialog(
             context,
-            LocaleKeys.add_branch.tr(),
+            LocaleKeys.edit_branch.tr(),
             LocaleKeys.continue_add_branch_note_dialog.tr(),
             LocaleKeys.continue_btn.tr(),
             LocaleKeys.cancel.tr(),
             actions));
+  }
+
+//-------------------------------
+  String getBranchName() {
+    return LocaleKeys.enter_branch_name.tr();
+  }
+
+  String getBranchDistrict() {
+    return LocaleKeys.enter_branch_district.tr();
+  }
+
+  String getBranchStreet() {
+    return LocaleKeys.enter_branch_street.tr();
+  }
+
+  String getPhoneTxt() {
+    return LocaleKeys.enter_branch_phone.tr();
+  }
+
+  String getNationalAddressTxt() {
+    return LocaleKeys.enter_branch_national_address.tr();
   }
 }

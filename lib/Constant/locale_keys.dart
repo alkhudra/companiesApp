@@ -76,6 +76,7 @@ abstract class LocaleKeys {
   static const add_branch_now = "add_branch_now";
   static const later = "later";
   static const edit = "edit";
+  static const edit_branch = "edit_branch";
   static const add_new_branch = "add_new_branch";
   static const code_not_match = "code_not_match";
   static const enter_branch_name = "enter_branch_name";
@@ -124,6 +125,8 @@ abstract class LocaleKeys {
   static const branch = "branch";
   static const continue_add_branch_note_dialog =
       "continue_add_branch_note_dialog";
+  static const continue_edit_branch_note_dialog =
+      "continue_edit_branch_note_dialog";
   static const social_media = "Social Media";
   static const twit = "Twitter";
   static const select_city = "City";

@@ -52,7 +52,7 @@ class TextFieldDesign {
 
 
 
-  static disableTextFieldStyle({context, double? verMarg, double? horMarg, TextEditingController? controller, TextInputType? kbType, String? lbTxt, validat, enabled, obscTxt}) {
+  static disableTextFieldStyle({context, double? verMarg, double? horMarg,  TextInputType? kbType, String? lbTxt, validat, enabled, obscTxt}) {
     return Container(
 
       alignment: Alignment.center,
@@ -69,7 +69,7 @@ class TextFieldDesign {
         child: TextFormField(
           enabled: enabled,
           obscureText: obscTxt,
-          controller: controller,
+
           keyboardType: kbType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validat,
