@@ -30,8 +30,8 @@ Widget showTwoBtnDialog(BuildContext context, String title, String txt,
 List<Widget> twoBtnDialogBtns(
     BuildContext context, String txt1, String txt2, List<Function()> actions) {
   return [
-    flatBtn(context, txt1, CustomColors().primaryGreenColor, actions.first),
-    flatBtn(context, txt2, CustomColors().redColor, actions.last),
+    flatBtn(context, txt1, CustomColors().redColor, actions.first),
+    flatBtn(context, txt2, CustomColors().primaryGreenColor, actions.last),
   ];
 }
 //------------------------------------

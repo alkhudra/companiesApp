@@ -121,7 +121,11 @@ abstract class LocaleKeys {
   static const account_setting = "Account";
   static const change_password = "Change Password";
   static const add_location_note = "add_location_note";
-
+  static const delete_branch = "delete_branch";
+  static const continue_delete_branch_note_dialog =
+      "continue_delete_branch_note_dialog";
+  static const continue_delete_branch_note_dialog_title =
+      "continue_delete_branch_note_dialog_title";
   static const branch = "branch";
   static const continue_add_branch_note_dialog =
       "continue_add_branch_note_dialog";

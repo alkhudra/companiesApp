@@ -4,6 +4,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/branch/edit_branch_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
@@ -29,9 +30,12 @@ class _BranchItemState extends State<BranchItem> {
 
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
+
+     final map =    Navigator.push(context, MaterialPageRoute(builder: (context) {
           return EditBranchPage(branchModel: widget.item);
+
         }));
+
       },
       child: Container(
         height: scHeight*0.08,

@@ -140,7 +140,7 @@ Drawer drawerDesign(context) {
             Navigator.pop(context);
             Navigator.push(context,
               MaterialPageRoute(
-                  builder: (context) => BranchList(items: [],)
+                  builder: (context) => BranchList()
               ),
             );
           },

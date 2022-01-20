@@ -15,6 +15,7 @@ import 'package:khudrah_companies/network/models/branches/branch_list_response_m
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
+import 'package:khudrah_companies/pages/branch/edit_branch_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -22,15 +23,14 @@ import 'add_brunches_page.dart';
 import 'branch_item.dart';
 
 class BranchList extends StatefulWidget {
-  final List<BranchModel> items;
-
-  const BranchList({Key? key, required this.items}) : super(key: key);
+  const BranchList({Key? key}) : super(key: key);
 
   @override
   _BranchListState createState() => _BranchListState();
 }
 
 class _BranchListState extends State<BranchList> {
+  static List<BranchModel>? list;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,33 +51,32 @@ class _BranchListState extends State<BranchList> {
   }
 
   Widget _buildList(BuildContext context, List<BranchModel>? snapshot) {
-
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     return Column(children: [
       Expanded(
-        child: ListView.builder(itemBuilder: (context, index) {
-          print( snapshot![index].toString());
-          return BranchItem(item: snapshot[index],);
-        }
-        ,itemCount: snapshot!.length,),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            print(snapshot![index].toString());
+            return BranchItem(
+              item: snapshot[index],
+            );
+          },
+          itemCount: snapshot!.length,
+        ),
       ),
-
       SizedBox(
         height: 20,
       ),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return AddBranchesPage();
-        }));
+        directToAddBranch();
       })
     ]);
   }
 
   Future<List<BranchModel>?> getBranchList() async {
-
     //----------show progress----------------
 
     //showLoaderDialog(context);
@@ -106,8 +105,28 @@ class _BranchListState extends State<BranchList> {
     });
 */
 
-    return user.branches;
-
-
+    list = user.branches;
+    return list;
   }
+
+  void directToAddBranch() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddBranchesPage(
+        addToList: _addToList,
+      );
+    }));
+  }
+
+  void _deleteFromList(BranchModel model) {
+    setState(() {
+      list?.remove(model);
+    });
+  }
+
+  void _addToList(BranchModel model) {
+    setState(() {
+      list?.add(model);
+    });
+  }
+
 }

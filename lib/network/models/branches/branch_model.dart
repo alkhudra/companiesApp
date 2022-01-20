@@ -1,5 +1,6 @@
 class BranchModel {
-  BranchModel({
+
+  BranchModel(
     String? id,
     String? branchName,
     String? phoneNumber,
@@ -12,7 +13,7 @@ class BranchModel {
     num? longitude,
     num? latitude,
     String? companyId,
-  }) {
+  ) {
     _id = id;
     _branchName = branchName;
     _phoneNumber = phoneNumber;
@@ -26,6 +27,7 @@ class BranchModel {
     _latitude = latitude;
     _companyId = companyId;
   }
+
 
   BranchModel.fromJson(dynamic json) {
     _id = json['id'];

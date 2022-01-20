@@ -16,6 +16,19 @@ Widget greenBtn(String txt,EdgeInsetsGeometry edgeInsetsGeometry, Function() onP
       ));
 }
 
+Widget redBtn(String txt,EdgeInsetsGeometry edgeInsetsGeometry, Function() onPressed) {
+  return Container(
+      height: ButtonsDesign.buttonsHeight,
+      margin: edgeInsetsGeometry,
+
+      child: MaterialButton(
+        onPressed: onPressed,
+        shape: StadiumBorder(),
+        child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
+        color: CustomColors().redColor,
+      ));
+}
+
 
 Widget greenBtnWithIcon(String txt,IconData icon,EdgeInsetsGeometry edgeInsetsGeometry, Function() onPressed) {
   return Container(

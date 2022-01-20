@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -6,6 +7,7 @@ import 'package:khudrah_companies/network/API/api_config.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/network/models/error_response_model.dart';
 class BranchRepository {
   late final RestClient _client;
 
@@ -87,7 +89,7 @@ class BranchRepository {
       "streetName": streetName,
       "city": city,
       "address": adress,
-      "nationalIDAddress": nationalIDAddress,
+      "nationalAddressNo": nationalIDAddress,
       "longitude": longitude,
       "latitude": latitude
     };
@@ -107,7 +109,13 @@ class BranchRepository {
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
             }else{
-              errorMessage = LocaleKeys.wrong_error.tr();
+              if(errorCode == 400){
+               // final de = jsonDecode(res.data.toString());
+                ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(res.data);
+                errorMessage = errorResponseModel.error!.message!;
+                print(errorMessage);
+              }
+
             }
           }
           break;
@@ -173,7 +181,12 @@ class BranchRepository {
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
             }else{
-              errorMessage = LocaleKeys.wrong_error.tr();
+              if(errorCode == 400){
+                // final de = jsonDecode(res.data.toString());
+                ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(res.data);
+                errorMessage = errorResponseModel.error!.message!;
+                print(errorMessage);
+              }
             }
           }
           break;
@@ -210,7 +223,12 @@ class BranchRepository {
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
             }else{
-              errorMessage = LocaleKeys.wrong_error.tr();
+              if(errorCode == 400){
+                // final de = jsonDecode(res.data.toString());
+                ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(res.data);
+                errorMessage = errorResponseModel.error!.message!;
+                print(errorMessage);
+              }
             }
           }
           break;

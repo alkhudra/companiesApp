@@ -25,6 +25,7 @@ import '../pick_location_page.dart';
 
 class EditBranchPage extends StatefulWidget {
   final BranchModel branchModel;
+
   const EditBranchPage({Key? key, required this.branchModel}) : super(key: key);
 
   @override
@@ -44,11 +45,11 @@ class _EditBranchPageState extends State<EditBranchPage> {
 
   static LatLng? latLng;
 
-  bool isEditBtnEnabled = true;
+  bool isEditBtnEnabled = true,isDeleteBtnEnabled = true;
   bool isPickLocationBtnEnabled = true;
 
 // = LatLng(ksaLat,ksaLng);
-  late Map<String, dynamic> alreadyUsedMap={};
+  late Map<String, dynamic> alreadyUsedMap = {};
   List<String> cities = [
     LocaleKeys.select_city.tr(),
     LocaleKeys.jeddah_city.tr(),
@@ -72,7 +73,6 @@ class _EditBranchPageState extends State<EditBranchPage> {
     double lng = widget.branchModel.longitude!.toDouble();
     latLng = LatLng(lat, lng);
     address = widget.branchModel.adress!;
-
   }
 
   @override
@@ -162,7 +162,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField<String>(
-                    value:dropdownValue,
+                    value: dropdownValue,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
@@ -222,10 +222,17 @@ class _EditBranchPageState extends State<EditBranchPage> {
             ),
             Container(
               alignment: Alignment.bottomCenter,
-              child:
+              child: Column(
+                children: [
                   greenBtn(LocaleKeys.edit_branch.tr(), EdgeInsets.all(20), () {
-                if (isEditBtnEnabled) editBranch();
-              }),
+                    if (isEditBtnEnabled) editBranch();
+                  }),
+
+                  redBtn(LocaleKeys.delete_branch.tr(), EdgeInsets.only(left: 20,right: 20,bottom: 20), () {
+                    if (isDeleteBtnEnabled) deleteBranchConfirmation();
+                  }),
+                ],
+              ),
             ),
           ],
         ),
@@ -324,7 +331,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
       return;
     }
 
-    isEditBtnEnabled = true;
+    isEditBtnEnabled = false;
     //----------show progress----------------
 
     showLoaderDialog(context);
@@ -397,8 +404,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
             context,
             LocaleKeys.edit_branch.tr(),
             LocaleKeys.continue_add_branch_note_dialog.tr(),
-            LocaleKeys.continue_btn.tr(),
             LocaleKeys.cancel.tr(),
+            LocaleKeys.continue_btn.tr(),
             actions));
   }
 
@@ -421,5 +428,70 @@ class _EditBranchPageState extends State<EditBranchPage> {
 
   String getNationalAddressTxt() {
     return LocaleKeys.enter_branch_national_address.tr();
+  }
+//-------------------------------
+
+  void deleteBranchConfirmation() {
+    isDeleteBtnEnabled = false;
+
+    List<Function()> actions = [
+          () {
+        Navigator.pop(context);
+        isDeleteBtnEnabled = true;
+      },
+          () {
+        Navigator.pop(context);
+        deleteBranch();
+      }
+    ];
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => showTwoBtnDialog(
+            context,
+            LocaleKeys.continue_delete_branch_note_dialog_title.tr(),
+            LocaleKeys.continue_delete_branch_note_dialog.tr(),
+            LocaleKeys.cancel.tr(),
+            LocaleKeys.delete_branch.tr(),
+            actions));
+
+  }
+//-------------------------------
+
+  void deleteBranch() async{
+
+    //----------show progress----------------
+
+    showLoaderDialog(context);
+    //----------start api ----------------
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    BranchRepository branchRepository = BranchRepository(headerMap);
+    branchRepository
+        .deleteBranch(
+        branchID).then((result) async {
+      //-------- fail response ---------
+
+      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
+        if (result.apiStatus.code == ApiResponseType.BadRequest)
+          Navigator.pop(context);
+        showErrorDialog(result.message);
+        return;
+      }
+
+      //-------- success response ---------
+      address = '';
+      alreadyUsedMap.clear();
+      PickLocationPage.setValues();
+      MessageResponseModel messageResponseModel =
+      MessageResponseModel.fromJson(result.result);
+      showSuccessMessage(context, messageResponseModel.message!);
+
+      Navigator.pop(context);
+      Map<String, dynamic> map = {
+        'deletedBranch':  widget.branchModel
+
+      };
+      Navigator.pop(context,map);
+    });
   }
 }

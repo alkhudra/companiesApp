@@ -28,8 +28,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 class AddBranchesPage extends StatefulWidget {
-  // final Map<String ,dynamic>  map ;
-  const AddBranchesPage({Key? key})
+   final Function addToList ;
+
+  const AddBranchesPage({Key? key,required this.addToList})
       : super(key: key);
 
   @override
@@ -308,10 +309,11 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       return;
     }
     if (nationalIDAddressController.value.text == '') {
-      showErrorDialog(LocaleKeys.buildingno_length_error.tr());
+      showErrorDialog(LocaleKeys.buildingno_required.tr());
       return;
     }
-    if (nationalIDAddressController.text.length != 4) {
+    //todo:change to 4
+    if (nationalIDAddressController.text.length != 5) {
       showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
@@ -328,7 +330,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     isAddBtnEnabled = true;
     //----------show progress----------------
 
-    showLoaderDialog(context);
+   showLoaderDialog(context);
     //----------start api ----------------
     Map<String, dynamic> headerMap = await getHeaderMap();
 
@@ -355,7 +357,16 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
         showErrorDialog(result.message);
         return;
       }
-
+      BranchModel branchModel = BranchModel('',    nameController.text,
+          phoneController.text,
+          address,
+          districtController.text,
+          streetController.text,
+          nationalIDAddressController.text,
+          city,
+          "KSA",
+          latLng.longitude,
+          latLng.latitude, companyID);
       //-------- success response ---------
       address = '';
       alreadyUsedMap.clear();
@@ -365,6 +376,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showSuccessMessage(context, messageResponseModel.message!);
 
       Navigator.pop(context);
+      widget.addToList(branchModel);
       Navigator.pop(context);
     });
   }

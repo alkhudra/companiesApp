@@ -1,20 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:khudrah_companies/network/models/error_response.dart';
-
 
 @JsonSerializable()
-
 class SuccessRegisterResponseModel {
   SuccessRegisterResponseModel({
-      String? message, 
-      required String userId,
-    ErrorResponse? error}){
+    String? message,
+    required String userId,
+  }) {
     _message = message;
     _userId = userId;
-    _error = error;
-
-
-}
+  }
 
   SuccessRegisterResponseModel.fromJson(dynamic json) {
     _message = json['message'];
@@ -22,13 +16,10 @@ class SuccessRegisterResponseModel {
     //_error!.status = json['']
   }
   String? _message;
-  String _userId='';
- ErrorResponse? _error ;
+  String _userId = '';
 
   String? get message => _message;
   String get userId => _userId;
-
-  ErrorResponse? get error => _error;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -36,5 +27,4 @@ class SuccessRegisterResponseModel {
     map['userId'] = _userId;
     return map;
   }
-
 }
