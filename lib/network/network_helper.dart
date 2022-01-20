@@ -7,7 +7,7 @@ Future<Map<String, dynamic>> getHeaderMap() async {
   print('token from method $token');
   print('selectedLanguage from method $selectedLanguage');
   return {
-    //  "language" : "$selectedLanguage",
+    "Accept-Language": "$selectedLanguage",
     "Authorization": "Bearer $token"
   };
 }

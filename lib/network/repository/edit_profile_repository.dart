@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/network/models/error_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_config.dart';
@@ -8,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/fail_edit_profile_response_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileRepository {
   late final RestClient _client;
@@ -17,9 +20,6 @@ class ProfileRepository {
       BaseOptions(contentType: 'application/json', headers: headerMap),
     ));
   }
-
-
-
 
   Future<ApiResponse> getUserInfo(String companyID) async {
     if (companyID == null) {
@@ -39,7 +39,8 @@ class ProfileRepository {
             errorMessage = res.statusMessage!;
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
-            }
+            } else
+              errorMessage = LocaleKeys.wrong_error.tr();
           }
           break;
         default:
@@ -95,13 +96,13 @@ class ProfileRepository {
               if (map.contains('message')) {
                 errorMessage = res.data['message'];
               } else {
-                final de = jsonDecode(res.data.toString());
-                FailEditProfileResponseModel model =
-                    FailEditProfileResponseModel.fromJson(de);
-                if (model.errors!.commercialRegistrationNo!.isNotEmpty) {
-                  errorMessage = model.errors!.commercialRegistrationNo!.first;
-                } else
-                  errorMessage = model.errors!.phoneNumber!.first;
+                if (errorCode == 400) {
+                  // final de = jsonDecode(res.data.toString());
+                  ErrorResponseModel errorResponseModel =
+                      ErrorResponseModel.fromJson(res.data);
+                  errorMessage = errorResponseModel.error!.message!;
+                  print(errorMessage);
+                }
               }
             }
           }

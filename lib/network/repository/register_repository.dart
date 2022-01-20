@@ -11,6 +11,7 @@ import 'package:khudrah_companies/network/models/auth/fail_register_response_mod
 import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/models/auth/fail_reset_password_response_model.dart';
+import 'package:khudrah_companies/network/models/error_response_model.dart';
 
 class RegisterRepository {
   final RestClient _client;
@@ -67,15 +68,13 @@ class RegisterRepository {
             if (errorCode == 400) {
               print(res.data);
               String map = res.data.toString();
-              if (map.contains('message')) {
+              if (!map.contains('error')) {
                 errorMessage = res.data['message'];
               } else {
-                final de = jsonDecode(res.data.toString());
-                FailRegisterResponseModel model = FailRegisterResponseModel.fromJson(de);
-                if (model.errors!.confirmPassword!.isNotEmpty) {
-                  errorMessage = model.errors!.confirmPassword!.first;
-                } else
-                  errorMessage = model.errors!.password!.first;
+                ErrorResponseModel errorResponseModel =
+                ErrorResponseModel.fromJson(res.data);
+                errorMessage = errorResponseModel.error!.message!;
+                print(errorMessage);
               }
             } else if (errorCode == 500) {
               errorMessage = res.data['Message'];
@@ -172,10 +171,15 @@ class RegisterRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
-            if(errorCode == 500)
+            if (errorCode == 500)
               errorMessage = res.data['Message'];
-            else  if(errorCode == 400)
-              errorMessage = LocaleKeys.email_not_valid.tr();
+            else if (errorCode == 400) {
+              // final de = jsonDecode(res.data.toString());
+              ErrorResponseModel errorResponseModel =
+                  ErrorResponseModel.fromJson(res.data);
+              errorMessage = errorResponseModel.error!.message!;
+              print(errorMessage);
+            }
           }
           break;
         default:
@@ -250,28 +254,12 @@ class RegisterRepository {
             errorMessage = res.statusMessage!;
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
-            }else if(errorCode ==400){
-
-
-              print(res.data);
-              String map = res.data.toString();
-              if (map.contains('message')) {
-                errorMessage = res.data['message'];
-              } else {
-                final de = jsonDecode(res.data.toString());
-                FailResetPasswordResponseModel model = FailResetPasswordResponseModel.fromJson(de);
-                if (model.errors!.confirmPassword!.isNotEmpty) {
-                  errorMessage = model.errors!.confirmPassword!.first;
-                }
-                else if (model.errors!.email!.isNotEmpty) {
-                  errorMessage = model.errors!.email!.first;
-                }
-                else  if (model.errors!.token!.isNotEmpty) {
-                  errorMessage = model.errors!.token!.first;
-                }
-                else
-                  errorMessage = model.errors!.password!.first;
-              }
+            } else if (errorCode == 400) {
+              // final de = jsonDecode(res.data.toString());
+              ErrorResponseModel errorResponseModel =
+                  ErrorResponseModel.fromJson(res.data);
+              errorMessage = errorResponseModel.error!.message!;
+              print(errorMessage);
             }
           }
           break;
