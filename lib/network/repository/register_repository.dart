@@ -13,11 +13,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/models/auth/fail_reset_password_response_model.dart';
 import 'package:khudrah_companies/network/models/error_response_model.dart';
 
-class RegisterRepository {
-  final RestClient _client;
+class AuthRepository {
+ late final RestClient _client;
 
-  RegisterRepository([RestClient? client])
-      : _client = client ?? RestClient(Dio());
+  AuthRepository(Map<String,dynamic> headerMap) {
+
+    _client = RestClient(Dio(
+      BaseOptions(contentType: 'application/json', headers: headerMap),
+    ));
+  }
 
   Future<ApiResponse> registerUser(
       String email,

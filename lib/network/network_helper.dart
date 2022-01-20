@@ -11,3 +11,12 @@ Future<Map<String, dynamic>> getHeaderMap() async {
     "Authorization": "Bearer $token"
   };
 }
+
+Future<Map<String, dynamic>> getAuthHeaderMap() async {
+  String selectedLanguage = await PreferencesHelper.getSelectedLanguage;
+  print('selectedLanguage from method $selectedLanguage');
+  return {
+    "Accept-Language": "$selectedLanguage",
+
+  };
+}

@@ -13,28 +13,27 @@ import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
+import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  final Map<String ,String> dataMap;
-  const ResetPasswordPage({Key? key , required this.dataMap}) : super(key: key);
+  final Map<String, String> dataMap;
+  const ResetPasswordPage({Key? key, required this.dataMap}) : super(key: key);
 
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-
   final TextEditingController passController = TextEditingController();
   final TextEditingController confirmPassController = TextEditingController();
 
-  bool isBtnEnabled= true;
+  bool isBtnEnabled = true;
   @override
   Widget build(BuildContext context) {
-
     Size? size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -64,7 +63,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: scHeight*0.19,),
+                SizedBox(
+                  height: scHeight * 0.19,
+                ),
                 TextFieldDesign.textFieldStyle(
                   context: context,
                   verMarg: 5,
@@ -74,7 +75,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   obscTxt: false,
                   lbTxt: LocaleKeys.password.tr(),
                 ),
-                SizedBox(height: 3,),
+                SizedBox(
+                  height: 3,
+                ),
                 TextFieldDesign.textFieldStyle(
                   context: context,
                   verMarg: 5,
@@ -86,38 +89,33 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
 
                 SizedBox(
-                  // height: scHeight*0.15,
-                ),
+                    // height: scHeight*0.15,
+                    ),
                 //reset button
                 Container(
-                  alignment: Alignment.bottomCenter,
-                  height: ButtonsDesign.buttonsHeight,
-                  margin: EdgeInsets.only(left: 50, right: 50, top: scHeight/9.5),
-                  child: MaterialButton(
-                    onPressed: () {
-
-                      if(isBtnEnabled)
-                        startReset();
-
-                    },
-                    shape: StadiumBorder(),
-                    child: ButtonsDesign.buttonsText(LocaleKeys.reset_password.tr(),
-                        CustomColors().primaryWhiteColor),
-                    color: CustomColors().primaryGreenColor,
-                  )
-                ),
+                    alignment: Alignment.bottomCenter,
+                    height: ButtonsDesign.buttonsHeight,
+                    margin: EdgeInsets.only(
+                        left: 50, right: 50, top: scHeight / 9.5),
+                    child: MaterialButton(
+                      onPressed: () {
+                        if (isBtnEnabled) startReset();
+                      },
+                      shape: StadiumBorder(),
+                      child: ButtonsDesign.buttonsText(
+                          LocaleKeys.reset_password.tr(),
+                          CustomColors().primaryWhiteColor),
+                      color: CustomColors().primaryGreenColor,
+                    )),
               ],
             ),
           ),
         ],
       ),
     );
-
   }
 
-  void startReset
-      () {
-
+  void startReset() async {
     if (passController.value.text == '') {
       showErrorDialog(LocaleKeys.pass_required.tr());
       return;
@@ -128,7 +126,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       return;
     }
 
-
     if (passController.value.text != confirmPassController.value.text) {
       showErrorDialog(LocaleKeys.not_match_pass.tr());
       return;
@@ -136,16 +133,20 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     isBtnEnabled = false;
 
-
     //----------show progress----------------
 
     showLoaderDialog(context);
     //----------start api ----------------
-    RegisterRepository registerRepository = RegisterRepository();
+    Map<String, dynamic> headerMap = await getAuthHeaderMap();
+
+    AuthRepository registerRepository = AuthRepository(headerMap);
     String email = widget.dataMap.values.first;
     String token = widget.dataMap.values.last;
 
-    registerRepository.resetPassword(email, passController.text,confirmPassController.text,token) .then((result) async {
+    registerRepository
+        .resetPassword(
+            email, passController.text, confirmPassController.text, token)
+        .then((result) async {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
@@ -157,16 +158,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       //-------- success response ---------
       Navigator.pop(context);
 
-      MessageResponseModel model = MessageResponseModel.fromJson( result.result);
+      MessageResponseModel model = MessageResponseModel.fromJson(result.result);
 
-
-      if(model != null)
-      showSuccessDialog(context, model.message!);
-
-
+      if (model != null) showSuccessDialog(context, model.message!);
     });
   }
-
 
   void showErrorDialog(String txt) {
     isBtnEnabled = true;
@@ -174,17 +170,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.error.tr(), txt,noPage));
+            showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
-  showSuccessDialog(BuildContext context,String message) {
-
+  showSuccessDialog(BuildContext context, String message) {
     //todo:make user can not go back
     showDialog<String>(
         context: context,
-        builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.pass_changed_done.tr(),message ,mainRoute));
-
+        builder: (BuildContext context) => showMessageDialog(
+            context, LocaleKeys.pass_changed_done.tr(), message, mainRoute));
   }
-
 }

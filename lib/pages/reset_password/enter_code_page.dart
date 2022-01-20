@@ -13,6 +13,7 @@ import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
+import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/reset_password/reset_password_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -197,13 +198,15 @@ class _EnterCodePageState extends State<EnterCodePage> {
   }
 
   //-------------------
-  void resendCode(String userEmail) {
+  void resendCode(String userEmail) async{
     isResendEnabled = false;
     showLoaderDialog(context);
 
 
     //----------start api ----------------
-    RegisterRepository registerRepository = RegisterRepository();
+    Map<String, dynamic> headerMap = await getAuthHeaderMap();
+
+    AuthRepository registerRepository = AuthRepository(headerMap);
     registerRepository.forgetPassword(userEmail).then((result) async {
       //-------- fail response ---------
 
