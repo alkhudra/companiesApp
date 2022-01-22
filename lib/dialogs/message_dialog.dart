@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/helpers/routeHelper.dart';
 import 'package:khudrah_companies/main.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -16,7 +17,7 @@ Widget showMessageDialog(BuildContext context, String title, String txt,String p
       content: Text(txt), // Message which will be pop up on the screen
       actions: [
         if(pageRout != noPage)
-          directToLoginPageBtns(context,pageRout)
+          directToPageBtns(context,pageRout)
         else
         messageDialogBtns(context ),
       ],
@@ -27,7 +28,7 @@ Widget showMessageDialog(BuildContext context, String title, String txt,String p
       content: Text(txt), // Message which will be pop up on the screen
       actions: [
         if(pageRout != noPage)
-          directToLoginPageBtns(context,pageRout)
+          directToPageBtns(context,pageRout)
         else
           messageDialogBtns(context ),
       ],
@@ -51,23 +52,14 @@ FlatButton messageDialogBtns(BuildContext context) {
 //------------------------------------
 
 
-FlatButton directToLoginPageBtns(BuildContext context,String route) {
+FlatButton directToPageBtns(BuildContext context,String route) {
 
   return FlatButton(
     textColor: CustomColors().primaryGreenColor,
     onPressed: () {
       Navigator.pop(context);
-      if(route == loginRoute){
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) {
-              return LogInPage();
-            }));
-      }else {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) {
-              return MyApp();
-            }));
-      }
+
+      moveToNewStack(context , route);
 
 
     },

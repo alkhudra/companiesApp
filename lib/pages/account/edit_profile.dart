@@ -32,7 +32,7 @@ import '../contact_us.dart';
 
 class EditProfile extends StatefulWidget {
   final User user;
-  const EditProfile({Key? key,required this.user}) : super(key: key);
+  const EditProfile({Key? key, required this.user}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -56,16 +56,14 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
 
-
     companyID = widget.user.id!;
-    ownNameController.text= widget.user.ownerName!;
-    compNameController.text= widget.user.companyName!;
-    commercialNoController.text= widget.user.commercialRegistrationNo!;
-    vatNoController.text= widget.user.vatNo!;
-    phoneController.text= widget.user.phoneNumber!;
-    emailController.text= widget.user.email!;
-    branchNoController.text= widget.user.branchNumber!.toString();
-
+    ownNameController.text = widget.user.ownerName!;
+    compNameController.text = widget.user.companyName!;
+    commercialNoController.text = widget.user.commercialRegistrationNo!;
+    vatNoController.text = widget.user.vatNo!;
+    phoneController.text = widget.user.phoneNumber!;
+    emailController.text = widget.user.email!;
+    branchNoController.text = widget.user.branchNumber!.toString();
 
     //------------
   }
@@ -153,7 +151,6 @@ class _EditProfileState extends State<EditProfile> {
                 EdgeInsets.only(left: 20, right: 20, top: 20), () {
               if (isBtnEnabled) editProfileInfo();
             }),
-
           ],
         ),
       ),
@@ -161,7 +158,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  void editProfileInfo() async{
+  void editProfileInfo() async {
     if (ownNameController.value.text == '') {
       showErrorDialog(LocaleKeys.owner_required.tr());
 
@@ -239,39 +236,37 @@ class _EditProfileState extends State<EditProfile> {
 
     Map<String, dynamic> headerMap = await getHeaderMap();
 
-      ProfileRepository editProfileRepository = ProfileRepository(headerMap);
-      print('company id $companyID');
-      editProfileRepository
-          .updateProfile(
-          companyID,
-          emailController.text,
-          phoneController.text,
-          ownNameController.text,
-          compNameController.text,
-          commercialNoController.text,
-          vatNoController.text,
-          int.parse(branchNoController.text))
-          .then((result) async {
-        //-------- fail response ---------
+    ProfileRepository editProfileRepository = ProfileRepository(headerMap);
+    print('company id $companyID');
+    editProfileRepository
+        .updateProfile(
+            companyID,
+            emailController.text,
+            phoneController.text,
+            ownNameController.text,
+            compNameController.text,
+            commercialNoController.text,
+            vatNoController.text,
+            int.parse(branchNoController.text))
+        .then((result) async {
+      //-------- fail response ---------
 
-        if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-          Navigator.pop(context);
-          showErrorDialog(result.message);
-          return;
-        }
-
-        //-------- success response ---------
-        MessageResponseModel model = MessageResponseModel.fromJson(result.result);
+      if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
         Navigator.pop(context);
-        showSuccessMessage(context, model.message!);
+        showErrorDialog(result.message);
+        return;
+      }
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          //replace with dashboard
-          return DashboardPage(isHasBranch: isHasBranch);
-        }));
-      });
+      //-------- success response ---------
+      MessageResponseModel model = MessageResponseModel.fromJson(result.result);
+      Navigator.pop(context);
+      showSuccessMessage(context, model.message!);
 
-
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //replace with dashboard
+        return DashboardPage();
+      }));
+    });
   }
 
   void showErrorDialog(String txt) {
@@ -280,14 +275,5 @@ class _EditProfileState extends State<EditProfile> {
         context: context,
         builder: (BuildContext context) =>
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
-  }
-
-
-  //------------------------------
-  void resetPasswordProcess() {
-    showDialog(
-        builder: (BuildContext context) =>
-            showEnterEmailDialog(context, isForgetPassBtnEnabled),
-        context: context);
   }
 }

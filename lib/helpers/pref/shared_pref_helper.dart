@@ -91,6 +91,9 @@ class PreferencesHelper {
 
 //--------------------
 
+  static void clearPrefs(){
+    SharedPrefsManager.clear();
+  }
 /*  Future<void> clear() async {
     await Future.wait(<Future>[
       setAuthenticated(false),

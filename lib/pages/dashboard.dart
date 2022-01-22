@@ -9,8 +9,8 @@ import 'package:khudrah_companies/pages/orders/my_orders.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class DashboardPage extends StatefulWidget {
-  final bool isHasBranch;
-  const DashboardPage({ Key? key, required this.isHasBranch}) : super(key: key);
+  //final bool isHasBranch;
+  const DashboardPage({ Key? key}) : super(key: key);
 
   @override
   _DashboardPageState createState() => _DashboardPageState();
@@ -24,18 +24,18 @@ class _DashboardPageState extends State<DashboardPage> {
   late bool branchStatus;
   final PageStorageBucket bucket = PageStorageBucket();
   final List<Widget> screens = [
-    HomePage(isHasBranch: true),
+    HomePage(),
     FavoritesPage(),
     CartPage(),
     MyOrdersPage(),
     NotificationsPage()
   ];
-  Widget currentScreen = HomePage(isHasBranch: false);
+  Widget currentScreen = HomePage();
 
   @override
   void initState() {
     // TODO: implement initState
-    branchStatus = widget.isHasBranch;
+   // branchStatus = widget.isHasBranch;
     super.initState();
     print('welcome in dashboard ');
   }
@@ -81,7 +81,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     onPressed: () {
                       setState(() {
                         //ishasbranch could be set to false later
-                        currentScreen = HomePage(isHasBranch: widget.isHasBranch);
+                        currentScreen = HomePage(/*isHasBranch: widget.isHasBranch*/);
                         currentTab = 0;
                       });
                     },

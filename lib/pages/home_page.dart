@@ -31,8 +31,8 @@ import 'categories/fruit_category.dart';
 import 'categories/veg_category.dart';
 
 class HomePage extends StatefulWidget {
-  final bool isHasBranch;
-  const HomePage({Key? key, required this.isHasBranch}) : super(key: key);
+  //final bool isHasBranch;
+  const HomePage({Key? key/*, required this.isHasBranch*/}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();

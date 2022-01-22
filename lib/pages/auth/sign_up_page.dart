@@ -378,7 +378,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   showWelcomeDialog(BuildContext context) {
 
-    //todo:make user can not go back
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>

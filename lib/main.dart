@@ -45,6 +45,7 @@ static  bool isUserLoggedIn =false;
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
       locale: context.locale,
+      routes: routMap,
       theme: ThemeData(
         accentColor: CustomColors().primaryGreenColor,
         primarySwatch: Colors.green,
@@ -66,7 +67,7 @@ static  bool isUserLoggedIn =false;
     if(isUserFirstLogin == true && isUserLoggedIn == false)
     return LanguagePage();
     if(isUserFirstLogin == false && isUserLoggedIn == true)
-     return DashboardPage(isHasBranch: true,);
+     return DashboardPage();
     if(isUserFirstLogin == false && isUserLoggedIn == false)
       return LogInPage();
     else  return LanguagePage();

@@ -72,6 +72,5 @@ class _AccountSettingsState extends State<AccountSettings> {
             builder: (context) => EditProfile(
                   user: user,
                 )));
-
   }
 }
