@@ -5,6 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefsManager {
 //-----------------------------------
 
+  static void clear() async {
+    final p = await prefs;
+    p.clear();
+  }
+
   static Future<bool> getBool(String key) async {
     final p = await prefs;
     return p.getBool(key) ?? true;
