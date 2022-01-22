@@ -27,7 +27,7 @@ class _TrendingDealsState extends State<TrendingDeals> {
             SliverAppBar(
               centerTitle: true,
               // collapsedHeight: 200,
-              title: Text(LocaleKeys.trending_deals.tr(), style: TextStyle(
+              title: Text(LocaleKeys.newest_deals.tr(), style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 22
               ),),

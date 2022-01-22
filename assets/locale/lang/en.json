@@ -84,7 +84,7 @@
   "wrong_email": "Wrong Email, please try again",
   "pass_changed_done": "Password Reset Successful",
   "Categories": "Categories",
-  "Trending Deals": "Trending Deals",
+  "Newest Deals": "Newest Deals",
   "ADD": "ADD",
   "edit_branch": "Edit Branch",
   "Log Out": "Log Out",
@@ -128,5 +128,7 @@
   "Makkah": "Makkah",
   "All Products": "All Products",
   "Fruits": "Fruits",
-  "Vegetables": "Vegetables"
+  "Vegetables": "Vegetables",
+  "ADD TO CART": "ADD TO CART",
+  "Description": "Description"
 }

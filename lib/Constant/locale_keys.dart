@@ -92,7 +92,7 @@ abstract class LocaleKeys {
   static const wrong_email = "wrong_email";
   static const pass_changed_done = "pass_changed_done";
   static const categories = "Categories";
-  static const trending_deals = "Trending Deals";
+  static const newest_deals = "Newest Deals";
   static const add_btn = "ADD";
   static const edit_profile = 'EDIT PROFILE';
   static const edit_profile_title = 'Edit Profile';
@@ -139,4 +139,6 @@ abstract class LocaleKeys {
   static const all_category = "All Products";
   static const fruit_category = "Fruits";
   static const veg_category = "Vegetables";
+  static const add_to_cart = "ADD TO CART";
+  static const pro_description = "Description";
 }

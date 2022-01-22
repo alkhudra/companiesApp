@@ -84,7 +84,7 @@
   "wrong_email": "البريد الإلكتروني غير صحيح ، حاول مرة اخرى ",
   "pass_changed_done": "تم تغيير كلمة السر بنجاح",
   "Categories": "التصنيفات",
-  "Trending Deals": "الصفقات الرائجة",
+  "Newest Deals": "الصفقات الأحدث",
   "ADD": "إضافة",
   "edit_branch": "تعديل الفرع",
   "Log Out": "تسجيل الخروج",
@@ -128,5 +128,7 @@
   "Makkah": "مكة المكرمة",
   "All Products": "جميع المنتجات",
   "Fruits": "فواكه",
-  "Vegetables": "خضروات"
+  "Vegetables": "خضروات",
+  "ADD TO CART": "إضافة إلى السلة",
+  "Description": "وصف المنتج"
 }

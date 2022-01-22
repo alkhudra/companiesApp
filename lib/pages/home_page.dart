@@ -200,13 +200,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 10,),
-              //Trending deals title and button
+              //Newest deals title and button
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 15, right: 15),
-                    child: Text(LocaleKeys.trending_deals.tr(),
+                    child: Text(LocaleKeys.newest_deals.tr(),
                       style: TextStyle(
                         color: CustomColors().darkBlueColor,
                         fontSize: 22,
