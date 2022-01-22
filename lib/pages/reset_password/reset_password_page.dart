@@ -11,6 +11,7 @@ import 'package:khudrah_companies/designs/card_design.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
@@ -173,11 +174,17 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
-  showSuccessDialog(BuildContext context, String message) {
-    //todo:make user can not go back
+  showSuccessDialog(BuildContext context, String message) async{
+    bool isLoggedIn = await PreferencesHelper.getIsUserLoggedIn;
+    String route;
+    if(isLoggedIn)
+      route = loginRoute ;
+    else route = dashBoardRoute;
+
+
     showDialog<String>(
         context: context,
         builder: (BuildContext context) => showMessageDialog(
-            context, LocaleKeys.pass_changed_done.tr(), message, mainRoute));
+            context, LocaleKeys.pass_changed_done.tr(), message, route));
   }
 }

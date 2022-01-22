@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/helpers/routeHelper.dart';
 import 'package:khudrah_companies/pages/account/account_settings.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
@@ -14,8 +15,10 @@ import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/pages/language/language_setting.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:khudrah_companies/router/route_constants.dart';
 
 Drawer drawerDesign(context) {
+
   return Drawer(
     child: ListView(
       padding: EdgeInsets.all(0.0),
@@ -33,14 +36,7 @@ Drawer drawerDesign(context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Container(
-              //   width: 100,
-              //   height: 100,
-              //   margin: EdgeInsets.only(top: 40),
-              //   child: CircleAvatar(
-              //     backgroundImage: AssetImage('images/male_avatar.png'),
-              //   ),
-              // ),
+
               Container(
                 //TODO: replace with company variable from DB
                 margin: EdgeInsets.only(top: 40),
@@ -108,7 +104,7 @@ Drawer drawerDesign(context) {
             Navigator.push(context,
               MaterialPageRoute(
                 //change isHasBranch accordingly
-                  builder: (context) => DashboardPage(isHasBranch: true)
+                  builder: (context) => DashboardPage()
               ),
             );
           },
@@ -268,11 +264,7 @@ Drawer drawerDesign(context) {
             //Navigator.pop(context);
             PreferencesHelper.setUser(null);
             PreferencesHelper.setUserLoggedIn(false);
-            Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) => LogInPage()
-              ),
-            );
+            moveToNewStack(context , loginRoute);
           },
         ),
       ],

@@ -21,11 +21,12 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => LanguagePage());
       case welcomeRoute:
         return MaterialPageRoute(builder: (_) => WelcomePage());
-
-      case homeRoute:
-        return MaterialPageRoute(builder: (_) => DashboardPage(isHasBranch: true));
       default:
-        return MaterialPageRoute(builder: (_) => DashboardPage(isHasBranch: true));
+        return MaterialPageRoute(builder: (_) => DashboardPage());
+/*      case homeRoute:
+        return MaterialPageRoute(builder: (_) => DashboardPage());
+      default:
+        return MaterialPageRoute(builder: (_) => DashboardPage());*/
     }
   }
 }
