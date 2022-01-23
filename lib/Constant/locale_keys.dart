@@ -132,7 +132,9 @@ abstract class LocaleKeys {
   static const continue_edit_branch_note_dialog =
       "continue_edit_branch_note_dialog";
   static const social_media = "Social Media";
+  static const our_location = "Our Location";
   static const twit = "Twitter";
+  static const whats_app = "WhatsApp";
   static const select_city = "City";
   static const jeddah_city = "Jeddah";
   static const makkah_city = "Makkah";
