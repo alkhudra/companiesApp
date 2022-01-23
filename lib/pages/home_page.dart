@@ -198,16 +198,19 @@ class _HomePageState extends State<HomePage> {
                   overflow: TextOverflow.ellipsis,),
               ),
               SizedBox(height: 10,),
-              ListView.builder(
-                //try keyboard dismissal
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                // scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ProductCard.productCardDesign(context, itemName, itemPrice, 
-                  );
-                },
-                itemCount: 5,
+              Container(
+                child: ListView.builder(
+                  //try keyboard dismissal
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  // scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ProductCard.productCardDesign(context, itemName, itemPrice, 
+                    );
+                  },
+                  itemCount: 5,
+                ),
               ),
               SizedBox(height: 30,),
             ],
