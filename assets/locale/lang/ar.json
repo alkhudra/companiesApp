@@ -85,7 +85,6 @@
   "pass_changed_done": "تم تغيير كلمة السر بنجاح",
   "Categories": "التصنيفات",
   "Newest Deals": "أحدث المنتجات",
-  "ADD": "إضافة", 
   "edit_branch": "تعديل الفرع",
   "Log Out": "تسجيل الخروج",
   "Languages": "اللغات",
@@ -132,5 +131,7 @@
   "Fruits": "فواكه",
   "Vegetables": "خضروات",
   "ADD TO CART": "إضافة إلى السلة",
-  "Description": "وصف المنتج"
+  "Description": "وصف المنتج",
+  "SAR / Kg": "ريال سعودي/كغ",
+  "ADD" : "إضافة"
 }

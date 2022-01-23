@@ -47,6 +47,7 @@ static  bool isUserLoggedIn =false;
       locale: context.locale,
       routes: routMap,
       theme: ThemeData(
+        fontFamily: 'Almarai',
         accentColor: CustomColors().primaryGreenColor,
         primarySwatch: Colors.green,
       ),

@@ -77,7 +77,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   //Left tab bar icons
                   MaterialButton(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    minWidth: 20,
+                    minWidth: 10,
                     onPressed: () {
                       setState(() {
                         //ishasbranch could be set to false later
