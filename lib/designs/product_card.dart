@@ -180,6 +180,10 @@ class ProductCard{
                 builder: (context) => OrderDetails()));
             },
           ),
+          Divider(
+            thickness: 2,
+            color: CustomColors().grayColor,
+          )
       ],
     ),
   );

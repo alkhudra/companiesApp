@@ -8,6 +8,7 @@ Widget greeting(context) {
   return Container(
     width: MediaQuery.of(context).size.width*0.9,
     height: 25,
+    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,7 +22,7 @@ Widget greeting(context) {
         Container(
           // padding: EdgeInsets.only(left: 3, right: 3),
           //TODO: replace with user name from sharedpref
-          child: Text(', username', 
+          child: Text(' username', 
             style: TextStyle(color: CustomColors().darkBlueColor,
             fontSize: 17.5,
             fontWeight: FontWeight.w700),

@@ -115,6 +115,7 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 17,),
               //greeting user
@@ -200,9 +201,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10,),
               Container(
                 child: ListView.builder(
-                  //try keyboard dismissal
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  // scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
