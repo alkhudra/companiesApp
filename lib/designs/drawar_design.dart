@@ -267,6 +267,21 @@ Drawer drawerDesign(context) {
             moveToNewStack(context , loginRoute);
           },
         ),
+        ListTile(
+          title: SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+        ),
+        ListTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text('Version 0.1.1',
+              style: TextStyle(
+                color: CustomColors().primaryGreenColor,
+                fontWeight: FontWeight.w400,
+              ),),
+            ],
+          ),
+        ),
       ],
     ),
   );
