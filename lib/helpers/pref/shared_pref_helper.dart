@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:khudrah_companies/Constant/pref_cont.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
+import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 class PreferencesHelper {
   static Future<bool> get getIsUserFirstLogIn =>
@@ -88,7 +90,29 @@ class PreferencesHelper {
     else
       return SharedPrefsManager.setToJson(currentUser, '');
   }
+  static Future<List<BranchModel>?> get getUserList async {
+    Map<String, dynamic> userMap =
+    await SharedPrefsManager.getFromJson(currentUser);
+    User user= User.fromJson(userMap);
+    List<BranchModel>? list = user.branches;
+    return list;
+  }
+  static Future  addToUserList (BranchModel model)async {
+    Map<String, dynamic> userMap =
+    await SharedPrefsManager.getFromJson(currentUser);
+    User user= User.fromJson(userMap);
+    List<BranchModel>? list = user.branches;
 
+    list?.add(model);
+  }
+  static Future  removeFromUserList (BranchModel model)async {
+    Map<String, dynamic> userMap =
+    await SharedPrefsManager.getFromJson(currentUser);
+    User user= User.fromJson(userMap);
+    List<BranchModel>? list = user.branches;
+
+    list?.remove(model);
+  }
 //--------------------
 
   static void clearPrefs(){

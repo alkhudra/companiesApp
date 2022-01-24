@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
   void addBranchesPage() {
     Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage(addToList: (){},);
+      return AddBranchesPage(/*addToList: (){},*/);
     }));
   }
   ////---------------------------

@@ -23,15 +23,18 @@ import 'add_brunches_page.dart';
 import 'branch_item.dart';
 
 class BranchList extends StatefulWidget {
-  const BranchList({Key? key}) : super(key: key);
+  final List<BranchModel> list;
+
+  const BranchList({Key? key,required this.list}) : super(key: key);
 
   @override
   _BranchListState createState() => _BranchListState();
+
 }
 
 class _BranchListState extends State<BranchList> {
-  static List<BranchModel>? list;
-  @override
+
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
@@ -41,16 +44,22 @@ class _BranchListState extends State<BranchList> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return FutureBuilder<List<BranchModel>?>(
-        future: getBranchList(),
+
+    return _buildList(context, widget.list);/*FutureBuilder<List<BranchModel>>(
+      future:branchList,
+      //getBranchList(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) showErrorMessageDialog(context, 'error');
-          List<BranchModel>? list = snapshot.data;
-          return _buildList(context, list);
-        });
+          if (snapshot.connectionState == ConnectionState.done) {
+            //  showErrorMessageDialog(context, 'error');
+           final List<BranchModel> list = snapshot.requireData;
+            return _buildList(context, list);
+          } else {
+            return CircularProgressIndicator();
+          }
+        });*/
   }
 
-  Widget _buildList(BuildContext context, List<BranchModel>? snapshot) {
+  Widget _buildList(BuildContext context, List<BranchModel> snapshot) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -59,12 +68,12 @@ class _BranchListState extends State<BranchList> {
       Expanded(
         child: ListView.builder(
           itemBuilder: (context, index) {
-            print(snapshot![index].toString());
+          //  print(snapshot?[index].toString());
             return BranchItem(
               item: snapshot[index],
             );
           },
-          itemCount: snapshot!.length,
+          itemCount: snapshot.length,
         ),
       ),
       SizedBox(
@@ -76,57 +85,28 @@ class _BranchListState extends State<BranchList> {
     ]);
   }
 
-  Future<List<BranchModel>?> getBranchList() async {
-    //----------show progress----------------
 
-    //showLoaderDialog(context);
-
-    User user = await PreferencesHelper.getUser;
-    print(user.toString());
-/*
-    Map<String, dynamic> headerMap = await getHeaderMap();
-
-
-    BranchRepository branchRepository = BranchRepository(headerMap);
-
-    branchRepository.getAllBranch(user.id!).then((result) async{
-
-      if (result.apiStatus.code != ApiResponseType.OK.code) {
-        Navigator.pop(context);
-        showErrorMessageDialog(context,result.message);
-        return;
-      }
-
-
-      BranchListResponseModel branchListResponseModel = BranchListResponseModel.fromJson(result.result);
-      Navigator.pop(context);
-      print(branchListResponseModel.toString());
-
-    });
-*/
-
-    list = user.branches;
-    return list;
-  }
-
-  void directToAddBranch() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+  void directToAddBranch() async {
+    final model =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddBranchesPage(
-        addToList: _addToList,
-      );
+          //  addToList: _addToList,
+          );
     }));
-  }
 
-  void _deleteFromList(BranchModel model) {
-    setState(() {
-      list?.remove(model);
-    });
+    if (model != null) {
+      setState(() {
+        _addToList(model);
+      });
+    }
   }
 
   void _addToList(BranchModel model) {
     setState(() {
-      list?.add(model);
+      PreferencesHelper.addToUserList(model);
+     // BranchList.list?.add(model);
     });
   }
+
 
 }

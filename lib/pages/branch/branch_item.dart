@@ -19,41 +19,28 @@ class BranchItem extends StatefulWidget {
 }
 
 class _BranchItemState extends State<BranchItem> {
-
-
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     return GestureDetector(
-      onTap: (){
-
-     final map =    Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return EditBranchPage(branchModel: widget.item);
-
-        }));
-
+      onTap: () {
+        directToEditItem();
       },
       child: Container(
-        height: scHeight*0.08,
+        height: scHeight * 0.08,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: CustomColors().primaryWhiteColor,
-            boxShadow: [
-              BoxShadow(
-                  color: CustomColors().cardShadowBackgroundColor,
-                  offset: Offset(5.0, 5.0),
-                  blurRadius: 5.0,
-                  spreadRadius: .0),
-            ],
-          //   border: Border.fromBorderSide(BorderSide(
-          // color: CustomColors().primaryGreenColor,
-          // width: 2,
-          //   )
-          // )
+          borderRadius: BorderRadius.circular(10),
+          color: CustomColors().primaryWhiteColor,
+          boxShadow: [
+            BoxShadow(
+                color: CustomColors().cardShadowBackgroundColor,
+                offset: Offset(5.0, 5.0),
+                blurRadius: 5.0,
+                spreadRadius: .0),
+          ],
         ),
         margin: EdgeInsets.all(10),
         child: Row(
@@ -62,7 +49,6 @@ class _BranchItemState extends State<BranchItem> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-
                 widget.item.branchName.toString(),
                 style: TextStyle(
                     color: CustomColors().brownColor,
@@ -75,28 +61,29 @@ class _BranchItemState extends State<BranchItem> {
               color: CustomColors().darkGrayColor,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Icon(Icons.edit , color: CustomColors().primaryGreenColor,)
-            ),
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Icon(
+                  Icons.edit,
+                  color: CustomColors().primaryGreenColor,
+                )),
           ],
         ),
       ),
     );
   }
+
+  void directToEditItem() async {
+    final map =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return EditBranchPage(branchModel: widget.item);
+    }));
+
+    if (map != null) {
+      setState(() {
+        BranchModel deletedModel = map['deletedBranch'];
+       // BranchList.deleteFromList(deletedModel);
+      });
+
+    }
+  }
 }
-/*
-TextButton.icon(
-onPressed: () {},
-icon: Icon(
-Icons.edit,
-color: CustomColors().primaryWhiteColor,
-size: 10,
-),
-label: Text(
-LocaleKeys.edit.tr(),
-style: TextStyle(
-color: CustomColors().primaryWhiteColor,
-fontWeight: FontWeight.w600,
-),
-),
-),*/

@@ -88,4 +88,8 @@ class BranchModel {
     return map;
   }
 
+  @override
+  String toString() {
+    return 'BranchModel{_id: $_id, _phoneNumber: $_phoneNumber, _adress: $_adress, _nationalID: $_nationalID, _city: $_city, _district: $_district, _street: $_street, _country: $_country, _longitude: $_longitude, _latitude: $_latitude, _companyId: $_companyId, _branchName: $_branchName}';
+  }
 }

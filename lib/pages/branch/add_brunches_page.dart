@@ -28,9 +28,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 class AddBranchesPage extends StatefulWidget {
-   final Function addToList ;
+ //  final Function addToList ;
 
-  const AddBranchesPage({Key? key,required this.addToList})
+  const AddBranchesPage({Key? key/*,required this.addToList*/})
       : super(key: key);
 
   @override
@@ -376,8 +376,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showSuccessMessage(context, messageResponseModel.message!);
 
       Navigator.pop(context);
-      widget.addToList(branchModel);
-      Navigator.pop(context);
+     // widget.addToList(branchModel);
+      Navigator.pop(context,branchModel);
     });
   }
 

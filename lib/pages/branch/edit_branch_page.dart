@@ -18,6 +18,7 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
+import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
@@ -45,7 +46,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
 
   static LatLng? latLng;
 
-  bool isEditBtnEnabled = true,isDeleteBtnEnabled = true;
+  bool isEditBtnEnabled = true, isDeleteBtnEnabled = true;
   bool isPickLocationBtnEnabled = true;
 
 // = LatLng(ksaLat,ksaLng);
@@ -227,8 +228,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
                   greenBtn(LocaleKeys.edit_branch.tr(), EdgeInsets.all(20), () {
                     if (isEditBtnEnabled) editBranch();
                   }),
-
-                  redBtn(LocaleKeys.delete_branch.tr(), EdgeInsets.only(left: 20,right: 20,bottom: 20), () {
+                  redBtn(LocaleKeys.delete_branch.tr(),
+                      EdgeInsets.only(left: 20, right: 20, bottom: 20), () {
                     if (isDeleteBtnEnabled) deleteBranchConfirmation();
                   }),
                 ],
@@ -435,11 +436,11 @@ class _EditBranchPageState extends State<EditBranchPage> {
     isDeleteBtnEnabled = false;
 
     List<Function()> actions = [
-          () {
+      () {
         Navigator.pop(context);
         isDeleteBtnEnabled = true;
       },
-          () {
+      () {
         Navigator.pop(context);
         deleteBranch();
       }
@@ -453,12 +454,10 @@ class _EditBranchPageState extends State<EditBranchPage> {
             LocaleKeys.cancel.tr(),
             LocaleKeys.delete_branch.tr(),
             actions));
-
   }
 //-------------------------------
 
-  void deleteBranch() async{
-
+  void deleteBranch() async {
     //----------show progress----------------
 
     showLoaderDialog(context);
@@ -466,9 +465,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     BranchRepository branchRepository = BranchRepository(headerMap);
-    branchRepository
-        .deleteBranch(
-        branchID).then((result) async {
+    branchRepository.deleteBranch(branchID).then((result) async {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
@@ -483,15 +480,13 @@ class _EditBranchPageState extends State<EditBranchPage> {
       alreadyUsedMap.clear();
       PickLocationPage.setValues();
       MessageResponseModel messageResponseModel =
-      MessageResponseModel.fromJson(result.result);
+          MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
 
       Navigator.pop(context);
-      Map<String, dynamic> map = {
-        'deletedBranch':  widget.branchModel
-
-      };
-      Navigator.pop(context,map);
+    //  BranchList.deleteFromList(widget.branchModel);
+      Map<String, dynamic> map = {'deletedBranch': widget.branchModel};
+      Navigator.pop(context, map);
     });
   }
 }
