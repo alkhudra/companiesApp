@@ -122,7 +122,9 @@
   "continue_delete_branch_note_dialog": " you can't undo this action",
   "continue_delete_branch_note_dialog_title": "Are you sure you want to delete this branch permanently ? ",
   "Social Media": "Social Media",
+  "Our Location": "Our Location",
   "Twitter": "Twitter",
+  "WhatsApp": "WhatsApp",
   "City": "City",
   "Jeddah": "Jeddah",
   "Makkah": "Makkah",
@@ -130,5 +132,6 @@
   "Fruits": "Fruits",
   "Vegetables": "Vegetables",
   "ADD TO CART": "ADD TO CART",
-  "Description": "Description"
+  "Description": "Description",
+  "SAR / Kg": "SAR / Kg"
 }

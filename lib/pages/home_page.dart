@@ -1,4 +1,4 @@
-// import 'dart:html';
+import 'dart:developer';
 
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -42,6 +42,10 @@ class _HomePageState extends State<HomePage> {
   //------------------------
   // GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
+  int itemCounter = 0;
+  double itemPrice = 9;
+  String itemName = 'Avocado';
+
   void showAddBranchDialog() async {
     await Future.delayed(Duration(milliseconds: 50));
     List<Function()> actions = [
@@ -76,6 +80,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    ProductCard.counter = ProductCard.counter;
 
     //todo: show after calling api
   /*    if (widget.isHasBranch == false) {
@@ -110,6 +115,7 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 17,),
               //greeting user
@@ -171,96 +177,44 @@ class _HomePageState extends State<HomePage> {
                                 iconSize: 90,
                               ),
                             );
-                      }
-                      ,itemCount: _items.length,
+                      },
+                      itemCount: _items.length,
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       ),
                     ),
-                    // Container(
-                    //   width: scWidth*0.16,
-                    //   height: scHeight*0.13,
-                    //   decoration: BoxDecoration(
-                    //     image: DecorationImage(
-                    //       image: AssetImage('images/fruits.png'),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(width: 10,),
-                    // Container(
-                    //   width: scWidth*0.16,
-                    //   height: scHeight*0.13,
-                    //   decoration: BoxDecoration(
-                    //     image: DecorationImage(
-                    //       image: AssetImage('images/veg.png'),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
               SizedBox(height: 10,),
               //Newest deals title and button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 15, right: 15),
-                    child: Text(LocaleKeys.newest_deals.tr(),
-                      style: TextStyle(
-                        color: CustomColors().darkBlueColor,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      overflow: TextOverflow.ellipsis,),
-                  ),
-                  // SizedBox(width: scWidth*0.35,),
-                  Container(
-                    child: Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.rotationY(math.pi),
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios,
-                          color: CustomColors().primaryGreenColor,),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => TrendingDeals()));
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10,),
-              //TODO: convert to listview
-              productCard(context, 0, 'Avocado', 22),
-              productCard(context, 0, 'Melons', 6.95),
-              productCard(context, 0, 'Carrots',8.56),
-              SizedBox(height: 10,),
-              //Load more button
               Container(
-                width: scWidth*0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: CustomColors().cardShadowBackgroundColor,
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    //add progress loader while loading more results
-                  },
-                  child: Text(LocaleKeys.load_more.tr(), 
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: Text(LocaleKeys.newest_deals.tr(),
                   style: TextStyle(
                     color: CustomColors().darkBlueColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700
-                  ),)),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  overflow: TextOverflow.ellipsis,),
+              ),
+              SizedBox(height: 10,),
+              Container(
+                child: ListView.builder(
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ProductCard.productCardDesign(context, itemName, itemPrice, 
+                    );
+                  },
+                  itemCount: 5,
                 ),
-                SizedBox(height: 30,),
+              ),
+              SizedBox(height: 30,),
             ],
           ),
         ),
-        // drawer: drawerDesign(context),
-    
       ),
     );
   }
@@ -327,3 +281,14 @@ class ListItem {
     required this.navRoute,
   });
 }
+
+                  // increaseCount: () {
+                  //   setState(() {
+                  //     ProductCard.counter >= 0 ? ProductCard.counter+=ProductCard.counter: ProductCard.counter;
+                  //     print(ProductCard.counter);
+                  //   });
+                  // },
+                  // decreaseCount: () {
+                  //   ProductCard.counter >= 0 ? ProductCard.counter-=ProductCard.counter: ProductCard.counter;
+                  //   print(ProductCard.counter);
+                  // },
