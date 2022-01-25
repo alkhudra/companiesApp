@@ -72,18 +72,9 @@ class _BranchItemState extends State<BranchItem> {
     );
   }
 
-  void directToEditItem() async {
-    final map =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+  void directToEditItem() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       return EditBranchPage(branchModel: widget.item);
     }));
-
-    if (map != null) {
-      setState(() {
-        BranchModel deletedModel = map['deletedBranch'];
-       // BranchList.deleteFromList(deletedModel);
-      });
-
-    }
   }
 }

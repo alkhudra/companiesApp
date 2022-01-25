@@ -111,7 +111,8 @@ class BranchRepository {
             }else{
               if(errorCode == 400){
                // final de = jsonDecode(res.data.toString());
-                ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(res.data);
+                ErrorResponseModel errorResponseModel =
+                ErrorResponseModel.fromJson(res.data);
                 errorMessage = errorResponseModel.error!.message!;
                 print(errorMessage);
               }
@@ -223,12 +224,8 @@ class BranchRepository {
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
             }else{
-              if(errorCode == 400){
-                // final de = jsonDecode(res.data.toString());
-                ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(res.data);
-                errorMessage = errorResponseModel.error!.message!;
-                print(errorMessage);
-              }
+
+              errorMessage = LocaleKeys.wrong_error.tr();
             }
           }
           break;

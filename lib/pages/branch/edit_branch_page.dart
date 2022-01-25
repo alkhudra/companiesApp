@@ -15,6 +15,7 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
@@ -34,7 +35,7 @@ class EditBranchPage extends StatefulWidget {
 }
 
 class _EditBranchPageState extends State<EditBranchPage> {
-  static String city = '', address = '', branchID = '';
+  static String city = ' ', address = '', branchID = '';
 
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController nationalIDAddressController =
@@ -174,7 +175,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
                         if (newValue != dropdownValue) {
                           city = newValue!;
                           print(city);
-                        }
+                        }else city = ' ';
                       });
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
@@ -318,11 +319,11 @@ class _EditBranchPageState extends State<EditBranchPage> {
       showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
-    if (nationalIDAddressController.text.length != 5) {
+    if (nationalIDAddressController.text.length != 4) {
       showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
-    if (city == '') {
+    if (city == ' ') {
       showErrorDialog(LocaleKeys.branch_city_required.tr());
       return;
     }
@@ -356,8 +357,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        if (result.apiStatus.code == ApiResponseType.BadRequest)
-          Navigator.pop(context);
+        Navigator.pop(context);
         showErrorDialog(result.message);
         return;
       }
@@ -366,9 +366,9 @@ class _EditBranchPageState extends State<EditBranchPage> {
       address = '';
       alreadyUsedMap.clear();
       PickLocationPage.setValues();
-      MessageResponseModel messageResponseModel =
-          MessageResponseModel.fromJson(result.result);
-      showSuccessMessage(context, messageResponseModel.message!);
+      SuccessBranchResponseModel successBranchResponseModel =
+      SuccessBranchResponseModel.fromJson(result.result);
+      showSuccessMessage(context, successBranchResponseModel.message!);
 
       Navigator.pop(context);
       Navigator.pop(context);
@@ -469,8 +469,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        if (result.apiStatus.code == ApiResponseType.BadRequest)
-          Navigator.pop(context);
+        Navigator.pop(context);
         showErrorDialog(result.message);
         return;
       }
@@ -484,9 +483,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
       showSuccessMessage(context, messageResponseModel.message!);
 
       Navigator.pop(context);
-    //  BranchList.deleteFromList(widget.branchModel);
-      Map<String, dynamic> map = {'deletedBranch': widget.branchModel};
-      Navigator.pop(context, map);
+      // Navigator.pop(context, map);
     });
   }
 }

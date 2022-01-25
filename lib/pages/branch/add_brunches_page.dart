@@ -18,6 +18,7 @@ import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
@@ -28,9 +29,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 class AddBranchesPage extends StatefulWidget {
- //  final Function addToList ;
+  //  final Function addToList ;
 
-  const AddBranchesPage({Key? key/*,required this.addToList*/})
+  const AddBranchesPage({Key? key /*,required this.addToList*/})
       : super(key: key);
 
   @override
@@ -38,7 +39,7 @@ class AddBranchesPage extends StatefulWidget {
 }
 
 class _AddBranchesPageState extends State<AddBranchesPage> {
-  static String city = '', address = '';
+  static String city = ' ', address = '';
 
   final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
@@ -166,7 +167,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                         if (newValue != dropdownValue) {
                           city = newValue!;
                           print(city);
-                        }
+                        } else
+                          city = ' ';
                       });
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
@@ -312,12 +314,11 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showErrorDialog(LocaleKeys.buildingno_required.tr());
       return;
     }
-    //todo:change to 4
-    if (nationalIDAddressController.text.length != 5) {
+    if (nationalIDAddressController.text.length != 4) {
       showErrorDialog(LocaleKeys.buildingno_length_error.tr());
       return;
     }
-    if (city == '') {
+    if (city == ' ') {
       showErrorDialog(LocaleKeys.branch_city_required.tr());
       return;
     }
@@ -330,7 +331,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     isAddBtnEnabled = true;
     //----------show progress----------------
 
-   showLoaderDialog(context);
+    showLoaderDialog(context);
     //----------start api ----------------
     Map<String, dynamic> headerMap = await getHeaderMap();
 
@@ -352,32 +353,24 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       //-------- fail response ---------
 
       if (result == null || result.apiStatus.code != ApiResponseType.OK.code) {
-        if (result.apiStatus.code == ApiResponseType.BadRequest)
-          Navigator.pop(context);
+        Navigator.pop(context);
         showErrorDialog(result.message);
         return;
       }
-      BranchModel branchModel = BranchModel('',    nameController.text,
-          phoneController.text,
-          address,
-          districtController.text,
-          streetController.text,
-          nationalIDAddressController.text,
-          city,
-          "KSA",
-          latLng.longitude,
-          latLng.latitude, companyID);
+
+
       //-------- success response ---------
       address = '';
       alreadyUsedMap.clear();
       PickLocationPage.setValues();
-      MessageResponseModel messageResponseModel =
-          MessageResponseModel.fromJson(result.result);
-      showSuccessMessage(context, messageResponseModel.message!);
+      SuccessBranchResponseModel successBranchResponseModel =
+      SuccessBranchResponseModel.fromJson(result.result);
+      showSuccessMessage(context, successBranchResponseModel.message!);
 
+      BranchModel branchModel = successBranchResponseModel.branchObject!;
       Navigator.pop(context);
-     // widget.addToList(branchModel);
-      Navigator.pop(context,branchModel);
+      // widget.addToList(branchModel);
+      Navigator.pop(context, branchModel);
     });
   }
 
@@ -446,8 +439,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
             context,
             LocaleKeys.add_branch.tr(),
             LocaleKeys.continue_add_branch_note_dialog.tr(),
-            LocaleKeys.continue_btn.tr(),
             LocaleKeys.cancel.tr(),
+            LocaleKeys.continue_btn.tr(),
             actions));
   }
 }

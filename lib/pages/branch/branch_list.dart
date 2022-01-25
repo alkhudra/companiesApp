@@ -25,7 +25,7 @@ import 'branch_item.dart';
 class BranchList extends StatefulWidget {
   final List<BranchModel> list;
 
-  const BranchList({Key? key,required this.list}) : super(key: key);
+  const BranchList({Key? key, required this.list}) : super(key: key);
 
   @override
   _BranchListState createState() => _BranchListState();
@@ -33,8 +33,7 @@ class BranchList extends StatefulWidget {
 }
 
 class _BranchListState extends State<BranchList> {
-
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
@@ -44,8 +43,10 @@ class _BranchListState extends State<BranchList> {
   }
 
   Widget _buildBody(BuildContext context) {
-
-    return _buildList(context, widget.list);/*FutureBuilder<List<BranchModel>>(
+    return _buildList(
+        context,
+        widget
+            .list); /*FutureBuilder<List<BranchModel>>(
       future:branchList,
       //getBranchList(),
         builder: (context, snapshot) {
@@ -68,7 +69,7 @@ class _BranchListState extends State<BranchList> {
       Expanded(
         child: ListView.builder(
           itemBuilder: (context, index) {
-          //  print(snapshot?[index].toString());
+            //  print(snapshot?[index].toString());
             return BranchItem(
               item: snapshot[index],
             );
@@ -85,28 +86,17 @@ class _BranchListState extends State<BranchList> {
     ]);
   }
 
-
   void directToAddBranch() async {
     final model =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddBranchesPage(
-          //  addToList: _addToList,
           );
     }));
 
     if (model != null) {
       setState(() {
-        _addToList(model);
+        widget.list.add(model);
       });
     }
   }
-
-  void _addToList(BranchModel model) {
-    setState(() {
-      PreferencesHelper.addToUserList(model);
-     // BranchList.list?.add(model);
-    });
-  }
-
-
 }

@@ -28,11 +28,8 @@ class BranchListResponseModel {
     return 'BranchListResponseModel{branchList: $model}';
   }
 
-  void addToList(BranchModel value){
-    PreferencesHelper.addToUserList(value);
-    _branches.add(value);
-  }
-  void removeFromList(BranchModel value){
+
+  BranchListResponseModel.removeFromList(BranchModel value){
     PreferencesHelper.removeFromUserList(value);
     _branches.remove(value);
   }
