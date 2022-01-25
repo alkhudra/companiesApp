@@ -12,6 +12,7 @@ import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/helpers/routeHelper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
@@ -27,8 +28,8 @@ import '../pick_location_page.dart';
 
 class EditBranchPage extends StatefulWidget {
   final BranchModel branchModel;
-
-  const EditBranchPage({Key? key, required this.branchModel}) : super(key: key);
+  final List<BranchModel> list;
+  const EditBranchPage({Key? key, required this.branchModel,required this.list}) : super(key: key);
 
   @override
   _EditBranchPageState createState() => _EditBranchPageState();
@@ -481,8 +482,18 @@ class _EditBranchPageState extends State<EditBranchPage> {
       MessageResponseModel messageResponseModel =
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
-
+      widget.list.remove(widget.branchModel);
       Navigator.pop(context);
+
+
+      //todo: fix error , back to list twice
+      Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) => BranchList(
+            list: widget.list,
+          )));
+
+
+
       // Navigator.pop(context, map);
     });
   }

@@ -11,8 +11,9 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'add_brunches_page.dart';
 
 class BranchItem extends StatefulWidget {
-  final BranchModel item;
-  const BranchItem({Key? key, required this.item}) : super(key: key);
+  final int index;
+  final List<BranchModel> list;
+  const BranchItem({Key? key, required this.list,required this.index}) : super(key: key);
 
   @override
   _BranchItemState createState() => _BranchItemState();
@@ -49,7 +50,7 @@ class _BranchItemState extends State<BranchItem> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                widget.item.branchName.toString(),
+                widget.list[widget.index].branchName.toString(),
                 style: TextStyle(
                     color: CustomColors().brownColor,
                     fontWeight: FontWeight.w700,
@@ -74,7 +75,7 @@ class _BranchItemState extends State<BranchItem> {
 
   void directToEditItem() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return EditBranchPage(branchModel: widget.item);
+      return EditBranchPage(branchModel: widget.list[widget.index], list: widget.list);
     }));
   }
 }

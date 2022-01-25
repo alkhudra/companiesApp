@@ -71,7 +71,8 @@ class _BranchListState extends State<BranchList> {
           itemBuilder: (context, index) {
             //  print(snapshot?[index].toString());
             return BranchItem(
-              item: snapshot[index],
+              list: snapshot,
+                index: index,
             );
           },
           itemCount: snapshot.length,
