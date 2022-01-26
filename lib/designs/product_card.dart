@@ -97,6 +97,7 @@ class ProductCard{
                             },
                           ),
                         ),
+                        //Counter
                         Container(
                           width: 80,
                           height: 30,
