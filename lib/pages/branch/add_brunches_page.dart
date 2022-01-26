@@ -93,6 +93,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 LocaleKeys.add_branch_note.tr(),
                 style: TextStyle(
                     fontSize: 15,
+                    height: 1.5,
                     color: CustomColors().blackColor,
                     fontWeight: FontWeight.bold),
               ),
@@ -196,6 +197,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 LocaleKeys.add_location_note.tr(),
                 style: TextStyle(
                     fontSize: 15,
+                    height: 1.5,
                     color: CustomColors().blackColor,
                     fontWeight: FontWeight.bold),
               ),

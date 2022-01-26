@@ -33,7 +33,7 @@ class _LanguagePageState extends State<LanguagePage> {
 
     PreferencesHelper.setSelectedLanguage(localeName);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return WelcomePage();
     }));
 

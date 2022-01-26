@@ -10,6 +10,7 @@ import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/alret_dialog.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/contact_helper.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -158,11 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: EdgeInsets.only(right: 10, left: 10),
                       child: GestureDetector(
                         onTap: () {
-                          //todo: go to terms
-                          /*  Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                              return SignUpPage();
-                            }));*/
+                          directToTerms();
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -387,9 +384,17 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void directToLogIn() {
 
-    Navigator.push(context,
+    Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) {
           return LogInPage();
         }));
+  }
+
+  void directToTerms() async{
+
+    String selectedLanguage = await PreferencesHelper.getSelectedLanguage;
+
+    openURL('http://alkhudrahproject-001-site2.ctempurl.com/GeneralView/GetTermsConditions?lang=$selectedLanguage');
+
   }
 }

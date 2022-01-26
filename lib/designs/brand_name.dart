@@ -25,6 +25,7 @@ Widget brandName(logoW, logoH, fontS) {
         text: TextSpan(
             style: TextStyle(
               fontSize: fontS,
+              fontFamily: 'Almarai',
               fontWeight: FontWeight.bold,
               color: CustomColors().primaryGreenColor,
             ),

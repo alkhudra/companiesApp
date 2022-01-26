@@ -317,7 +317,7 @@ Drawer drawerDesign(context) {
           ),
           onTap: () {
             Navigator.pop(context);
-            PreferencesHelper.clearPrefs();
+            PreferencesHelper.setUser(null);
             PreferencesHelper.setUserLoggedIn(false);
             moveToNewStack(context, loginRoute);
           },

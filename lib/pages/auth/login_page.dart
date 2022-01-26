@@ -131,7 +131,7 @@ class _LogInPageState extends State<LogInPage> {
                     padding: EdgeInsets.only(right: 10, left: 10),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
+                        Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) {
                           return SignUpPage();
                         }));
