@@ -370,9 +370,14 @@ class _EditBranchPageState extends State<EditBranchPage> {
       SuccessBranchResponseModel successBranchResponseModel =
       SuccessBranchResponseModel.fromJson(result.result);
       showSuccessMessage(context, successBranchResponseModel.message!);
+      widget.list.remove(widget.branchModel);
+      widget.list.add(successBranchResponseModel.branchObject!);
+      Navigator.pop(context);
 
-      Navigator.pop(context);
-      Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) => BranchList(
+            list: widget.list,
+          )));
     });
   }
 
@@ -486,7 +491,6 @@ class _EditBranchPageState extends State<EditBranchPage> {
       Navigator.pop(context);
 
 
-      //todo: fix error , back to list twice
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) => BranchList(
             list: widget.list,
