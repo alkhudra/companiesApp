@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:khudrah_companies/pages/Notifications_page.dart';
+import 'package:khudrah_companies/pages/notifications_page.dart';
 import 'package:khudrah_companies/pages/cart_page.dart';
 import 'package:khudrah_companies/pages/favorites_page.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
