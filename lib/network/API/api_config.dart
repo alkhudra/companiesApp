@@ -49,6 +49,22 @@ abstract class RestClient {
   @GET(ApiConst.get_branch_url)
   Future<dynamic> getAllBranches(@Path() String id);
 
+//---------------home ----------------
+
+  @GET(ApiConst.get_home_url)
+  Future<dynamic> getHomeInfo();
+
+
+  @GET(ApiConst.get_products_url)
+  Future<dynamic> getProducts(@Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
+
+
+  @GET(ApiConst.get_products_by_category_url)
+  Future<dynamic> getProductsByCategory(@Query('categoryId')String categoryId, @Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
+
+
+  @GET(ApiConst.get_products_by_id_url)
+  Future<dynamic> getProductById(@Query('productId') String productId);
 
 
 }
