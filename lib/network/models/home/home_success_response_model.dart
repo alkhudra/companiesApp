@@ -1,6 +1,4 @@
-import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-
-class HomeSuccessResponseModel {
+import 'package:khudrah_companies/network/models/user_model.dart';class HomeSuccessResponseModel {
   HomeSuccessResponseModel({
     User? user,
     List<CategoriesList>? categoriesList,
@@ -10,6 +8,7 @@ class HomeSuccessResponseModel {
     _categoriesList = categoriesList;
     _productsList = productsList;
   }
+
 
   HomeSuccessResponseModel.fromJson(dynamic json) {
     _user = json['user'] != null ? User.fromJson(json['user']) : null;

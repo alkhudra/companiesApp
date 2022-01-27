@@ -19,7 +19,7 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/network_helper.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';

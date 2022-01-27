@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:khudrah_companies/Constant/pref_cont.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
-import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 class PreferencesHelper {
   static Future<bool> get getIsUserFirstLogIn =>

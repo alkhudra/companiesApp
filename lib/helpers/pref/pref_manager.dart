@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsManager {
 //-----------------------------------
