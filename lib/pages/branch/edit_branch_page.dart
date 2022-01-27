@@ -12,7 +12,7 @@ import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
-import 'package:khudrah_companies/helpers/routeHelper.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';

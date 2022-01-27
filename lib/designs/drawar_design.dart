@@ -5,7 +5,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
-import 'package:khudrah_companies/helpers/routeHelper.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';

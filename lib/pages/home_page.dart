@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/category_item.dart';
@@ -37,8 +38,7 @@ import 'dart:math' as math;
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'categories/fruit_category.dart';
-import 'categories/veg_category.dart';
+import 'categories/category_page.dart';
 
 class HomePage extends StatefulWidget {
   //final bool isHasBranch;
@@ -160,12 +160,9 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    Widget fruitNav = FruitCategory();
-    Widget vegNav = VegCategory();
-    List<ListItem> _items = [
-      ListItem(icon: 'images/fruits.png', navRoute: fruitNav),
-      ListItem(icon: 'images/veg.png', navRoute: vegNav),
-    ];
+
+    List<CategoriesList>? categoryList = home!.categoriesList;
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -176,7 +173,7 @@ class _HomePageState extends State<HomePage> {
           ),
           //greeting user
           Container(
-            child: greeting(context),
+            child: greeting(context , home.user!.companyName!),
           ),
           SizedBox(
             height: 10,
@@ -212,48 +209,70 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 //all category iconbutton
-                Container(
-                  width: scWidth * 0.27,
-                  height: scHeight * 0.16,
-                  child: IconButton(
-                    icon: Image(image: AssetImage('images/fruitsnveg.png')),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AllCategory()),
-                      );
-                    },
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      width: scWidth * 0.27,
+                      height: scHeight * 0.11,
+                      child: IconButton(
+                        icon: Image(image: AssetImage('images/fruitsnveg.png')),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AllCategory()),
+                          );
+                        },
+                      ),
+                    ),
+                    Text('الكل'
+                      ,style: TextStyle(
+                          color: CustomColors().brownColor,fontWeight: FontWeight.bold
+                      ),)
+            ,
+                  ],
                 ),
-                //fruit and veg categories iconbutton
                 Container(
+
                   width: scWidth * 0.8,
                   height: scHeight * 0.16,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return Container(
-                        // width: scWidth*0.23,
-                        // height: scHeight*0.14,
-                        //TODO: change to Network image
-                        child: IconButton(
-                          icon: Image(
-                              image: AssetImage(
-                                _items[index].icon,
-                              )),
-                          onPressed: () {
-                            print(_items[index].navRoute);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                    _items[index].navRoute));
-                          },
-                          iconSize: 90,
-                        ),
+                      return Column(
+                        children: [
+                          Container(
+                            width: scWidth * 0.27,
+                            height: scHeight * 0.11,
+                            child: IconButton(
+                              icon: Image(image: AssetImage('images/fruitsnveg.png')),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllCategory()),
+                                );
+                              },
+                            ),
+                           // child: Image.network(ApiConst.basic_url + categoryList![index].image!)
+                           /*   icon: Image(
+                                  image: AssetImage(
+
+                                  )),
+                              onPressed: () {
+
+                              },
+                              iconSize: 90,
+                            ),
+                          ),*/),
+                      Text(setCategoryName(categoryList![index])!
+                        ,style: TextStyle(
+                        color: CustomColors().brownColor,fontWeight: FontWeight.bold
+                      ),)
+                      ,
+                        ],
                       );
                     },
-                    itemCount: _items.length,
+                    itemCount: categoryList?.length,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                   ),
@@ -289,12 +308,12 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return ProductCard.productCardDesign(
                   context,
-                  language == 'ar'? home?.productsList![index].arName :  home?.productsList![index].name ,
-                  home?.productsList![index].hasSpecialPrice == true ? home?.productsList![index].specialPrice :
-                  home?.productsList![index].originalPrice,
+                  language == 'ar'? home.productsList![index].arName :  home.productsList![index].name ,
+                  home.productsList![index].hasSpecialPrice == true ? home.productsList![index].specialPrice :
+                  home.productsList![index].originalPrice,
                 );
               },
-              itemCount: home?.productsList!.length,
+              itemCount: home.productsList!.length,
             ),
           ),
           SizedBox(
@@ -382,25 +401,11 @@ class _HomePageState extends State<HomePage> {
     }*/
   }
 
+  String? setCategoryName(CategoriesList categoryList) {
+ return language == 'ar' ?  categoryList.arName :  categoryList.name;
+  }
+
 
 }
 
-class ListItem {
-  String icon;
-  Widget navRoute;
-  ListItem({
-    required this.icon,
-    required this.navRoute,
-  });
-}
 
-// increaseCount: () {
-//   setState(() {
-//     ProductCard.counter >= 0 ? ProductCard.counter+=ProductCard.counter: ProductCard.counter;
-//     print(ProductCard.counter);
-//   });
-// },
-// decreaseCount: () {
-//   ProductCard.counter >= 0 ? ProductCard.counter-=ProductCard.counter: ProductCard.counter;
-//   print(ProductCard.counter);
-// },
