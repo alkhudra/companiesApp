@@ -20,6 +20,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 late List<BranchModel> list;
+
 Drawer drawerDesign(context) {
   return Drawer(
     child: ListView(
