@@ -16,8 +16,7 @@ import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/network_helper.dart';
@@ -93,6 +92,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 LocaleKeys.add_branch_note.tr(),
                 style: TextStyle(
                     fontSize: 15,
+                    height: 1.5,
                     color: CustomColors().blackColor,
                     fontWeight: FontWeight.bold),
               ),
@@ -196,6 +196,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                 LocaleKeys.add_location_note.tr(),
                 style: TextStyle(
                     fontSize: 15,
+                    height: 1.5,
                     color: CustomColors().blackColor,
                     fontWeight: FontWeight.bold),
               ),

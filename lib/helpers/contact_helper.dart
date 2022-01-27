@@ -2,6 +2,33 @@ import 'dart:io';
 
 import 'package:url_launcher/url_launcher.dart';
 
+
+
+void openTwitterApp(String address)async{
+
+  String url = "twitter://user?screen_name=";
+
+  if (await canLaunch(url+address)) {
+  await launch(url+address);
+  } else {
+    url = "https://twitter.com/";
+    if (await canLaunch(url+address)) {
+      await launch(url+address);
+    }else{
+      throw 'Could not launch twitter';
+    }
+
+  }
+}
+//--------------
+void openURL(String url) async {
+
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 //--------------
 void directToPhoneCall(String number) async {
 

@@ -63,7 +63,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   void onButtonPressed(String s) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       if (s == loginRoute)
         return LogInPage();
       else

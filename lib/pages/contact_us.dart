@@ -32,19 +32,237 @@ class _ContactUsState extends State<ContactUs> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: appBarDesign(context, LocaleKeys.contact_us.tr()),
-      body: ListView(
-        scrollDirection: Axis.vertical,
+      body:/* Container(
+        // margin: EdgeInsets.only(top: 5),
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          color: CustomColors().primaryWhiteColor,
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(40),
+          //   topRight: Radius.circular(40),
+          // ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              child: brandName(100.0, 100.0, 22.0),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Phone number
+                GestureDetector(
+                  onTap: () {
+                    print('phone');
+                    directToPhoneCall(phone);
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image:
+                                AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.phone,
+                          color: CustomColors().darkBlueColor.withOpacity(0.8),
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Text(
+                            phone,
+                            style: TextStyle(
+                                color: CustomColors().darkBlueColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //Email
+                GestureDetector(
+                  onTap: (){
+                    print('email');
+                    sendMail(email);
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.alternate_email_outlined,
+                          color: CustomColors().darkBlueColor,
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          email,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: scHeight/16,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Social Media
+                GestureDetector(
+                  onTap: (){
+                    print('social');
+
+                    openWhatsApp(phone);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.hashtag,
+                          color: CustomColors().darkBlueColor,
+                          size: 30,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          // LocaleKeys.whats_app.tr(),
+                          LocaleKeys.social_media.tr(),
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //Location
+                GestureDetector(
+                  onTap: (){
+                    print('location');
+                    openMap(lat,lng);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.fmd_good_sharp,
+                          color: CustomColors().darkBlueColor,
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          LocaleKeys.our_location.tr(),
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),*/
+      
+      ListView(
         children: [
           ListTile(
             minVerticalPadding: 20,
             title: brandName(100.0, 100.0, 22.0),
           ),
-          // SizedBox(height: 10,),
+          SizedBox(height: 10,),
           //phone
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
-              // color: CustomColors().primaryWhiteColor,
+              color: CustomColors().primaryWhiteColor,
               borderRadius: BorderRadius.circular(30)
             ),
             child: ListTile(
@@ -74,11 +292,11 @@ class _ContactUsState extends State<ContactUs> {
                       ),
                     ),
                     SizedBox(
-                      width: 15,
+                      width: 10,
                     ),
                     Container(
                       // margin: EdgeInsets.only(left: 10),
-                      // alignment: Alignment.center,
+                      alignment: Alignment.center,
                       width: scWidth*0.4,
                       child: Text(
                         phone,
@@ -103,7 +321,7 @@ class _ContactUsState extends State<ContactUs> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
-              // color: CustomColors().primaryWhiteColor,
+              color: CustomColors().primaryWhiteColor,
               borderRadius: BorderRadius.circular(30),
             ),
             child: ListTile(
@@ -127,7 +345,7 @@ class _ContactUsState extends State<ContactUs> {
                         ),
                       ),
                       child: Icon(
-                        Icons.email_outlined,
+                        Icons.alternate_email_outlined,
                         color: CustomColors().darkBlueColor,
                         size: 35,
                       ),
@@ -137,7 +355,7 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     Container(
                       // margin: EdgeInsets.only(left: 10),
-                      // alignment: Alignment.center,
+                      alignment: Alignment.center,
                       width: scWidth*0.4,
                       child: Text(
                         email,
@@ -156,7 +374,7 @@ class _ContactUsState extends State<ContactUs> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
-              // color: CustomColors().primaryWhiteColor,
+              color: CustomColors().primaryWhiteColor,
               borderRadius: BorderRadius.circular(30),
             ),
             child: ExpansionTile(
@@ -165,7 +383,7 @@ class _ContactUsState extends State<ContactUs> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(width: 50,),
+                  SizedBox(width: 20,),
                   Container(
                     // margin: EdgeInsets.only(left: 10),
                     width: scWidth*0.17,
@@ -180,12 +398,12 @@ class _ContactUsState extends State<ContactUs> {
                       color: CustomColors().darkBlueColor
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
+                  // SizedBox(
+                  //   width: 10,
+                  // ),
                   Container(
                     // margin: EdgeInsets.only(left: 10),
-                    // alignment: Alignment.center,
+                    alignment: Alignment.center,
                     width: scWidth*0.4,
                     child: Text(
                       LocaleKeys.social_media.tr(),
@@ -207,7 +425,6 @@ class _ContactUsState extends State<ContactUs> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
                           // margin: EdgeInsets.only(left: 10),
@@ -223,9 +440,9 @@ class _ContactUsState extends State<ContactUs> {
                             color: CustomColors().darkBlueColor
                           ),
                         ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Container(
                           // margin: EdgeInsets.only(left: 10),
                           alignment: Alignment.center,
@@ -246,13 +463,12 @@ class _ContactUsState extends State<ContactUs> {
                 ListTile(
                   title: GestureDetector(
                     onTap: () {
-                      //TODO: connect to twitter
-                      print('whats');
-                      openWhatsApp(phone);
+                      print('twitter');
+                      openTwitterApp('imanalMohd000');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
                           // margin: EdgeInsets.only(left: 10),
@@ -268,20 +484,20 @@ class _ContactUsState extends State<ContactUs> {
                             color: CustomColors().darkBlueColor
                           ),
                         ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Container(
                           // margin: EdgeInsets.only(left: 10),
-                          // alignment: Alignment.center,
+                          alignment: Alignment.center,
                           width: scWidth*0.4,
                           child: Text(
                             //TODO: replace text with twitter handle
                             LocaleKeys.twit,
                             style: TextStyle(
-                              color: CustomColors().darkBlueColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
+                                color: CustomColors().darkBlueColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       ],
@@ -307,7 +523,7 @@ class _ContactUsState extends State<ContactUs> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
-              // color: CustomColors().primaryWhiteColor,
+              color: CustomColors().primaryWhiteColor,
               borderRadius: BorderRadius.circular(30)
             ),
             child: ListTile(
@@ -336,18 +552,18 @@ class _ContactUsState extends State<ContactUs> {
                       ),
                     ),
                     SizedBox(
-                      width: 15,
+                      width: 10,
                     ),
                     Container(
                       // margin: EdgeInsets.only(left: 10),
-                      // alignment: Alignment.center,
+                      alignment: Alignment.center,
                       width: scWidth*0.4,
                       child: Text(
-                        LocaleKeys.our_location.tr(),
+                        'Our Location',
                         style: TextStyle(
-                          color: CustomColors().darkBlueColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
+                            color: CustomColors().darkBlueColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -355,442 +571,220 @@ class _ContactUsState extends State<ContactUs> {
               ),
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 10,),
         ],
       ),
-      // Container(
-      //   margin: EdgeInsets.only(top: 5),
-      //   width: double.infinity,
-      //   height: MediaQuery.of(context).size.height,
-      //   decoration: BoxDecoration(
-      //     color: CustomColors().primaryWhiteColor,
-      //     borderRadius: BorderRadius.only(
-      //       topLeft: Radius.circular(40),
-      //       topRight: Radius.circular(40),
-      //     ),
-      //   ),
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     crossAxisAlignment: CrossAxisAlignment.center,
-      //     children: [
-      //       SizedBox(
-      //         height: 30,
-      //       ),
-      //       Container(
-      //         child: brandName(100.0, 100.0, 22.0),
-      //       ),
-      //       SizedBox(
-      //         height: 50,
-      //       ),
-      //       Row(
-      //         crossAxisAlignment: CrossAxisAlignment.center,
-      //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //         children: [
-      //           //Phone number
-      //           GestureDetector(
-      //             onTap: () {
-      //               print('phone');
-      //               directToPhoneCall(phone);
-      //             },
-      //             child: Column(
-      //               children: [
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   width: scWidth*0.17,
-      //                   height: scHeight*0.13,
-      //                   decoration: BoxDecoration(
-      //                     image: DecorationImage(
-      //                       image:
-      //                           AssetImage('images/product_icon.png'),
-      //                     ),
-      //                   ),
-      //                   child: Icon(
-      //                     Icons.phone,
-      //                     color: CustomColors().darkBlueColor.withOpacity(0.8),
-      //                     size: 35,
-      //                   ),
-      //                 ),
-      //                 SizedBox(
-      //                   height: 10,
-      //                 ),
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   alignment: Alignment.center,
-      //                   width: scWidth*0.4,
-      //                   child: Text(
-      //                     phone,
-      //                     style: TextStyle(
-      //                         color: CustomColors().darkBlueColor,
-      //                         fontSize: 15,
-      //                         fontWeight: FontWeight.w600),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //           //Email
-      //           GestureDetector(
-      //             onTap: (){
-      //               print('email');
-      //               sendMail(email);
-      //             },
-      //             child: Column(
-      //               children: [
-      //                 Container(
-      //                   alignment: Alignment.center,
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   width: scWidth*0.17,
-      //                   height: scHeight*0.13,
-      //                   decoration: BoxDecoration(
-      //                     image: DecorationImage(
-      //                       image: AssetImage('images/product_icon.png'),
-      //                     ),
-      //                   ),
-      //                   child: Icon(
-      //                     Icons.alternate_email_outlined,
-      //                     color: CustomColors().darkBlueColor,
-      //                     size: 35,
-      //                   ),
-      //                 ),
-      //                 SizedBox(
-      //                   height: 10,
-      //                 ),
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   alignment: Alignment.center,
-      //                   width: scWidth*0.4,
-      //                   child: Text(
-      //                     email,
-      //                     style: TextStyle(
-      //                         color: CustomColors().darkBlueColor,
-      //                         fontSize: 15,
-      //                         fontWeight: FontWeight.w600),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //       SizedBox(
-      //         height: scHeight/16,
-      //       ),
-      //       Row(
-      //         crossAxisAlignment: CrossAxisAlignment.center,
-      //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //         children: [
-      //           //Social Media
-      //           GestureDetector(
-      //             onTap: (){
-      //               print('social');
-      //               openWhatsApp(phone);
-      //             },
-      //             child: Column(
-      //               mainAxisAlignment: MainAxisAlignment.center,
-      //               children: [
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   width: scWidth*0.17,
-      //                   height: scHeight*0.13,
-      //                   decoration: BoxDecoration(
-      //                     image: DecorationImage(
-      //                       image: AssetImage('images/product_icon.png'),
-      //                     ),
-      //                   ),
-      //                   child: Icon(
-      //                     FontAwesomeIcons.hashtag,
-      //                     color: CustomColors().darkBlueColor
-      //                   ),
-      //                 ),
-      //                 SizedBox(
-      //                   height: 10,
-      //                 ),
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   alignment: Alignment.center,
-      //                   width: scWidth*0.4,
-      //                   child: Text(
-      //                     whats,
-      //                     style: TextStyle(
-      //                         color: CustomColors().darkBlueColor,
-      //                         fontSize: 15,
-      //                         fontWeight: FontWeight.w600),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //           //Location
-      //           GestureDetector(
-      //             onTap: (){
-      //               print('location');
-      //               openMap(lat,lng);
-      //             },
-      //             child: Column(
-      //               mainAxisAlignment: MainAxisAlignment.center,
-      //               crossAxisAlignment: CrossAxisAlignment.center,
-      //               children: [
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   width: scWidth*0.17,
-      //                   height: scHeight*0.13,
-      //                   decoration: BoxDecoration(
-      //                     image: DecorationImage(
-      //                       image: AssetImage('images/product_icon.png'),
-      //                     ),
-      //                   ),
-      //                   child: Icon(
-      //                     Icons.fmd_good_sharp,
-      //                     color: CustomColors().darkBlueColor,
-      //                     size: 35,
-      //                   ),
-      //                 ),
-      //                 SizedBox(
-      //                   height: 10,
-      //                 ),
-      //                 Container(
-      //                   // margin: EdgeInsets.only(left: 10),
-      //                   alignment: Alignment.center,
-      //                   width: scWidth*0.4,
-      //                   child: Text(
-      //                     'Our Location',
-      //                     style: TextStyle(
-      //                         color: CustomColors().darkBlueColor,
-      //                         fontSize: 15,
-      //                         fontWeight: FontWeight.w600),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ],
-      //   ),
-      // ),
-
-      //square design
-
+    /*  Container(
+        margin: EdgeInsets.only(top: 5),
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          color: CustomColors().primaryWhiteColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              child: brandName(100.0, 100.0, 22.0),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Phone number
+                GestureDetector(
+                  onTap: () {
+                    print('phone');
+                    directToPhoneCall(phone);
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image:
+                                AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.phone,
+                          color: CustomColors().darkBlueColor.withOpacity(0.8),
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          phone,
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //Email
+                GestureDetector(
+                  onTap: (){
+                    print('email');
+                    sendMail(email);
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.alternate_email_outlined,
+                          color: CustomColors().darkBlueColor,
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          email,
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: scHeight/16,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Social Media
+                GestureDetector(
+                  onTap: (){
+                    print('social');
+                    openWhatsApp(phone);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.hashtag,
+                          color: CustomColors().darkBlueColor
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          whats,
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //Location
+                GestureDetector(
+                  onTap: (){
+                    print('location');
+                    openMap(lat,lng);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth*0.17,
+                        height: scHeight*0.13,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.fmd_good_sharp,
+                          color: CustomColors().darkBlueColor,
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth*0.4,
+                        child: Text(
+                          'Our Location',
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),*/
       endDrawer: drawerDesign(context),
     );
   }
 }
-
-
-// Container(
-//         // margin: EdgeInsets.only(top: 5),
-//         width: double.infinity,
-//         height: MediaQuery.of(context).size.height,
-//         decoration: BoxDecoration(
-//           color: CustomColors().primaryWhiteColor,
-//           // borderRadius: BorderRadius.only(
-//           //   topLeft: Radius.circular(40),
-//           //   topRight: Radius.circular(40),
-//           // ),
-//         ),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             SizedBox(
-//               height: 30,
-//             ),
-//             Container(
-//               child: brandName(100.0, 100.0, 22.0),
-//             ),
-//             SizedBox(
-//               height: 50,
-//             ),
-//             Row(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 //Phone number
-//                 GestureDetector(
-//                   onTap: () {
-//                     print('phone');
-//                     directToPhoneCall(phone);
-//                   },
-//                   child: Column(
-//                     children: [
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         width: scWidth*0.17,
-//                         height: scHeight*0.13,
-//                         decoration: BoxDecoration(
-//                           image: DecorationImage(
-//                             image:
-//                                 AssetImage('images/product_icon.png'),
-//                           ),
-//                         ),
-//                         child: Icon(
-//                           Icons.phone,
-//                           color: CustomColors().darkBlueColor.withOpacity(0.8),
-//                           size: 35,
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         alignment: Alignment.center,
-//                         width: scWidth*0.4,
-//                         child: Directionality(
-//                           textDirection: TextDirection.ltr,
-//                           child: Text(
-//                             phone,
-//                             style: TextStyle(
-//                                 color: CustomColors().darkBlueColor,
-//                                 fontSize: 15,
-//                                 fontWeight: FontWeight.w600),
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 //Email
-//                 GestureDetector(
-//                   onTap: (){
-//                     print('email');
-//                     sendMail(email);
-//                   },
-//                   child: Column(
-//                     children: [
-//                       Container(
-//                         alignment: Alignment.center,
-//                         // margin: EdgeInsets.only(left: 10),
-//                         width: scWidth*0.17,
-//                         height: scHeight*0.13,
-//                         decoration: BoxDecoration(
-//                           image: DecorationImage(
-//                             image: AssetImage('images/product_icon.png'),
-//                           ),
-//                         ),
-//                         child: Icon(
-//                           Icons.alternate_email_outlined,
-//                           color: CustomColors().darkBlueColor,
-//                           size: 35,
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         alignment: Alignment.center,
-//                         width: scWidth*0.4,
-//                         child: Text(
-//                           email,
-//                           maxLines: 1,
-//                           style: TextStyle(
-//                               color: CustomColors().darkBlueColor,
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.w600),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             SizedBox(
-//               height: scHeight/16,
-//             ),
-//             Row(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 //Social Media
-//                 GestureDetector(
-//                   onTap: (){
-//                     print('social');
-//                     openWhatsApp(phone);
-//                   },
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         width: scWidth*0.17,
-//                         height: scHeight*0.13,
-//                         decoration: BoxDecoration(
-//                           image: DecorationImage(
-//                             image: AssetImage('images/product_icon.png'),
-//                           ),
-//                         ),
-//                         child: Icon(
-//                           FontAwesomeIcons.hashtag,
-//                           color: CustomColors().darkBlueColor,
-//                           size: 30,
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         alignment: Alignment.center,
-//                         width: scWidth*0.4,
-//                         child: Text(
-//                           // LocaleKeys.whats_app.tr(),
-//                           LocaleKeys.social_media.tr(),
-//                           maxLines: 1,
-//                           style: TextStyle(
-//                               color: CustomColors().darkBlueColor,
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.w600),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 //Location
-//                 GestureDetector(
-//                   onTap: (){
-//                     print('location');
-//                     openMap(lat,lng);
-//                   },
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         width: scWidth*0.17,
-//                         height: scHeight*0.13,
-//                         decoration: BoxDecoration(
-//                           image: DecorationImage(
-//                             image: AssetImage('images/product_icon.png'),
-//                           ),
-//                         ),
-//                         child: Icon(
-//                           Icons.fmd_good_sharp,
-//                           color: CustomColors().darkBlueColor,
-//                           size: 35,
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                       Container(
-//                         // margin: EdgeInsets.only(left: 10),
-//                         alignment: Alignment.center,
-//                         width: scWidth*0.4,
-//                         child: Text(
-//                           LocaleKeys.our_location.tr(),
-//                           style: TextStyle(
-//                               color: CustomColors().darkBlueColor,
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.w600),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),

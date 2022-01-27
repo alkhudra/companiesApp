@@ -12,13 +12,16 @@ abstract class ApiConst {
   static const String send_code_url = '/account/sendCode';
   static const String check_password_token_url = '/account/checkPasswordToken';
 
-
   //---------------branch ----------------
 
-  static const String add_branch_url =  "/branch/addBranch/{id}";
-  static const String delete_branch_url =  "/branch/deleteBranch/{id}";
-  static const String get_branch_url =  "/branch/getAllBranches/{id}";
-  static const String update_branch_url =  "/branch/updateBranch/{id}";
-
-
+  static const String add_branch_url = "/branch/addBranch/{id}";
+  static const String delete_branch_url = "/branch/deleteBranch/{id}";
+  static const String get_branch_url = "/branch/getAllBranches/{id}";
+  static const String update_branch_url = "/branch/updateBranch/{id}";
+//---------------home ----------------
+  static const String get_home_url = "/Home/getCategories";
+  static const String get_products_url = "/Home/getProducts";
+  static const String get_products_by_category_url =
+      "/Home/getProductByCategoryId/categoryId";
+  static const String get_products_by_id_url = "/Home/getProductById/productId";
 }

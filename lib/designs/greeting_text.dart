@@ -4,7 +4,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-Widget greeting(context) {
+Widget greeting(context ,String name) {
   return Container(
     width: MediaQuery.of(context).size.width*0.9,
     height: 25,
@@ -19,10 +19,11 @@ Widget greeting(context) {
             fontSize: 14),
           ),
         ),
+
         Container(
-          // padding: EdgeInsets.only(left: 3, right: 3),
-          //TODO: replace with user name from sharedpref
-          child: Text(' username', 
+          margin: EdgeInsets.only(left: 2,right: 2),
+           padding: EdgeInsets.only(left: 3, right: 3),
+          child: Text(name,
             style: TextStyle(color: CustomColors().darkBlueColor,
             fontSize: 17.5,
             fontWeight: FontWeight.w700),

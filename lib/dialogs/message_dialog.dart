@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:khudrah_companies/helpers/routeHelper.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/main.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
