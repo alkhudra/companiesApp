@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -103,17 +104,6 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // SizedBox(width: 10,),
-          // Container(
-          //   child: IconButton(
-          //     icon: Icon(Icons.menu_rounded,),
-          //     color: CustomColors().brownColor,
-          //     iconSize: 33,
-          //     onPressed: () {
-          //       _scaffoldState.currentState!.openDrawer();
-          //     },
-          //   ),
-          // ),
           SizedBox(
             width: 5,
           ),
@@ -172,9 +162,21 @@ class _HomePageState extends State<HomePage> {
             height: 17,
           ),
           //greeting user
-          Container(
-            child: greeting(context , home.user!.companyName!),
-          ),
+          // Container(
+          //   //future request to show flushbar
+          //   child: showGreetingBar(context, home.user!.companyName!)
+          //   // Flushbar(
+          //   //   message: "Welcome Back, " + home.user!.companyName!,
+          //   //   icon: Icon(
+          //   //     Icons.info_outline,
+          //   //     size: 28.0,
+          //   //     color: Colors.blue[300],
+          //   //     ),
+          //   //   duration: Duration(seconds: 3),
+          //   //   leftBarIndicatorColor: Colors.blue[300],
+          //   // )..show(context),
+          //   // greeting(context , home.user!.companyName!),
+          // ),
           SizedBox(
             height: 10,
           ),
@@ -211,29 +213,41 @@ class _HomePageState extends State<HomePage> {
                 //all category iconbutton
                 Column(
                   children: [
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(40)
+                    //   ),
+                    //   child: Container(
+                    //     width: scWidth * 0.27,
+                    //     height: scHeight * 0.11,
+                    //     child: IconButton(
+                    //       icon: Image(image: AssetImage('images/fruitsnveg.png')),
+                    //       onPressed: () {
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => AllCategory()),
+                    //         );
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                     Container(
                       width: scWidth * 0.27,
                       height: scHeight * 0.11,
-                      child: IconButton(
-                        icon: Image(image: AssetImage('images/fruitsnveg.png')),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AllCategory()),
-                          );
-                        },
-                      ),
+                      //TODO: Circle Avatar size
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('images/fruitsnveg.png'),
+                      )
                     ),
                     Text('الكل'
                       ,style: TextStyle(
                           color: CustomColors().brownColor,fontWeight: FontWeight.bold
-                      ),)
-            ,
+                      ),
+                    ),
                   ],
                 ),
                 Container(
-
                   width: scWidth * 0.8,
                   height: scHeight * 0.16,
                   child: ListView.builder(
@@ -404,6 +418,7 @@ class _HomePageState extends State<HomePage> {
   String? setCategoryName(CategoriesList categoryList) {
  return language == 'ar' ?  categoryList.arName :  categoryList.name;
   }
+  
 
 
 }

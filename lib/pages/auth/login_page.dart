@@ -1,5 +1,7 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
@@ -244,6 +246,17 @@ class _LogInPageState extends State<LogInPage> {
   void directToHomePage() {
 
     moveToNewStack(context , dashBoardRoute);
+
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      Flushbar(
+        // title: "Hey User",
+        message:
+        LocaleKeys.welcome_back.tr(),
+        flushbarPosition: FlushbarPosition.TOP,
+        duration: Duration(seconds: 3),
+        backgroundColor: CustomColors().darkGrayColor.withOpacity(0.4),
+      )..show(context);
+    });
 
   }
 
