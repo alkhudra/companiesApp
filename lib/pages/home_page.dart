@@ -23,6 +23,8 @@ import 'package:khudrah_companies/router/route_constants.dart';
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'categories/category_page.dart';
+
 
 class HomePage extends StatefulWidget {
   //final bool isHasBranch;
@@ -56,7 +58,10 @@ class _HomePageState extends State<HomePage> {
          body:  FutureBuilder<HomeSuccessResponseModel?>(
          future: getHomePage(),
          builder: (context, snapshot) {
+           print(snapshot.toString());
            if (snapshot.hasData) {
+             print(snapshot.hasData);
+             print(snapshot.data);
              return homePageDesign(snapshot.data);
            } else return errorCase(snapshot);
          },
@@ -130,8 +135,9 @@ class _HomePageState extends State<HomePage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    List<CategoriesList>? categoryList = home!.categoriesList;
-
+    List<CategoryItem>? categoryList = home!.categoriesList;
+    name = home.user!.companyName!;
+    email = home.user!.email!;
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -215,8 +221,17 @@ class _HomePageState extends State<HomePage> {
                       width: scWidth * 0.27,
                       height: scHeight * 0.11,
                       //TODO: Circle Avatar size
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('images/fruitsnveg.png'),
+                      child: GestureDetector(
+                        onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllCategory()),
+                            );
+                        } ,
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage('images/fruitsnveg.png'),
+                        ),
                       )
                     ),
                     Text('الكل'
@@ -242,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AllCategory()),
+                                      builder: (context) => CategoryPage(categoriesItem:categoryList![index] ,)),
                                 );
                               },
                             ),
@@ -318,17 +333,15 @@ class _HomePageState extends State<HomePage> {
   }
  //------------------------
   static void setValues() async {
-    User user = await PreferencesHelper.getUser;
+/*    User user = await PreferencesHelper.getUser;
     name = user.companyName!;
-    email = user.email!;
+    email = user.email!;*/
     language = await PreferencesHelper.getSelectedLanguage;
   }
 
   //---------------------
   Future<HomeSuccessResponseModel?> getHomePage() async {
-    //----------show progress----------------
 
-    //showLoaderDialog(context);
     //----------start api ----------------
 
     Map<String, dynamic> headerMap = await getHeaderMap();
@@ -339,6 +352,8 @@ class _HomePageState extends State<HomePage> {
     if(apiResponse.apiStatus.code ==  ApiResponseType.OK.code)
     return HomeSuccessResponseModel.fromJson(apiResponse.result);
     else   throw Exception(apiResponse.message);
+
+
   }
   //---------------------
 
@@ -387,14 +402,13 @@ class _HomePageState extends State<HomePage> {
     ProductCard.counter = ProductCard.counter;
 
     setValues();
-    // home = getHomePage();
     //todo: show after calling api
     /*    if (widget.isHasBranch == false) {
       showAddBranchDialog();
     }*/
   }
 
-  String? setCategoryName(CategoriesList categoryList) {
+  String? setCategoryName(CategoryItem categoryList) {
  return language == 'ar' ?  categoryList.arName :  categoryList.name;
   }
   

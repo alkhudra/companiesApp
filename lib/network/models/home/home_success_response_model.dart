@@ -1,7 +1,7 @@
 import 'package:khudrah_companies/network/models/user_model.dart';class HomeSuccessResponseModel {
   HomeSuccessResponseModel({
     User? user,
-    List<CategoriesList>? categoriesList,
+    List<CategoryItem>? categoriesList,
     List<ProductsModel>? productsList,
   }) {
     _user = user;
@@ -15,7 +15,7 @@ import 'package:khudrah_companies/network/models/user_model.dart';class HomeSucc
     if (json['categoriesList'] != null) {
       _categoriesList = [];
       json['categoriesList'].forEach((v) {
-        _categoriesList?.add(CategoriesList.fromJson(v));
+        _categoriesList?.add(CategoryItem.fromJson(v));
       });
     }
     if (json['productsList'] != null) {
@@ -26,11 +26,11 @@ import 'package:khudrah_companies/network/models/user_model.dart';class HomeSucc
     }
   }
   User? _user;
-  List<CategoriesList>? _categoriesList;
+  List<CategoryItem>? _categoriesList;
   List<ProductsModel>? _productsList;
 
   User? get user => _user;
-  List<CategoriesList>? get categoriesList => _categoriesList;
+  List<CategoryItem>? get categoriesList => _categoriesList;
   List<ProductsModel>? get productsList => _productsList;
 
   Map<String, dynamic> toJson() {
@@ -147,8 +147,8 @@ class ProductsModel {
 /// isActive : true
 /// image : "/categoryImages/44ab9c9e-dac4-468b-b708-f6571d793b96.jpg"
 
-class CategoriesList {
-  CategoriesList({
+class CategoryItem {
+  CategoryItem({
     String? id,
     String? name,
     String? arName,
@@ -162,7 +162,7 @@ class CategoriesList {
     _image = image;
   }
 
-  CategoriesList.fromJson(dynamic json) {
+  CategoryItem.fromJson(dynamic json) {
     _id = json['id'];
     _name = json['name'];
     _arName = json['arName'];

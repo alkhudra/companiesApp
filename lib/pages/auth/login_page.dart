@@ -234,8 +234,8 @@ class _LogInPageState extends State<LogInPage> {
       PreferencesHelper.setUserFirstLogIn(false);
       isHasBranches = user.branches!.isNotEmpty;
       Navigator.pop(context);
-
-      directToHomePage();
+     String name = user.companyName!;
+      directToHomePage(name);
 
     });
   }
@@ -243,7 +243,7 @@ class _LogInPageState extends State<LogInPage> {
 
 ////---------------------------
 
-  void directToHomePage() {
+  void directToHomePage(String name) {
 
     moveToNewStack(context , dashBoardRoute);
 
@@ -251,10 +251,10 @@ class _LogInPageState extends State<LogInPage> {
       Flushbar(
         // title: "Hey User",
         message:
-        LocaleKeys.welcome_back.tr(),
-        flushbarPosition: FlushbarPosition.TOP,
+        LocaleKeys.welcome_back.tr()+" $name",
+        flushbarPosition: FlushbarPosition.BOTTOM,
         duration: Duration(seconds: 3),
-        backgroundColor: CustomColors().darkGrayColor.withOpacity(0.4),
+        backgroundColor: CustomColors().primaryGreenColor,
       )..show(context);
     });
 
