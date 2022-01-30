@@ -144,26 +144,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 17,
-          ),
-          //greeting user
-          // Container(
-          //   //future request to show flushbar
-          //   child: showGreetingBar(context, home.user!.companyName!)
-          //   // Flushbar(
-          //   //   message: "Welcome Back, " + home.user!.companyName!,
-          //   //   icon: Icon(
-          //   //     Icons.info_outline,
-          //   //     size: 28.0,
-          //   //     color: Colors.blue[300],
-          //   //     ),
-          //   //   duration: Duration(seconds: 3),
-          //   //   leftBarIndicatorColor: Colors.blue[300],
-          //   // )..show(context),
-          //   // greeting(context , home.user!.companyName!),
-          // ),
-          SizedBox(
-            height: 10,
+            height: 20,
           ),
           //Search bar and button
           Container(

@@ -107,38 +107,6 @@ Drawer drawerDesign(context) {
                 height: 40,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: CustomColors().homeBG),
-                child: Icon(FontAwesomeIcons.home, color: CustomColors().home),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                LocaleKeys.home.tr(),
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          onTap: () {
-            Navigator.pop(context);
-            moveToNewStack(context, dashBoardRoute);
-          },
-        ),
-        Divider(
-          thickness: 2.5,
-        ),
-        ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
                     color: CustomColors().branchBG),
                 child: Icon(
                   FontAwesomeIcons.store,
@@ -425,38 +393,38 @@ Drawer drawerDesignWithName(context, String name, String email) {
         SizedBox(
           height: 10,
         ),
-        ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: CustomColors().homeBG),
-                child: Icon(FontAwesomeIcons.home, color: CustomColors().home),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                LocaleKeys.home.tr(),
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          onTap: () {
-            Navigator.pop(context);
-            moveToNewStack(context, dashBoardRoute);
-          },
-        ),
-        Divider(
-          thickness: 2.5,
-        ),
+        // ListTile(
+        //   title: Row(
+        //     mainAxisAlignment: MainAxisAlignment.start,
+        //     children: [
+        //       Container(
+        //         width: 40,
+        //         height: 40,
+        //         decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.circular(10),
+        //             color: CustomColors().homeBG),
+        //         child: Icon(FontAwesomeIcons.home, color: CustomColors().home),
+        //       ),
+        //       SizedBox(
+        //         width: 10,
+        //       ),
+        //       Text(
+        //         LocaleKeys.home.tr(),
+        //         style: TextStyle(
+        //           fontSize: 15,
+        //           fontWeight: FontWeight.w500,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     moveToNewStack(context, dashBoardRoute);
+        //   },
+        // ),
+        // Divider(
+        //   thickness: 2.5,
+        // ),
         ListTile(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
