@@ -5,6 +5,7 @@ import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
+import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
@@ -64,9 +65,8 @@ class _AllCategoryState extends State<AllCategory> {
           ),
           SliverToBoxAdapter(
             child:Container(
-              // margin: EdgeInsets.only(top: 100),
               width: double.infinity,
-              height: MediaQuery.of(context).size.height,
+              // height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: CustomColors().primaryWhiteColor,
                 borderRadius: BorderRadius.only(
@@ -80,9 +80,9 @@ class _AllCategoryState extends State<AllCategory> {
                     height: 18,
                   ),
                   searchBar(context, srController),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
                   FutureBuilder<ProductListResponseModel?>(
                     future: getInfoFromDB(),
                     builder: (context, snapshot) {
@@ -104,7 +104,7 @@ class _AllCategoryState extends State<AllCategory> {
           ),
         ],
       ),
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
     );
   }
 
@@ -126,13 +126,16 @@ class _AllCategoryState extends State<AllCategory> {
     list.addAll(snapshot!.products);
 
     return  Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
         Container(
+          height: MediaQuery.of(context).size.height,
           child: ListView.builder(
             keyboardDismissBehavior:
             ScrollViewKeyboardDismissBehavior.onDrag,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               return ProductCard.productCardDesign(
                 context,
@@ -148,14 +151,32 @@ class _AllCategoryState extends State<AllCategory> {
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
         if (isThereMoreItems)
-          greenBtn('load more', EdgeInsets.all(10), () {
+        //load more button
+        Container(
+          width: MediaQuery.of(context).size.width*0.8,
+          height: MediaQuery.of(context).size.height*0.05,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: CustomColors().grayColor,
+          ),
+          child: TextButton(
+            onPressed: () {
+              //todo:paging
+            }, 
+            child: Text(LocaleKeys.load_more.tr(), 
+            style: TextStyle(
+              color: CustomColors().darkBlueColor,
+            ),)
+          ),
+        ),
+          // greenBtn('load more', EdgeInsets.all(10), () {
 
 
-            //todo:paging
-          })
+
+          // })
       ],
     )
     ;

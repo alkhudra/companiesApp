@@ -179,42 +179,46 @@ class _HomePageState extends State<HomePage> {
                 //all category iconbutton
                 Column(
                   children: [
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(40)
-                    //   ),
-                    //   child: Container(
-                    //     width: scWidth * 0.27,
-                    //     height: scHeight * 0.11,
-                    //     child: IconButton(
-                    //       icon: Image(image: AssetImage('images/fruitsnveg.png')),
-                    //       onPressed: () {
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (context) => AllCategory()),
-                    //         );
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
                     Container(
-                      width: scWidth * 0.27,
-                      height: scHeight * 0.11,
-                      //TODO: Circle Avatar size
-                      child: GestureDetector(
-                        onTap: (){
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40)
+                      ),
+                      child: Container(
+                        width: scWidth * 0.27,
+                        height: scHeight * 0.11,
+                        child: IconButton(
+                          icon: Image(image: AssetImage('images/fruitsnveg.png')),
+                          onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AllCategory()),
                             );
-                        } ,
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('images/fruitsnveg.png'),
+                          },
                         ),
-                      )
+                      ),
                     ),
+                    // Container(
+                    //   width: scWidth * 0.27,
+                    //   height: scHeight * 0.11,
+                    //   //TODO: Circle Avatar size
+                    //   child: GestureDetector(
+                    //     onTap: (){
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => AllCategory()),
+                    //         );
+                    //     } ,
+                    //     // child: ClipOval(
+                    //     //   child: SizedBox.fromSize(
+                    //     //     size: Size.fromRadius(48),
+                    //     //     child: Image.asset('images/fruitsnveg.png', fit: BoxFit.contain,),
+                    //     //   ),
+                    //     // ),
+                    //   )
+                    // ),
+                    SizedBox(height: 5,),
                     Text('الكل'
                       ,style: TextStyle(
                           color: CustomColors().brownColor,fontWeight: FontWeight.bold
