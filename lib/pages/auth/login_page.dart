@@ -254,7 +254,7 @@ class _LogInPageState extends State<LogInPage> {
         LocaleKeys.welcome_back.tr()+" $name",
         flushbarPosition: FlushbarPosition.BOTTOM,
         duration: Duration(seconds: 3),
-        backgroundColor: CustomColors().primaryGreenColor,
+        backgroundColor: CustomColors().primaryGreenColor.withOpacity(0.8),
       )..show(context);
     });
 
