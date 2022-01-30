@@ -47,7 +47,7 @@ void directToPhoneCall(String number) async {
 
 //--------------
 
-void openMap(double lat, double lng) async {
+void openMap(num lat, num lng) async {
   // Android
   var url = 'geo:$lat,$lng';
   if (Platform.isIOS) {

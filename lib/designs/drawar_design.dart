@@ -9,7 +9,7 @@ import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/account/account_settings.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';

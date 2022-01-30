@@ -16,7 +16,7 @@ import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/success_register_response_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';

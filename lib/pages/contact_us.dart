@@ -6,8 +6,12 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/brand_name.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/helpers/contact_helper.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
+import 'package:khudrah_companies/network/models/contatct_us_response_model.dart';
+import 'package:khudrah_companies/network/repository/home_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-
 
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
@@ -17,157 +21,85 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
+  bool _customTileExpanded = false;
 
-  String email='Alkhadra@gmail.com' , phone='+966554878942' , whats = '+966554878942' , twit = 'Twitter';
-  double lat =0.0,lng=0.0;
-  bool _customTileExpanded = false;       
-                      
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      endDrawer: drawerDesign(context),
+      backgroundColor: Colors.grey[100],
+      appBar: appBarDesign(context, LocaleKeys.contact_us.tr()),
+      body: FutureBuilder<ContactUsResponseModel?>(
+        future: getContactUsInfo(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return getContactUsDesign(snapshot.data);
+          } else
+            return errorCase(snapshot);
+        },
+      ),
+    );
+  }
+
+  //---------------------
+  Widget errorCase(AsyncSnapshot<ContactUsResponseModel?> snapshot) {
+    if (snapshot.hasError) {
+      return Text('${snapshot.error}');
+    } else
+
+      // By default, show a loading spinner.
+      return Center(child: CircularProgressIndicator());
+  }
+  //---------------------
+
+  Widget getContactUsDesign(ContactUsResponseModel? model) {
+    String phone = model!.phoneNumber!;
+    //   String twitter= model.!;
+    String email = model.email!;
+    num lat = model.latitude!;
+    num lng = model.longitude!;
 
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: appBarDesign(context, LocaleKeys.contact_us.tr()),
-      body: ListView(
-        children: [
-          ListTile(
-            minVerticalPadding: 20,
-            title: brandName(100.0, 100.0, 22.0),
-          ),
-          SizedBox(height: 10,),
-          //phone
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            decoration: BoxDecoration(
+    return ListView(
+      children: [
+        ListTile(
+          minVerticalPadding: 20,
+          title: brandName(100.0, 100.0, 22.0),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        //phone
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          decoration: BoxDecoration(
               // color: CustomColors().primaryWhiteColor,
-              borderRadius: BorderRadius.circular(30)
-            ),
-            child: ListTile(
-              title: GestureDetector(
-                onTap: () {
-                  print('phone');
-                  directToPhoneCall(phone);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      // margin: EdgeInsets.only(left: 10),
-                      width: scWidth*0.17,
-                      height: scHeight*0.13,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              AssetImage('images/product_icon.png'),
-                        ),
-                      ),
-                      child: Icon(
-                        FontAwesomeIcons.phoneVolume,
-                        color: CustomColors().darkBlueColor.withOpacity(0.8),
-                        size: 35,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Container(
-                      // margin: EdgeInsets.only(left: 10),
-                      // alignment: Alignment.center,
-                      width: scWidth*0.4,
-                      child: Text(
-                        phone,
-                        style: TextStyle(
-                            color: CustomColors().darkBlueColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          //email
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: ListTile(
-              title: GestureDetector(
-                onTap: () {
-                  print('email');
-                  sendMail(email);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      // margin: EdgeInsets.only(left: 10),
-                      width: scWidth*0.17,
-                      height: scHeight*0.13,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/product_icon.png'),
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.alternate_email_outlined,
-                        color: CustomColors().darkBlueColor,
-                        size: 35,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Container(
-                      // margin: EdgeInsets.only(left: 10),
-                      // alignment: Alignment.center,
-                      width: scWidth*0.4,
-                      child: Text(
-                        email,
-                        style: TextStyle(
-                            color: CustomColors().darkBlueColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          //social media
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: ExpansionTile(
-              initiallyExpanded: false,
-              title: Row(
+              borderRadius: BorderRadius.circular(30)),
+          child: ListTile(
+            title: GestureDetector(
+              onTap: () {
+                print('phone');
+                directToPhoneCall(phone);
+              },
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // SizedBox(width: 20,),
                   Container(
                     // margin: EdgeInsets.only(left: 10),
-                    width: scWidth*0.17,
-                    height: scHeight*0.13,
+                    width: scWidth * 0.17,
+                    height: scHeight * 0.13,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('images/product_icon.png'),
                       ),
                     ),
                     child: Icon(
-                      FontAwesomeIcons.hashtag,
-                      color: CustomColors().darkBlueColor
+                      FontAwesomeIcons.phoneVolume,
+                      color: CustomColors().darkBlueColor.withOpacity(0.8),
+                      size: 35,
                     ),
                   ),
                   SizedBox(
@@ -176,9 +108,9 @@ class _ContactUsState extends State<ContactUs> {
                   Container(
                     // margin: EdgeInsets.only(left: 10),
                     // alignment: Alignment.center,
-                    width: scWidth*0.4,
+                    width: scWidth * 0.4,
                     child: Text(
-                      LocaleKeys.social_media.tr(),
+                      phone,
                       style: TextStyle(
                           color: CustomColors().darkBlueColor,
                           fontSize: 15,
@@ -187,166 +119,272 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                 ],
               ),
-              children: [
-                ListTile(
-                  title: GestureDetector(
-                    onTap: () {
-                      print('whats');
-                      openWhatsApp(phone);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          // margin: EdgeInsets.only(left: 10),
-                          width: scWidth*0.15,
-                          height: scHeight*0.12,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('images/product_icon.png'),
-                            ),
-                          ),
-                          child: Icon(
-                            FontAwesomeIcons.whatsapp,
-                            color: CustomColors().darkBlueColor
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          // margin: EdgeInsets.only(left: 10),
-                          alignment: Alignment.center,
-                          width: scWidth*0.4,
-                          child: Text(
-                            LocaleKeys.whats_app.tr(),
-                            style: TextStyle(
-                                color: CustomColors().darkBlueColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
+            ),
+          ),
+        ),
+        //email
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ListTile(
+            title: GestureDetector(
+              onTap: () {
+                print('email');
+                sendMail(email);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    // margin: EdgeInsets.only(left: 10),
+                    width: scWidth * 0.17,
+                    height: scHeight * 0.13,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/product_icon.png'),
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.alternate_email_outlined,
+                      color: CustomColors().darkBlueColor,
+                      size: 35,
                     ),
                   ),
-                ),
-                //twitter
-                ListTile(
-                  title: GestureDetector(
-                    onTap: () {
-                      print('twitter');
-                      openTwitterApp('imanalMohd000');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          // margin: EdgeInsets.only(left: 10),
-                          width: scWidth*0.15,
-                          height: scHeight*0.12,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('images/product_icon.png'),
-                            ),
-                          ),
-                          child: Icon(
-                            FontAwesomeIcons.twitter,
-                            color: CustomColors().darkBlueColor
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          // margin: EdgeInsets.only(left: 10),
-                          alignment: Alignment.center,
-                          width: scWidth*0.4,
-                          child: Text(
-                            //TODO: replace text with twitter handle
-                            LocaleKeys.twit.tr(),
-                            style: TextStyle(
-                                color: CustomColors().darkBlueColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Container(
+                    // margin: EdgeInsets.only(left: 10),
+                    // alignment: Alignment.center,
+                    width: scWidth * 0.4,
+                    child: Text(
+                      email,
+
+                      style: TextStyle(
+
+                          color: CustomColors().darkBlueColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
                     ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        //social media
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ExpansionTile(
+            initiallyExpanded: false,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // SizedBox(width: 20,),
+                Container(
+                  // margin: EdgeInsets.only(left: 10),
+                  width: scWidth * 0.17,
+                  height: scHeight * 0.13,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/product_icon.png'),
+                    ),
+                  ),
+                  child: Icon(FontAwesomeIcons.hashtag,
+                      color: CustomColors().darkBlueColor),
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Container(
+                  // margin: EdgeInsets.only(left: 10),
+                  // alignment: Alignment.center,
+                  width: scWidth * 0.4,
+                  child: Text(
+                    LocaleKeys.social_media.tr(),
+                    style: TextStyle(
+                        color: CustomColors().darkBlueColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
-              trailing: Container(
-                padding: EdgeInsets.only(top: 20),
-                height: double.infinity,
-                child: Icon(
+            ),
+            children: [
+              ListTile(
+                title: GestureDetector(
+                  onTap: () {
+                    print('whats');
+                    openWhatsApp(phone);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth * 0.15,
+                        height: scHeight * 0.12,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(FontAwesomeIcons.whatsapp,
+                            color: CustomColors().darkBlueColor),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth * 0.4,
+                        child: Text(
+                          LocaleKeys.whats_app.tr(),
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //twitter
+              ListTile(
+                title: GestureDetector(
+                  onTap: () {
+                    print('twitter');
+                    openTwitterApp('imanalMohd000');
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        width: scWidth * 0.15,
+                        height: scHeight * 0.12,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/product_icon.png'),
+                          ),
+                        ),
+                        child: Icon(FontAwesomeIcons.twitter,
+                            color: CustomColors().darkBlueColor),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: scWidth * 0.4,
+                        child: Text(
+                          //TODO: replace text with twitter handle
+                          LocaleKeys.twit.tr(),
+                          style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            trailing: Container(
+              padding: EdgeInsets.only(top: 20),
+              height: double.infinity,
+              child: Icon(
                 _customTileExpanded
                     ? Icons.arrow_drop_down_circle
                     : Icons.arrow_drop_down,
-                ),
               ),
-              onExpansionChanged: (bool expanded) {
+            ),
+            onExpansionChanged: (bool expanded) {
               setState(() => _customTileExpanded = expanded);
             },
-            ),
           ),
-          //location
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            decoration: BoxDecoration(
+        ),
+        //location
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          decoration: BoxDecoration(
               // color: CustomColors().primaryWhiteColor,
-              borderRadius: BorderRadius.circular(30)
-            ),
-            child: ListTile(
-              title: GestureDetector(
-                onTap: () {
-                  print('location');
-                  openMap(lat,lng);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      // margin: EdgeInsets.only(left: 10),
-                      width: scWidth*0.17,
-                      height: scHeight*0.13,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/product_icon.png'),
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.fmd_good_sharp,
-                        color: CustomColors().darkBlueColor,
-                        size: 35,
+              borderRadius: BorderRadius.circular(30)),
+          child: ListTile(
+            title: GestureDetector(
+              onTap: () {
+                print('location');
+                openMap(lat, lng);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    // margin: EdgeInsets.only(left: 10),
+                    width: scWidth * 0.17,
+                    height: scHeight * 0.13,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/product_icon.png'),
                       ),
                     ),
-                    SizedBox(
-                      width: 50,
+                    child: Icon(
+                      Icons.fmd_good_sharp,
+                      color: CustomColors().darkBlueColor,
+                      size: 35,
                     ),
-                    Container(
-                      // margin: EdgeInsets.only(left: 10),
-                      // alignment: Alignment.center,
-                      width: scWidth*0.4,
-                      child: Text(
-                        LocaleKeys.our_location.tr(),
-                        style: TextStyle(
-                            color: CustomColors().darkBlueColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),
-                      ),
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Container(
+                    // margin: EdgeInsets.only(left: 10),
+                    // alignment: Alignment.center,
+                    width: scWidth * 0.4,
+                    child: Text(
+                      LocaleKeys.our_location.tr(),
+                      style: TextStyle(
+                          color: CustomColors().darkBlueColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-          SizedBox(height: 10,),
-        ],
-      ),
-      endDrawer: drawerDesign(context),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
     );
+  }
+  //---------------------
+
+  Future<ContactUsResponseModel?> getContactUsInfo() async {
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    HomeRepository homeRepository = HomeRepository(headerMap);
+
+    ApiResponse apiResponse = await homeRepository.getContactInfo();
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code)
+      return ContactUsResponseModel.fromJson(apiResponse.result);
+    else
+      throw Exception(apiResponse.message);
   }
 }

@@ -5,7 +5,7 @@ import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:easy_localization/easy_localization.dart';

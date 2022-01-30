@@ -55,6 +55,10 @@ abstract class RestClient {
   Future<dynamic> getHomeInfo();
 
 
+  @GET(ApiConst.get_contact_url)
+  Future<dynamic> getContactInfo();
+//---------------products ----------------
+
   @GET(ApiConst.get_products_url)
   Future<dynamic> getProducts(@Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
 

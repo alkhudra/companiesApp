@@ -1,6 +1,6 @@
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 
-import 'home/home_success_response_model.dart';
+import '../home/home_success_response_model.dart';
 
 class ProductListResponseModel {
   List<ProductsModel> _products = [];

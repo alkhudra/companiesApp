@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/network/models/error_response_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_config.dart';
 import 'package:dio/dio.dart';

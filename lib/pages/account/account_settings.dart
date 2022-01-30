@@ -7,7 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/passowrd_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';

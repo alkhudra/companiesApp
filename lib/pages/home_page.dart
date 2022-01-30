@@ -1,45 +1,28 @@
-import 'dart:developer';
 
-import 'package:another_flushbar/flushbar.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
-import 'package:khudrah_companies/designs/category_item.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
-import 'package:khudrah_companies/designs/greeting_text.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
-import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
-import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
-import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/home_repository.dart';
-import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
-import 'package:khudrah_companies/pages/dashboard.dart';
-import 'package:khudrah_companies/pages/trending_deals.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
-import 'dart:math' as math;
-
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'categories/category_page.dart';
 
 class HomePage extends StatefulWidget {
   //final bool isHasBranch;
@@ -62,9 +45,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-     Future<HomeSuccessResponseModel?>  home = getHomePage();
-    //set appbar color, since homepage has no app bar
-     print(home.toString());
      return AnnotatedRegion<SystemUiOverlayStyle>(
        value: SystemUiOverlayStyle(
          statusBarColor: Colors.transparent,
@@ -76,7 +56,6 @@ class _HomePageState extends State<HomePage> {
          body:  FutureBuilder<HomeSuccessResponseModel?>(
          future: getHomePage(),
          builder: (context, snapshot) {
-           bool h = snapshot.hasData;
            if (snapshot.hasData) {
              return homePageDesign(snapshot.data);
            } else return errorCase(snapshot);
@@ -267,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                             ),
-                           // child: Image.network(ApiConst.basic_url + categoryList![index].image!)
+                           // child: Image.network(ApiConst.images_url + categoryList![index].image!)
                            /*   icon: Image(
                                   image: AssetImage(
 

@@ -18,7 +18,7 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
-import 'package:khudrah_companies/network/network_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';

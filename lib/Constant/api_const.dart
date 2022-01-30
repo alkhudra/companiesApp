@@ -1,6 +1,8 @@
 abstract class ApiConst {
   static const String basic_url =
       'http://alkhudrahproject-001-site2.ctempurl.com/api';
+  static const String images_url =
+      'http://alkhadraunited.com/';
 
   //---------------auth ----------------
   static const String register_url = '/account/register';
@@ -20,6 +22,10 @@ abstract class ApiConst {
   static const String update_branch_url = "/branch/updateBranch/{id}";
 //---------------home ----------------
   static const String get_home_url = "/Home/getCategories";
+  static const String get_contact_url = "/Home/getContactUs";
+
+  //---------------products ----------------
+
   static const String get_products_url = "/Home/getProducts";
   static const String get_products_by_category_url =
       "/Home/getProductByCategoryId/categoryId";
