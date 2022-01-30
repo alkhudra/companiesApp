@@ -169,6 +169,7 @@ class _AllCategoryState extends State<AllCategory> {
             child: Text(LocaleKeys.load_more.tr(), 
             style: TextStyle(
               color: CustomColors().darkBlueColor,
+              fontWeight: FontWeight.w600
             ),)
           ),
         ),

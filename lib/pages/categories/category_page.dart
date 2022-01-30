@@ -79,7 +79,7 @@ class _CategoryPageState extends State<CategoryPage> {
             child:Container(
               // margin: EdgeInsets.only(top: 100),
               width: double.infinity,
-              height: MediaQuery.of(context).size.height,
+              // height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: CustomColors().primaryWhiteColor,
                 borderRadius: BorderRadius.only(
@@ -117,7 +117,6 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ],
       ),
-      endDrawer: drawerDesign(context),
     );
   }
 
@@ -164,11 +163,32 @@ class _CategoryPageState extends State<CategoryPage> {
           height: 10,
         ),
         if (isThereMoreItems)
-          greenBtn('load more', EdgeInsets.all(10), () {
+                Container(
+          width: MediaQuery.of(context).size.width*0.8,
+          height: MediaQuery.of(context).size.height*0.06,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: CustomColors().grayColor,
+          ),
+          child: TextButton(
+            onPressed: () {
+              //todo:paging
+            }, 
+            child: Text(LocaleKeys.load_more.tr(), 
+            style: TextStyle(
+              color: CustomColors().darkBlueColor,
+              fontWeight: FontWeight.w600
+            ),)
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+          // greenBtn('load more', EdgeInsets.all(10), () {
 
 
-            //todo:paging
-          })
+          //   //todo:paging
+          // })
       ],
     )
     ;
