@@ -64,7 +64,7 @@
   "wait": "يتم التحميل .. يرجى الانتظار قليلا",
   "process_success": "تمت العملية بنجاح",
   "registered_success": "تم التسجيل بنجاح ",
-  "wrong_error": "حدث خطأ ما ",
+  "wrong_error": "حدث خطأ ما٫ يرجي المحاولة لاحقا ",
   "pick_location_note": "قم بالضغط على الخريطة لاختيار موقعك ",
   "confirm_location": "تأكيد الموقع",
   "Welcome Back": "مرحبًا بعودتك",
@@ -134,5 +134,6 @@
   "Description": "وصف المنتج",
   "SAR / Kg": "ريال سعودي/كغ",
   "ADD" : "إضافة",
-  "Your Order is On The Way!" : "!طلبك في الطريق إليك"
+  "Your Order is On The Way!" : "!طلبك في الطريق إليك",
+  "add_cart": "إضافة للسلة"
 }

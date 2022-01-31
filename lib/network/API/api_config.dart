@@ -72,5 +72,16 @@ abstract class RestClient {
   @GET(ApiConst.get_products_by_id_url)
   Future<dynamic> getProductById(@Query('productId') String productId);
 
+//--------------- favorite ----------------
+  @GET(ApiConst.get_favorite_products_url)
+  Future<dynamic> getFavoriteProducts(@Query('PageNumber') int PageNumber,@Query('PageSize') int PageSize);
+
+  @POST(ApiConst.add_product_to_fav_url)
+  Future<dynamic> addProductToFav(@Path()String productId);
+
+
+  @POST(ApiConst.delete_product_from_fav_url)
+  Future<dynamic> deleteProductFromFav(@Path() String productId);
+
 
 }

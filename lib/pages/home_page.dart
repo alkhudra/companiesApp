@@ -23,7 +23,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:khudrah_companies/network/models/product/category_model.dart';
 import 'categories/category_page.dart';
 
 
@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                     //   )
                     // ),
                     SizedBox(height: 5,),
-                    Text('الكل'
+                    Text(LocaleKeys.all_category.tr()
                       ,style: TextStyle(
                           color: CustomColors().brownColor,fontWeight: FontWeight.bold
                       ),

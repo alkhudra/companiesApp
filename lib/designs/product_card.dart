@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
+import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class ProductCard{
 
   static int counter = 0;
@@ -69,7 +69,7 @@ class ProductCard{
                           size: 21,
                         ),
                         label: Text(
-                          LocaleKeys.add_btn,
+                          LocaleKeys.add_btn.tr(),
                           style: TextStyle(
                             color: CustomColors().primaryWhiteColor,
                             fontWeight: FontWeight.w600,

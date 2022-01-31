@@ -30,4 +30,13 @@ abstract class ApiConst {
   static const String get_products_by_category_url =
       "/Home/getProductByCategoryId/categoryId";
   static const String get_products_by_id_url = "/Home/getProductById/productId";
+  //---------------favorite ----------------
+
+  static const String get_favorite_products_url = "/Favourites/getFavourites";
+  static const String add_product_to_fav_url =
+      "/Favourites/addToFavourite/{productId}";
+  static const String delete_product_from_fav_url = "/Favourites/deleteFromFavourite/{productId}";
+
+
+
 }

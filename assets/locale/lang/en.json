@@ -64,7 +64,7 @@
   "process_success": "Process Success",
   "wait": "Loading .. Please wait",
   "registered_success": "Successfully Registered",
-  "wrong_error": "Something Wrong Happened",
+  "wrong_error": "Something Wrong Happened, Please try again later",
   "pick_location_note": "Click the map to select your location ",
   "confirm_location": "Confirm Location",
   "Welcome Back": "Welcome Back",
@@ -134,5 +134,6 @@
   "ADD TO CART": "ADD TO CART",
   "Description": "Description",
   "SAR / Kg": "SAR / Kg",
-  "Your Order is On The Way!" : "Your Order is On The Way!"
+  "Your Order is On The Way!" : "Your Order is On The Way!",
+  "add_cart": "ADD TO CART"
 }

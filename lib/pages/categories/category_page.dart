@@ -11,9 +11,10 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
 import 'package:khudrah_companies/network/models/product/get_product_by_id_response_model.dart';
+import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-
+import 'package:khudrah_companies/network/models/product/category_model.dart';
 class CategoryPage extends StatefulWidget {
   final CategoryItem categoriesItem;
   const CategoryPage({Key? key, required this.categoriesItem})
