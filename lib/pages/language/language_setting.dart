@@ -129,7 +129,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
               ],
             ),
           ),
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
     );
   }
 }

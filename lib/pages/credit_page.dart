@@ -16,7 +16,7 @@ class _CreditPageState extends State<CreditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //add body
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
       appBar: appBarDesign(context, LocaleKeys.credit.tr()),
     );
   }

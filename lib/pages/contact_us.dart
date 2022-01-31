@@ -26,7 +26,7 @@ class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
       backgroundColor: Colors.grey[100],
       appBar: appBarDesign(context, LocaleKeys.contact_us.tr()),
       body: FutureBuilder<ContactUsResponseModel?>(
@@ -159,12 +159,10 @@ class _ContactUsState extends State<ContactUs> {
                   Container(
                     // margin: EdgeInsets.only(left: 10),
                     // alignment: Alignment.center,
-                    width: scWidth * 0.4,
+                    width: scWidth * 0.5,
                     child: Text(
-                      email,
-
+                      email,maxLines: 1,
                       style: TextStyle(
-
                           color: CustomColors().darkBlueColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w600),
