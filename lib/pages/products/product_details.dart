@@ -26,7 +26,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   String language = 'ar';
- late Color likeColor;
+  late Color likeColor;
   double total = 18;
   int counter = 0;
   bool isAddToFavBtnEnabled = true;
@@ -55,17 +55,20 @@ class _ProductDetailsState extends State<ProductDetails> {
         ? widget.productModel.arDescription
         : widget.productModel.description;
     String? productId = widget.productModel.productId;
-    //todo: category name
-    String? category = 'category name';
+    String? category = language == 'ar'
+        ? widget.productModel.arCategoryName
+        : widget.productModel.categoryName;
     bool? isFavourite = widget.productModel.isFavourite;
     String? name = language == 'ar'
         ? widget.productModel.arName
         : widget.productModel.name;
     String imageUrl = ApiConst.images_url + widget.productModel.image!;
-    if(isFavourite! == true){
-       likeColor = CustomColors().likeColor.withOpacity(0.9);
-    }else    likeColor = CustomColors().unlikeColor.withOpacity(0.9);
+    if (isFavourite! == true) {
+      likeColor = CustomColors().likeColor.withOpacity(0.9);
+    } else
+      likeColor = CustomColors().unlikeColor.withOpacity(0.9);
 
+    //----------------------------
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors().primaryGreenColor,
@@ -98,15 +101,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               onPressed: () => Navigator.pop(context),
             ),
             actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.favorite,
-                  color: likeColor,
-                ),
-                onPressed: () {
-                  if (isAddToFavBtnEnabled) addToFav(isFavourite, productId!);
-                },
-              ),
+              InkWell(
+                  onTap: () {
+                    if (isAddToFavBtnEnabled) {
+                      setState(() {
+                        addToFav(isFavourite, productId!);
+                        isFavourite = !isFavourite!;
+                      });
+                    }
+                  },
+                  child: isFavourite! == true
+                      ? Icon(
+                          Icons.favorite,
+                          color: CustomColors().redColor,
+                        )
+                      : Icon(
+                          Icons.favorite,
+                          color: CustomColors().grayColor,
+                        )),
               IconButton(
                 icon: Icon(
                   Icons.share_outlined,
@@ -320,20 +332,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     isAddToFavBtnEnabled = false;
     String message = await dBProcess(isFavourite, productId);
     showSuccessMessage(context, message);
-
-    if (isFavourite == true) {
-      //delete from fav
-      setState(() {
-        likeColor = CustomColors().unlikeColor;
-      });
-    } else {
-      //add to fav
-      setState(() {
-        likeColor = CustomColors().likeColor.withOpacity(0.9);
-      });
-    }
-
-    isAddToFavBtnEnabled = true;
   }
 
   //---------------------
@@ -354,12 +352,12 @@ class _ProductDetailsState extends State<ProductDetails> {
       MessageResponseModel model =
           MessageResponseModel.fromJson(apiResponse.result);
       Navigator.pop(context);
-
+      isAddToFavBtnEnabled = true;
       return model.message!;
     } else {
       Navigator.pop(context);
+      isAddToFavBtnEnabled = true;
       throw Exception(apiResponse.message);
     }
-
   }
 }

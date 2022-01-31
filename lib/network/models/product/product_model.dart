@@ -3,6 +3,7 @@ class ProductsModel {
     String? productId,
     String? name,
     String? arName,
+    String? categoryName,
     bool? hasSpecialPrice,
     num? originalPrice,
     num? specialPrice,
@@ -13,10 +14,13 @@ class ProductsModel {
     bool? isFavourite,
     bool? isActive,
     String? image,
+    String? arCategoryName,
     String? categoryId,
   }) {
     _productId = productId;
     _name = name;
+    _arCategoryName = arCategoryName;
+    _categoryName = categoryName;
     _arName = arName;
     _hasSpecialPrice = hasSpecialPrice;
     _originalPrice = originalPrice;
@@ -44,8 +48,10 @@ class ProductsModel {
     _isAvailabe = json['isAvailabe'];
     _isActive = json['isActive'];
     _image = json['image'];
+    _categoryName = json['categoryName'];
     _isFavourite = json['isFavourite'];
     _categoryId = json['categoryId'];
+    _arCategoryName = json['arCategoryName'];
   }
   String? _productId;
   String? _name;
@@ -61,6 +67,8 @@ class ProductsModel {
   String? _image;
   String? _categoryId;
   bool? _isFavourite;
+  String? _categoryName;
+  String? _arCategoryName;
 
   bool? get isFavourite => _isFavourite;
 
@@ -77,12 +85,16 @@ class ProductsModel {
   bool? get isActive => _isActive;
   String? get image => _image;
   String? get categoryId => _categoryId;
+  String? get arCategoryName => _arCategoryName;
+  String? get categoryName => _categoryName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = _productId;
     map['name'] = _name;
     map['arName'] = _arName;
+    map['arCategoryName'] = _arCategoryName;
+    map['categoryName'] = _categoryName;
     map['hasSpecialPrice'] = _hasSpecialPrice;
     map['originalPrice'] = _originalPrice;
     map['specialPrice'] = _specialPrice;
