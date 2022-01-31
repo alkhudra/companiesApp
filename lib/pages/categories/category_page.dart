@@ -148,12 +148,8 @@ class _CategoryPageState extends State<CategoryPage> {
             itemBuilder: (context, index) {
               return ProductCard.productCardDesign(
                 context,
-                language == 'ar'
-                    ? list[index].arName
-                    : list[index].name,
-                list[index].hasSpecialPrice == true
-                    ? list[index].specialPrice
-                    : list[index].originalPrice,
+                language ,
+                list[index],
               );
             },
             itemCount: list.length,

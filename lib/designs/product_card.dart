@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:khudrah_companies/pages/orders/order_details.dart';
+import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
+import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class ProductCard{
 
   static int counter = 0;
   
-  static productCardDesign(context, proName, proPrice, {increaseCount, decreaseCount}) {
+  static productCardDesign(context, String language, ProductsModel productModel, {increaseCount, decreaseCount}) {
   // bool isFav = false;
+    double? price = (productModel.hasSpecialPrice == true ? productModel.specialPrice :
+    productModel.originalPrice)?.toDouble();
 
+
+    String? name = language == 'ar'? productModel.arName : productModel.name;
+    String imageUrl = ApiConst.images_url + productModel.image!;
   return GestureDetector(
     child: ListTile(
       title: Column(
@@ -25,7 +32,7 @@ class ProductCard{
                   height: MediaQuery.of(context).size.height * 0.17,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/orange_shape.png'),
+                      image: NetworkImage('$imageUrl'),
                     ),
                   ),
                 ),
@@ -37,7 +44,7 @@ class ProductCard{
                   children: [
                     Container(
                       child: Text(
-                        '$proName',
+                        '$name',
                         style: TextStyle(
                             color: CustomColors().brownColor,
                             fontWeight: FontWeight.bold,
@@ -164,7 +171,7 @@ class ProductCard{
                       Container(
                         padding: EdgeInsets.all(2),
                         child: Text(
-                          '$proPrice SAR / Kg',
+                          '$price SAR / Kg',
                           style: TextStyle(
                               color: CustomColors().primaryGreenColor,
                               fontWeight: FontWeight.w400),
@@ -175,19 +182,20 @@ class ProductCard{
                 ),
               ],
             ),
+            
           ),
-            Divider(
-              thickness: 2,
-              color: CustomColors().grayColor,
-            )
-        ],
-      ),
+          Divider(
+            thickness: 2,
+            color: CustomColors().grayColor,
+          )
+      ],
     ),
-    onTap: () {
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => OrderDetails()));
-    },
-  );
+  ),
+
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ProductDetails(productModel: productModel,)));
+      });
 }
 
 }
@@ -360,6 +368,10 @@ class ProductCard{
 //                 ],
 //               ),
 //             ),
+//             onTap: () {
+//               Navigator.push(context, MaterialPageRoute(
+//                 builder: (context) => OrderDetails()));
+//             },
 //           ),
 //       ],
 //     ),

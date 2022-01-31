@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class OrderDetails extends StatefulWidget {
-  const OrderDetails({ Key? key }) : super(key: key);
+class ProductDetails extends StatefulWidget {
+  final ProductsModel productModel;
+  const ProductDetails({ Key? key ,required this.productModel}) : super(key: key);
 
   @override
-  _OrderDetailsState createState() => _OrderDetailsState();
+  _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-class _OrderDetailsState extends State<OrderDetails> {
+class _ProductDetailsState extends State<ProductDetails> {
+  String language ='ar';
 
-  double price = 6;
   double total = 18;
   int counter = 0;
+   void setValues() async {
 
+    language = await PreferencesHelper.getSelectedLanguage;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setValues();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -26,6 +39,14 @@ class _OrderDetailsState extends State<OrderDetails> {
     double scWidth = size.width;
     double scHeight = size.height;
 
+    double? price = (widget.productModel.hasSpecialPrice == true ? widget.productModel.specialPrice :
+    widget.productModel.originalPrice)?.toDouble();
+    String? description = language == 'ar'? widget.productModel.arDescription : widget.productModel.description;
+    //todo: category name
+    String? category ='category name';
+
+    String? name = language == 'ar'? widget.productModel.arName : widget.productModel.name;
+    String imageUrl = ApiConst.images_url + widget.productModel.image!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors().primaryGreenColor,
@@ -36,6 +57,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               collapsedHeight: 200,
               flexibleSpace: Stack(
                 children: [
+                  //todo: set with product image
                   Positioned.fill(
                     left: 180,
                     child: Image.asset('images/grapevector.png'),
@@ -97,7 +119,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     SizedBox(height: 20,),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      child: Text(LocaleKeys.fruit_category.tr(),
+                      child: Text('$category',
                       style: TextStyle(
                         color: CustomColors().darkGrayColor,
                         fontWeight: FontWeight.bold,
@@ -106,7 +128,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      child: Text('Fresh Orange',
+                      child: Text('$name',
                       style: TextStyle(
                         color: CustomColors().blackColor.withOpacity(0.9),
                         fontWeight: FontWeight.w600,
@@ -211,7 +233,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     SizedBox(height: 20,),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                      child: Text('$description',
                       overflow: TextOverflow.clip,),
                     )
                     

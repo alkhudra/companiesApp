@@ -66,10 +66,7 @@ class _TrendingDealsState extends State<TrendingDeals> {
                     SizedBox(height: 18,),
                     searchBar(context, srController),
                     SizedBox(height: 10,),
-                    ProductCard.productCardDesign(context, 'Cucumbers', 7.95),
-                    ProductCard.productCardDesign(context, 'Papaya', 16.87),
-                    ProductCard.productCardDesign(context, 'Strawberry', 22.98),
-                    ProductCard.productCardDesign(context, 'Pomegranate', 11.05),
+
                   ],
                 ),
               ),

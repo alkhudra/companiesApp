@@ -62,6 +62,8 @@ abstract class RestClient {
   @GET(ApiConst.get_products_url)
   Future<dynamic> getProducts(@Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
 
+  @GET(ApiConst.get_products_url)
+  Future<dynamic> getProductsBySearch(@Query('ProductName') String ProductName,@Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
 
   @GET(ApiConst.get_products_by_category_url)
   Future<dynamic> getProductsByCategory(@Query('categoryId')String categoryId, @Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);

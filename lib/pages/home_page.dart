@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
@@ -237,12 +238,12 @@ class _HomePageState extends State<HomePage> {
                             width: scWidth * 0.27,
                             height: scHeight * 0.11,
                             child: IconButton(
-                              icon: Image(image: AssetImage('images/fruitsnveg.png')),
+                              icon: Image(image: NetworkImage(ApiConst.images_url + categoryList![index].image!)),
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CategoryPage(categoriesItem:categoryList![index] ,)),
+                                      builder: (context) => CategoryPage(categoriesItem:categoryList[index] ,)),
                                 );
                               },
                             ),
@@ -257,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                               iconSize: 90,
                             ),
                           ),*/),
-                      Text(setCategoryName(categoryList![index])!
+                      Text(setCategoryName(categoryList[index])!
                         ,style: TextStyle(
                         color: CustomColors().brownColor,fontWeight: FontWeight.bold
                       ),)
@@ -301,9 +302,8 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return ProductCard.productCardDesign(
                   context,
-                  language == 'ar'? home.productsList![index].arName :  home.productsList![index].name ,
-                  home.productsList![index].hasSpecialPrice == true ? home.productsList![index].specialPrice :
-                  home.productsList![index].originalPrice,
+                  language,
+                  home.productsList![index],
                 );
               },
               itemCount: home.productsList!.length,

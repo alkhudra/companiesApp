@@ -54,9 +54,9 @@ class ProductsModel {
     String? name,
     String? arName,
     bool? hasSpecialPrice,
-    int? originalPrice,
-    int? specialPrice,
-    int? quantity,
+    num? originalPrice,
+    num? specialPrice,
+    num? quantity,
     String? description,
     String? arDescription,
     bool? isAvailabe,
@@ -98,9 +98,9 @@ class ProductsModel {
   String? _name;
   String? _arName;
   bool? _hasSpecialPrice;
-  int? _originalPrice;
-  int? _specialPrice;
-  int? _quantity;
+  num? _originalPrice;
+  num? _specialPrice;
+  num? _quantity;
   String? _description;
   String? _arDescription;
   bool? _isAvailabe;
@@ -112,9 +112,9 @@ class ProductsModel {
   String? get name => _name;
   String? get arName => _arName;
   bool? get hasSpecialPrice => _hasSpecialPrice;
-  int? get originalPrice => _originalPrice;
-  int? get specialPrice => _specialPrice;
-  int? get quantity => _quantity;
+  num? get originalPrice => _originalPrice;
+  num? get specialPrice => _specialPrice;
+  num? get quantity => _quantity;
   String? get description => _description;
   String? get arDescription => _arDescription;
   bool? get isAvailabe => _isAvailabe;
