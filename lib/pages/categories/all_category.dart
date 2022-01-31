@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -23,7 +24,7 @@ class AllCategory extends StatefulWidget {
 
 class _AllCategoryState extends State<AllCategory> {
   TextEditingController srController = TextEditingController();
-  int pageSize = 3;
+  int pageSize = listItemsCount;
   int pageNumber = 1;
   static String language = 'ar';
 

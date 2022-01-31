@@ -63,10 +63,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         ? widget.productModel.arName
         : widget.productModel.name;
     String imageUrl = ApiConst.images_url + widget.productModel.image!;
-    if (isFavourite! == true) {
-      likeColor = CustomColors().likeColor.withOpacity(0.9);
-    } else
-      likeColor = CustomColors().unlikeColor.withOpacity(0.9);
 
     //----------------------------
     return Scaffold(

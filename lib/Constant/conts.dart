@@ -12,3 +12,4 @@ const registered ="registered";
   "Content-Type" : "application/json",
   "Custom-Header" : "Your header"
 };
+const listItemsCount = 3;

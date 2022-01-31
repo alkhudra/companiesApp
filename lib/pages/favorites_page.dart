@@ -1,69 +1,147 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/snack_message.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
+import 'package:khudrah_companies/network/models/message_response_model.dart';
+import 'package:khudrah_companies/network/models/product/get_product_by_id_response_model.dart';
+import 'package:khudrah_companies/network/models/product/product_model.dart';
+import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class FavoritesPage extends StatefulWidget {
-  const FavoritesPage({ Key? key }) : super(key: key);
+  const FavoritesPage({Key? key}) : super(key: key);
 
   @override
   _FavoritesPageState createState() => _FavoritesPageState();
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-
   double price = 6.0;
   int counter = 0;
+  int pageSize = listItemsCount;
+  int pageNumber = 1;
+
+  static List<ProductsModel> list = [];
+  bool isThereMoreItems = true;
+  static String language = 'ar';
+  bool isTrashBtnEnabled = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors().backgroundColor,
-      body: GridView.builder(
-        itemBuilder: (context, index) {
-          return favoritesCard();
+      body: FutureBuilder<ProductListResponseModel?>(
+        future: getInfoFromDB(),
+        builder: (context, snapshot) {
+          print(snapshot.toString());
+          if (snapshot.hasData) {
+            print(snapshot.hasData);
+            print(snapshot.data);
+            //     list.addAll(snapshot.data!.products);
+
+            return listDesign(snapshot.data);
+          } else
+            return errorCase(snapshot);
         },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          childAspectRatio: 14/17.4
-        ),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemCount: 8,
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
       ),
       appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
     );
   }
 
-  Widget favoritesCard() {
+  //-----------------------
 
+  Future<ProductListResponseModel?> getInfoFromDB() async {
+    //----------start api ----------------
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    ProductRepository productRepository = ProductRepository(headerMap);
+
+    ApiResponse apiResponse =
+        await productRepository.getFavoriteProducts(pageSize, pageNumber);
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      ProductListResponseModel? responseModel =
+          ProductListResponseModel.fromJson(apiResponse.result);
+
+      return responseModel;
+    } else
+      throw Exception(apiResponse.message);
+  }
+
+  //-----------------------
+  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
+    if (snapshot.hasError) {
+      return Text('${snapshot.error}');
+    } else
+      // By default, show a loading spinner.
+      return Center(
+          child: Container(
+              margin: EdgeInsets.only(top: 30),
+              child: CircularProgressIndicator()));
+  }
+
+  //-----------------------
+
+  Widget listDesign(ProductListResponseModel? snapshot) {
+    list.addAll(snapshot!.products);
+
+    return GridView.builder(
+      itemBuilder: (context, index) {
+        return favoritesCard( index);
+      },
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 14 / 17.4),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: list.length,
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+    );
+  }
+
+  //-----------------------
+
+  Widget favoritesCard( int index) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
+    ProductsModel productModel = list[index];
+    double? price = (productModel.hasSpecialPrice == true
+            ? productModel.specialPrice
+            : productModel.originalPrice)
+        ?.toDouble();
 
+    bool? isFavourite = productModel.isFavourite;
+    String? productId = productModel.productId;
+
+    String? name = language == 'ar' ? productModel.arName : productModel.name;
+    String imageUrl = ApiConst.images_url + productModel.image!;
     return GridTile(
       child: Container(
         decoration: BoxDecoration(
-          color: CustomColors().primaryWhiteColor,
-          // image: DecorationImage(
-          //   image: AssetImage('images/green_fruit.png'),
-          // ),
-          borderRadius: BorderRadius.circular(40),
-          boxShadow: [
-            BoxShadow(
-              color: CustomColors().darkGrayColor.withOpacity(0.4),
-              offset: Offset(2.0, 2.0),
-              blurRadius: 3.0,
-              spreadRadius: .8
-            )
-          ]
-        ),
+            color: CustomColors().primaryWhiteColor,
+            // image: DecorationImage(
+            //   image: AssetImage('images/green_fruit.png'),
+            // ),
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: [
+              BoxShadow(
+                  color: CustomColors().darkGrayColor.withOpacity(0.4),
+                  offset: Offset(2.0, 2.0),
+                  blurRadius: 3.0,
+                  spreadRadius: .8)
+            ]),
         child: Column(
           children: [
             Row(
@@ -74,10 +152,19 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 Container(
                   margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                   child: IconButton(
-                    onPressed: () {}, 
-                    icon: Icon(FontAwesomeIcons.trash,
-                    color: CustomColors().redColor,
-                    size: 20,),
+                    onPressed: () {
+                      if (isTrashBtnEnabled) {
+                        deleteItemFromFav(productModel);
+                        setState(() {
+                          list.remove(productModel);
+                        });
+                      }
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.trash,
+                      color: CustomColors().redColor,
+                      size: 20,
+                    ),
                     padding: EdgeInsets.zero,
                     constraints: BoxConstraints(),
                   ),
@@ -89,31 +176,35 @@ class _FavoritesPageState extends State<FavoritesPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
+                  //todo:image edit
                   child: Image.asset('images/green_fruit.png'),
                 ),
                 //name
                 Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(vertical: 7),
-                  child: Text('Avocado', 
-                  style: TextStyle(
-                    color: CustomColors().brownColor,
-                    fontSize: 18.5,
-                  ),),
+                  child: Text(
+                    name!,
+                    style: TextStyle(
+                      color: CustomColors().brownColor,
+                      fontSize: 18.5,
+                    ),
+                  ),
                 ),
                 Container(
-                  width: scWidth*0.3,
+                  width: scWidth * 0.3,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       //price
                       Container(
-                        child: Text('$price  ' + LocaleKeys.sar_per_kg.tr(),
-                        style: TextStyle(
-                          color: CustomColors().primaryGreenColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600
-                        ),),
+                        child: Text(
+                          '$price  ' + LocaleKeys.sar_per_kg.tr(),
+                          style: TextStyle(
+                              color: CustomColors().primaryGreenColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ],
                   ),
@@ -188,7 +279,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       // padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: IconButton(
                         onPressed: () {},
-                        icon: Icon(FontAwesomeIcons.cartPlus,
+                        icon: Icon(
+                          FontAwesomeIcons.cartPlus,
                           color: CustomColors().primaryGreenColor,
                           size: 20,
                         ),
@@ -204,5 +296,32 @@ class _FavoritesPageState extends State<FavoritesPage> {
         ),
       ),
     );
+  }
+
+  void deleteItemFromFav(ProductsModel product) async {
+    showLoaderDialog(context);
+    //----------start api ----------------
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    ProductRepository productRepository = ProductRepository(headerMap);
+    ApiResponse apiResponse;
+
+    apiResponse =
+        await productRepository.deleteProductFromFav(product.productId!);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      MessageResponseModel model =
+          MessageResponseModel.fromJson(apiResponse.result);
+      Navigator.pop(context);
+      isTrashBtnEnabled = true;
+
+
+      showSuccessMessage(context, model.message!);
+    } else {
+      Navigator.pop(context);
+      isTrashBtnEnabled = true;
+      throw Exception(apiResponse.message);
+    }
   }
 }
