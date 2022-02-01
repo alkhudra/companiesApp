@@ -132,13 +132,25 @@ class _SearchListPageState extends State<SearchListPage> {
                 );
               },
               itemCount: model.products.length,
-            ):Container(
-              margin: EdgeInsets.only(top: 30),
-              child: Center(
-                  child: Text(LocaleKeys.no_result.tr(),style: TextStyle(
-                fontSize: 20,
-                color: CustomColors().primaryGreenColor
-              ),)),
+            ):Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  width: 250,
+                  height: 200,
+                  child: Center(child: Image.asset('images/not_found.png')),
+                ),
+                // SizedBox(height: 10,),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: Center(
+                      child: Text(LocaleKeys.no_result.tr(),style: TextStyle(
+                    fontSize: 20,
+                    height: 1.5,
+                    color: CustomColors().primaryGreenColor
+                  ),)),
+                ),
+              ],
             ) ,
           ),
           SizedBox(
