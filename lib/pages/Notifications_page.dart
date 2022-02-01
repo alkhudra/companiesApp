@@ -60,8 +60,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 Positioned(
                   left: 0,
                   child: Container(
-                    width: 100,
-                    height: 100,
+                    width: MediaQuery.of(context).size.width*0.2,
+                    height: MediaQuery.of(context).size.height*0.14,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('images/ic_fruit_green.png')
@@ -78,7 +78,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          //replace by notif no
+                          //replace by order no
                           child: Text('Order Num', style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontSize: 18, 

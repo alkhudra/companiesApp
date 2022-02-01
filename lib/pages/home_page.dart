@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           //Newest deals title and button
           Container(

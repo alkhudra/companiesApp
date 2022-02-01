@@ -153,7 +153,7 @@ class _EditProfileState extends State<EditProfile> {
           ],
         ),
       ),
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
     );
   }
 

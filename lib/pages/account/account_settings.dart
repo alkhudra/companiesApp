@@ -50,7 +50,7 @@ class _AccountSettingsState extends State<AccountSettings> {
           ),
         ],
       ),
-      endDrawer: drawerDesign(context),
+      // endDrawer: drawerDesign(context),
       appBar: appBarDesign(context, LocaleKeys.account_setting.tr()),
     );
   }
