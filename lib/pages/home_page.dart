@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
           ),
           //Search bar and button
           Container(
-            child: searchBar(context,searchController),
+            child:  SearchHelper().searchBar(context,searchController,false),
           ),
           SizedBox(
             height: 20,

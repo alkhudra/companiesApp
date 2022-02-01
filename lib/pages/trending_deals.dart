@@ -64,7 +64,7 @@ class _TrendingDealsState extends State<TrendingDeals> {
                 child: Column(
                   children: [
                     SizedBox(height: 18,),
-                    searchBar(context, srController),
+                     SearchHelper().searchBar(context, srController,false),
                     SizedBox(height: 10,),
 
                   ],

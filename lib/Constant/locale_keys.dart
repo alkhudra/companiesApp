@@ -147,7 +147,7 @@ abstract class LocaleKeys {
   static const on_the_way = "Your Order is On The Way!";
   static const add_cart = "add_cart";
   static const search_result = "search_result";
-  static const no_result = "search_result";
+  static const no_result = "no_result";
   static const search_title = "search_title";
 
 }

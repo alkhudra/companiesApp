@@ -25,6 +25,7 @@ class SearchListPage extends StatefulWidget {
 
 class _SearchListPageState extends State<SearchListPage> {
   final TextEditingController searchController = TextEditingController();
+
   int pageSize = listItemsCount;
   int pageNumber = 1;
   static String language = 'ar';
@@ -92,7 +93,7 @@ class _SearchListPageState extends State<SearchListPage> {
           ),
           //Search bar and button
           Container(
-            child: searchBar(context, searchController),
+            child: SearchHelper().searchBar(context, searchController,true),
           ),
           SizedBox(
             height: 20,

@@ -78,7 +78,7 @@ class _AllCategoryState extends State<AllCategory> {
                   SizedBox(
                     height: 18,
                   ),
-                  searchBar(context, srController),
+                  SearchHelper().searchBar(context, srController,false),
                   // SizedBox(
                   //   height: 5,
                   // ),

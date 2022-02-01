@@ -94,7 +94,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   SizedBox(
                     height: 18,
                   ),
-                  searchBar(context, srController),
+                   SearchHelper().searchBar(context, srController,false),
                   SizedBox(
                     height: 10,
                   ),
