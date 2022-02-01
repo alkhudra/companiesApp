@@ -455,12 +455,7 @@ Drawer drawerDesignWithName(context, String name, String email) {
           ),
           onTap: () {
             getListData(context);
-            /*       print(list.toString());
-            Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) => BranchList()
-              ),
-            );*/
+
           },
         ),
         Divider(
@@ -644,7 +639,7 @@ Drawer drawerDesignWithName(context, String name, String email) {
 
 //-------------------
 void getListData(BuildContext context) async {
-  showLoaderDialog(context);
+/*  showLoaderDialog(context);
 
   Map<String, dynamic> headerMap = await getHeaderMap();
   String companyId = await PreferencesHelper.getUserID;
@@ -664,14 +659,14 @@ void getListData(BuildContext context) async {
     print(branchListResponseModel.branches.toString());
     // list = branchListResponseModel.branches;
 
-    Navigator.pop(context);
+    Navigator.pop(context);*/
     Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => BranchList(
-                list: branchListResponseModel.branches,
+              //  list: [],//branchListResponseModel.branches,
               )),
     );
-  });
+ // });
 }

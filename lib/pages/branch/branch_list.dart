@@ -9,8 +9,10 @@ import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
@@ -22,13 +24,12 @@ import 'add_brunches_page.dart';
 import 'branch_item.dart';
 
 class BranchList extends StatefulWidget {
-  final List<BranchModel> list;
+//  final List<BranchModel> list;
 
-  const BranchList({Key? key, required this.list}) : super(key: key);
+  const BranchList({Key? key}) : super(key: key);
 
   @override
   _BranchListState createState() => _BranchListState();
-
 }
 
 class _BranchListState extends State<BranchList> {
@@ -38,28 +39,58 @@ class _BranchListState extends State<BranchList> {
         appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
         endDrawer: drawerDesign(context),
         backgroundColor: Colors.grey[100],
-        body: _buildBody(context));
+        body: FutureBuilder<BranchListResponseModel?>(
+          future: getListData(),
+          builder: (context, snapshot) {
+            print(snapshot.toString());
+            if (snapshot.hasData) {
+              print(snapshot.hasData);
+              print(snapshot.data);
+              //     list.addAll(snapshot.data!.products);
+
+              return _buildBody(context, snapshot.data);
+            } else
+              return errorCase(snapshot);
+          },
+        ));
   }
 
-  Widget _buildBody(BuildContext context) {
-    return _buildList(
-        context,
-        widget
-            .list); /*FutureBuilder<List<BranchModel>>(
-      future:branchList,
-      //getBranchList(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            //  showErrorMessageDialog(context, 'error');
-           final List<BranchModel> list = snapshot.requireData;
-            return _buildList(context, list);
-          } else {
-            return CircularProgressIndicator();
-          }
-        });*/
+  //-----------------------
+
+  Future<BranchListResponseModel> getListData() async {
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+    String companyId = await PreferencesHelper.getUserID;
+
+    BranchRepository branchRepository = BranchRepository(headerMap);
+
+    ApiResponse apiResponse = await branchRepository.getAllBranch(companyId);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      BranchListResponseModel? responseModel =
+          BranchListResponseModel.fromJson(apiResponse.result);
+
+      return responseModel;
+    } else {
+
+      throw Exception(apiResponse.message);
+    }
   }
 
-  Widget _buildList(BuildContext context, List<BranchModel> snapshot) {
+  //-----------------------
+  Widget errorCase(AsyncSnapshot<BranchListResponseModel?> snapshot) {
+    if (snapshot.hasError) {
+      return Text('${snapshot.error}');
+    } else
+      // By default, show a loading spinner.
+      return Center(
+          child: Container(
+              margin: EdgeInsets.only(top: 30),
+              child: CircularProgressIndicator()));
+  }
+
+  //-----------------------
+  Widget _buildBody(BuildContext context, BranchListResponseModel? snapshot) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -70,32 +101,32 @@ class _BranchListState extends State<BranchList> {
           itemBuilder: (context, index) {
             //  print(snapshot?[index].toString());
             return BranchItem(
-              list: snapshot,
-                index: index,
+              list: snapshot!.branches,
+              index: index,
             );
           },
-          itemCount: snapshot.length,
+          itemCount: snapshot!.branches.length,
         ),
       ),
       SizedBox(
         height: 20,
       ),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
-        directToAddBranch();
+
+         directToAddBranch(snapshot.branches);
       })
     ]);
   }
 
-  void directToAddBranch() async {
+  void directToAddBranch(List<BranchModel> list) async {
     final model =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage(
-          );
+      return AddBranchesPage();
     }));
 
-    if (model != null) {
+      if (model != null) {
       setState(() {
-        widget.list.add(model);
+        list.add(model);
       });
     }
   }

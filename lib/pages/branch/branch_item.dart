@@ -75,7 +75,7 @@ class _BranchItemState extends State<BranchItem> {
 
   void directToEditItem() {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return EditBranchPage(branchModel: widget.list[widget.index], list: widget.list);
+      return EditBranchPage(branchModel: widget.list[widget.index]);
     }));
   }
 }

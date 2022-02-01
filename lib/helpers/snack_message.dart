@@ -5,6 +5,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 
 void showSuccessMessage(BuildContext context,String message){
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    duration:Duration( milliseconds: 500),
     content: Text(message,style: TextStyle(
       color:  CustomColors().primaryWhiteColor,
     ),),

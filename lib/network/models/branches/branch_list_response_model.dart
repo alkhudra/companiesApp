@@ -29,10 +29,7 @@ class BranchListResponseModel {
   }
 
 
-  BranchListResponseModel.removeFromList(BranchModel value){
-    PreferencesHelper.removeFromUserList(value);
-    _branches.remove(value);
-  }
+
 
   BranchListResponseModel();
 }

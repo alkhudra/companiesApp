@@ -28,8 +28,7 @@ import '../pick_location_page.dart';
 
 class EditBranchPage extends StatefulWidget {
   final BranchModel branchModel;
-  final List<BranchModel> list;
-  const EditBranchPage({Key? key, required this.branchModel,required this.list}) : super(key: key);
+  const EditBranchPage({Key? key, required this.branchModel}) : super(key: key);
 
   @override
   _EditBranchPageState createState() => _EditBranchPageState();
@@ -370,14 +369,11 @@ class _EditBranchPageState extends State<EditBranchPage> {
       SuccessBranchResponseModel successBranchResponseModel =
       SuccessBranchResponseModel.fromJson(result.result);
       showSuccessMessage(context, successBranchResponseModel.message!);
-      widget.list.remove(widget.branchModel);
-      widget.list.add(successBranchResponseModel.branchObject!);
+
       Navigator.pop(context);
 
       Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => BranchList(
-            list: widget.list,
-          )));
+          builder: (context) => BranchList()));
     });
   }
 
@@ -487,18 +483,12 @@ class _EditBranchPageState extends State<EditBranchPage> {
       MessageResponseModel messageResponseModel =
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
-      widget.list.remove(widget.branchModel);
       Navigator.pop(context);
 
 
       Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => BranchList(
-            list: widget.list,
-          )));
+          builder: (context) => BranchList()));
 
-
-
-      // Navigator.pop(context, map);
     });
   }
 }

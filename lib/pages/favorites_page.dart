@@ -92,10 +92,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
   //-----------------------
 
   Widget listDesign(ProductListResponseModel? snapshot) {
-    list.addAll(snapshot!.products);
-
+   // list.addAll(snapshot!.products);
+    list = snapshot!.products;
     return GridView.builder(
       itemBuilder: (context, index) {
+
         return favoritesCard( index);
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -105,7 +106,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           childAspectRatio: 14 / 17.4),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
-      itemCount: list.length,
+      itemCount:list.length,
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
     );
   }
@@ -155,9 +156,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                     onPressed: () {
                       if (isTrashBtnEnabled) {
                         deleteItemFromFav(productModel);
-                        setState(() {
-                          list.remove(productModel);
-                        });
+
                       }
                     },
                     icon: Icon(
@@ -316,7 +315,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
       Navigator.pop(context);
       isTrashBtnEnabled = true;
 
-
+      setState(() {
+        list.remove(product);
+      });
       showSuccessMessage(context, model.message!);
     } else {
       Navigator.pop(context);
