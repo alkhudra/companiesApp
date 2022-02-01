@@ -54,6 +54,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         },
       ),
       appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
+      endDrawer: drawerDesign(context),
     );
   }
 

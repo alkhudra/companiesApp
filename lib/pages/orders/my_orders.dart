@@ -18,6 +18,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       //add body
       // endDrawer: drawerDesign(context),
       appBar: bnbAppBar(context, LocaleKeys.my_orders.tr()),
+      endDrawer: drawerDesign(context),
     );
   }
 }

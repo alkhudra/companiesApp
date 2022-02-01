@@ -13,6 +13,9 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
+
+  static String name = '', email = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +30,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
         padding: EdgeInsets.only(bottom: 25),
       ),
       appBar: bnbAppBar(context, LocaleKeys.notifications.tr()),
+      //TODO: replace with drawer(name & email)
+      endDrawer: drawerDesign(context),
     );
   }
 
