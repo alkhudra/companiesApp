@@ -145,5 +145,9 @@ abstract class LocaleKeys {
   static const pro_description = "Description";
   static const sar_per_kg = "SAR / Kg";
   static const on_the_way = "Your Order is On The Way!";
-  static const add_cart= "add_cart";
+  static const add_cart = "add_cart";
+  static const search_result = "search_result";
+  static const no_result = "search_result";
+  static const search_title = "search_title";
+
 }

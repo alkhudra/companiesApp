@@ -135,5 +135,8 @@
   "Description": "Description",
   "SAR / Kg": "SAR / Kg",
   "Your Order is On The Way!" : "Your Order is On The Way!",
-  "add_cart": "ADD TO CART"
+  "add_cart": "ADD TO CART",
+  "search_result": "Search result for ",
+  "no_result": "No product match , try to search with other product",
+  "search_title": "Search"
 }

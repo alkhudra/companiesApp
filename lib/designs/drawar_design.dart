@@ -127,13 +127,15 @@ Drawer drawerDesign(context) {
             ],
           ),
           onTap: () {
-            getListData(context);
-            /*       print(list.toString());
-            Navigator.push(context,
+            Navigator.pop(context);
+            Navigator.push(
+              context,
               MaterialPageRoute(
-                  builder: (context) => BranchList()
-              ),
-            );*/
+                  builder: (context) => BranchList(
+                    //  list: [],//branchListResponseModel.branches,
+                  )),
+            );
+
           },
         ),
         Divider(
@@ -454,7 +456,14 @@ Drawer drawerDesignWithName(context, String name, String email) {
             ],
           ),
           onTap: () {
-            getListData(context);
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BranchList(
+                    //  list: [],//branchListResponseModel.branches,
+                  )),
+            );
 
           },
         ),
@@ -637,36 +646,4 @@ Drawer drawerDesignWithName(context, String name, String email) {
   );
 }
 
-//-------------------
-void getListData(BuildContext context) async {
-/*  showLoaderDialog(context);
 
-  Map<String, dynamic> headerMap = await getHeaderMap();
-  String companyId = await PreferencesHelper.getUserID;
-
-  BranchRepository branchRepository = BranchRepository(headerMap);
-
-  branchRepository.getAllBranch(companyId).then((result) async {
-    if (result.apiStatus.code != ApiResponseType.OK.code) {
-      Navigator.pop(context);
-      showErrorMessageDialog(context, result.message);
-      return;
-    }
-
-    // print(data);
-    BranchListResponseModel branchListResponseModel =
-        BranchListResponseModel.fromJson(result.result);
-    print(branchListResponseModel.branches.toString());
-    // list = branchListResponseModel.branches;
-
-    Navigator.pop(context);*/
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => BranchList(
-              //  list: [],//branchListResponseModel.branches,
-              )),
-    );
- // });
-}
