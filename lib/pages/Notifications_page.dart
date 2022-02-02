@@ -105,7 +105,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.12),
                       child: Text(LocaleKeys.on_the_way.tr(),
                       style: TextStyle(
-                        fontSize: 16
+                        fontSize: 16,
+                        color: CustomColors().darkBlueColor
                       ),),
                     )
                   ],

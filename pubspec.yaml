@@ -30,6 +30,7 @@ dependencies:
   url_launcher: ^6.0.10
   font_awesome_flutter: ^9.2.0
   another_flushbar: ^1.10.28
+  lottie: ^1.2.1
 
 
 dev_dependencies:
