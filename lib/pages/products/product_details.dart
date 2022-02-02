@@ -17,7 +17,8 @@ import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
-  const ProductDetails({Key? key, required this.productModel})
+  final String language ;
+  const ProductDetails({Key? key, required this.productModel , required this.language})
       : super(key: key);
 
   @override
@@ -25,31 +26,23 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  String language = 'ar';
+
   late Color likeColor;
   double total = 18;
   int counter = 0;
   bool isAddToFavBtnEnabled = true;
-  void setValues() async {
-    language = await PreferencesHelper.getSelectedLanguage;
-  }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setValues();
-  }
 
   @override
   Widget build(BuildContext context) {
+    String language =widget.language;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     double? price = (widget.productModel.hasSpecialPrice == true
-            ? widget.productModel.specialPrice
-            : widget.productModel.originalPrice)
+        ? widget.productModel.specialPrice
+        : widget.productModel.originalPrice)
         ?.toDouble();
     String? description = language == 'ar'
         ? widget.productModel.arDescription
@@ -59,9 +52,8 @@ class _ProductDetailsState extends State<ProductDetails> {
         ? widget.productModel.arCategoryName
         : widget.productModel.categoryName;
     bool? isFavourite = widget.productModel.isFavourite;
-    String? name = language == 'ar'
-        ? widget.productModel.arName
-        : widget.productModel.name;
+
+    String? name = language == 'ar' ? widget.productModel.arName :widget. productModel.name;
     String imageUrl = ApiConst.images_url + widget.productModel.image!;
 
     //----------------------------

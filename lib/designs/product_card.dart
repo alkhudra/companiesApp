@@ -216,6 +216,7 @@ class ProductCard {
               MaterialPageRoute(
                   builder: (context) => ProductDetails(
                         productModel: productModel,
+                        language: language,
                       )));
         });
   }

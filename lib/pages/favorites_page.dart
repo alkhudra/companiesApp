@@ -7,6 +7,7 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -15,6 +16,7 @@ import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/get_product_by_id_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
+import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -34,7 +36,17 @@ class _FavoritesPageState extends State<FavoritesPage> {
   bool isThereMoreItems = true;
   static String language = 'ar';
   bool isTrashBtnEnabled = true;
+  void setValues() async {
+    language = await PreferencesHelper.getSelectedLanguage;
 
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setValues();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +136,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
             : productModel.originalPrice)
         ?.toDouble();
 
-    bool? isFavourite = productModel.isFavourite;
     String? productId = productModel.productId;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
@@ -144,155 +155,166 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   blurRadius: 3.0,
                   spreadRadius: .8)
             ]),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                //Delete icon
-                Container(
-                  margin: EdgeInsets.only(top: 10, left: 15, right: 15),
-                  child: IconButton(
-                    onPressed: () {
-                      if (isTrashBtnEnabled) {
-                        deleteItemFromFav(productModel);
+        child: GestureDetector(
+          onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductDetails(
+                      productModel: productModel,
+                      language: language,
+                    )));
+          },
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  //Delete icon
+                  Container(
+                    margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+                    child: IconButton(
+                      onPressed: () {
+                        if (isTrashBtnEnabled) {
+                          deleteItemFromFav(productModel);
 
-                      }
-                    },
-                    icon: Icon(
-                      FontAwesomeIcons.trash,
-                      color: CustomColors().redColor,
-                      size: 20,
-                    ),
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
-                  ),
-                ),
-              ],
-            ),
-            //name and other details
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  //todo:image edit
-                  child: Image.asset('images/green_fruit.png'),
-                ),
-                //name
-                Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 7),
-                  child: Text(
-                    name!,
-                    style: TextStyle(
-                      color: CustomColors().brownColor,
-                      fontSize: 18.5,
+                        }
+                      },
+                      icon: Icon(
+                        FontAwesomeIcons.trash,
+                        color: CustomColors().redColor,
+                        size: 20,
+                      ),
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(),
                     ),
                   ),
-                ),
-                Container(
-                  width: scWidth * 0.3,
-                  child: Row(
+                ],
+              ),
+              //name and other details
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    //todo:image edit
+                    child: Image.asset('images/green_fruit.png'),
+                  ),
+                  //name
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.symmetric(vertical: 7),
+                    child: Text(
+                      name!,
+                      style: TextStyle(
+                        color: CustomColors().brownColor,
+                        fontSize: 18.5,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: scWidth * 0.3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        //price
+                        Container(
+                          child: Text(
+                            '$price  ' + LocaleKeys.sar_per_kg.tr(),
+                            style: TextStyle(
+                                color: CustomColors().primaryGreenColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // SizedBox(height: scHeight*0.01,),
+                  //Counter and cart icon row
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      //price
+                      //Counter
                       Container(
-                        child: Text(
-                          '$price  ' + LocaleKeys.sar_per_kg.tr(),
-                          style: TextStyle(
-                              color: CustomColors().primaryGreenColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
+                        width: 80,
+                        height: 26,
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: CustomColors().grayColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // counter >= 0 ? counter -= counter : counter;
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                child: Text(
+                                  '-',
+                                  style: TextStyle(
+                                    color: CustomColors().darkBlueColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              child: Text(
+                                '$counter',
+                                style: TextStyle(
+                                  color: CustomColors().blackColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // counter >= 0 ? counter += counter : counter;
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                child: Text(
+                                  '+',
+                                  style: TextStyle(
+                                    color: CustomColors().darkBlueColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Cart icon
+                      Container(
+                        // padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            FontAwesomeIcons.cartPlus,
+                            color: CustomColors().primaryGreenColor,
+                            size: 20,
+                          ),
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
                         ),
                       ),
                     ],
                   ),
-                ),
-                // SizedBox(height: scHeight*0.01,),
-                //Counter and cart icon row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //Counter
-                    Container(
-                      width: 80,
-                      height: 26,
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        color: CustomColors().grayColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // counter >= 0 ? counter -= counter : counter;
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              child: Text(
-                                '-',
-                                style: TextStyle(
-                                  color: CustomColors().darkBlueColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            child: Text(
-                              '$counter',
-                              style: TextStyle(
-                                color: CustomColors().blackColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // counter >= 0 ? counter += counter : counter;
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              child: Text(
-                                '+',
-                                style: TextStyle(
-                                  color: CustomColors().darkBlueColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //Cart icon
-                    Container(
-                      // padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          FontAwesomeIcons.cartPlus,
-                          color: CustomColors().primaryGreenColor,
-                          size: 20,
-                        ),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

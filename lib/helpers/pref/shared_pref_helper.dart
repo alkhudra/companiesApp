@@ -10,33 +10,21 @@ class PreferencesHelper {
       SharedPrefsManager.getBool(firstLogin);
   static Future setUserFirstLogIn(bool value) =>
       SharedPrefsManager.setBool(firstLogin, value);
-  static bool? isUserFirstLogIn() {
-    PreferencesHelper.getIsUserFirstLogIn.then((value) {
-      return value;
-    });
-  }
+
 
   //----------------
   static Future<bool> get getIsUserLoggedIn =>
       SharedPrefsManager.getBool(isLoggedIn);
   static Future setUserLoggedIn(bool value) =>
       SharedPrefsManager.setBool(isLoggedIn, value);
-  static bool? isUserLoggedIn() {
-    PreferencesHelper.getIsUserLoggedIn.then((value) {
-      return value;
-    });
-  }
+
   //------------------
 
   static Future<bool> get getIsUserLoggedOut =>
       SharedPrefsManager.getBool(isLoggedOut);
   static Future setUserLoggedOut(bool value) =>
       SharedPrefsManager.setBool(isLoggedOut, value);
-  static bool? isUserLoggedOut() {
-    PreferencesHelper.getIsUserLoggedOut.then((value) {
-      return value;
-    });
-  }
+
 
   //------------------
 
@@ -44,21 +32,10 @@ class PreferencesHelper {
   static Future setUserID(String value) =>
       SharedPrefsManager.setString(userID, value);
 
-  static String? getCompanyID() {
-    PreferencesHelper.getUserID.then((value) {
-      return value;
-    });
-  }
 
   //--------------------
   static Future<String> get getSelectedLanguage =>
       SharedPrefsManager.getString(currentLanguage);
-
-  static String? getLanguage() {
-    PreferencesHelper.getSelectedLanguage.then((value) {
-      return value;
-    });
-  }
 
   static Future setSelectedLanguage(String value) =>
       SharedPrefsManager.setString(currentLanguage, value);
@@ -69,11 +46,7 @@ class PreferencesHelper {
   static Future setUserToken(String value) =>
       SharedPrefsManager.setString(token, value);
 
-  static String? getToken() {
-    PreferencesHelper.getUserToken.then((value) {
-      return value;
-    });
-  }
+
   //--------------------
 
   static Future<User> get getUser async {
