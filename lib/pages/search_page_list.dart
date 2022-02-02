@@ -4,13 +4,17 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/product/get_product_by_id_response_model.dart';
+import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -29,7 +33,8 @@ class _SearchListPageState extends State<SearchListPage> {
   int pageSize = listItemsCount;
   int pageNumber = 1;
   static String language = 'ar';
-
+  List<ProductsModel> list = [];
+  bool isThereMoreItems = true;
   @override
   Widget build(BuildContext context) {
     String keyWord  = widget.keyWords;
@@ -39,11 +44,8 @@ class _SearchListPageState extends State<SearchListPage> {
       body: FutureBuilder<ProductListResponseModel?>(
         future: getSearchResult(keyWord),
         builder: (context, snapshot) {
-          print(snapshot.toString());
           if (snapshot.hasData) {
-            print(snapshot.hasData);
-            print(snapshot.data);
-            return searchPageDesign(snapshot.data , keyWord);
+            return searchPageDesign( keyWord);
           } else
             return errorCase(snapshot);
         },
@@ -68,17 +70,17 @@ class _SearchListPageState extends State<SearchListPage> {
   }
   //---------------------
 
-  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
+/*  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
     if (snapshot.hasError) {
       return Text('${snapshot.error}');
     } else
 
       // By default, show a loading spinner.
-      return Center(child: CircularProgressIndicator());
-  }
+      return loadingProgress();
+  }*/
   //---------------------
 
-  Widget searchPageDesign(ProductListResponseModel? model,String keyWord) {
+  Widget searchPageDesign(String keyWord) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -120,42 +122,32 @@ class _SearchListPageState extends State<SearchListPage> {
           ),
 
           Container(
-            child:  model!.products.length != 0 ? ListView.builder(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return ProductCard.productCardDesign(
-                  context,
-                  language,
-                  model.products[index],
-                );
-              },
-              itemCount: model.products.length,
-            ):Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  width: 250,
-                  height: 200,
-                  child: Center(child: Image.asset('images/not_found.png')),
-                ),
-                // SizedBox(height: 10,),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                  child: Center(
-                      child: Text(LocaleKeys.no_result.tr(),style: TextStyle(
-                    fontSize: 20,
-                    height: 1.5,
-                    color: CustomColors().primaryGreenColor
-                  ),)),
-                ),
-              ],
-            ) ,
+            child:  list.length != 0 ? Container(
+              child: Column(
+                children: [
+                  ListView.builder(
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return ProductCard.productCardDesign(
+                        context,
+                        language,
+                        list[index],
+                      );
+                    },
+                    itemCount:list.length,
+                  ),
+                  if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
+
+                ],
+
+              ),
+
+            ):
+             noItemDesign(LocaleKeys.no_result.tr(),'images/not_found.png'),
           ),
-          SizedBox(
-            height: 30,
-          ),
+
         ],
       ),
     );
@@ -174,9 +166,30 @@ class _SearchListPageState extends State<SearchListPage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
           ProductListResponseModel.fromJson(apiResponse.result);
+      if (pageNumber == 1) list = responseModel.products;
+      else  list.addAll(responseModel.products);
 
+      if (responseModel.products.length > 0) {
+        if (responseModel.products.length < listItemsCount)
+          isThereMoreItems = false;
+        else
+        isThereMoreItems = true;
+
+      }else{
+        isThereMoreItems = false;
+        pageNumber = 1;
+      }
+      print('list is $list');
       return responseModel;
     } else
       throw Exception(apiResponse.message);
+  }
+  //---------------------
+
+  loadMoreInfo() async {
+    setState(() {
+      pageNumber++;
+    });
+
   }
 }

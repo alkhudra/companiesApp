@@ -108,4 +108,9 @@ class ProductsModel {
     map['categoryId'] = _categoryId;
     return map;
   }
+
+  @override
+  String toString() {
+    return 'ProductsModel{_productId: $_productId, _name: $_name, _arName: $_arName, _hasSpecialPrice: $_hasSpecialPrice, _originalPrice: $_originalPrice, _specialPrice: $_specialPrice, _quantity: $_quantity, _description: $_description, _arDescription: $_arDescription, _isAvailabe: $_isAvailabe, _isActive: $_isActive, _image: $_image, _categoryId: $_categoryId, _isFavourite: $_isFavourite, _categoryName: $_categoryName, _arCategoryName: $_arCategoryName}';
+  }
 }

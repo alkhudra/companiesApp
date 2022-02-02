@@ -44,3 +44,11 @@ Widget alertContent(){
     ],
   );
 }
+
+
+Widget loadingProgress(){
+ return Center(
+      child: Container(
+          margin: EdgeInsets.only(top: 30),
+          child: CircularProgressIndicator()));
+}

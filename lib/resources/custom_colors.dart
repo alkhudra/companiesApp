@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class CustomColors {
-  Color primaryGreenColor = Color.fromRGBO(103, 156, 65, 1);
+  Color primaryGreenColor = Color.fromRGBO(103, 156, 65, 1.0);
   Color primaryWhiteColor = Colors.white;//Color.fromRGBO(255, 255, 255, 100);
   Color backgroundColor =Colors.white;// Color.fromRGBO(229, 229, 229, 1);
   Color grayColor = Color.fromRGBO(223, 228, 221, 1);

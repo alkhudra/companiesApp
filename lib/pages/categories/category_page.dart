@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
@@ -103,10 +104,6 @@ class _CategoryPageState extends State<CategoryPage> {
                     builder: (context, snapshot) {
                       print(snapshot.toString());
                       if (snapshot.hasData) {
-                        print(snapshot.hasData);
-                        print(snapshot.data);
-                        //     list.addAll(snapshot.data!.products);
-
                         return getListDesign(snapshot.data);
                       } else
                         return errorCase(snapshot);
@@ -125,21 +122,8 @@ class _CategoryPageState extends State<CategoryPage> {
   //------------
 
   Widget getListDesign(ProductListResponseModel? snapshot) {
-/*    if (snapshot!.products.length > 0) {
-      setState(() {
-        list.addAll(snapshot.products);
-        isThereMoreItems = true;
-        pageNumber++;
-      });
-    } else {
-      setState(() {
-        isThereMoreItems = false;
-        pageNumber = 1;
-      });
-    }*/
-    list.addAll(snapshot!.products);
 
-    return  Column(
+    return list.length >0 ? Column(
       children: [
         Container(
           child: ListView.builder(
@@ -157,39 +141,11 @@ class _CategoryPageState extends State<CategoryPage> {
             itemCount: list.length,
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
-        if (isThereMoreItems)
-                Container(
-          width: MediaQuery.of(context).size.width*0.8,
-          height: MediaQuery.of(context).size.height*0.06,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: CustomColors().grayColor,
-          ),
-          child: TextButton(
-            onPressed: () {
-              //todo:paging
-            }, 
-            child: Text(LocaleKeys.load_more.tr(), 
-            style: TextStyle(
-              color: CustomColors().darkBlueColor,
-              fontWeight: FontWeight.w600
-            ),)
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-          // greenBtn('load more', EdgeInsets.all(10), () {
 
-
-          //   //todo:paging
-          // })
+        if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
       ],
-    )
-    ;
+    ): noItemDesign(LocaleKeys.no_items_category.tr(), 'images/not_found.png');
+
   }
 //--------
 
@@ -203,6 +159,7 @@ class _CategoryPageState extends State<CategoryPage> {
           margin: EdgeInsets.only(top:30),
           child: CircularProgressIndicator()));
   }
+//--------
 
   Future<ProductListResponseModel?> getInfoFromDB(String categoryId) async {
     //----------start api ----------------
@@ -216,11 +173,33 @@ class _CategoryPageState extends State<CategoryPage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
           ProductListResponseModel.fromJson(apiResponse.result);
+      if (pageNumber == 1) list = responseModel.products;
+      else  list.addAll(responseModel.products);
 
+      if (responseModel.products.length > 0) {
+        if (responseModel.products.length < listItemsCount)
+          isThereMoreItems = false;
+        else
+          isThereMoreItems = true;
+
+      }else{
+        isThereMoreItems = false;
+        pageNumber = 1;
+      }
+      print('list is $list');
       return responseModel;
     } else
       throw Exception(apiResponse.message);
   }
+//--------
+
+  loadMoreInfo() async {
+    setState(() {
+      pageNumber++;
+    });
+
+  }
+  //--------
 
   String? setCategoryName(CategoryItem categoryList) {
     return language == 'ar' ? categoryList.arName : categoryList.name;

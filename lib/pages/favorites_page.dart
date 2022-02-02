@@ -6,7 +6,9 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
@@ -38,15 +40,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
   bool isTrashBtnEnabled = true;
   void setValues() async {
     language = await PreferencesHelper.getSelectedLanguage;
-
   }
 
   @override
   void initState() {
     super.initState();
     setValues();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +71,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
+  loadMoreInfo() async {
+    setState(() {
+      pageNumber++;
+    });
+  }
   //-----------------------
 
   Future<ProductListResponseModel?> getInfoFromDB() async {
@@ -84,49 +90,55 @@ class _FavoritesPageState extends State<FavoritesPage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
           ProductListResponseModel.fromJson(apiResponse.result);
+      if (pageNumber == 1)
+        list = responseModel.products;
+      else
+        list.addAll(responseModel.products);
 
+      if (responseModel.products.length > 0) {
+        if (responseModel.products.length < listItemsCount)
+          isThereMoreItems = false;
+        else
+          isThereMoreItems = true;
+      } else {
+        isThereMoreItems = false;
+        pageNumber = 1;
+      }
+      print('list is $list');
       return responseModel;
     } else
       throw Exception(apiResponse.message);
   }
 
   //-----------------------
-  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
-      // By default, show a loading spinner.
-      return Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 30),
-              child: CircularProgressIndicator()));
-  }
-
-  //-----------------------
 
   Widget listDesign(ProductListResponseModel? snapshot) {
-   // list.addAll(snapshot!.products);
-    list = snapshot!.products;
-    return GridView.builder(
-      itemBuilder: (context, index) {
-
-        return favoritesCard( index);
-      },
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          childAspectRatio: 14 / 17.4),
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      itemCount:list.length,
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
-    );
+    return list.length > 0
+        ? Column(
+            children: [
+              GridView.builder(
+                itemBuilder: (context, index) {
+                  return favoritesCard(index);
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 14 / 17.4),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: list.length,
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+              ),
+              if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
+            ],
+          )
+        : noItemDesign(LocaleKeys.no_fav_product.tr(), 'images/not_found.png');
   }
 
   //-----------------------
 
-  Widget favoritesCard( int index) {
+  Widget favoritesCard(int index) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -156,14 +168,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   spreadRadius: .8)
             ]),
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ProductDetails(
-                      productModel: productModel,
-                      language: language,
-                    )));
+                          productModel: productModel,
+                          language: language,
+                        )));
           },
           child: Column(
             children: [
@@ -178,7 +190,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       onPressed: () {
                         if (isTrashBtnEnabled) {
                           deleteItemFromFav(productModel);
-
                         }
                       },
                       icon: Icon(

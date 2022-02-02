@@ -5,6 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
@@ -63,7 +65,7 @@ class _AllCategoryState extends State<AllCategory> {
             ),
           ),
           SliverToBoxAdapter(
-            child:Container(
+            child: Container(
               width: double.infinity,
               // height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
@@ -78,28 +80,24 @@ class _AllCategoryState extends State<AllCategory> {
                   SizedBox(
                     height: 18,
                   ),
-                  SearchHelper().searchBar(context, srController,false),
+                  SearchHelper().searchBar(context, srController, false),
                   // SizedBox(
                   //   height: 5,
                   // ),
                   FutureBuilder<ProductListResponseModel?>(
                     future: getInfoFromDB(),
                     builder: (context, snapshot) {
-                      print(snapshot.toString());
                       if (snapshot.hasData) {
-                        print(snapshot.hasData);
-                        print(snapshot.data);
-                        //     list.addAll(snapshot.data!.products);
-
-                        return getListDesign(snapshot.data);
+                        ProductListResponseModel? m=    snapshot.data;
+                        print("data is $m");
+                        return getListDesign();
                       } else
                         return errorCase(snapshot);
                     },
                   ),
-
                 ],
               ),
-            ) ,
+            ),
           ),
         ],
       ),
@@ -109,29 +107,15 @@ class _AllCategoryState extends State<AllCategory> {
 
   //------------
 
-  Widget getListDesign(ProductListResponseModel? snapshot) {
-/*    if (snapshot!.products.length > 0) {
-      setState(() {
-        list.addAll(snapshot.products);
-        isThereMoreItems = true;
-        pageNumber++;
-      });
-    } else {
-      setState(() {
-        isThereMoreItems = false;
-        pageNumber = 1;
-      });
-    }*/
-    list.addAll(snapshot!.products);
+  Widget getListDesign() {
 
-    return  Column(
+    return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         Container(
           height: MediaQuery.of(context).size.height,
           child: ListView.builder(
-            keyboardDismissBehavior:
-            ScrollViewKeyboardDismissBehavior.onDrag,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
@@ -145,50 +129,11 @@ class _AllCategoryState extends State<AllCategory> {
             itemCount: list.length,
           ),
         ),
-        SizedBox(
-          height: 20,
-        ),
-        if (isThereMoreItems)
-        //load more button
-        Container(
-          width: MediaQuery.of(context).size.width*0.8,
-          height: MediaQuery.of(context).size.height*0.05,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: CustomColors().grayColor,
-          ),
-          child: TextButton(
-            onPressed: () {
-              //todo:paging
-            }, 
-            child: Text(LocaleKeys.load_more.tr(), 
-            style: TextStyle(
-              color: CustomColors().darkBlueColor,
-              fontWeight: FontWeight.w600
-            ),)
-          ),
-        ),
-          // greenBtn('load more', EdgeInsets.all(10), () {
-
-
-
-          // })
+        if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
       ],
-    )
-    ;
+    );
   }
-//--------
 
-  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
-
-      // By default, show a loading spinner.
-      return Center(child: Container(
-          margin: EdgeInsets.only(top:30),
-          child: CircularProgressIndicator()));
-  }
 
   Future<ProductListResponseModel?> getInfoFromDB() async {
     //----------start api ----------------
@@ -202,7 +147,20 @@ class _AllCategoryState extends State<AllCategory> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
           ProductListResponseModel.fromJson(apiResponse.result);
+      if (pageNumber == 1) list = responseModel.products;
+    else  list.addAll(responseModel.products);
 
+      if (responseModel.products.length > 0) {
+        if (responseModel.products.length < listItemsCount)
+          isThereMoreItems = false;
+        else
+          isThereMoreItems = true;
+
+      }else{
+        isThereMoreItems = false;
+        pageNumber = 1;
+      }
+    print('list is $list');
       return responseModel;
     } else
       throw Exception(apiResponse.message);
@@ -218,5 +176,13 @@ class _AllCategoryState extends State<AllCategory> {
     // TODO: implement initState
     super.initState();
     setValues();
+  }
+//---------------------
+
+  loadMoreInfo() async {
+    setState(() {
+      pageNumber++;
+    });
+
   }
 }

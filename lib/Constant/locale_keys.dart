@@ -149,5 +149,6 @@ abstract class LocaleKeys {
   static const search_result = "search_result";
   static const no_result = "no_result";
   static const search_title = "search_title";
-
+  static const no_fav_product = "no_fav_product";
+  static const no_items_category = "no_items_category";
 }
