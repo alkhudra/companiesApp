@@ -234,7 +234,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             '$price  ' + LocaleKeys.sar_per_kg.tr(),
                             style: TextStyle(
                                 color: CustomColors().primaryGreenColor,
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
