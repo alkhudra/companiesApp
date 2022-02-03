@@ -37,6 +37,9 @@ abstract class ApiConst {
       "/Favourites/addToFavourite/{productId}";
   static const String delete_product_from_fav_url = "/Favourites/deleteFromFavourite/{productId}";
 
-
+//---------------cart ----------------
+  static const String get_cart_products_url = "/Cart/getCartItems";
+  static const String add_product_to_cart_url =
+      "/Cart/upsertCart";
 
 }

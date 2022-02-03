@@ -135,7 +135,7 @@ class _CategoryPageState extends State<CategoryPage> {
               return ProductCard.productCardDesign(
                 context,
                 language ,
-                list[index],
+                list[index],(){}
               );
             },
             itemCount: list.length,

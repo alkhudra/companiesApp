@@ -92,21 +92,17 @@ class _ProductDetailsState extends State<ProductDetails> {
               InkWell(
                   onTap: () {
                     if (isAddToFavBtnEnabled) {
-                      setState(() {
+
                         addToFav(isFavourite, productId!);
-                        isFavourite = !isFavourite!;
-                      });
+
                     }
                   },
-                  child: isFavourite! == true
-                      ? Icon(
-                          Icons.favorite,
+                  child:  Icon( isFavourite! == true
+                      ?
+                          Icons.favorite :Icons.favorite_outline ,
                           color: CustomColors().redColor,
                         )
-                      : Icon(
-                          Icons.favorite,
-                          color: CustomColors().grayColor,
-                        )),
+                     ),
               IconButton(
                 icon: Icon(
                   Icons.share_outlined,
@@ -341,6 +337,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           MessageResponseModel.fromJson(apiResponse.result);
       Navigator.pop(context);
       isAddToFavBtnEnabled = true;
+      setState(() {
+        isFavourite = !isFavourite!;
+      });
       return model.message!;
     } else {
       Navigator.pop(context);

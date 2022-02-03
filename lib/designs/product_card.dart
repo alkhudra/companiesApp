@@ -17,7 +17,7 @@ class ProductCard {
   static int counter = 0;
   static bool isAddToFavBtnEnabled = true;
 
-  static productCardDesign(context, String language, ProductsModel productModel,
+  static productCardDesign(context, String language, ProductsModel productModel,Function() favPressed,
       {increaseCount, decreaseCount}) {
     // bool isFav = false;
     double? price = (productModel.hasSpecialPrice == true
@@ -108,12 +108,8 @@ class ProductCard {
                           Container(
                             padding: EdgeInsets.all(10),
                             child: InkWell(
-                                onTap: () {
-                                  if (isAddToFavBtnEnabled) {
-                                    addToFav(context, isFavourite, productId!);
-                                    isFavourite = !isFavourite!;
-                                  }
-                                },
+
+                                onTap:isAddToFavBtnEnabled == true ? favPressed : null,
                                 child: isFavourite! == true
                                     ? Icon(
                                         Icons.favorite,
