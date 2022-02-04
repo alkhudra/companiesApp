@@ -57,8 +57,9 @@ class _CartPageState extends State<CartPage> {
           //Change height to be adaptable
           height: MediaQuery.of(context).size.height*0.14,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(height: 4,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -114,6 +115,10 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
+              SizedBox(height: 5,),
+              // Divider(
+              //   thickness: 1,
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -290,7 +295,7 @@ class _CartPageState extends State<CartPage> {
                     SizedBox(width: 5,),
                     //Delete icon
                     Container(
-                      width: 10,
+                      width: 2,
                       // color: CustomColors().primaryGreenColor,
                       child: IconButton(
                         onPressed: () {}, 
