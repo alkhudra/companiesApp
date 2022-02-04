@@ -25,6 +25,7 @@ import 'package:khudrah_companies/router/route_constants.dart';
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/models/product/category_model.dart';
+import 'cart_page.dart';
 import 'categories/category_page.dart';
 
 
@@ -240,17 +241,25 @@ class _HomePageState extends State<HomePage> {
             height: 15,
           ),
           //Newest deals title and button
-          Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Text(
-              LocaleKeys.newest_deals.tr(),
-              style: TextStyle(
-                color: CustomColors().darkBlueColor,
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
+
+          //Temp gesture detect, remove when done
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: Text(
+                LocaleKeys.newest_deals.tr(),
+                style: TextStyle(
+                  color: CustomColors().darkBlueColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
             ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => CartPage()));
+            }
           ),
           SizedBox(
             height: 10,
