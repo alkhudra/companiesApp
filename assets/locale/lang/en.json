@@ -134,6 +134,7 @@
   "ADD TO CART": "ADD TO CART",
   "Description": "Description",
   "SAR / Kg": "SAR / Kg",
+  "SAR": "SAR",
   "Your Order is On The Way!" : "Your Order is On The Way!",
   "add_cart": "ADD TO CART",
   "search_result": "Search result for ",
@@ -141,5 +142,9 @@
   "search_title": "Search",
   "no_fav_product": "You don't have any favourite products",
   "no_items_category": "No Items in This Category",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Subtotal": "Subtotal",
+  "VAT": "VAT",
+  "Total": "Total",
+  "Checkout": "CHECKOUT"
 }

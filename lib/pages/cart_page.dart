@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,6 +20,9 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
 
   double price = 6.0;
+  double subtotal = 28.9;
+  double vat = 5.1;
+  double total = 54;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +45,116 @@ class _CartPageState extends State<CartPage> {
                 )
               ],
             ),
-            child: cartCard()
+            child: cartTile()
           );
-        }),
+        },
+        itemCount: 10,
+      ),
       // endDrawer: drawerDesign(context),
       appBar: bnbAppBar(context, LocaleKeys.cart.tr()),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          //Change height to be adaptable
+          height: MediaQuery.of(context).size.height*0.14,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  //subtotal
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Almarai',
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        children: <TextSpan> [
+                          TextSpan(text: LocaleKeys.subtotal.tr() + ': ',
+                          style: TextStyle(
+                            color: CustomColors().darkBlueColor
+                          )),
+                          TextSpan(text: ' $subtotal SAR',
+                          style: TextStyle(
+                            color: CustomColors().primaryGreenColor,
+                            fontFamily: 'Almarai',
+                          )),
+                        ]
+                      ),
+                    ),
+                  ),
+                  //vat
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Almarai',
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        children: <TextSpan> [
+                          TextSpan(text: LocaleKeys.vat.tr() + ': ',
+                          style: TextStyle(
+                            color: CustomColors().darkBlueColor,
+                            fontFamily: 'Almarai',
+                          )),
+                          TextSpan(text: ' $vat SAR',
+                          style: TextStyle(
+                            color: CustomColors().primaryGreenColor,
+                          )),
+                        ]
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  //total
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Almarai',
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        children: <TextSpan> [
+                          TextSpan(text: LocaleKeys.total.tr() + ': ',
+                          style: TextStyle(
+                            color: CustomColors().primaryGreenColor,
+                          )),
+                          TextSpan(text: ' $total SAR',
+                          style: TextStyle(
+                            color: CustomColors().primaryGreenColor,
+                          )),
+                        ]
+                      ),
+                    ),
+                  ),
+                  //checkout button
+                  Container(
+                    child: greenBtn(LocaleKeys.checkout.tr(), EdgeInsets.symmetric(vertical: 4), () {}),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget cartCard() {
+  Widget cartTile() {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -67,7 +174,7 @@ class _CartPageState extends State<CartPage> {
                   color: CustomColors().blackColor.withOpacity(0.4),
                   offset: Offset(2, 2),
                   blurRadius: 5,
-                  spreadRadius: 0.3,
+                  spreadRadius: 0.2,
                 )
               ],
               color: CustomColors().primaryWhiteColor,
@@ -85,8 +192,8 @@ class _CartPageState extends State<CartPage> {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 70,
+                      height: 70,
                       child: Image.asset('images/green_fruit.png'),
                     ),
                     //category, name and price
@@ -129,7 +236,7 @@ class _CartPageState extends State<CartPage> {
                     //counter
                     Container(
                       width: scWidth*0.071,
-                      height: scHeight*0.12,
+                      height: scHeight*0.13,
                       decoration: BoxDecoration(
                         color: CustomColors().grayColor,
                         borderRadius: BorderRadius.circular(30),
@@ -152,9 +259,6 @@ class _CartPageState extends State<CartPage> {
                               //Decrease count method
                             },
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
                           Container(
                             child: Text(
                               '0',
@@ -164,9 +268,6 @@ class _CartPageState extends State<CartPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
                           ),
                           GestureDetector(
                             child: Container(

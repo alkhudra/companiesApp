@@ -144,6 +144,7 @@ abstract class LocaleKeys {
   static const add_to_cart = "ADD TO CART";
   static const pro_description = "Description";
   static const sar_per_kg = "SAR / Kg";
+  static const sar = "SAR";
   static const on_the_way = "Your Order is On The Way!";
   static const add_cart = "add_cart";
   static const search_result = "search_result";
@@ -152,4 +153,8 @@ abstract class LocaleKeys {
   static const no_fav_product = "no_fav_product";
   static const no_items_category = "no_items_category";
   static const delete_from_cart = "Delete";
+  static const subtotal ="Subtotal";
+  static const vat ="VAT";
+  static const total ="Total";
+  static const checkout ="Checkout";
 }
