@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/designs/appbar_design.dart';
 
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
@@ -36,71 +38,88 @@ class _AllCategoryState extends State<AllCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColors().primaryGreenColor,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            centerTitle: true,
-            // collapsedHeight: 200,
-            title: Text(
-              LocaleKeys.all_category.tr(),
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+      // backgroundColor: CustomColors().primaryGreenColor,
+      body: Container(
+        width: double.infinity,
+        // height: MediaQuery.of(context).size.height,
+        // decoration: BoxDecoration(
+        //   color: CustomColors().primaryWhiteColor,
+        //   borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(40),
+        //     topRight: Radius.circular(40),
+        //   ),
+        // ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 18,
             ),
-            flexibleSpace: Stack(
-              children: [
-                Positioned.fill(
-                  left: 180,
-                  child: Image.asset('images/grapevector.png'),
-                ),
-              ],
+            SearchHelper().searchBar(context, srController, false),
+            SizedBox(
+              height: 5,
             ),
-            expandedHeight: 160,
-            elevation: 0.0,
-            backgroundColor: CustomColors().primaryGreenColor,
-            iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: CustomColors().primaryWhiteColor,
-              onPressed: () => Navigator.pop(context),
+            FutureBuilder<ProductListResponseModel?>(
+              future: getInfoFromDB(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  ProductListResponseModel? m=    snapshot.data;
+                  print("data is $m");
+                  return getListDesign();
+                } else
+                  return errorCase(snapshot);
+              },
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              width: double.infinity,
-              // height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                color: CustomColors().primaryWhiteColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 18,
-                  ),
-                  SearchHelper().searchBar(context, srController, false),
-                  // SizedBox(
-                  //   height: 5,
-                  // ),
-                  FutureBuilder<ProductListResponseModel?>(
-                    future: getInfoFromDB(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        ProductListResponseModel? m=    snapshot.data;
-                        print("data is $m");
-                        return getListDesign();
-                      } else
-                        return errorCase(snapshot);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+            //load more button
+            // if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
+          ],
+        ),
       ),
+      floatingActionButton: SizedBox(
+        height: 45,
+        width: 180,
+        child: FloatingActionButton(
+          child: Text(LocaleKeys.load_more.tr(), style: TextStyle(
+            fontWeight: FontWeight.w600
+          ),),
+          onPressed: () {
+            loadMoreInfo();
+          },
+          backgroundColor: CustomColors().grayColor,
+          foregroundColor: CustomColors().darkBlueColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40)
+          ),
+          elevation: 0.0,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      appBar: appBarWithActions(context,
+        LocaleKeys.all_category.tr(), () {Navigator.pop(context);}),
+        // appBar: AppBar(
+        //     centerTitle: true,
+        //     // collapsedHeight: 200,
+        //     title: Text(
+        //       LocaleKeys.all_category.tr(),
+        //       style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+        //     ),
+        //     flexibleSpace: Stack(
+        //       children: [
+        //         Positioned.fill(
+        //           left: 180,
+        //           child: Image.asset('images/grapevector.png'),
+        //         ),
+        //       ],
+        //     ),
+        //     // expandedHeight: 160,
+        //     elevation: 0.0,
+        //     backgroundColor: CustomColors().primaryGreenColor,
+        //     iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
+        //     leading: IconButton(
+        //       icon: Icon(Icons.arrow_back_ios),
+        //       color: CustomColors().primaryWhiteColor,
+        //       onPressed: () => Navigator.pop(context),
+        //     ),
+        //   ),
       // endDrawer: drawerDesign(context),
     );
   }
@@ -109,28 +128,20 @@ class _AllCategoryState extends State<AllCategory> {
 
   Widget getListDesign() {
 
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          child: ListView.builder(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              return ProductCard.productCardDesign(
-                context,
-                language,
-                list[index],
-              );
-            },
-            itemCount: list.length,
-          ),
-        ),
-        if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
-      ],
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        // physics: NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          return ProductCard.productCardDesign(
+            context,
+            language,
+            list[index],
+          );
+        },
+        itemCount: list.length,
+      ),
     );
   }
 
@@ -186,3 +197,66 @@ class _AllCategoryState extends State<AllCategory> {
 
   }
 }
+
+
+
+
+
+// Container(
+//               width: double.infinity,
+//               decoration: BoxDecoration(
+//                 color: CustomColors().primaryWhiteColor,
+//                 borderRadius: BorderRadius.only(
+//                   topLeft: Radius.circular(40),
+//                   topRight: Radius.circular(40),
+//                 ),
+//               ),
+//               child: Column(
+//                 children: [
+//                   SizedBox(
+//                     height: 18,
+//                   ),
+//                   SearchHelper().searchBar(context, srController, false),
+//                   // SizedBox(
+//                   //   height: 5,
+//                   // ),
+//                   FutureBuilder<ProductListResponseModel?>(
+//                     future: getInfoFromDB(),
+//                     builder: (context, snapshot) {
+//                       if (snapshot.hasData) {
+//                         ProductListResponseModel? m=    snapshot.data;
+//                         print("data is $m");
+//                         return getListDesign();
+//                       } else
+//                         return errorCase(snapshot);
+//                     },
+//                   ),
+//                 ],
+//               ),
+//             ),
+
+            //appbar
+
+            //             centerTitle: true,
+            // // collapsedHeight: 200,
+            // title: Text(
+            //   LocaleKeys.all_category.tr(),
+            //   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+            // ),
+            // flexibleSpace: Stack(
+            //   children: [
+            //     Positioned.fill(
+            //       left: 180,
+            //       child: Image.asset('images/grapevector.png'),
+            //     ),
+            //   ],
+            // ),
+            // expandedHeight: 160,
+            // elevation: 0.0,
+            // backgroundColor: CustomColors().primaryGreenColor,
+            // iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
+            // leading: IconButton(
+            //   icon: Icon(Icons.arrow_back_ios),
+            //   color: CustomColors().primaryWhiteColor,
+            //   onPressed: () => Navigator.pop(context),
+            // ),

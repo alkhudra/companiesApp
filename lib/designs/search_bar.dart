@@ -12,7 +12,6 @@ class SearchHelper{
       width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // SizedBox(width: 10,),
           // Container(
@@ -37,7 +36,6 @@ class SearchHelper{
 
             ),
           ),
-          // SizedBox(width: 5,),
           GestureDetector(
             child: Container(
               padding: EdgeInsets.all(8.0),
