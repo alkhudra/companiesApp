@@ -134,6 +134,7 @@ class _SearchListPageState extends State<SearchListPage> {
                         context,
                         language,
                         list[index],
+                          (){}
                       );
                     },
                     itemCount:list.length,

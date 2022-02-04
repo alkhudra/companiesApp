@@ -138,6 +138,7 @@ class _AllCategoryState extends State<AllCategory> {
             context,
             language,
             list[index],
+            () {}
           );
         },
         itemCount: list.length,
