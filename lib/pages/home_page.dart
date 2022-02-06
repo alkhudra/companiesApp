@@ -194,6 +194,7 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: scWidth * 0.27,
                             height: scHeight * 0.11,
+                            margin: EdgeInsets.symmetric(horizontal: 3),
                             child: IconButton(
                               icon: categoryList![index].image != null
                                   ? Image(
@@ -227,6 +228,7 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                   ),
                 ),
+                SizedBox(width: 10,)
               ],
             ),
           ),
@@ -236,8 +238,7 @@ class _HomePageState extends State<HomePage> {
           //Newest deals title and button
 
           //Temp gesture detect, remove when done
-          GestureDetector(
-              child: Container(
+              Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: Text(
                   LocaleKeys.newest_deals.tr(),
@@ -249,10 +250,6 @@ class _HomePageState extends State<HomePage> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CartPage()));
-              }),
           SizedBox(
             height: 10,
           ),

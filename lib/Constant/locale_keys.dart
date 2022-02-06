@@ -157,4 +157,5 @@ abstract class LocaleKeys {
   static const vat ="VAT";
   static const total ="Total";
   static const checkout ="Checkout";
+  static const order_details ="order_details";
 }

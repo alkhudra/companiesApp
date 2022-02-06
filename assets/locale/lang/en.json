@@ -146,5 +146,6 @@
   "Subtotal": "Subtotal",
   "VAT": "VAT",
   "Total": "Total",
-  "Checkout": "CHECKOUT"
+  "Checkout": "CHECKOUT",
+  "order_details": "Order Details"
 }

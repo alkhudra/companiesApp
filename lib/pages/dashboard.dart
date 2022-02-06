@@ -61,6 +61,7 @@ class _DashboardPageState extends State<DashboardPage> {
             currentTab = 2;
           });
         },
+        elevation: 0.0,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
