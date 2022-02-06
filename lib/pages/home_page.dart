@@ -28,7 +28,6 @@ import 'package:khudrah_companies/network/models/product/category_model.dart';
 import 'cart_page.dart';
 import 'categories/category_page.dart';
 
-
 class HomePage extends StatefulWidget {
   //final bool isHasBranch;
   const HomePage({Key? key /*, required this.isHasBranch*/}) : super(key: key);
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
- //   final provider=Provider.of<HomePageProvider>(context);
+    //   final provider=Provider.of<HomePageProvider>(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
         // key: _scaffoldState,
         body: FutureBuilder<HomeSuccessResponseModel?>(
-          future: getHomePage(),//provider.fetchData(),
+          future: getHomePage(), //provider.fetchData(),
           builder: (context, snapshot) {
             print(snapshot.toString());
             if (snapshot.hasData) {
@@ -195,9 +194,13 @@ class _HomePageState extends State<HomePage> {
                             width: scWidth * 0.27,
                             height: scHeight * 0.11,
                             child: IconButton(
-                              icon: Image(
-                                  image: NetworkImage(ApiConst.images_url +
-                                      categoryList![index].image!)),
+                              icon: categoryList![index].image != null
+                                  ? Image(
+                                      image: NetworkImage(ApiConst.images_url +
+                                          categoryList[index].image!))
+                                  : Image(
+                                      image:
+                                          AssetImage('images/green_fruit.png')),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -208,17 +211,6 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                             ),
-                            // child: Image.network(ApiConst.images_url + categoryList![index].image!)
-                            /*   icon: Image(
-                                  image: AssetImage(
-
-                                  )),
-                              onPressed: () {
-
-                              },
-                              iconSize: 90,
-                            ),
-                          ),*/
                           ),
                           Text(
                             setCategoryName(categoryList[index])!,
@@ -244,23 +236,22 @@ class _HomePageState extends State<HomePage> {
 
           //Temp gesture detect, remove when done
           GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Text(
-                LocaleKeys.newest_deals.tr(),
-                style: TextStyle(
-                  color: CustomColors().darkBlueColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
+              child: Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  LocaleKeys.newest_deals.tr(),
+                  style: TextStyle(
+                    color: CustomColors().darkBlueColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => CartPage()));
-            }
-          ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CartPage()));
+              }),
           SizedBox(
             height: 10,
           ),
@@ -271,17 +262,14 @@ class _HomePageState extends State<HomePage> {
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ProductCard.productCardDesign(
-                  context,
-                  language,
-                  home.productsList![index],
-                        () {
-                         bool? isFavourite=  home.productsList![index].isFavourite;
-                   ProductCard.addToFav(context, isFavourite, home.productsList![index].productId!);
-                 setState(() {
-                   isFavourite = !isFavourite!;
-                 });
-                }
-                );
+                    context, language, home.productsList![index], () {
+                  bool? isFavourite = home.productsList![index].isFavourite;
+                  ProductCard.addToFav(context, isFavourite,
+                      home.productsList![index].productId!);
+                  setState(() {
+                    isFavourite = !isFavourite!;
+                  });
+                });
               },
               itemCount: home.productsList!.length,
             ),

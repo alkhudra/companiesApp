@@ -54,7 +54,7 @@ class _ContactUsState extends State<ContactUs> {
 
   Widget getContactUsDesign(ContactUsResponseModel? model) {
     String phone = model!.phoneNumber!;
-    //   String twitter= model.!;
+       String twitter= model.twitter!;
     String email = model.email!;
     num lat = model.latitude!;
     num lng = model.longitude!;
@@ -262,7 +262,7 @@ class _ContactUsState extends State<ContactUs> {
                 title: GestureDetector(
                   onTap: () {
                     print('twitter');
-                    openTwitterApp('imanalMohd000');
+                    openTwitterApp(twitter);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
