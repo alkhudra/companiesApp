@@ -120,9 +120,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
           //Categories items
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -184,6 +184,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 Container(
+                  margin: EdgeInsets.only(top: 25),
                   width: scWidth * 0.8,
                   height: scHeight * 0.16,
                   child: ListView.builder(
@@ -230,7 +231,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 5,
           ),
           //Newest deals title and button
 

@@ -11,6 +11,9 @@ AppBar appBarDesign(context, title) {
         Navigator.pop(context);
       },
     ),
+    actions: [
+      Icon(Icons.menu, color: Colors.transparent, size: 38,)
+    ],
     backgroundColor: CustomColors().primaryGreenColor,
     centerTitle: true,
     title: Stack(
@@ -48,6 +51,9 @@ AppBar appBarWithActions(context, title, Function() action) {
       child: Icon(Icons.arrow_back_ios),
       onTap: action,
     ),
+    actions: [
+      Icon(Icons.menu, color: Colors.transparent, size: 38,)
+    ],
     backgroundColor: CustomColors().primaryGreenColor,
     centerTitle: true,
     title: Stack(

@@ -23,13 +23,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
   late bool branchStatus;
   final PageStorageBucket bucket = PageStorageBucket();
-/*  final List<Widget> screens = [
+  final List<Widget> screens = [
     HomePage(),
     FavoritesPage(),
     CartPage(),
     MyOrdersPage(),
     NotificationsPage()
-  ];*/
+  ];
+
+    Widget currentScreen = HomePage();
 
   @override
   void initState() {
@@ -41,8 +43,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    Widget currentScreen = HomePage();
 
     return Scaffold(
       body: PageStorage(
