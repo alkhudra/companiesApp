@@ -23,7 +23,9 @@ class _CartPageState extends State<CartPage> {
   double price = 6.0;
   double subtotal = 28.9;
   double vat = 5.1;
-  double total = 54;
+  double total = 34;
+  double price_vat = 27.2;
+  double discount = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class _CartPageState extends State<CartPage> {
       //add body
       body: SlidingUpPanel(
         minHeight: 60,
-        maxHeight: 230,
+        maxHeight: 270,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
@@ -127,7 +129,56 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                   ),
-                  //add discount price
+                  //Total with VAT only
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Almarai',
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        children: <TextSpan> [
+                          TextSpan(text: 'Total with VAT' + ': ',
+                          style: TextStyle(
+                            color: CustomColors().darkBlueColor,
+                            fontFamily: 'Almarai',
+                          )),
+                          TextSpan(text: ' $price_vat SAR',
+                          style: TextStyle(
+                            color: CustomColors().primaryGreenColor,
+                          )),
+                        ]
+                      ),
+                    ),
+                  ),
+                  //Total with VAt and discount
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Almarai',
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        children: <TextSpan> [
+                          TextSpan(text: 'Discount Percentage' + ': ',
+                          style: TextStyle(
+                            color: CustomColors().darkBlueColor,
+                            fontFamily: 'Almarai',
+                          )),
+                          TextSpan(text: ' $discount %',
+                          style: TextStyle(
+                            color: CustomColors().primaryGreenColor,
+                          )),
+                        ]
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 10,),

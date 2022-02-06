@@ -31,6 +31,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   double total = 18;
   int counter = 0;
   bool isAddToFavBtnEnabled = true;
+  Color favIconColor = CustomColors().redColor;
 
 
   @override
@@ -92,16 +93,14 @@ class _ProductDetailsState extends State<ProductDetails> {
               InkWell(
                   onTap: () {
                     if (isAddToFavBtnEnabled) {
-
+                      // print(isFavourite);
                         addToFav(isFavourite, productId!);
 
                     }
                   },
-                  child:  Icon( isFavourite! == true
-                      ?
-                          Icons.favorite :Icons.favorite_outline ,
-                          color: CustomColors().redColor,
-                        )
+                  child: Icon(Icons.favorite, color: favIconColor,)
+                  // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor) 
+                  // : Icon(Icons.favorite, color: CustomColors().primaryWhiteColor,),
                      ),
               IconButton(
                 icon: Icon(
@@ -339,7 +338,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       isAddToFavBtnEnabled = true;
       setState(() {
         isFavourite = !isFavourite!;
+        isFavourite == true ? favIconColor = CustomColors().redColor : favIconColor = CustomColors().primaryWhiteColor;
       });
+      print(isFavourite);
       return model.message!;
     } else {
       Navigator.pop(context);
