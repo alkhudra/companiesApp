@@ -38,17 +38,8 @@ class _AllCategoryState extends State<AllCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // backgroundColor: CustomColors().primaryGreenColor,
       body: Container(
         width: double.infinity,
-        // height: MediaQuery.of(context).size.height,
-        // decoration: BoxDecoration(
-        //   color: CustomColors().primaryWhiteColor,
-        //   borderRadius: BorderRadius.only(
-        //     topLeft: Radius.circular(40),
-        //     topRight: Radius.circular(40),
-        //   ),
-        // ),
         child: Column(
           children: [
             SizedBox(
@@ -69,11 +60,10 @@ class _AllCategoryState extends State<AllCategory> {
                   return errorCase(snapshot);
               },
             ),
-            //load more button
-            // if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
           ],
         ),
       ),
+      //load more button
       floatingActionButton: SizedBox(
         height: 45,
         width: 180,
@@ -95,31 +85,6 @@ class _AllCategoryState extends State<AllCategory> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: appBarWithActions(context,
         LocaleKeys.all_category.tr(), () {Navigator.pop(context);}),
-        // appBar: AppBar(
-        //     centerTitle: true,
-        //     // collapsedHeight: 200,
-        //     title: Text(
-        //       LocaleKeys.all_category.tr(),
-        //       style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
-        //     ),
-        //     flexibleSpace: Stack(
-        //       children: [
-        //         Positioned.fill(
-        //           left: 180,
-        //           child: Image.asset('images/grapevector.png'),
-        //         ),
-        //       ],
-        //     ),
-        //     // expandedHeight: 160,
-        //     elevation: 0.0,
-        //     backgroundColor: CustomColors().primaryGreenColor,
-        //     iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
-        //     leading: IconButton(
-        //       icon: Icon(Icons.arrow_back_ios),
-        //       color: CustomColors().primaryWhiteColor,
-        //       onPressed: () => Navigator.pop(context),
-        //     ),
-        //   ),
       // endDrawer: drawerDesign(context),
     );
   }

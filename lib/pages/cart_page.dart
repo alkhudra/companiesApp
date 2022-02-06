@@ -127,6 +127,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                   ),
+                  //add discount price
                 ],
               ),
               SizedBox(height: 10,),
