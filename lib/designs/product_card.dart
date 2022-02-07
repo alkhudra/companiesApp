@@ -12,6 +12,7 @@ import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class ProductCard {
   static int counter = 0;
@@ -29,7 +30,8 @@ class ProductCard {
     String? productId = productModel.productId;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
-    String imageUrl = ApiConst.images_url + productModel.image!;
+    String imageUrl = productModel.image != null ?ApiConst.images_url + productModel.image! :
+    'images/green_fruit.png';
     return GestureDetector(
         child: ListTile(
           title: Column(
@@ -247,7 +249,7 @@ class ProductCard {
     } else {
       Navigator.pop(context);
       isAddToFavBtnEnabled = true;
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
     }
   }
 }

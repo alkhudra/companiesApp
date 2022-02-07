@@ -21,7 +21,8 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'add_brunches_page.dart';
-import 'branch_item.dart';
+import 'branch_item.dart';import 'package:khudrah_companies/network/helper/exception_helper.dart';
+
 
 class BranchList extends StatefulWidget {
 //  final List<BranchModel> list;
@@ -73,7 +74,7 @@ class _BranchListState extends State<BranchList> {
       return responseModel;
     } else {
 
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
     }
   }
 

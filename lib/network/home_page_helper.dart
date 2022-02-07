@@ -2,6 +2,7 @@ import 'package:khudrah_companies/network/repository/home_repository.dart';
 
 import 'API/api_response.dart';
 import 'API/api_response_type.dart';
+import 'helper/exception_helper.dart';
 import 'helper/network_helper.dart';
 import 'models/home/home_success_response_model.dart';
 
@@ -21,7 +22,7 @@ class HomePageProvider {
       response = HomeSuccessResponseModel.fromJson(apiResponse.result);
     } else {
       response = apiResponse.message;
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
     }
   }
 }

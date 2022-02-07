@@ -18,6 +18,7 @@ import 'package:khudrah_companies/network/models/product/get_product_by_id_respo
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class AllCategory extends StatefulWidget {
   const AllCategory({Key? key}) : super(key: key);
@@ -140,7 +141,7 @@ class _AllCategoryState extends State<AllCategory> {
     print('list is $list');
       return responseModel;
     } else
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
   }
 
 //---------------------

@@ -144,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
               controller: vatNoController,
               kbType: TextInputType.number,
               obscTxt: false,
-                 lbTxt: LocaleKeys.commercial_no.tr(),
+                 lbTxt: LocaleKeys.vat_no.tr(),
             ),
             TextFieldDesign.textFieldStyle(
               context: context,

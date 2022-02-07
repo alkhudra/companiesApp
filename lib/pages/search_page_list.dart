@@ -18,6 +18,7 @@ import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class SearchListPage extends StatefulWidget {
   final String keyWords;
@@ -183,7 +184,7 @@ class _SearchListPageState extends State<SearchListPage> {
       print('list is $list');
       return responseModel;
     } else
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
   }
   //---------------------
 

@@ -11,9 +11,11 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
+import 'package:khudrah_companies/network/repository/cart_repository.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
@@ -32,6 +34,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   int counter = 0;
   bool isAddToFavBtnEnabled = true;
   Color favIconColor = CustomColors().redColor;
+  bool isAddToCartBtnEnabled = true;
 
 
   @override
@@ -301,7 +304,11 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               Container(
                 child: greenBtn(LocaleKeys.add_cart.tr(),
-                    EdgeInsets.symmetric(horizontal: 5), () {}),
+                    EdgeInsets.symmetric(horizontal: 5), () {
+                  if(isAddToCartBtnEnabled)
+                    addToCart(productId! , 1);
+
+                    }),
               )
             ],
           ),
@@ -310,7 +317,13 @@ class _ProductDetailsState extends State<ProductDetails> {
       endDrawer: drawerDesign(context),
     );
   }
+  void addToCart(String productId,int qty) async {
+    isAddToCartBtnEnabled = false;
+    String message = await cartDBProcess(productId,qty);
+    showSuccessMessage(context, message);
+  }
 
+  //---------------------
   void addToFav(bool? isFavourite, String productId) async {
     isAddToFavBtnEnabled = false;
     String message = await dBProcess(isFavourite, productId);
@@ -345,7 +358,31 @@ class _ProductDetailsState extends State<ProductDetails> {
     } else {
       Navigator.pop(context);
       isAddToFavBtnEnabled = true;
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
+    }
+  }
+  //---------------------
+
+  cartDBProcess(String productId, int qty) async{
+    showLoaderDialog(context);
+    //----------start api ----------------
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    CartRepository cartRepository = CartRepository(headerMap);
+    ApiResponse apiResponse = await cartRepository.addProductToCart(productId ,qty);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      MessageResponseModel model =
+      MessageResponseModel.fromJson(apiResponse.result);
+      Navigator.pop(context);
+      isAddToCartBtnEnabled = true;
+
+      return model.message!;
+    } else {
+      Navigator.pop(context);
+      isAddToCartBtnEnabled = true;
+      throw ExceptionHelper(apiResponse.message);
     }
   }
 }

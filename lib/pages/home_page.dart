@@ -14,6 +14,7 @@ import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/home_page_helper.dart';
 import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
@@ -74,14 +75,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget errorCase(AsyncSnapshot<HomeSuccessResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
 
-      // By default, show a loading spinner.
-      return Center(child: CircularProgressIndicator());
-  }
 
   //---------------------
   Widget homePageDesign(HomeSuccessResponseModel? home) {
@@ -300,7 +294,7 @@ class _HomePageState extends State<HomePage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code)
       return HomeSuccessResponseModel.fromJson(apiResponse.result);
     else
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
   }
   //---------------------
 

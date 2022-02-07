@@ -18,6 +18,8 @@ import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/network/models/product/category_model.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
+
 class CategoryPage extends StatefulWidget {
   final CategoryItem categoriesItem;
   const CategoryPage({Key? key, required this.categoriesItem})
@@ -167,7 +169,7 @@ class _CategoryPageState extends State<CategoryPage> {
       print('list is $list');
       return responseModel;
     } else
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
   }
 //--------
 

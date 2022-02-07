@@ -13,6 +13,7 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/get_product_by_id_response_model.dart';
@@ -107,7 +108,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       print('list is $list');
       return responseModel;
     } else
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
   }
 
   //-----------------------
@@ -151,7 +152,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
     String? productId = productModel.productId;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
-    String imageUrl = ApiConst.images_url + productModel.image!;
+    String imageUrl = productModel.image != null
+        ? ApiConst.images_url + productModel.image!
+        : 'images/green_fruit.png';
     return GridTile(
       child: Container(
         decoration: BoxDecoration(
@@ -356,7 +359,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     } else {
       Navigator.pop(context);
       isTrashBtnEnabled = true;
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
     }
   }
 }

@@ -8,6 +8,7 @@ import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/helpers/contact_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/contatct_us_response_model.dart';
 import 'package:khudrah_companies/network/repository/home_repository.dart';
@@ -383,6 +384,6 @@ class _ContactUsState extends State<ContactUs> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code)
       return ContactUsResponseModel.fromJson(apiResponse.result);
     else
-      throw Exception(apiResponse.message);
+      throw ExceptionHelper(apiResponse.message);
   }
 }
