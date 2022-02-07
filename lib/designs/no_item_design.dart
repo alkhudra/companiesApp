@@ -12,10 +12,12 @@ Widget noItemDesign(String txt, String imageUrl) {
       ),
       // SizedBox(height: 10,),
       Container(
+        alignment: Alignment.center,
         margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: Center(
             child: Text(
           txt,
+          textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 20,
               height: 1.5,

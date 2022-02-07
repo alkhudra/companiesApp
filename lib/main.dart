@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
@@ -21,6 +22,11 @@ Future<void> main() async {
         fallbackLocale: Locale('en'),
         child: MyApp()),
   );
+}
+
+Future init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 }
 
 class MyApp extends StatefulWidget {

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1002968638652",
+    "project_id": "alkhadrah-united",
+    "storage_bucket": "alkhadrah-united.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002968638652:android:7fa9a33e0156e079d41cb9",
+        "android_client_info": {
+          "package_name": "com.khudrah.khudrah_companies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002968638652-3eqpi2tdgroderf1j84vel4egc6dn7kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfaNg43RxXUpnGmgHM9BHM65qW2HZHLfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002968638652-3eqpi2tdgroderf1j84vel4egc6dn7kd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1002968638652-fbf1pd0t8noj3rkutt5m1e1n9e4tloqp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.khudrah.khudrahCompanies"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

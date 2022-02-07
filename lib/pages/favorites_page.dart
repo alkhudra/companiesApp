@@ -315,7 +315,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       Container(
                         // padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // errorCase(snapshot);
+                          },
                           icon: Icon(
                             FontAwesomeIcons.cartPlus,
                             color: CustomColors().primaryGreenColor,
