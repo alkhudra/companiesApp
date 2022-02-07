@@ -208,11 +208,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
               ),
               //name and other details
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
+                    width: scWidth*0.18,
+                    height: scHeight*0.1,
                     //todo:image edit
-                    child: Image.asset('images/green_fruit.png'),
+                    child: Image.network(imageUrl),
                   ),
                   //name
                   Container(
