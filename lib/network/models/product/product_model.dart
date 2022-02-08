@@ -69,7 +69,7 @@ class ProductsModel {
   bool? _isFavourite;
   String? _categoryName;
   String? _arCategoryName;
-
+  static int _userSelectedQty = 1;
   bool? get isFavourite => _isFavourite;
 
   String? get productId => _productId;
@@ -87,6 +87,7 @@ class ProductsModel {
   String? get categoryId => _categoryId;
   String? get arCategoryName => _arCategoryName;
   String? get categoryName => _categoryName;
+  int get userSelectedQty => _userSelectedQty;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -107,6 +108,16 @@ class ProductsModel {
     map['isFavourite'] = _isFavourite;
     map['categoryId'] = _categoryId;
     return map;
+  }
+
+  static void increaseQty() {
+    _userSelectedQty++;
+    print(_userSelectedQty);
+  }
+
+ static void decreaseQty() {
+    _userSelectedQty > 1 ? _userSelectedQty -- : _userSelectedQty = 1;
+    print(_userSelectedQty);
   }
 
   @override

@@ -119,7 +119,14 @@ class _CategoryPageState extends State<CategoryPage> {
           return ProductCard.productCardDesign(
             context,
             language ,
-            list[index],(){}
+            list[index],() {
+            bool? isFavourite = list[index].isFavourite;
+            ProductCard.addToFav(context, isFavourite,
+                list[index].productId!);
+            setState(() {
+              isFavourite = !isFavourite!;
+            });
+          }
           );
         },
         itemCount: list.length,

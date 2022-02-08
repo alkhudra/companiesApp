@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
+import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -19,34 +20,33 @@ import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
-  final String language ;
-  const ProductDetails({Key? key, required this.productModel , required this.language})
+  final String language;
+  const ProductDetails(
+      {Key? key, required this.productModel, required this.language})
       : super(key: key);
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
+
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-
   late Color likeColor;
-  double total = 18;
-  int counter = 0;
+  int counter = 1;
   bool isAddToFavBtnEnabled = true;
-  Color favIconColor = CustomColors().redColor;
   bool isAddToCartBtnEnabled = true;
-
+ static double total = 0;
 
   @override
   Widget build(BuildContext context) {
-    String language =widget.language;
+    String language = widget.language;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     double? price = (widget.productModel.hasSpecialPrice == true
-        ? widget.productModel.specialPrice
-        : widget.productModel.originalPrice)
+            ? widget.productModel.specialPrice
+            : widget.productModel.originalPrice)
         ?.toDouble();
     String? description = language == 'ar'
         ? widget.productModel.arDescription
@@ -55,11 +55,17 @@ class _ProductDetailsState extends State<ProductDetails> {
     String? category = language == 'ar'
         ? widget.productModel.arCategoryName
         : widget.productModel.categoryName;
+
+    String? name = language == 'ar'
+        ? widget.productModel.arName
+        : widget.productModel.name;
+    String imageUrl = ApiConst.images_url + widget.productModel.image!;
     bool? isFavourite = widget.productModel.isFavourite;
 
-    String? name = language == 'ar' ? widget.productModel.arName :widget. productModel.name;
-    String imageUrl = ApiConst.images_url + widget.productModel.image!;
-
+    Color favIconColor = isFavourite == true
+        ? CustomColors().redColor
+        : CustomColors().primaryWhiteColor;
+    late bool favValue = isFavourite!;
     //----------------------------
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -96,24 +102,33 @@ class _ProductDetailsState extends State<ProductDetails> {
               InkWell(
                   onTap: () {
                     if (isAddToFavBtnEnabled) {
-                      // print(isFavourite);
-                        addToFav(isFavourite, productId!);
-
+                      ProductCard.addToFav(context, favValue, productId!);
+                      setState(() {
+                        favValue = !favValue;
+                        favValue == true
+                            ? favIconColor = CustomColors().redColor
+                            : favIconColor = CustomColors().primaryWhiteColor;
+                      });
                     }
                   },
-                  child: Icon(Icons.favorite, color: favIconColor,)
-                  // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor) 
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.favorite,
+                      color:favIconColor ,
+                    ),
+                  )
+                  // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor)
                   // : Icon(Icons.favorite, color: CustomColors().primaryWhiteColor,),
-                     ),
-              IconButton(
+                  ),
+              /*       IconButton(
                 icon: Icon(
                   Icons.share_outlined,
                   color: CustomColors().primaryWhiteColor,
                 ),
                 onPressed: () {
-                  //TODO: implement share options
                 },
-              ),
+              ),*/
             ],
           ),
           SliverToBoxAdapter(
@@ -176,7 +191,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
-                          '$price SAR / Kg',
+                          ( "$price "+ LocaleKeys.sar_per_kg.tr()),
                           style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontWeight: FontWeight.w600,
@@ -198,7 +213,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                counter >= 0 ? counter += counter : counter;
+                                setState(() {
+                                  counter > 1 ? counter-- : counter = 1;
+                                  total = total - price!;
+                                  print('counter $counter');
+                                });
                               },
                               child: Container(
                                 padding: EdgeInsets.all(4),
@@ -228,7 +247,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                counter >= 0 ? counter -= counter : counter;
+                                setState(() {
+                                  counter++;
+                                  total = price! * counter;
+                                  print('counter $counter , total $total');
+                                });
                               },
                               child: Container(
                                 padding: EdgeInsets.all(4),
@@ -294,7 +317,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             children: [
               Container(
                 child: Text(
-                  '$total SAR',
+                 total > 0 ?( "$total "+ LocaleKeys.sar.tr()): ( "$price "+ LocaleKeys.sar.tr()),
                   style: TextStyle(
                     color: CustomColors().primaryGreenColor,
                     fontWeight: FontWeight.w600,
@@ -305,10 +328,8 @@ class _ProductDetailsState extends State<ProductDetails> {
               Container(
                 child: greenBtn(LocaleKeys.add_cart.tr(),
                     EdgeInsets.symmetric(horizontal: 5), () {
-                  if(isAddToCartBtnEnabled)
-                    addToCart(productId! , 1);
-
-                    }),
+                  if (isAddToCartBtnEnabled) addToCart(productId!, counter);
+                }),
               )
             ],
           ),
@@ -317,67 +338,33 @@ class _ProductDetailsState extends State<ProductDetails> {
       endDrawer: drawerDesign(context),
     );
   }
-  void addToCart(String productId,int qty) async {
+
+  void addToCart(String productId, int qty) async {
     isAddToCartBtnEnabled = false;
-    String message = await cartDBProcess(productId,qty);
+    String message = await cartDBProcess(productId, qty);
     showSuccessMessage(context, message);
+    total = 0;
+    Navigator.pop(context);
+
   }
 
   //---------------------
-  void addToFav(bool? isFavourite, String productId) async {
-    isAddToFavBtnEnabled = false;
-    String message = await dBProcess(isFavourite, productId);
-    showSuccessMessage(context, message);
-  }
 
-  //---------------------
-  Future<String> dBProcess(bool? isFavourite, String productId) async {
-    showLoaderDialog(context);
-    //----------start api ----------------
-
-    Map<String, dynamic> headerMap = await getHeaderMap();
-
-    ProductRepository productRepository = ProductRepository(headerMap);
-    ApiResponse apiResponse;
-    if (isFavourite == false) {
-      apiResponse = await productRepository.addProductToFav(productId);
-    } else {
-      apiResponse = await productRepository.deleteProductFromFav(productId);
-    }
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      MessageResponseModel model =
-          MessageResponseModel.fromJson(apiResponse.result);
-      Navigator.pop(context);
-      isAddToFavBtnEnabled = true;
-      setState(() {
-        isFavourite = !isFavourite!;
-        isFavourite == true ? favIconColor = CustomColors().redColor : favIconColor = CustomColors().primaryWhiteColor;
-      });
-      print(isFavourite);
-      return model.message!;
-    } else {
-      Navigator.pop(context);
-      isAddToFavBtnEnabled = true;
-      throw ExceptionHelper(apiResponse.message);
-    }
-  }
-  //---------------------
-
-  cartDBProcess(String productId, int qty) async{
+  cartDBProcess(String productId, int qty) async {
     showLoaderDialog(context);
     //----------start api ----------------
 
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     CartRepository cartRepository = CartRepository(headerMap);
-    ApiResponse apiResponse = await cartRepository.addProductToCart(productId ,qty);
+    ApiResponse apiResponse =
+        await cartRepository.addProductToCart(productId, qty);
 
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       MessageResponseModel model =
-      MessageResponseModel.fromJson(apiResponse.result);
+          MessageResponseModel.fromJson(apiResponse.result);
       Navigator.pop(context);
       isAddToCartBtnEnabled = true;
-
       return model.message!;
     } else {
       Navigator.pop(context);

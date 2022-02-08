@@ -59,8 +59,6 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   void initState() {
     super.initState();
-    ProductCard.counter = ProductCard.counter;
-
     setValues();
   }
 
@@ -135,7 +133,14 @@ class _SearchListPageState extends State<SearchListPage> {
                         context,
                         language,
                         list[index],
-                          (){}
+                              () {
+                            bool? isFavourite = list[index].isFavourite;
+                            ProductCard.addToFav(context, isFavourite,
+                                list[index].productId!);
+                            setState(() {
+                              isFavourite = !isFavourite!;
+                            });
+                          }
                       );
                     },
                     itemCount:list.length,

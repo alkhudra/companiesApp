@@ -133,7 +133,7 @@
   "Vegetables": "خضروات",
   "ADD TO CART": "إضافة إلى السلة",
   "Description": "وصف المنتج",
-  "SAR / Kg": "ريال /كغ",
+  "SAR / Kg": "ريال/ كغ",
   "SAR": "ريال",
   "ADD" : "إضافة",
   "Your Order is On The Way!" : "!طلبك في الطريق إليك",
@@ -149,5 +149,7 @@
   "Total": "المجموع الكلي",
   "Checkout": "متابعة الشراء",
   "order_details": "تفاصيل الطلب",
-  "no_items_in_cart": "لا يوجد لديك منتجات في السلة "
+  "no_items_in_cart": "لا يوجد لديك منتجات في السلة ",
+  "discount":"الخصم",
+  "discount_percentage": "نسبة الخصم"
 }
