@@ -12,9 +12,9 @@ class BranchListResponseModel {
       _branches; //BranchListResponseModel(this._branches, this.message);
 
   BranchListResponseModel.fromJson(dynamic json) {
-  //  message = json['message'];
+    message = json['message'];
 
-    if (json != null) {
+    if (json != null && json['message'] == null)  {
       _branches = [];
       json.forEach((v) {
         _branches.add(BranchModel.fromJson(v));

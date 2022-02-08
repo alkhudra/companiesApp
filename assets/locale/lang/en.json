@@ -74,6 +74,8 @@
   "add_branch_now": "Add Branch Now",
   "later": "Later",
   "add_new_branch": "Add New Branch",
+  "no_branches":"There is no added branches ",
+
   "edit": "Edit",
   "code_not_match": "Wrong code, please check your email or click resend code to get a new code ",
   "buildingno_required": "Please Enter the branch Building No",
@@ -147,5 +149,7 @@
   "VAT": "VAT",
   "Total": "Total",
   "Checkout": "CHECKOUT",
-  "order_details": "Order Details"
+  "order_details": "Order Details",
+  "no_items_in_cart": "There is no Items in your cart"
+
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
@@ -98,16 +99,16 @@ class _BranchListState extends State<BranchList> {
 
     return Column(children: [
       Expanded(
-        child: ListView.builder(
+        child:snapshot!.branches.length > 0 ? ListView.builder(
           itemBuilder: (context, index) {
             //  print(snapshot?[index].toString());
             return BranchItem(
-              list: snapshot!.branches,
+              list: snapshot.branches,
               index: index,
             );
           },
-          itemCount: snapshot!.branches.length,
-        ),
+          itemCount: snapshot.branches.length,
+        ): noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
       ),
       SizedBox(
         height: 20,
