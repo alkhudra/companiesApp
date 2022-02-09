@@ -89,6 +89,12 @@ abstract class RestClient {
   @POST(ApiConst.add_product_to_cart_url)
   Future<dynamic> addProductToCart(@Body() Map<String, dynamic> hashMap);
 
+  @POST(ApiConst.add_product_qty_to_cart_url)
+  Future<dynamic> addProductQtyToCart(@Body() Map<String, dynamic> hashMap);
+
+  @POST(ApiConst.delete_product_qty_from_cart_url)
+  Future<dynamic> deleteProductQtyFromCart(@Body() Map<String, dynamic> hashMap);
+
   @POST(ApiConst.delete_product_from_cart_url)
   Future<dynamic> deleteProductFromCart(@Path()String productId);
 

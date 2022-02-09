@@ -40,7 +40,11 @@ abstract class ApiConst {
 //---------------cart ----------------
   static const String get_cart_products_url = "/Cart/getCartItems";
   static const String add_product_to_cart_url =
-      "/Cart/upsertCart";
+      "/Cart/addToCart";
+  static const String add_product_qty_to_cart_url =
+      "/Cart/AddQuantityFromProduct";
+  static const String delete_product_qty_from_cart_url =
+      "/Cart/deleteQuantityFromProduct";
   static const String delete_product_from_cart_url =
       "/Cart/deleteFromCart/{productId}";
 

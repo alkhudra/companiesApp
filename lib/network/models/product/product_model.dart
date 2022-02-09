@@ -42,7 +42,7 @@ class ProductsModel {
     _hasSpecialPrice = json['hasSpecialPrice'];
     _originalPrice = json['originalPrice'];
     _specialPrice = json['specialPrice'];
-    _quantity = json['quantity'];
+    _quantity = json['stockQuantity'];
     _description = json['description'];
     _arDescription = json['arDescription'];
     _isAvailabe = json['isAvailabe'];
@@ -99,7 +99,7 @@ class ProductsModel {
     map['hasSpecialPrice'] = _hasSpecialPrice;
     map['originalPrice'] = _originalPrice;
     map['specialPrice'] = _specialPrice;
-    map['quantity'] = _quantity;
+    map['stockQuantity'] = _quantity;
     map['description'] = _description;
     map['arDescription'] = _arDescription;
     map['isAvailabe'] = _isAvailabe;
