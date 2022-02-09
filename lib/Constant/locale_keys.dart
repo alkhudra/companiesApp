@@ -153,11 +153,12 @@ abstract class LocaleKeys {
   static const no_fav_product = "no_fav_product";
   static const no_items_category = "no_items_category";
   static const delete_from_cart = "Delete";
-  static const subtotal = "Subtotal";
-  static const vat = "VAT";
-  static const total = "Total";
-  static const checkout = "Checkout";
-  static const order_details = "order_details";
+  static const subtotal ="Subtotal";
+  static const vat ="VAT";
+  static const total ="Total";
+  static const checkout ="Checkout";
+  static const order_details ="order_details";
+  static const no_favorites ="No favorite products added yet";
   static const no_branches = "no_branches";
   static const no_items_in_cart = "no_items_in_cart";
   static const discount = "discount";
