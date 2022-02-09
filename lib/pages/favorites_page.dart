@@ -62,7 +62,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
             print(snapshot.data);
             //     list.addAll(snapshot.data!.products);
 
-            return listDesign(snapshot.data);
+            return errorCase(snapshot);
+            // return listDesign(snapshot.data);
           } else
             return errorCase(snapshot);
         },

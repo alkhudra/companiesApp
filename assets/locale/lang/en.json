@@ -147,5 +147,6 @@
   "VAT": "VAT",
   "Total": "Total",
   "Checkout": "CHECKOUT",
-  "order_details": "Order Details"
+  "order_details": "Order Details",
+  "No favorite products added yet": "No favorite products added yet"
 }

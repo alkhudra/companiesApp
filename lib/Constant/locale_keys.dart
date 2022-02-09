@@ -158,4 +158,5 @@ abstract class LocaleKeys {
   static const total ="Total";
   static const checkout ="Checkout";
   static const order_details ="order_details";
+  static const no_favorites ="No favorite products added yet";
 }

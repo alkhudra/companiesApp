@@ -147,5 +147,6 @@
   "VAT": "ضريبة القيمة المضافة",
   "Total": "المجموع الكلي",
   "Checkout": "متابعة الشراء",
-  "order_details": "تفاصيل الطلب"
+  "order_details": "تفاصيل الطلب",
+  "No favorite products added yet": "لم يتم إضافة أي منتج في المفضلة"
 }
