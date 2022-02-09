@@ -97,6 +97,90 @@ class CartRepository{
     });
   }
   //-----------------------------------
+  Future<ApiResponse> addProductQtyToCart(
+      String productId,
+      int userProductQuantity) async {
+    if (productId == null ||
+        userProductQuantity == null ){
+      return ApiResponse(ApiResponseType.BadRequest, null, '');
+    }
+
+    Map<String, dynamic> hashMap = {
+      "productId": productId,
+      "userProductQuantity": userProductQuantity,
+    };
+
+    return await _client
+        .addProductQtyToCart(hashMap)
+        .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
+        .catchError((e) {
+      int errorCode = 0;
+      String errorMessage = "";
+      switch (e.runtimeType) {
+        case DioError:
+          final res = (e as DioError).response;
+          if (res != null) {
+            errorCode = res.statusCode!;
+            errorMessage = res.statusMessage!;
+            if (errorCode == 500) {
+              errorMessage = res.data['Message'];
+            }else{
+              errorMessage = LocaleKeys.wrong_error.tr();
+
+            }
+          }
+          break;
+        default:
+      }
+      log("Got error : $errorCode -> $errorMessage");
+
+      var apiResponseType = ApiResponse.convert(errorCode);
+      return ApiResponse(apiResponseType, null, errorMessage);
+    });
+  }
+  //-----------------------------------
+  Future<ApiResponse> deleteProductQtyFromCart(
+      String productId,
+      int userProductQuantity) async {
+    if (productId == null ||
+        userProductQuantity == null ){
+      return ApiResponse(ApiResponseType.BadRequest, null, '');
+    }
+
+    Map<String, dynamic> hashMap = {
+      "productId": productId,
+      "userProductQuantity": userProductQuantity,
+    };
+
+    return await _client
+        .deleteProductQtyFromCart(hashMap)
+        .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
+        .catchError((e) {
+      int errorCode = 0;
+      String errorMessage = "";
+      switch (e.runtimeType) {
+        case DioError:
+          final res = (e as DioError).response;
+          if (res != null) {
+            errorCode = res.statusCode!;
+            errorMessage = res.statusMessage!;
+            if (errorCode == 500) {
+              errorMessage = res.data['Message'];
+            }else{
+              errorMessage = LocaleKeys.wrong_error.tr();
+
+            }
+          }
+          break;
+        default:
+      }
+      log("Got error : $errorCode -> $errorMessage");
+
+      var apiResponseType = ApiResponse.convert(errorCode);
+      return ApiResponse(apiResponseType, null, errorMessage);
+    });
+  }
+  //-----------------------------------
   Future<ApiResponse> deleteProductFromCart(
       String productId) async {
     if (productId == null ) {

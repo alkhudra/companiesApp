@@ -3,9 +3,9 @@ import 'package:khudrah_companies/network/models/cart/success_cart_response_mode
 class UserCart {
   UserCart({
     List<CartProductsList>? cartProductsList,
-    int? totalCartPrice,
+    num? totalCartPrice,
     bool? hasDiscount,
-    double? priceAfterDiscount,}){
+    num? priceAfterDiscount,}){
     _cartProductsList = cartProductsList;
     _totalCartPrice = totalCartPrice;
     _hasDiscount = hasDiscount;
@@ -24,14 +24,14 @@ class UserCart {
     _priceAfterDiscount = json['priceAfterDiscount'];
   }
   List<CartProductsList>? _cartProductsList;
-  int? _totalCartPrice;
+  num? _totalCartPrice;
   bool? _hasDiscount;
-  double? _priceAfterDiscount;
+  num? _priceAfterDiscount;
 
   List<CartProductsList>? get cartProductsList => _cartProductsList;
-  int? get totalCartPrice => _totalCartPrice;
+  num? get totalCartPrice => _totalCartPrice;
   bool? get hasDiscount => _hasDiscount;
-  double? get priceAfterDiscount => _priceAfterDiscount;
+  num? get priceAfterDiscount => _priceAfterDiscount;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

@@ -104,7 +104,14 @@ class _AllCategoryState extends State<AllCategory> {
             context,
             language,
             list[index],
-            () {}
+                  () {
+                bool? isFavourite = list[index].isFavourite;
+                ProductCard.addToFav(context, isFavourite,
+                    list[index].productId!);
+                setState(() {
+                  isFavourite = !isFavourite!;
+                });
+              }
           );
         },
         itemCount: list.length,

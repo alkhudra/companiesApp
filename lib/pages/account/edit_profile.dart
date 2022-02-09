@@ -18,6 +18,7 @@ import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/auth/success_edit_profile_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
@@ -266,10 +267,11 @@ class _EditProfileState extends State<EditProfile> {
       }
 
       //-------- success response ---------
-      MessageResponseModel model = MessageResponseModel.fromJson(result.result);
+      SuccessEditProfileResponseModel model = SuccessEditProfileResponseModel.fromJson(result.result);
       Navigator.pop(context);
       showSuccessMessage(context, model.message!);
 
+      PreferencesHelper.setUser(model.user!);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         //replace with dashboard
         return DashboardPage();

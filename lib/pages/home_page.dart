@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -146,26 +148,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    // Container(
-                    //   width: scWidth * 0.27,
-                    //   height: scHeight * 0.11,
-                    //   //TODO: Circle Avatar size
-                    //   child: GestureDetector(
-                    //     onTap: (){
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (context) => AllCategory()),
-                    //         );
-                    //     } ,
-                    //     // child: ClipOval(
-                    //     //   child: SizedBox.fromSize(
-                    //     //     size: Size.fromRadius(48),
-                    //     //     child: Image.asset('images/fruitsnveg.png', fit: BoxFit.contain,),
-                    //     //   ),
-                    //     // ),
-                    //   )
-                    // ),
+
                     SizedBox(
                       height: 5,
                     ),
@@ -253,6 +236,7 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
+
                 return ProductCard.productCardDesign(
                     context, language, home.productsList![index], () {
                   bool? isFavourite = home.productsList![index].isFavourite;
@@ -339,7 +323,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    ProductCard.counter = ProductCard.counter;
 
     setValues();
     //todo: show after calling api
@@ -351,4 +334,5 @@ class _HomePageState extends State<HomePage> {
   String? setCategoryName(CategoryItem categoryList) {
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
+
 }

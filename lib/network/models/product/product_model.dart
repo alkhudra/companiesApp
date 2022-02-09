@@ -42,7 +42,7 @@ class ProductsModel {
     _hasSpecialPrice = json['hasSpecialPrice'];
     _originalPrice = json['originalPrice'];
     _specialPrice = json['specialPrice'];
-    _quantity = json['quantity'];
+    _quantity = json['stockQuantity'];
     _description = json['description'];
     _arDescription = json['arDescription'];
     _isAvailabe = json['isAvailabe'];
@@ -69,7 +69,7 @@ class ProductsModel {
   bool? _isFavourite;
   String? _categoryName;
   String? _arCategoryName;
-
+  static int _userSelectedQty = 1;
   bool? get isFavourite => _isFavourite;
 
   String? get productId => _productId;
@@ -87,6 +87,7 @@ class ProductsModel {
   String? get categoryId => _categoryId;
   String? get arCategoryName => _arCategoryName;
   String? get categoryName => _categoryName;
+  int get userSelectedQty => _userSelectedQty;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -98,7 +99,7 @@ class ProductsModel {
     map['hasSpecialPrice'] = _hasSpecialPrice;
     map['originalPrice'] = _originalPrice;
     map['specialPrice'] = _specialPrice;
-    map['quantity'] = _quantity;
+    map['stockQuantity'] = _quantity;
     map['description'] = _description;
     map['arDescription'] = _arDescription;
     map['isAvailabe'] = _isAvailabe;
@@ -107,6 +108,16 @@ class ProductsModel {
     map['isFavourite'] = _isFavourite;
     map['categoryId'] = _categoryId;
     return map;
+  }
+
+  static void increaseQty() {
+    _userSelectedQty++;
+    print(_userSelectedQty);
+  }
+
+ static void decreaseQty() {
+    _userSelectedQty > 1 ? _userSelectedQty -- : _userSelectedQty = 1;
+    print(_userSelectedQty);
   }
 
   @override

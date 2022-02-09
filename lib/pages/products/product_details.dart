@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
+import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -19,8 +20,9 @@ import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
-  final String language ;
-  const ProductDetails({Key? key, required this.productModel , required this.language})
+  final String language;
+  const ProductDetails(
+      {Key? key, required this.productModel, required this.language})
       : super(key: key);
 
   @override
@@ -28,25 +30,26 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-
   late Color likeColor;
-  double total = 18;
   int counter = 0;
   bool isAddToFavBtnEnabled = true;
-  Color favIconColor = CustomColors().redColor;
   bool isAddToCartBtnEnabled = true;
+  bool isTrashBtnEnabled = true,
+      isIncreaseBtnEnabled = true,
+      isDecreaseBtnEnabled = true;
 
+  static double total = 0;
 
   @override
   Widget build(BuildContext context) {
-    String language =widget.language;
+    String language = widget.language;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     double? price = (widget.productModel.hasSpecialPrice == true
-        ? widget.productModel.specialPrice
-        : widget.productModel.originalPrice)
+            ? widget.productModel.specialPrice
+            : widget.productModel.originalPrice)
         ?.toDouble();
     String? description = language == 'ar'
         ? widget.productModel.arDescription
@@ -55,11 +58,17 @@ class _ProductDetailsState extends State<ProductDetails> {
     String? category = language == 'ar'
         ? widget.productModel.arCategoryName
         : widget.productModel.categoryName;
+
+    String? name = language == 'ar'
+        ? widget.productModel.arName
+        : widget.productModel.name;
+    String imageUrl = ApiConst.images_url + widget.productModel.image!;
     bool? isFavourite = widget.productModel.isFavourite;
 
-    String? name = language == 'ar' ? widget.productModel.arName :widget. productModel.name;
-    String imageUrl = ApiConst.images_url + widget.productModel.image!;
-
+    Color favIconColor = isFavourite == true
+        ? CustomColors().redColor
+        : CustomColors().primaryWhiteColor;
+    late bool favValue = isFavourite!;
     //----------------------------
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -96,24 +105,33 @@ class _ProductDetailsState extends State<ProductDetails> {
               InkWell(
                   onTap: () {
                     if (isAddToFavBtnEnabled) {
-                      // print(isFavourite);
-                        addToFav(isFavourite, productId!);
-
+                      ProductCard.addToFav(context, favValue, productId!);
+                      setState(() {
+                        favValue = !favValue;
+                        favValue == true
+                            ? favIconColor = CustomColors().redColor
+                            : favIconColor = CustomColors().primaryWhiteColor;
+                      });
                     }
                   },
-                  child: Icon(Icons.favorite, color: favIconColor,)
-                  // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor) 
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.favorite,
+                      color: favIconColor,
+                    ),
+                  )
+                  // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor)
                   // : Icon(Icons.favorite, color: CustomColors().primaryWhiteColor,),
-                     ),
-              IconButton(
+                  ),
+              /*       IconButton(
                 icon: Icon(
                   Icons.share_outlined,
                   color: CustomColors().primaryWhiteColor,
                 ),
                 onPressed: () {
-                  //TODO: implement share options
                 },
-              ),
+              ),*/
             ],
           ),
           SliverToBoxAdapter(
@@ -176,7 +194,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
-                          '$price SAR / Kg',
+                          ("$price " + LocaleKeys.sar_per_kg.tr()),
                           style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontWeight: FontWeight.w600,
@@ -184,66 +202,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        width: scWidth * 0.25,
-                        height: scHeight * 0.04,
-                        decoration: BoxDecoration(
-                          color: CustomColors().grayColor,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                counter >= 0 ? counter += counter : counter;
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                child: Text(
-                                  '-',
-                                  style: TextStyle(
-                                    color: CustomColors().darkBlueColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              child: Text(
-                                '$counter',
-                                style: TextStyle(
-                                  color: CustomColors().blackColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                counter >= 0 ? counter -= counter : counter;
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(4),
-                                child: Text(
-                                  '+',
-                                  style: TextStyle(
-                                    color: CustomColors().darkBlueColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      //  if (isProductAlreadyInCart) qtyContainer(),
                     ],
                   ),
                   SizedBox(
@@ -294,7 +253,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             children: [
               Container(
                 child: Text(
-                  '$total SAR',
+                  total > 0
+                      ? ("$total " + LocaleKeys.sar.tr())
+                      : ("$price " + LocaleKeys.sar.tr()),
                   style: TextStyle(
                     color: CustomColors().primaryGreenColor,
                     fontWeight: FontWeight.w600,
@@ -303,12 +264,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               Container(
-                child: greenBtn(LocaleKeys.add_cart.tr(),
-                    EdgeInsets.symmetric(horizontal: 5), () {
-                  if(isAddToCartBtnEnabled)
-                    addToCart(productId! , 1);
-
-                    }),
+                child: counter == 0
+                    ? greenBtn(LocaleKeys.add_cart.tr(),
+                        EdgeInsets.symmetric(horizontal: 5), () {
+                        if (isAddToCartBtnEnabled) {
+                          setState(() {
+                            counter++;
+                          });
+                          addToCart(productId!);
+                        }
+                      })
+                    : qtyContainer(productId!, price!),
               )
             ],
           ),
@@ -317,72 +283,255 @@ class _ProductDetailsState extends State<ProductDetails> {
       endDrawer: drawerDesign(context),
     );
   }
-  void addToCart(String productId,int qty) async {
+
+  //-----
+  qtyContainer(String productId, double price) {
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      width: scWidth * 0.25,
+      height: scHeight * 0.04,
+      decoration: BoxDecoration(
+        color: CustomColors().grayColor,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          counter == 1
+              ? GestureDetector(
+                  onTap: () {
+                    if (isTrashBtnEnabled) {
+                      setState(() {
+                        counter = 0;
+                      });
+                      deleteFromCart(productId);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    child: Icon(
+                      Icons.delete_outline_outlined,
+                      color: CustomColors().primaryGreenColor,
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (isDecreaseBtnEnabled) {
+                        setState(() {
+                          counter > 1 ? counter-- : counter = 1;
+                        });
+                        deleteQtyFromCart(productId);
+                      }
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    child: Text(
+                      '-',
+                      style: TextStyle(
+                        color: CustomColors().darkBlueColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+          SizedBox(
+            width: 10,
+          ),
+          Container(
+            child: Text(
+              '$counter',
+              style: TextStyle(
+                color: CustomColors().blackColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              if (isIncreaseBtnEnabled) {
+                setState(() {
+                  counter++;
+                });
+                addQtyToCart(productId);
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.all(4),
+              child: Text(
+                '+',
+                style: TextStyle(
+                  color: CustomColors().darkBlueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///-------------------------------
+  ///-------------------------------
+  ///---------DB process------------
+  ///-------------------------------
+  ///-------------------------------
+
+  //----------------
+  void deleteFromCart(String productId) async {
+    print('counter $counter');
+    isTrashBtnEnabled = false;
+    String message = await deleteFromCartDbProcess(productId);
+    showSuccessMessage(context, message);
+    //total = 0;
+
+    // Navigator.pop(context);
+  }
+  //----------------
+
+  void addToCart(String productId) async {
+    print('counter $counter');
     isAddToCartBtnEnabled = false;
-    String message = await cartDBProcess(productId,qty);
+    String message = await addToCartDBProcess(productId);
     showSuccessMessage(context, message);
+    total = 0;
+
+    // Navigator.pop(context);
   }
 
   //---------------------
-  void addToFav(bool? isFavourite, String productId) async {
-    isAddToFavBtnEnabled = false;
-    String message = await dBProcess(isFavourite, productId);
+  void addQtyToCart(String productId) async {
+    print('counter $counter , total $total');
+    isIncreaseBtnEnabled = false;
+    String message = await addQtyToCartDBProcess(productId);
     showSuccessMessage(context, message);
+    // total = total + ();
+
+    // total = price * counter;
+
+    //  Navigator.pop(context);
   }
 
   //---------------------
-  Future<String> dBProcess(bool? isFavourite, String productId) async {
-    showLoaderDialog(context);
-    //----------start api ----------------
+  void deleteQtyFromCart(String productId) async {
+    print('counter $counter');
+    isDecreaseBtnEnabled = false;
+    String message = await deleteQtyFromCartDBProcess(productId);
+    showSuccessMessage(context, message);
+    // total = 0;
 
-    Map<String, dynamic> headerMap = await getHeaderMap();
+    //  total = total - price;
 
-    ProductRepository productRepository = ProductRepository(headerMap);
-    ApiResponse apiResponse;
-    if (isFavourite == false) {
-      apiResponse = await productRepository.addProductToFav(productId);
-    } else {
-      apiResponse = await productRepository.deleteProductFromFav(productId);
-    }
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      MessageResponseModel model =
-          MessageResponseModel.fromJson(apiResponse.result);
-      Navigator.pop(context);
-      isAddToFavBtnEnabled = true;
-      setState(() {
-        isFavourite = !isFavourite!;
-        isFavourite == true ? favIconColor = CustomColors().redColor : favIconColor = CustomColors().primaryWhiteColor;
-      });
-      print(isFavourite);
-      return model.message!;
-    } else {
-      Navigator.pop(context);
-      isAddToFavBtnEnabled = true;
-      throw ExceptionHelper(apiResponse.message);
-    }
+    //  Navigator.pop(context);
   }
+
   //---------------------
 
-  cartDBProcess(String productId, int qty) async{
+  addToCartDBProcess(String productId) async {
     showLoaderDialog(context);
     //----------start api ----------------
 
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     CartRepository cartRepository = CartRepository(headerMap);
-    ApiResponse apiResponse = await cartRepository.addProductToCart(productId ,qty);
+    ApiResponse apiResponse =
+        await cartRepository.addProductToCart(productId, counter);
 
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       MessageResponseModel model =
-      MessageResponseModel.fromJson(apiResponse.result);
+          MessageResponseModel.fromJson(apiResponse.result);
       Navigator.pop(context);
       isAddToCartBtnEnabled = true;
-
       return model.message!;
     } else {
       Navigator.pop(context);
       isAddToCartBtnEnabled = true;
       throw ExceptionHelper(apiResponse.message);
     }
+  }
+  //---------------------
+
+  addQtyToCartDBProcess(String productId) async {
+    showLoaderDialog(context);
+    //----------start api ----------------
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    CartRepository cartRepository = CartRepository(headerMap);
+    ApiResponse apiResponse =
+        await cartRepository.addProductQtyToCart(productId, counter);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      MessageResponseModel model =
+          MessageResponseModel.fromJson(apiResponse.result);
+      Navigator.pop(context);
+      isIncreaseBtnEnabled = true;
+      return model.message!;
+    } else {
+      Navigator.pop(context);
+      isIncreaseBtnEnabled = true;
+      throw ExceptionHelper(apiResponse.message);
+    }
+  }
+  //---------------------
+
+  deleteQtyFromCartDBProcess(String productId) async {
+    showLoaderDialog(context);
+    //----------start api ----------------
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    CartRepository cartRepository = CartRepository(headerMap);
+    ApiResponse apiResponse =
+        await cartRepository.deleteProductQtyFromCart(productId, counter);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      MessageResponseModel model =
+          MessageResponseModel.fromJson(apiResponse.result);
+      Navigator.pop(context);
+      isDecreaseBtnEnabled = true;
+      return model.message!;
+    } else {
+      Navigator.pop(context);
+      isDecreaseBtnEnabled = true;
+      throw ExceptionHelper(apiResponse.message);
+    }
+  }
+
+  //--------------------
+  deleteFromCartDbProcess(String? productId) async {
+
+      showLoaderDialog(context);
+      //----------start api ----------------
+
+      Map<String, dynamic> headerMap = await getHeaderMap();
+
+      CartRepository cartRepository = CartRepository(headerMap);
+      ApiResponse apiResponse;
+
+      apiResponse = await cartRepository.deleteProductFromCart(productId!);
+
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        MessageResponseModel model =
+            MessageResponseModel.fromJson(apiResponse.result);
+        print(apiResponse.result);
+        Navigator.pop(context);
+        isTrashBtnEnabled = true;
+        return model.message!;
+      } else {
+        Navigator.pop(context);
+        isTrashBtnEnabled = true;
+        throw ExceptionHelper(apiResponse.message);
+      }
+
   }
 }

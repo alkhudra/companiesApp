@@ -341,7 +341,37 @@ class _RestClient implements RestClient {
     _data.addAll(hashMap);
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/Cart/upsertCart',
+            .compose(_dio.options, '/Cart/addToCart',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> addProductQtyToCart(hashMap) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(hashMap);
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
+        Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            .compose(_dio.options, '/Cart/AddQuantityFromProduct',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> deleteProductQtyFromCart(hashMap) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(hashMap);
+    final _result = await _dio.fetch(_setStreamType<dynamic>(
+        Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+            .compose(_dio.options, '/Cart/deleteQuantityFromProduct',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;

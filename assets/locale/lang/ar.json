@@ -70,6 +70,7 @@
   "Welcome Back": "مرحبًا بعودتك",
   "What are you looking for?": "ما الذي تبحث عنه؟",
   "add_new_branch": "إضافة فرع جديد",
+  "no_branches":"لا يوجد لديك فروع مضافة ",
   "add_branch_note_dialog": "شكرا لاختياركم تطبيق الخضرة ٫ لاكمال عملية التسوق نرجو منكم اضافة معلومات الفرع ٫ هل تود اضافتها الان او لاحقا؟ ",
   "add_branch_note": "لطفا قم بإضافة معلومات الفرع و اضغط على زر اختيار الموقع لاضافك موقعك بدقة  ",
   "add_branch_now": "اضافة فرع الان",
@@ -132,7 +133,7 @@
   "Vegetables": "خضروات",
   "ADD TO CART": "إضافة إلى السلة",
   "Description": "وصف المنتج",
-  "SAR / Kg": "ريال /كغ",
+  "SAR / Kg": "ريال/ كغ",
   "SAR": "ريال",
   "ADD" : "إضافة",
   "Your Order is On The Way!" : "!طلبك في الطريق إليك",
@@ -148,5 +149,8 @@
   "Total": "المجموع الكلي",
   "Checkout": "متابعة الشراء",
   "order_details": "تفاصيل الطلب",
-  "No favorite products added yet": "لم يتم إضافة أي منتج في المفضلة"
+  "No favorite products added yet": "لم يتم إضافة أي منتج في المفضلة",
+  "no_items_in_cart": "لا يوجد لديك منتجات في السلة ",
+  "discount":"الخصم",
+  "discount_percentage": "نسبة الخصم"
 }
