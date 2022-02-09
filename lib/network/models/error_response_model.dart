@@ -23,7 +23,6 @@ class ErrorResponseModel {
 
 }
 
-/// message : "Please Enter a Valid Value added number(VAT)"
 
 class Error {
   Error({

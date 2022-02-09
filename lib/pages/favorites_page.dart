@@ -16,7 +16,7 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
-import 'package:khudrah_companies/network/models/product/get_product_by_id_response_model.dart';
+import 'package:khudrah_companies/network/models/product/get_products_list_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';

@@ -14,9 +14,11 @@ class ProductsModel {
     bool? isFavourite,
     bool? isActive,
     String? image,
+    bool? isDeleted,
     String? arCategoryName,
     String? categoryId,
   }) {
+    _isDeleted = isDeleted;
     _productId = productId;
     _name = name;
     _arCategoryName = arCategoryName;
@@ -52,6 +54,7 @@ class ProductsModel {
     _isFavourite = json['isFavourite'];
     _categoryId = json['categoryId'];
     _arCategoryName = json['arCategoryName'];
+    _isDeleted = json['isDeleted'];
   }
   String? _productId;
   String? _name;
@@ -69,8 +72,12 @@ class ProductsModel {
   bool? _isFavourite;
   String? _categoryName;
   String? _arCategoryName;
-  static int _userSelectedQty = 1;
+  bool? _isDeleted;
+  static int _userSelectedQty = 0;
+  static bool _isAddedToCart = false;
   bool? get isFavourite => _isFavourite;
+
+  bool? get isDeleted => _isDeleted;
 
   String? get productId => _productId;
   String? get name => _name;
@@ -87,13 +94,13 @@ class ProductsModel {
   String? get categoryId => _categoryId;
   String? get arCategoryName => _arCategoryName;
   String? get categoryName => _categoryName;
-  int get userSelectedQty => _userSelectedQty;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = _productId;
     map['name'] = _name;
     map['arName'] = _arName;
+    map['isDeleted'] = _isDeleted;
     map['arCategoryName'] = _arCategoryName;
     map['categoryName'] = _categoryName;
     map['hasSpecialPrice'] = _hasSpecialPrice;
@@ -108,16 +115,6 @@ class ProductsModel {
     map['isFavourite'] = _isFavourite;
     map['categoryId'] = _categoryId;
     return map;
-  }
-
-  static void increaseQty() {
-    _userSelectedQty++;
-    print(_userSelectedQty);
-  }
-
- static void decreaseQty() {
-    _userSelectedQty > 1 ? _userSelectedQty -- : _userSelectedQty = 1;
-    print(_userSelectedQty);
   }
 
   @override

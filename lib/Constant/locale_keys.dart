@@ -160,8 +160,7 @@ abstract class LocaleKeys {
   static const order_details = "order_details";
   static const no_branches = "no_branches";
   static const no_items_in_cart = "no_items_in_cart";
-  static const discount ="discount";
-  static const discount_percentage ="discount_percentage";
-
-
+  static const discount = "discount";
+  static const discount_percentage = "discount_percentage";
+  static const not_available_product = "not_available_product";
 }

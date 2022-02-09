@@ -74,8 +74,7 @@
   "add_branch_now": "Add Branch Now",
   "later": "Later",
   "add_new_branch": "Add New Branch",
-  "no_branches":"There is no added branches ",
-
+  "no_branches": "There is no added branches ",
   "edit": "Edit",
   "code_not_match": "Wrong code, please check your email or click resend code to get a new code ",
   "buildingno_required": "Please Enter the branch Building No",
@@ -137,7 +136,7 @@
   "Description": "Description",
   "SAR / Kg": "SAR / Kg",
   "SAR": "SAR",
-  "Your Order is On The Way!" : "Your Order is On The Way!",
+  "Your Order is On The Way!": "Your Order is On The Way!",
   "add_cart": "ADD TO CART",
   "search_result": "Search result for ",
   "no_result": "No products matched your search, please try again with another term",
@@ -152,5 +151,6 @@
   "order_details": "Order Details",
   "no_items_in_cart": "There is no Items in your cart",
   "discount": " Discount",
-  "discount_percentage": "Discount Percentage"
+  "discount_percentage": "Discount Percentage",
+  "not_available_product": "Product Not Available"
 }

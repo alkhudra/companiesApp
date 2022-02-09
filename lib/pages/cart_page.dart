@@ -24,6 +24,7 @@ import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/cart_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -87,6 +88,9 @@ class _CartPageState extends State<CartPage> {
 
   Widget listDesign(BuildContext context, SuccessCartResponseModel? model) {
     if(model!.userCart != null){
+      if(model.message!= ''){
+        showMessageDialog(context,model.message!,'',noPage);
+      }
       num price = model.userCart!.totalCartPrice!;
       double subtotal = 3;
       double vat = 5;

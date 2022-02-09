@@ -1,17 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/cart/success_cart_response_model.dart';
+import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
+import 'package:khudrah_companies/network/repository/cart_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
-
-Widget cartDetailsItem(String title ,String value){
-
- return Container(
+Widget cartDetailsItem(String title, String value) {
+  return Container(
     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
     child: RichText(
       text: TextSpan(
@@ -24,8 +31,7 @@ Widget cartDetailsItem(String title ,String value){
           children: <TextSpan>[
             TextSpan(
                 text: title + ': ',
-                style: TextStyle(
-                    color: CustomColors().darkBlueColor)),
+                style: TextStyle(color: CustomColors().darkBlueColor)),
             TextSpan(
                 text: value,
                 style: TextStyle(
@@ -37,7 +43,7 @@ Widget cartDetailsItem(String title ,String value){
   );
 }
 
-Widget cartTotalDesign(num total){
+Widget cartTotalDesign(num total) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
     child: RichText(
@@ -64,7 +70,8 @@ Widget cartTotalDesign(num total){
   );
 }
 
-Widget cartTile(BuildContext context , String language , List<CartProductsList?> list, int index) {
+Widget cartTile(BuildContext context, String language,
+    List<CartProductsList?> list, int index) {
   ProductsModel model = list[index]!.productDto!;
   Size size = MediaQuery.of(context).size;
   double scWidth = size.width;
@@ -75,14 +82,18 @@ Widget cartTile(BuildContext context , String language , List<CartProductsList?>
       : model.originalPrice!;
   String? name = language == 'ar' ? model.arName : model.name;
   String? category =
-  language == 'ar' ? model.arCategoryName : model.categoryName;
+      language == 'ar' ? model.arCategoryName : model.categoryName;
   String image = model.image != null
       ? ApiConst.images_url + model.image!
       : 'images/green_fruit.png';
 
   num userQty = list[index]!.userProductQuantity!;
   num productTotal = list[index]!.totalProductPrice!;
-
+  bool isAvailable = model.isAvailabe!;
+  bool isDeleted = model.isDeleted!;
+  Color containerColor = isDeleted == false && isAvailable == true
+      ? CustomColors().primaryWhiteColor
+      : CustomColors().grayColor;
   return ListTile(
     title: Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -92,13 +103,14 @@ Widget cartTile(BuildContext context , String language , List<CartProductsList?>
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProductDetails(
-                      productModel: model,
-                      language: language,
-                    )));
+            if (isDeleted == false && isAvailable == true)
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProductDetails(
+                            productModel: model,
+                            language: language,
+                          )));
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
@@ -116,7 +128,7 @@ Widget cartTile(BuildContext context , String language , List<CartProductsList?>
                   spreadRadius: 0.2,
                 )
               ],
-              color: CustomColors().primaryWhiteColor,
+              color: containerColor,
             ),
             child: Stack(children: [
               //green product icon
@@ -172,7 +184,7 @@ Widget cartTile(BuildContext context , String language , List<CartProductsList?>
                           ),
                           Container(
                             child: Text(
-                              ' × $userQty  ' ,
+                              ' × $userQty  ',
                               style: TextStyle(
                                   color: CustomColors().primaryGreenColor,
                                   fontWeight: FontWeight.w700),
@@ -249,20 +261,20 @@ Widget cartTile(BuildContext context , String language , List<CartProductsList?>
                   ),
                   //Delete icon
                   GestureDetector(
-                    onTap: (){
-                    //  deleteFromCart(context, model.productId);
+                    onTap: () {
+                      //  deleteFromCart(context, model.productId);
                     },
                     child: Container(
                       alignment: Alignment.center,
                       width: 2,
                       child: IconButton(
-
                         icon: Icon(
                           Icons.delete,
                           color: CustomColors().redColor,
                         ),
                         padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(), onPressed: () {  },
+                        constraints: BoxConstraints(),
+                        onPressed: () {},
                       ),
                     ),
                   ),
@@ -303,13 +315,136 @@ Widget cartTile(BuildContext context , String language , List<CartProductsList?>
   );
 }
 
+String currency = LocaleKeys.sar.tr();
 
-String currency= LocaleKeys.sar.tr();
-
-String getTextWithCurrency(num value){
-  return ' $value '+currency;
+String getTextWithCurrency(num value) {
+  return ' $value ' + currency;
 }
 
-String getTextWithPercentage(num value){
+String getTextWithPercentage(num value) {
   return ' $value %';
+}
+
+Widget addToCartBtnContainer(BuildContext context,
+    {isDeleted,
+    isAvailable,
+    counter,
+    onDeleteBtnClicked,
+    onIncreaseBtnClicked,
+    onDecreaseBtnClicked,
+    onBtnClicked}) {
+  return Container(
+      child: isDeleted == false && isAvailable == true
+          ? counter == 0
+              ? greenBtn(LocaleKeys.add_cart.tr(),
+                  EdgeInsets.symmetric(horizontal: 5), onBtnClicked)
+              : qtyContainer(context, counter, onDeleteBtnClicked,
+                  onIncreaseBtnClicked, onDecreaseBtnClicked)
+          : unAvailableBtn(LocaleKeys.not_available_product.tr(),
+              EdgeInsets.symmetric(horizontal: 5)));
+}
+
+qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
+    Function() onIncreaseBtnClicked, Function() onDecreaseBtnClicked) {
+  Size size = MediaQuery.of(context).size;
+  double scWidth = size.width;
+  double scHeight = size.height;
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+    width: scWidth * 0.25,
+    height: scHeight * 0.04,
+    decoration: BoxDecoration(
+      color: CustomColors().grayColor,
+      borderRadius: BorderRadius.circular(30),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        counter == 1
+            ? GestureDetector(
+                onTap: onDeleteBtnClicked,
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.delete_outline_outlined,
+                    color: CustomColors().primaryGreenColor,
+                  ),
+                ),
+              )
+            : GestureDetector(
+                onTap: onDecreaseBtnClicked,
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  child: Text(
+                    '-',
+                    style: TextStyle(
+                      color: CustomColors().darkBlueColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          child: Text(
+            '$counter',
+            style: TextStyle(
+              color: CustomColors().blackColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        GestureDetector(
+          onTap: onIncreaseBtnClicked,
+          child: Container(
+            padding: EdgeInsets.all(4),
+            child: Text(
+              '+',
+              style: TextStyle(
+                color: CustomColors().darkBlueColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+cartDBProcess(BuildContext context, String productId, int counter,
+    String process) async {
+  showLoaderDialog(context);
+  //----------start api ----------------
+  ApiResponse apiResponse;
+  Map<String, dynamic> headerMap = await getHeaderMap();
+
+  CartRepository cartRepository = CartRepository(headerMap);
+  if (process == addToCartConst)
+    apiResponse = await cartRepository.addProductToCart(productId, counter);
+  else if (process == addQtyToCartConst)
+    apiResponse = await cartRepository.addProductToCart(productId, counter);
+  else if (process == deleteFromCartConst)
+    apiResponse = await cartRepository.deleteProductFromCart(productId);
+  else
+    apiResponse =
+        await cartRepository.deleteProductQtyFromCart(productId, counter);
+
+  if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+    MessageResponseModel model =
+        MessageResponseModel.fromJson(apiResponse.result);
+    Navigator.pop(context);
+
+
+    return model.message!;
+  } else {
+    Navigator.pop(context);
+    return apiResponse.message;
+    //throw ExceptionHelper(apiResponse.message);
+  }
 }

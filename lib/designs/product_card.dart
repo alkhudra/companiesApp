@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
+import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -15,7 +17,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class ProductCard {
-  static bool isAddToFavBtnEnabled = true;
+  static bool isAddToFavBtnEnabled = true,isTrashBtnEnabled=true,isAddToCartBtnEnabled=true,
+      isIncreaseBtnEnabled=true,isDecreaseBtnEnabled=true;
 
   static productCardDesign(context, String language, ProductsModel productModel,Function() favPressed,
   /*    {counter ,increaseCount, decreaseCount}*/) {
@@ -26,13 +29,14 @@ class ProductCard {
         ?.toDouble();
 
     bool? isFavourite = productModel.isFavourite;
+    bool? isAvailable = productModel.isAvailabe;
     String? productId = productModel.productId;
-
+    bool isDeleted = productModel.isDeleted!;
     String? name = language == 'ar' ? productModel.arName : productModel.name;
     String imageUrl = productModel.image != null ?ApiConst.images_url + productModel.image! :
     'images/green_fruit.png';
 
-    int qty = productModel.userSelectedQty;
+    int counter = 0;
 
     //--------------------------
 
@@ -81,24 +85,17 @@ class ProductCard {
                             borderRadius: BorderRadius.circular(50),
                             color: CustomColors().primaryGreenColor,
                           ),
-                          child: TextButton.icon(
-                            onPressed: () {
-
-                              //add to cart
-
+                          child:addToCartBtnContainer(
+                          context, isDeleted: isDeleted,
+                            isAvailable :isAvailable,counter: counter,
+                            onBtnClicked: () {
+                             /* if (isAddToCartBtnEnabled) {
+                                setState(() {
+                                  counter++;
+                                });
+                                addToCart(productId!);
+                              }*/
                             },
-                            icon: Icon(
-                              Icons.shopping_cart,
-                              color: CustomColors().primaryWhiteColor,
-                              size: 21,
-                            ),
-                            label: Text(
-                              LocaleKeys.add_btn.tr(),
-                              style: TextStyle(
-                                color: CustomColors().primaryWhiteColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
                           ),
                         ),
                         SizedBox(
@@ -132,70 +129,7 @@ class ProductCard {
                                       )),
                           ),
                           //Counter
-                          Container(
-                            width: 80,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: CustomColors().grayColor,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                GestureDetector(
-                                  onTap: (){
-                                    ProductsModel.decreaseQty();
-                                  },
-                                  // () {
-                                  //   // counter >= 0 ? counter -= counter : counter;
-                                  // },
-                                  child: Container(
-                                    padding: EdgeInsets.all(4),
-                                    child: Text(
-                                      '-',
-                                      style: TextStyle(
-                                        color: CustomColors().darkBlueColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  child: Text(
-                                    '$qty',
-                                    style: TextStyle(
-                                      color: CustomColors().blackColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap:(){
-                                    ProductsModel.increaseQty();
-                                  },
-                                  // () {
-                                  //   counter >= 0 ? counter += counter : counter;
-                                  // },
-                                  child: Container(
-                                    padding: EdgeInsets.all(4),
-                                    child: Text(
-                                      '+',
-                                      style: TextStyle(
-                                        color: CustomColors().darkBlueColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+
                           SizedBox(
                             height: 15,
                           ),
@@ -238,6 +172,54 @@ class ProductCard {
   ///------------------------------------------
   ///---------------DB process-----------------
   ///------------------------------------------
+
+ /* //----------------
+  void deleteFromCart(BuildContext context,String productId ,int counter) async {
+    print('counter $counter');
+    isTrashBtnEnabled = false;
+    String message = await cartDBProcess(context,productId,counter,deleteFromCartConst,isTrashBtnEnabled);
+    showSuccessMessage(context, message);
+    //total = 0;
+
+    // Navigator.pop(context);
+  }
+  //----------------
+
+  void addToCart(BuildContext context,String productId ,int counter) async {
+    if(isAddToCartBtnEnabled) {
+      counter++;
+      print('counter $counter');
+      isAddToCartBtnEnabled = false;
+      String message = await cartDBProcess(
+          context, productId, counter, addToCartConst, isAddToCartBtnEnabled);
+      showSuccessMessage(context, message);
+    }
+    // Navigator.pop(context);
+  }
+
+  //---------------------
+  void addQtyToCart(BuildContext context,String productId ,int counter) async {
+    isIncreaseBtnEnabled = false;
+    String message = await cartDBProcess(context,productId,counter,addQtyToCartConst,isIncreaseBtnEnabled);
+    showSuccessMessage(context, message);
+    // total = total + ();
+
+    // total = price * counter;
+
+    //  Navigator.pop(context);
+  }
+
+  //---------------------
+  void deleteQtyFromCart(BuildContext context,String productId ,int counter) async {
+    isDecreaseBtnEnabled = false;
+    String message = await cartDBProcess(context,productId,counter,deleteFromCartConst,isDecreaseBtnEnabled);
+    showSuccessMessage(context, message);
+    // total = 0;
+
+    //  total = total - price;
+
+    //  Navigator.pop(context);
+  }*/
 
   static void addToFav(
       BuildContext context, bool? isFavourite, String productId) async {
