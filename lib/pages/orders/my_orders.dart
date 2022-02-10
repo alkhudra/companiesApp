@@ -4,6 +4,7 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/order_tile_design.dart';
+import 'package:khudrah_companies/pages/orders/order_status.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:lottie/lottie.dart';
 
@@ -77,12 +78,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
                 controller: _tabController,
                 children: [
                   // first tab bar view widget 
-                  GestureDetector(
-                    child: orderTileDesign(context, scWidth, scHeight),
-                    onTap: () {
-                      // navigate to order status page
-                    },
+                  ListView.builder(
+                    itemBuilder: ((context, index) {
+                      return orderTileDesign(context, scWidth, scHeight);
+                    }),
+                    itemCount: 5,
                   ),
+
 
                   // second tab bar view widget
                   Center(

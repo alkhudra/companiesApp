@@ -156,5 +156,6 @@
   "not_available_product": "Product Not Available",
   "no_stock": "No Items left in stock",
   "Current": "Current",
-  "Completed": "Completed"
+  "Completed": "Completed",
+  "Order Status": "Order Status"
 }

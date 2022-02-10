@@ -167,4 +167,5 @@ abstract class LocaleKeys {
   static const no_stock = "no_stock";
   static const current_orders = "Current";
   static const complete_orders = "Completed";
+  static const order_status = "Order Status";
 }

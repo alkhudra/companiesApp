@@ -156,6 +156,7 @@
   "not_available_product": "المنتج غير متوفر",
   "no_stock": "لايوجد منتجات في المخزون ",
   "Current": "الحالية",
-  "Completed": "المكتملة"
+  "Completed": "المكتملة",
+  "Order Status": "حالة الطلب"
 
 }
