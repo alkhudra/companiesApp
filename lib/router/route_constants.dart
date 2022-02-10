@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
-import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 
 import '../main.dart';

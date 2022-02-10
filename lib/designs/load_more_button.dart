@@ -6,8 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 Widget loadMoreBut(context) {
   Size size = MediaQuery.of(context).size;
   double scWidth = size.width;
-  double scHeight = size.height;
-  
+
   return Container(
     width: scWidth*0.9,
     decoration: BoxDecoration(

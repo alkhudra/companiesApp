@@ -39,7 +39,7 @@ class _CartPageState extends State<CartPage> {
   static String language = 'ar';
   bool isTrashBtnEnabled = true;
   static String productId = '';
-
+  static List<CartProductsList> list = [];
   @override
   void initState() {
     super.initState();
@@ -87,10 +87,11 @@ class _CartPageState extends State<CartPage> {
   //-----------------------
 
   Widget listDesign(BuildContext context, SuccessCartResponseModel? model) {
-    if(model!.userCart != null){
-      if(model.message!= ''){
-        showMessageDialog(context,model.message!,'',noPage);
+    if (model!.userCart != null) {
+      if (model.message != '') {
+        showMessageDialog(context, model.message!, '', noPage);
       }
+      list = model.userCart!.cartProductsList!;
       num price = model.userCart!.totalCartPrice!;
       double subtotal = 3;
       double vat = 5;
@@ -103,26 +104,29 @@ class _CartPageState extends State<CartPage> {
       return SlidingUpPanel(
         body: ListView.builder(
           itemBuilder: (context, index) {
-            return /*Slidable(
-              endActionPane: ActionPane(
-                key: const ValueKey(0),
-                motion: const BehindMotion(),
-                dismissible: DismissiblePane(onDismissed: () {}),
-                children: [
-                  SlidableAction(
-                    onPressed: deleteFromCart,
-                    backgroundColor: CustomColors().redColor,
-                    // foregroundColor: CustomColors().primaryWhiteColor,
-                    icon: Icons.delete,
-                    label: LocaleKeys.delete_from_cart.tr(),
-                  )
-
-                ],
-              ),
-              child: */
-              cartTile(context ,language,model.userCart!.cartProductsList!, index);
+            productId  = list[index].productDto!.productId!;
+            print('product id in builder $productId');
+            return Slidable(
+                endActionPane: ActionPane(
+                  key: const ValueKey(0),
+                  motion: const BehindMotion(),
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  children: [
+                    SlidableAction(
+                      backgroundColor: CustomColors().redColor,
+                      // foregroundColor: CustomColors().primaryWhiteColor,
+                      icon: Icons.delete,
+                      label: LocaleKeys.delete_from_cart.tr(),
+                      onPressed: (BuildContext context) {
+                        deleteFromCart(context,index, productId);
+                      },
+                    )
+                  ],
+                ),
+                child: cartTile(context, language,
+                    list, index));
           },
-          itemCount: model.userCart!.cartProductsList!.length,
+          itemCount: list.length,
         ),
         minHeight: 60,
         maxHeight: 270,
@@ -162,12 +166,14 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  cartDetailsItem(LocaleKeys.subtotal.tr() , getTextWithCurrency(subtotal)),
-                  cartDetailsItem(LocaleKeys.vat.tr() ,  getTextWithCurrency(vat)),
-                  cartDetailsItem( LocaleKeys.discount_percentage.tr(), getTextWithPercentage(discount)),
-                  cartDetailsItem(LocaleKeys.discount.tr() ,  getTextWithCurrency(price_vat)),
-
-
+                  cartDetailsItem(
+                      LocaleKeys.subtotal.tr(), getTextWithCurrency(subtotal)),
+                  cartDetailsItem(
+                      LocaleKeys.vat.tr(), getTextWithCurrency(vat)),
+                  cartDetailsItem(LocaleKeys.discount_percentage.tr(),
+                      getTextWithPercentage(discount)),
+                  cartDetailsItem(
+                      LocaleKeys.discount.tr(), getTextWithCurrency(price_vat)),
                 ],
               ),
               SizedBox(
@@ -182,8 +188,7 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   //total
-                  cartTotalDesign(total)
-                ,
+                  cartTotalDesign(total),
                   //checkout button
                   Container(
                     child: greenBtn(LocaleKeys.checkout.tr(),
@@ -195,20 +200,19 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       );
-    }else{
-     return noItemDesign(LocaleKeys.no_items_in_cart.tr(), 'images/not_found.png');
+    } else {
+      return noItemDesign(
+          LocaleKeys.no_items_in_cart.tr(), 'images/not_found.png');
     }
-
   }
 
   //--------
 
-
   //--------
-  void deleteFromCart(BuildContext context, String? productId) async {
+  void deleteFromCart(BuildContext context, int index,String? productId) async {
     if (isTrashBtnEnabled) {
       isTrashBtnEnabled = false;
-      showLoaderDialog(context);
+     showLoaderDialog(context);
       //----------start api ----------------
 
       Map<String, dynamic> headerMap = await getHeaderMap();
@@ -216,20 +220,25 @@ class _CartPageState extends State<CartPage> {
       CartRepository cartRepository = CartRepository(headerMap);
       ApiResponse apiResponse;
 
+      print('product id in api $productId');
       apiResponse = await cartRepository.deleteProductFromCart(productId!);
 
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         MessageResponseModel model =
             MessageResponseModel.fromJson(apiResponse.result);
         Navigator.pop(context);
-        isTrashBtnEnabled = true;
-
+        setState(() {
+          isTrashBtnEnabled = true;
+          list.removeAt(index);
+        });
         showSuccessMessage(context, model.message!);
       } else {
         Navigator.pop(context);
         isTrashBtnEnabled = true;
         showErrorMessageDialog(context, apiResponse.message);
       }
+
+
     }
   }
 
