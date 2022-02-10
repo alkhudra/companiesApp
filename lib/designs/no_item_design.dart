@@ -22,12 +22,20 @@ Widget noItemDesign(String txt, String imageUrl) {
           //   fontWeight: FontWeight.w700
           // ),),
           SizedBox(height: 5,),
-          Text(txt, style: TextStyle(
-            color: CustomColors().darkGrayColor.withOpacity(0.5),
-            fontSize: 15,
-          ),),
+          errorText(txt),
           // Image(image: AssetImage('images/green_fruit.png')),
           // Text('${snapshot.error}' ,),
         ],
       ));
+}
+
+Widget errorText(String txt){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text(txt, style: TextStyle(
+      color: CustomColors().primaryGreenColor.withOpacity(0.5),
+      fontSize: 15,
+    ),),
+  );
+
 }

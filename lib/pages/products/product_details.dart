@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
@@ -47,23 +49,29 @@ class _ProductDetailsState extends State<ProductDetails> {
         if (snapshot.hasData) {
           print(snapshot.hasData);
           print(snapshot.data);
-          return pageDesign(context, snapshot.data!);
+          return pageDesign(context, snapshot,snapshot.data!);
         } else {
-          return errorCase(snapshot);
+          return customErrorCase(snapshot);
         }
       },
     );
   }
 
-  Widget pageDesign(BuildContext context, ProductsModel model) {
+
+  Widget customErrorCase(AsyncSnapshot<ProductsModel?> hasData){
+  ProductsModel  model  = widget.productModel;
+    return pageDesign(context, hasData,model);
+  }
+  //----------------------------
+  Widget pageDesign(BuildContext context, AsyncSnapshot<ProductsModel?> hasData,ProductsModel model) {
     String language = widget.language;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     price = (model.hasSpecialPrice == true
-            ? model.specialPrice
-            : model.originalPrice)
+        ? model.specialPrice
+        : model.originalPrice)
         ?.toDouble();
     String? description = language == 'ar'
         ? model.arDescription
@@ -88,7 +96,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors().primaryGreenColor,
-      body: CustomScrollView(
+      body:CustomScrollView(
         slivers: [
           SliverAppBar(
             centerTitle: true,
@@ -116,38 +124,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               color: CustomColors().primaryWhiteColor,
               onPressed: () => Navigator.pop(context),
             ),
-            actions: [
-              InkWell(
-                  onTap: () {
-                    if (isAddToFavBtnEnabled) {
-                      ProductCard.addToFav(context, isFavourite, productId!);
-                      setState(() {
-                        isFavourite = !isFavourite!;
-                        isFavourite == true
-                            ? favIconColor = CustomColors().redColor
-                            : favIconColor = CustomColors().primaryWhiteColor;
-                      });
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.favorite,
-                      color: favIconColor,
-                    ),
-                  )
-                  // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor)
-                  // : Icon(Icons.favorite, color: CustomColors().primaryWhiteColor,),
-                  ),
-              /*       IconButton(
-                icon: Icon(
-                  Icons.share_outlined,
-                  color: CustomColors().primaryWhiteColor,
-                ),
-                onPressed: () {
-                },
-              ),*/
-            ],
+
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -169,7 +146,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: Column(
+              child:
+
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -207,7 +186,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     children: [
                       Container(
                         margin:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
                           ("$price " + LocaleKeys.sar_per_kg.tr()),
                           style: TextStyle(
@@ -253,17 +232,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                       '$description',
                       overflow: TextOverflow.clip,
                     ),
-                  )
+                  ),
+                
                 ],
               ),
             ),
           ),
+
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
           height: scHeight * 0.09,
-          child: Row(
+          child:hasData.hasError == true
+              ? errorText('${hasData.error}'):
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
@@ -317,13 +300,35 @@ class _ProductDetailsState extends State<ProductDetails> {
                     addQtyToCart(productId!);
                   }
                 },
-              )
+              ),
+              InkWell(
+                  onTap: () {
+                    if (isAddToFavBtnEnabled) {
+                      ProductCard.addToFav(context, isFavourite, productId!);
+                      setState(() {
+                        isFavourite = !isFavourite!;
+                        isFavourite == true
+                            ? favIconColor = CustomColors().redColor
+                            : favIconColor = CustomColors().grayColor;
+                      });
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.favorite,
+                      color: favIconColor,
+                    ),
+                  )
+                // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor)
+                // : Icon(Icons.favorite, color: CustomColors().primaryWhiteColor,),
+              ),
             ],
-          ),
-        ),
+          ),),
       ),
     );
   }
+
 
   ///-------------------------------
   ///-------------------------------

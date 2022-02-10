@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -50,10 +51,8 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
         //   fontWeight: FontWeight.w700
         // ),),
         SizedBox(height: 5,),
-        Text('${snapshot.error}', style: TextStyle(
-          color: CustomColors().darkGrayColor.withOpacity(0.5),
-          fontSize: 15,
-        ),),
+        errorText('${snapshot.error}'),
+
         // Image(image: AssetImage('images/green_fruit.png')),
         // Text('${snapshot.error}' ,),
       ],
