@@ -154,6 +154,8 @@
   "discount": "الخصم",
   "discount_percentage": "نسبة الخصم",
   "not_available_product": "المنتج غير متوفر",
-  "no_stock": "لايوجد منتجات في المخزون "
+  "no_stock": "لايوجد منتجات في المخزون ",
+  "Current": "الحالية",
+  "Completed": "المكتملة"
 
 }
