@@ -36,8 +36,8 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          child: Lottie.asset(
-            'images/tree_anim.json',
+          child: Image.asset(
+            'images/logo.png',
             width: 230,
             height: 230,
             fit: BoxFit.cover,
