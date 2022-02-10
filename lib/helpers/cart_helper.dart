@@ -174,10 +174,11 @@ Widget cartTile(BuildContext context, String language,
 
                       // price
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             child: Text(
-                              getTextWithCurrency(price),
+                              getTextWithCurrency(price)+'   /  ',
                               style: TextStyle(
                                   color: CustomColors().primaryGreenColor,
                                   fontWeight: FontWeight.w700),
@@ -185,12 +186,13 @@ Widget cartTile(BuildContext context, String language,
                           ),
                           Container(
                             child: Text(
-                              ' × $userQty  ',
+                              ' ×  $userQty  ',
                               style: TextStyle(
                                   color: CustomColors().primaryGreenColor,
                                   fontWeight: FontWeight.w700),
                             ),
                           ),
+                          SizedBox(width: scHeight*0.08,),
                           Container(
                             child: Text(
                               getTextWithCurrency(productTotal),
