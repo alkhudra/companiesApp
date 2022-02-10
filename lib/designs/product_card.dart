@@ -134,12 +134,11 @@ class ProductCard {
                             context, isDeleted: isDeleted,
                               isAvailable :isAvailable,counter: counter,
                               onBtnClicked: () {
-                              /* if (isAddToCartBtnEnabled) {
-                                  setState(() {
-                                    counter++;
-                                  });
-                                  addToCart(productId!);
-                                }*/
+                                //isAddToCartBtnEnabled == true ? favPressed : null;
+                               if (isAddToCartBtnEnabled) {
+
+                                  addToCart(context,counter,productId!);
+                                }
                               },
                             ),
                           ),
@@ -174,53 +173,6 @@ class ProductCard {
   ///---------------DB process-----------------
   ///------------------------------------------
 
- /* //----------------
-  void deleteFromCart(BuildContext context,String productId ,int counter) async {
-    print('counter $counter');
-    isTrashBtnEnabled = false;
-    String message = await cartDBProcess(context,productId,counter,deleteFromCartConst,isTrashBtnEnabled);
-    showSuccessMessage(context, message);
-    //total = 0;
-
-    // Navigator.pop(context);
-  }
-  //----------------
-
-  void addToCart(BuildContext context,String productId ,int counter) async {
-    if(isAddToCartBtnEnabled) {
-      counter++;
-      print('counter $counter');
-      isAddToCartBtnEnabled = false;
-      String message = await cartDBProcess(
-          context, productId, counter, addToCartConst, isAddToCartBtnEnabled);
-      showSuccessMessage(context, message);
-    }
-    // Navigator.pop(context);
-  }
-
-  //---------------------
-  void addQtyToCart(BuildContext context,String productId ,int counter) async {
-    isIncreaseBtnEnabled = false;
-    String message = await cartDBProcess(context,productId,counter,addQtyToCartConst,isIncreaseBtnEnabled);
-    showSuccessMessage(context, message);
-    // total = total + ();
-
-    // total = price * counter;
-
-    //  Navigator.pop(context);
-  }
-
-  //---------------------
-  void deleteQtyFromCart(BuildContext context,String productId ,int counter) async {
-    isDecreaseBtnEnabled = false;
-    String message = await cartDBProcess(context,productId,counter,deleteFromCartConst,isDecreaseBtnEnabled);
-    showSuccessMessage(context, message);
-    // total = 0;
-
-    //  total = total - price;
-
-    //  Navigator.pop(context);
-  }*/
 
   static void addToFav(
       BuildContext context, bool? isFavourite, String productId) async {
@@ -255,5 +207,56 @@ class ProductCard {
       throw ExceptionHelper(apiResponse.message);
     }
   }
+  //----------------
+  static void deleteFromCart(BuildContext context, int counter,String productId) async {
+
+    isTrashBtnEnabled = false;
+    String message =
+    await cartDBProcess(context, productId, counter, deleteFromCartConst);
+    showSuccessMessage(context, message);
+
+      isTrashBtnEnabled = true;
+
+  }
+
+ static void addToCart(BuildContext context, int counter,String productId) async {
+    isAddToCartBtnEnabled = false;
+    String message =
+    await cartDBProcess(context, productId, counter, addToCartConst);
+    showSuccessMessage(context, message);
+
+      isAddToCartBtnEnabled = true;
+
+    // Navigator.pop(context);
+  }
+
+  //---------------------
+  static void addQtyToCart(BuildContext context, int counter,String productId) async {
+    isIncreaseBtnEnabled = false;
+    String message =
+    await cartDBProcess(context, productId, counter, addQtyToCartConst);
+    showSuccessMessage(context, message);
+
+
+      isIncreaseBtnEnabled = true;
+
+  }
+
+  //---------------------
+  static void deleteQtyFromCart(BuildContext context, int counter,String productId) async {
+
+    isDecreaseBtnEnabled = false;
+    String message = await cartDBProcess(
+        context, productId, counter, deleteQtyFromCartConst);
+    showSuccessMessage(context, message);
+
+
+      isDecreaseBtnEnabled = true;
+
+
+  }
+
+//---------------------
+
 }
 
