@@ -65,6 +65,7 @@ class ProductCard {
                     ),
                     //center of card
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           child: Text(
@@ -78,26 +79,15 @@ class ProductCard {
                         SizedBox(
                           height: 30,
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.23,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: CustomColors().primaryGreenColor,
+                                                  Container(
+                            padding: EdgeInsets.all(2),
+                            child: Text(
+                                ( "$price "+ LocaleKeys.sar_per_kg.tr()),
+                              style: TextStyle(
+                                  color: CustomColors().primaryGreenColor,
+                                  fontWeight: FontWeight.w400),
+                            ),
                           ),
-                          child:addToCartBtnContainer(
-                          context, isDeleted: isDeleted,
-                            isAvailable :isAvailable,counter: counter,
-                            onBtnClicked: () {
-                             /* if (isAddToCartBtnEnabled) {
-                                setState(() {
-                                  counter++;
-                                });
-                                addToCart(productId!);
-                              }*/
-                            },
-                          ),
-                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -134,12 +124,23 @@ class ProductCard {
                             height: 15,
                           ),
                           Container(
-                            padding: EdgeInsets.all(2),
-                            child: Text(
-                                ( "$price "+ LocaleKeys.sar_per_kg.tr()),
-                              style: TextStyle(
-                                  color: CustomColors().primaryGreenColor,
-                                  fontWeight: FontWeight.w400),
+                            width: MediaQuery.of(context).size.width * 0.23,
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: CustomColors().primaryGreenColor,
+                            ),
+                            child:addToCartBtnContainer(
+                            context, isDeleted: isDeleted,
+                              isAvailable :isAvailable,counter: counter,
+                              onBtnClicked: () {
+                              /* if (isAddToCartBtnEnabled) {
+                                  setState(() {
+                                    counter++;
+                                  });
+                                  addToCart(productId!);
+                                }*/
+                              },
                             ),
                           ),
                         ],
