@@ -619,6 +619,8 @@ Drawer drawerDesignWithName(context, String name, String email) {
             Navigator.pop(context);
             PreferencesHelper.setUser(null);
             PreferencesHelper.setUserLoggedIn(false);
+            PreferencesHelper.setUserFirstLogIn(false);
+
             moveToNewStack(context, loginRoute);
           },
         ),
