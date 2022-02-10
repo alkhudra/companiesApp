@@ -310,6 +310,7 @@ String getTextWithPercentage(num value) {
   return ' $value %';
 }
 
+//todo: check if already added to cart
 Widget addToCartBtnContainer(BuildContext context,
     {isDeleted,
     isAvailable,
@@ -414,7 +415,7 @@ cartDBProcess(BuildContext context, String productId, int counter,
   if (process == addToCartConst)
     apiResponse = await cartRepository.addProductToCart(productId, counter);
   else if (process == addQtyToCartConst)
-    apiResponse = await cartRepository.addProductToCart(productId, counter);
+    apiResponse = await cartRepository.addProductQtyToCart(productId, counter);
   else if (process == deleteFromCartConst)
     apiResponse = await cartRepository.deleteProductFromCart(productId);
   else

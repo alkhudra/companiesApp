@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
+import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
@@ -15,6 +15,7 @@ import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:khudrah_companies/router/route_constants.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
@@ -49,7 +50,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         if (snapshot.hasData) {
           print(snapshot.hasData);
           print(snapshot.data);
-          return pageDesign(context, snapshot,snapshot.data!);
+          return pageDesign(context, snapshot, snapshot.data!);
         } else {
           return customErrorCase(snapshot);
         }
@@ -57,46 +58,43 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-
-  Widget customErrorCase(AsyncSnapshot<ProductsModel?> hasData){
-  ProductsModel  model  = widget.productModel;
-    return pageDesign(context, hasData,model);
+  Widget customErrorCase(AsyncSnapshot<ProductsModel?> hasData) {
+    ProductsModel model = widget.productModel;
+    return pageDesign(context, hasData, model);
   }
+
   //----------------------------
-  Widget pageDesign(BuildContext context, AsyncSnapshot<ProductsModel?> hasData,ProductsModel model) {
+  Widget pageDesign(BuildContext context, AsyncSnapshot<ProductsModel?> hasData,
+      ProductsModel model) {
     String language = widget.language;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     price = (model.hasSpecialPrice == true
-        ? model.specialPrice
-        : model.originalPrice)
+            ? model.specialPrice
+            : model.originalPrice)
         ?.toDouble();
-    String? description = language == 'ar'
-        ? model.arDescription
-        : model.description;
+    String? description =
+        language == 'ar' ? model.arDescription : model.description;
     String? productId = model.productId;
-    String? category = language == 'ar'
-        ? model.arCategoryName
-        : model.categoryName;
+    String? category =
+        language == 'ar' ? model.arCategoryName : model.categoryName;
 
-    String? name = language == 'ar'
-        ? model.arName
-        : model.name;
+    String? name = language == 'ar' ? model.arName : model.name;
     String imageUrl = ApiConst.images_url + model.image!;
     bool? isFavourite = model.isFavourite;
-
+    num? stockQty = model.quantity;
     Color favIconColor = isFavourite == true
         ? CustomColors().redColor
-        : CustomColors().primaryWhiteColor;
+        : CustomColors().grayColor;
     //counter = 0;
     bool isAvailable = model.isAvailabe!;
     bool isDeleted = model.isDeleted!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors().primaryGreenColor,
-      body:CustomScrollView(
+      body: CustomScrollView(
         slivers: [
           SliverAppBar(
             centerTitle: true,
@@ -124,7 +122,6 @@ class _ProductDetailsState extends State<ProductDetails> {
               color: CustomColors().primaryWhiteColor,
               onPressed: () => Navigator.pop(context),
             ),
-
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -146,9 +143,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child:
-
-              Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -166,16 +161,43 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Text(
-                      '$name',
-                      style: TextStyle(
-                        color: CustomColors().blackColor.withOpacity(0.9),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: Text(
+                          '$name',
+                          style: TextStyle(
+                            color: CustomColors().blackColor.withOpacity(0.9),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 24,
+                          ),
+                        ),
                       ),
-                    ),
+                      MaterialButton(
+                        onPressed: () {
+                          if (hasData.hasError == false) {
+                            if (isAddToFavBtnEnabled) {
+                              ProductCard.addToFav(
+                                  context, isFavourite, productId!);
+                              setState(() {
+                                isFavourite = model.isFavourite;
+                                isFavourite == true
+                                    ? favIconColor = CustomColors().redColor
+                                    : favIconColor = CustomColors().grayColor;
+                              });
+                            }
+                          }
+                        },
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.favorite,
+                          color: favIconColor,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 5,
@@ -186,7 +208,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     children: [
                       Container(
                         margin:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
                           ("$price " + LocaleKeys.sar_per_kg.tr()),
                           style: TextStyle(
@@ -233,102 +255,83 @@ class _ProductDetailsState extends State<ProductDetails> {
                       overflow: TextOverflow.clip,
                     ),
                   ),
-                
                 ],
               ),
             ),
           ),
-
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
+          color: CustomColors().primaryWhiteColor,
           height: scHeight * 0.09,
-          child:hasData.hasError == true
-              ? errorText('${hasData.error}'):
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                child: Text(
-                  total > 0
-                      ? ("$total " + LocaleKeys.sar.tr())
-                      : ("$price " + LocaleKeys.sar.tr()),
-                  style: TextStyle(
-                    color: CustomColors().primaryGreenColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              addToCartBtnContainer(
-                context,
-                isDeleted: isDeleted,
-                isAvailable: isAvailable,
-                counter: counter,
-                onBtnClicked: () {
-                  if (isAddToCartBtnEnabled) {
-                    setState(() {
-                      counter++;
-                    });
-                    addToCart(productId!);
-                  }
-                },
-                onDecreaseBtnClicked: () {
-                  setState(() {
-                    if (isDecreaseBtnEnabled) {
-                      setState(() {
-                        counter > 1 ? counter-- : counter = 1;
-                      });
-                      deleteQtyFromCart(productId!);
-                    }
-                  });
-                },
-                onDeleteBtnClicked: () {
-                  if (isTrashBtnEnabled) {
-                    setState(() {
-                      counter = 0;
-                    });
-                    deleteFromCart(productId!);
-                  }
-                },
-                onIncreaseBtnClicked: () {
-                  if (isIncreaseBtnEnabled) {
-                    setState(() {
-                      counter++;
-                    });
-                    addQtyToCart(productId!);
-                  }
-                },
-              ),
-              InkWell(
-                  onTap: () {
-                    if (isAddToFavBtnEnabled) {
-                      ProductCard.addToFav(context, isFavourite, productId!);
-                      setState(() {
-                        isFavourite = !isFavourite!;
-                        isFavourite == true
-                            ? favIconColor = CustomColors().redColor
-                            : favIconColor = CustomColors().grayColor;
-                      });
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.favorite,
-                      color: favIconColor,
+          child: hasData.hasError == true
+              ? errorText('${hasData.error}')
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      child: Text(
+                        total > 0
+                            ? ("$total " + LocaleKeys.sar.tr())
+                            : ("$price " + LocaleKeys.sar.tr()),
+                        style: TextStyle(
+                          color: CustomColors().primaryGreenColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  )
-                // isFavourite == true ? Icon(Icons.favorite, color: CustomColors().redColor)
-                // : Icon(Icons.favorite, color: CustomColors().primaryWhiteColor,),
-              ),
-            ],
-          ),),
+                    addToCartBtnContainer(
+                      context,
+                      isDeleted: isDeleted,
+                      isAvailable: isAvailable,
+                      counter: counter,
+                      onBtnClicked: () {
+                        if (isAddToCartBtnEnabled) {
+                          setState(() {
+                            counter++;
+                          });
+                          addToCart(productId!);
+                        }
+                      },
+                      onDecreaseBtnClicked: () {
+                        setState(() {
+                          if (isDecreaseBtnEnabled) {
+                            setState(() {
+                              counter > 1 ? counter-- : counter = 1;
+                            });
+                            deleteQtyFromCart(productId!);
+                          }
+                        });
+                      },
+                      onDeleteBtnClicked: () {
+                        if (isTrashBtnEnabled) {
+                          setState(() {
+                            counter = 0;
+                          });
+                          deleteFromCart(productId!);
+                        }
+                      },
+                      onIncreaseBtnClicked: () {
+                        if (isIncreaseBtnEnabled) {
+                          if (counter < stockQty!) {
+                            setState(() {
+                              counter++;
+                            });
+                            addQtyToCart(productId!);
+                          } else
+                            showSuccessMessage(
+                                context, LocaleKeys.no_stock.tr());
+                        }
+                      },
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }
-
 
   ///-------------------------------
   ///-------------------------------
@@ -399,8 +402,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   void deleteQtyFromCart(String productId) async {
     print('counter $counter');
     isDecreaseBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId, counter, deleteFromCartConst);
+    String message = await cartDBProcess(
+        context, productId, counter, deleteQtyFromCartConst);
     showSuccessMessage(context, message);
 
     setState(() {
