@@ -109,27 +109,25 @@ class _CartPageState extends State<CartPage> {
       return SlidingUpPanel(
         body: ListView.builder(
           itemBuilder: (context, index) {
-            productId  = list[index].productDto!.productId!;
-            print('product id in builder $productId');
             return Slidable(
+                key: const ValueKey(0),
                 endActionPane: ActionPane(
-                  key: const ValueKey(0),
                   motion: const BehindMotion(),
                   dismissible: DismissiblePane(onDismissed: () {}),
                   children: [
                     SlidableAction(
+                      flex: 2,
                       backgroundColor: CustomColors().redColor,
-                      // foregroundColor: CustomColors().primaryWhiteColor,
                       icon: Icons.delete,
                       label: LocaleKeys.delete_from_cart.tr(),
                       onPressed: (BuildContext context) {
-                        deleteFromCart(context,index, productId);
+                        productId = list[index].productDto!.productId!;
+                        deleteFromCart(context, index, productId);
                       },
                     )
                   ],
                 ),
-                child: cartTile(context, language,
-                    list, index));
+                child: cartTile(context, language, list, index));
           },
           itemCount: list.length,
         ),
@@ -214,10 +212,11 @@ class _CartPageState extends State<CartPage> {
   //--------
 
   //--------
-  void deleteFromCart(BuildContext context, int index,String? productId) async {
+  void deleteFromCart(
+      BuildContext context, int index, String? productId) async {
     if (isTrashBtnEnabled) {
       isTrashBtnEnabled = false;
-     showLoaderDialog(context);
+      // showLoaderDialog(context);
       //----------start api ----------------
 
       Map<String, dynamic> headerMap = await getHeaderMap();
@@ -231,19 +230,17 @@ class _CartPageState extends State<CartPage> {
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         MessageResponseModel model =
             MessageResponseModel.fromJson(apiResponse.result);
-        Navigator.pop(context);
+        //  Navigator.pop(context);
         setState(() {
           isTrashBtnEnabled = true;
           list.removeAt(index);
         });
         showSuccessMessage(context, model.message!);
       } else {
-        Navigator.pop(context);
+        //  Navigator.pop(context);
         isTrashBtnEnabled = true;
         showErrorMessageDialog(context, apiResponse.message);
       }
-
-
     }
   }
 

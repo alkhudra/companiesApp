@@ -39,12 +39,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-static  bool isUserFirstLogin =true;
-static  bool isUserLoggedIn =false;
+  static  bool isUserFirstLogin=false;
+  static  bool isUserLoggedIn=true;
+  @override
+  void initState() {
+    super.initState();
+    setValues();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       color: CustomColors().primaryGreenColor,
@@ -57,26 +61,24 @@ static  bool isUserLoggedIn =false;
         accentColor: CustomColors().primaryGreenColor,
         primarySwatch: Colors.green,
       ),
-      home:getRout() ,
+      home: getRout(),
     );
   }
 
-  Widget getRout(){
-    PreferencesHelper.setUserFirstLogIn(true);
-    PreferencesHelper.getIsUserFirstLogIn.then((value) {
-      isUserFirstLogin = value;
-    });
-    PreferencesHelper.getIsUserLoggedIn.then((value) {
-      isUserLoggedIn = value;
+  Widget getRout() {
 
-    });
     print(isUserFirstLogin);
-    if(isUserFirstLogin == true && isUserLoggedIn == false)
-    return LanguagePage();
-    if(isUserFirstLogin == false && isUserLoggedIn == true)
-     return DashboardPage();
-    if(isUserFirstLogin == false && isUserLoggedIn == false)
+
+    if (isUserFirstLogin == false && isUserLoggedIn == true)
+      return DashboardPage();
+    if (isUserFirstLogin == false && isUserLoggedIn == false)
       return LogInPage();
-    else  return LanguagePage( );
+    else
+      return LanguagePage();
+  }
+
+  setValues() async {
+    isUserFirstLogin = await PreferencesHelper.getIsUserFirstLogIn;
+    isUserLoggedIn = await PreferencesHelper.getIsUserLoggedIn;
   }
 }
