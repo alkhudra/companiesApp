@@ -131,8 +131,8 @@ class _CartPageState extends State<CartPage> {
           },
           itemCount: list.length,
         ),
-        minHeight: 60,
-        maxHeight: 270,
+        minHeight: scHeight*0.07,
+        maxHeight: scHeight*0.38,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
