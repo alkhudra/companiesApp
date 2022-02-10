@@ -319,8 +319,9 @@ Widget addToCartBtnContainer(BuildContext context,
   return Container(
       child: isDeleted == false && isAvailable == true
           ? counter == 0
-              ? greenBtn(LocaleKeys.add_cart.tr(),
-                  EdgeInsets.symmetric(horizontal: 5), onBtnClicked)
+              ? cartBtn(Icons.shopping_cart,
+                // LocaleKeys.add_cart.tr(),
+                  EdgeInsets.symmetric(horizontal: 0), onBtnClicked)
               : qtyContainer(context, counter, onDeleteBtnClicked,
                   onIncreaseBtnClicked, onDecreaseBtnClicked)
           : unAvailableBtn(LocaleKeys.not_available_product.tr(),

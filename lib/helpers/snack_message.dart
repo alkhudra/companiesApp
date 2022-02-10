@@ -10,5 +10,6 @@ void showSuccessMessage(BuildContext context,String message){
       color:  CustomColors().primaryWhiteColor,
     ),),
     backgroundColor: CustomColors().primaryGreenColor,
+    behavior: SnackBarBehavior.floating,
   ));
 }
