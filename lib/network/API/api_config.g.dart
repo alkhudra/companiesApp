@@ -356,7 +356,7 @@ class _RestClient implements RestClient {
     _data.addAll(hashMap);
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/Cart/AddQuantityFromProduct',
+            .compose(_dio.options, '/Cart/AddQuantityToProduct',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;

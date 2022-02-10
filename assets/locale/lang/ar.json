@@ -153,5 +153,7 @@
   "no_items_in_cart": "لا يوجد لديك منتجات في السلة ",
   "discount": "الخصم",
   "discount_percentage": "نسبة الخصم",
-  "not_available_product": "المنتج غير متوفر"
+  "not_available_product": "المنتج غير متوفر",
+  "no_stock": "لايوجد منتجات في المخزون "
+
 }
