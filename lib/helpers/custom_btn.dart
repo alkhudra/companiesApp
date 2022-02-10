@@ -85,3 +85,26 @@ Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry) {
     child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
   );
 }
+
+Widget cartBtn(IconData icon,
+    EdgeInsetsGeometry edgeInsetsGeometry, Function() onPressed) {
+  return Container(
+      height: ButtonsDesign.buttonsHeight,
+      margin: edgeInsetsGeometry,
+      decoration: BoxDecoration(),
+      child: MaterialButton(
+        onPressed: onPressed,
+        shape: StadiumBorder(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: CustomColors().primaryWhiteColor,
+              size: 26,
+            ),
+          ],
+        ),
+        color: CustomColors().primaryGreenColor,
+      ));
+}
