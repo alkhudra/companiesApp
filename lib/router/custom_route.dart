@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:khudrah_companies/dialogs/message_dialog.dart';
-import 'package:khudrah_companies/pages/contact_us.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
-import 'package:khudrah_companies/pages/account/edit_profile.dart';
-import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
-import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/pages/welcome_page.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
@@ -33,7 +28,6 @@ class CustomRouter {
   }
 
   static Route<dynamic> dlGeneratedRoute(RouteSettings routeSettings) {
-    final args = routeSettings.arguments;
     switch(routeSettings.name) {
       //Add Product Details page
      /* case "/productPage":

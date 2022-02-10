@@ -30,7 +30,7 @@ Future<Map<String, dynamic>> getAuthHeaderMap() async {
 
 
 Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
-  // if (snapshot.hasError) {
+   if (snapshot.hasError) {
     return Center(
       child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -50,7 +50,7 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
         //   fontWeight: FontWeight.w700
         // ),),
         SizedBox(height: 5,),
-        Text(LocaleKeys.no_favorites.tr(), style: TextStyle(
+        Text('${snapshot.error}', style: TextStyle(
           color: CustomColors().darkGrayColor.withOpacity(0.5),
           fontSize: 15,
         ),),
@@ -58,8 +58,8 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
         // Text('${snapshot.error}' ,),
       ],
     ));
-  // } else
+   } else
 
     // By default, show a loading spinner.
-    // return loadingProgress();
+     return loadingProgress();
 }

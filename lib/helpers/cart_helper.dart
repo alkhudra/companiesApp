@@ -101,6 +101,7 @@ Widget cartTile(BuildContext context, String language,
         SizedBox(
           height: 5,
         ),
+
         GestureDetector(
           onTap: () {
             if (isDeleted == false && isAvailable == true)
@@ -259,25 +260,7 @@ Widget cartTile(BuildContext context, String language,
                   SizedBox(
                     width: 10,
                   ),
-                  //Delete icon
-                  GestureDetector(
-                    onTap: () {
-                      //  deleteFromCart(context, model.productId);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 2,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: CustomColors().redColor,
-                        ),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
+                  
                   // Container(
                   //   child: Stack(
                   //     children: [

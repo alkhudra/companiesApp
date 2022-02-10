@@ -81,8 +81,6 @@ class _SearchListPageState extends State<SearchListPage> {
 
   Widget searchPageDesign(String keyWord) {
     Size size = MediaQuery.of(context).size;
-    double scWidth = size.width;
-    double scHeight = size.height;
 
     return SingleChildScrollView(
       child: Column(

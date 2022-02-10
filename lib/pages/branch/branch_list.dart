@@ -79,17 +79,6 @@ class _BranchListState extends State<BranchList> {
     }
   }
 
-  //-----------------------
-  Widget errorCase(AsyncSnapshot<BranchListResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
-      // By default, show a loading spinner.
-      return Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 30),
-              child: CircularProgressIndicator()));
-  }
 
   //-----------------------
   Widget _buildBody(BuildContext context, BranchListResponseModel? snapshot) {
