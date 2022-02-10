@@ -87,11 +87,10 @@ class _CartPageState extends State<CartPage> {
   //-----------------------
 
   Widget listDesign(BuildContext context, SuccessCartResponseModel? model) {
-
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    
+
     if (model!.userCart != null) {
       if (model.message != '') {
         showMessageDialog(context, model.message!, '', noPage);
@@ -105,7 +104,7 @@ class _CartPageState extends State<CartPage> {
           : model.userCart!.totalCartPrice!;
       double price_vat = 27.2;
       double discount = 20;
-
+      bool? hasDiscount = model.userCart!.hasDiscount;
       return SlidingUpPanel(
         body: ListView.builder(
           itemBuilder: (context, index) {
@@ -131,8 +130,8 @@ class _CartPageState extends State<CartPage> {
           },
           itemCount: list.length,
         ),
-        minHeight: scHeight*0.07,
-        maxHeight: scHeight*0.38,
+        minHeight: scHeight * 0.07,
+        maxHeight: scHeight * 0.38,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
@@ -173,10 +172,17 @@ class _CartPageState extends State<CartPage> {
                       LocaleKeys.subtotal.tr(), getTextWithCurrency(subtotal)),
                   cartDetailsItem(
                       LocaleKeys.vat.tr(), getTextWithCurrency(vat)),
-                  cartDetailsItem(LocaleKeys.discount_percentage.tr(),
-                      getTextWithPercentage(discount)),
-                  cartDetailsItem(
-                      LocaleKeys.discount.tr(), getTextWithCurrency(price_vat)),
+                  if (hasDiscount!)
+                    Column(
+                      children: [
+                        cartDetailsItem(LocaleKeys.discount_percentage.tr(),
+                            getTextWithPercentage(discount)),
+                        cartDetailsItem(
+                            LocaleKeys.discount.tr(),
+                            getTextWithCurrency(
+                                model.userCart!.priceAfterDiscount!)),
+                      ],
+                    )
                 ],
               ),
               SizedBox(
