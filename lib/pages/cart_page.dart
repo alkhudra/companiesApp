@@ -87,6 +87,11 @@ class _CartPageState extends State<CartPage> {
   //-----------------------
 
   Widget listDesign(BuildContext context, SuccessCartResponseModel? model) {
+
+    Size size = MediaQuery.of(context).size;
+    double scWidth = size.width;
+    double scHeight = size.height;
+    
     if (model!.userCart != null) {
       if (model.message != '') {
         showMessageDialog(context, model.message!, '', noPage);
