@@ -83,7 +83,7 @@ class _AllCategoryState extends State<AllCategory> {
           elevation: 0.0,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: appBarWithActions(context,
         LocaleKeys.all_category.tr(), () {Navigator.pop(context);}),
       // endDrawer: drawerDesign(context),
