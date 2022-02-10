@@ -11,7 +11,7 @@ Widget orderTileDesign(context, scWidth, scHeight) {
           //background container
           GestureDetector(
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: EdgeInsets.symmetric(vertical: 2),
               alignment: Alignment.center,
               width: scWidth*0.83,
               height: 85,
@@ -40,15 +40,10 @@ Widget orderTileDesign(context, scWidth, scHeight) {
               );
             },
           ),
-          // Container(),
           //details container
           GestureDetector(
             child: Container(
-              // margin: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              ),
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,

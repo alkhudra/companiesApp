@@ -82,19 +82,16 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
                     itemBuilder: ((context, index) {
                       return orderTileDesign(context, scWidth, scHeight);
                     }),
-                    itemCount: 5,
+                    itemCount: 10,
                   ),
 
 
                   // second tab bar view widget
-                  Center(
-                    child: Text(
-                      'Buy Now',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  ListView.builder(
+                    itemBuilder: ((context, index) {
+                      return orderTileDesign(context, scWidth, scHeight);
+                    }),
+                    itemCount: 10,
                   ),
                 ],
               ),
