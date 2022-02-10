@@ -40,12 +40,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
 
     return Scaffold(
       //add body
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Container(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Container(
               height: 40,
+              width: 320,
               decoration: BoxDecoration(
                 // color: CustomColors().primaryWhiteColor,
                 borderRadius: BorderRadius.circular(25),
@@ -59,6 +60,11 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
                   color: CustomColors().primaryGreenColor,
                 ),
                 labelColor: CustomColors().primaryWhiteColor,
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Almarai',
+                  fontSize: 16
+                ),
                 unselectedLabelColor: CustomColors().darkBlueColor,
                 tabs: [
                   // first tab [you can add an icon using the icon property]
@@ -73,31 +79,37 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
                 ],
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  // first tab bar view widget 
-                  ListView.builder(
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // first tab bar view widget 
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 30,),
+                  child: ListView.builder(
+                      itemBuilder: ((context, index) {
+                        return orderTileDesign(context, scWidth, scHeight);
+                      }),
+                      itemCount: 10,
+                    ),
+                ),
+
+
+                // second tab bar view widget
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 30),
+                  child: ListView.builder(
                     itemBuilder: ((context, index) {
                       return orderTileDesign(context, scWidth, scHeight);
                     }),
                     itemCount: 10,
                   ),
-
-
-                  // second tab bar view widget
-                  ListView.builder(
-                    itemBuilder: ((context, index) {
-                      return orderTileDesign(context, scWidth, scHeight);
-                    }),
-                    itemCount: 10,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       // endDrawer: drawerDesign(context),
       appBar: bnbAppBar(context, LocaleKeys.my_orders.tr()),
