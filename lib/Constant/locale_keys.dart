@@ -168,4 +168,5 @@ abstract class LocaleKeys {
   static const current_orders = "Current";
   static const complete_orders = "Completed";
   static const order_status = "Order Status";
+  static const track_order = "Track Your Order";
 }

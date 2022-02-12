@@ -80,6 +80,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
               ),
             ),
           ),
+          SizedBox(height: 10,),
           Expanded(
             child: TabBarView(
               controller: _tabController,

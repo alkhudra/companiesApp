@@ -172,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                       LocaleKeys.subtotal.tr(), getTextWithCurrency(subtotal)),
                   cartDetailsItem(
                       LocaleKeys.vat.tr(), getTextWithCurrency(vat)),
-                  if (hasDiscount!)
+                  if (hasDiscount)
                     Column(
                       children: [
                         cartDetailsItem(LocaleKeys.discount_percentage.tr(),
