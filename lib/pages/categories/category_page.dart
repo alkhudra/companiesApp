@@ -115,37 +115,18 @@ class _CategoryPageState extends State<CategoryPage> {
         shrinkWrap: true,
         // physics: NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return ProductCard.productCardDesign(
-            context,
-            language ,
-            list[index],() {
-            bool? isFavourite = list[index].isFavourite;
-            ProductCard.addToFav(context, isFavourite,
-                list[index].productId!);
-            setState(() {
-              isFavourite = !isFavourite!;
-            });
-          }
-          );
+        itemBuilder:(context, index) {
+          ProductsModel model = list[index];
+          String productId=model.productId!;
+          return getProductCard(context,model,productId);
         },
         itemCount: list.length,
       ),
     ): noItemDesign(LocaleKeys.no_items_category.tr(), 'images/not_found.png');
 
   }
-//--------
 
-  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
 
-      // By default, show a loading spinner.
-      return Center(child: Container(
-          margin: EdgeInsets.only(top:30),
-          child: CircularProgressIndicator()));
-  }
 //--------
 
   Future<ProductListResponseModel?> getInfoFromDB(String categoryId) async {
@@ -191,4 +172,35 @@ class _CategoryPageState extends State<CategoryPage> {
   String? setCategoryName(CategoryItem categoryList) {
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
+
+  getProductCard(BuildContext context ,ProductsModel model ,String productId  ) {
+
+    return ProductCard.productCardDesign(
+        context, language, model, () {
+      bool? isFavourite = model.isFavourite;
+      ProductCard.addToFav(context, isFavourite,
+          productId);
+      setState(() {
+        isFavourite = !isFavourite!;
+      });
+    }, onIncreaseBtnClicked: () {
+      setState(() {
+        ProductCard.addQtyToCart(context, productId);
+      });
+    }, onDecreaseBtnClicked: () {
+      setState(() {
+        ProductCard.deleteQtyFromCart(context, productId);
+      });
+    }, onDeleteBtnClicked: () {
+      setState(() {
+        ProductCard.deleteFromCart(context, productId);
+      });
+    }, onAddBtnClicked: () {
+      setState(() {
+        ProductCard.addToCart(context, productId);
+      });
+    });
+
+  }
+
 }

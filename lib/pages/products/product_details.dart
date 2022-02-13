@@ -283,6 +283,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     addToCartBtnContainer(
                       context,
+                      userQty: model.userProductQuantity,
                       productsModel: model,
                       onBtnClicked: () {
                         if (isAddToCartBtnEnabled) {

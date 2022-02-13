@@ -14,11 +14,13 @@ import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/home_page_helper.dart';
 import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
+import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/home_repository.dart';
@@ -57,27 +59,25 @@ class _HomePageState extends State<HomePage> {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
-      child:*/ Scaffold(
-        endDrawer: drawerDesignWithName(context, name, email),
-        appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
-        // key: _scaffoldState,
-        body: FutureBuilder<HomeSuccessResponseModel?>(
-          future: getHomePage(), //provider.fetchData(),
-          builder: (context, snapshot) {
-            print(snapshot.toString());
-            if (snapshot.hasData) {
-              print(snapshot.hasData);
-              print(snapshot.data);
-              return homePageDesign(snapshot.data);
-            } else
-              return errorCase(snapshot);
-          },
-        ),
-      )
-    ;
+      child:*/
+        Scaffold(
+      endDrawer: drawerDesignWithName(context, name, email),
+      appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
+      // key: _scaffoldState,
+      body: FutureBuilder<HomeSuccessResponseModel?>(
+        future: getHomePage(), //provider.fetchData(),
+        builder: (context, snapshot) {
+          print(snapshot.toString());
+          if (snapshot.hasData) {
+            print(snapshot.hasData);
+            print(snapshot.data);
+            return homePageDesign(snapshot.data);
+          } else
+            return errorCase(snapshot);
+        },
+      ),
+    );
   }
-
-
 
   //---------------------
   Widget homePageDesign(HomeSuccessResponseModel? home) {
@@ -148,7 +148,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 5,
                     ),
@@ -205,7 +204,9 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                   ),
                 ),
-                SizedBox(width: 10,)
+                SizedBox(
+                  width: 10,
+                )
               ],
             ),
           ),
@@ -215,18 +216,18 @@ class _HomePageState extends State<HomePage> {
           //Newest deals title and button
 
           //Temp gesture detect, remove when done
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                child: Text(
-                  LocaleKeys.newest_deals.tr(),
-                  style: TextStyle(
-                    color: CustomColors().darkBlueColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+          Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
+            child: Text(
+              LocaleKeys.newest_deals.tr(),
+              style: TextStyle(
+                color: CustomColors().darkBlueColor,
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
               ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
@@ -235,17 +236,10 @@ class _HomePageState extends State<HomePage> {
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-
-                return ProductCard.productCardDesign(
-                    context, language, home.productsList![index], () {
-                  bool? isFavourite = home.productsList![index].isFavourite;
-                  ProductCard.addToFav(context, isFavourite,
-                      home.productsList![index].productId!);
-                  setState(() {
-                    isFavourite = !isFavourite!;
-                  });
-                });
+              itemBuilder:(context, index) {
+                ProductsModel model = home.productsList![index];
+                String productId=model.productId!;
+                return getProductCard(context,model,productId);
               },
               itemCount: home.productsList!.length,
             ),
@@ -330,9 +324,39 @@ class _HomePageState extends State<HomePage> {
       showAddBranchDialog();
     }*/
   }
+//----------------------
 
   String? setCategoryName(CategoryItem categoryList) {
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
+//----------------------
+   getProductCard(BuildContext context ,ProductsModel model ,String productId  ) {
 
+    return ProductCard.productCardDesign(
+          context, language, model, () {
+        bool? isFavourite = model.isFavourite;
+        ProductCard.addToFav(context, isFavourite,
+            productId);
+        setState(() {
+          isFavourite = !isFavourite!;
+        });
+      }, onIncreaseBtnClicked: () {
+        setState(() {
+          ProductCard.addQtyToCart(context, productId);
+        });
+      }, onDecreaseBtnClicked: () {
+        setState(() {
+          ProductCard.deleteQtyFromCart(context, productId);
+        });
+      }, onDeleteBtnClicked: () {
+        setState(() {
+          ProductCard.deleteFromCart(context, productId);
+        });
+      }, onAddBtnClicked: () {
+        setState(() {
+          ProductCard.addToCart(context, productId);
+        });
+      });
+
+  }
 }

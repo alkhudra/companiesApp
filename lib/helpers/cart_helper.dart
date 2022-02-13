@@ -362,20 +362,20 @@ String getTextWithPercentage(num value) {
 
 Widget addToCartBtnContainer(BuildContext context,
     {productsModel,
-
+      userQty,
     onDeleteBtnClicked,
     onIncreaseBtnClicked,
     onDecreaseBtnClicked,
     onBtnClicked}) {
   return Container(
       child: productsModel.isDeleted == false && productsModel.isAvailabe == true
-          ? productsModel.isAddedToCart == false && productsModel.userProductQuantity == 0
+          ? productsModel.isAddedToCart == false && userQty == 0
               ? cartBtn(
                   Icons.shopping_cart,
                   // LocaleKeys.add_cart.tr(),
                   EdgeInsets.symmetric(horizontal: 0),
                   onBtnClicked)
-              : qtyContainer(context, productsModel.userProductQuantity, onDeleteBtnClicked,
+              : qtyContainer(context, userQty, onDeleteBtnClicked,
                   onIncreaseBtnClicked, onDecreaseBtnClicked)
           : unAvailableBtn(LocaleKeys.not_available_product.tr(),
               EdgeInsets.symmetric(horizontal: 5)));

@@ -28,6 +28,8 @@ class ProductCard {
     String language,
     ProductsModel productModel,
     Function() favPressed,
+  {onAddBtnClicked , onIncreaseBtnClicked,onDecreaseBtnClicked,
+    onDeleteBtnClicked,isAddToCart}
     /*    {counter ,increaseCount, decreaseCount}*/
   ) {
     double? price = (productModel.hasSpecialPrice == true
@@ -36,12 +38,10 @@ class ProductCard {
         ?.toDouble();
 
     bool? isFavourite = productModel.isFavourite;
-    bool? isAvailable = productModel.isAvailabe;
-    String? productId = productModel.productId;
-    bool isDeleted = productModel.isDeleted!;
+
     String? name = language == 'ar' ? productModel.arName : productModel.name;
     num? stockQty = productModel.quantity!;
-
+    int? qty = productModel.userProductQuantity;
     //--------------------------
 
     return GestureDetector(
@@ -135,30 +135,28 @@ class ProductCard {
                             child: addToCartBtnContainer(
                               context,
                               productsModel:productModel,
-
+                              userQty:  qty,
                               onBtnClicked: () {
                                 if (isAddToCartBtnEnabled) {
-                                  //  counter++;
-                                  addToCart(context,productId!);
+                                  onAddBtnClicked();
                                 }
                               },
                               onDecreaseBtnClicked: () {
 
                                   if (isDecreaseBtnEnabled) {
-                                    deleteQtyFromCart(context,productId!);
+                                    onDecreaseBtnClicked();
                                   }
 
                               },
                               onDeleteBtnClicked: () {
                                 if (isTrashBtnEnabled) {
-                                  deleteFromCart(context,productId!);
+                                 onDeleteBtnClicked();
                                 }
                               },
                               onIncreaseBtnClicked: () {
                                 if (isIncreaseBtnEnabled) {
                                   if (productModel.userProductQuantity! < stockQty) {
-
-                                    addQtyToCart(context,productId!);
+                                   onIncreaseBtnClicked();
                                   } else
                                     showSuccessMessage(
                                         context, LocaleKeys.no_stock.tr());
@@ -257,8 +255,8 @@ class ProductCard {
     isIncreaseBtnEnabled = false;
     String message =
         await cartDBProcess(context, productId,  addQtyToCartConst);
-    showSuccessMessage(context, message);
-
+//    showSuccessMessage(context, message);
+    print(message);
     isIncreaseBtnEnabled = true;
   }
 
@@ -268,8 +266,8 @@ class ProductCard {
     isDecreaseBtnEnabled = false;
     String message = await cartDBProcess(
         context, productId,  deleteQtyFromCartConst);
-    showSuccessMessage(context, message);
-
+  //  showSuccessMessage(context, message);
+    print(message);
     isDecreaseBtnEnabled = true;
   }
 

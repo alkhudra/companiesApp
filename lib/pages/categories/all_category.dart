@@ -99,20 +99,10 @@ class _AllCategoryState extends State<AllCategory> {
         shrinkWrap: true,
         // physics: NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return ProductCard.productCardDesign(
-            context,
-            language,
-            list[index],
-                  () {
-                bool? isFavourite = list[index].isFavourite;
-                ProductCard.addToFav(context, isFavourite,
-                    list[index].productId!);
-                setState(() {
-                  isFavourite = !isFavourite!;
-                });
-              }
-          );
+        itemBuilder:(context, index) {
+          ProductsModel model =list[index];
+          String productId=model.productId!;
+          return getProductCard(context,model,productId);
         },
         itemCount: list.length,
       ),
@@ -170,67 +160,40 @@ class _AllCategoryState extends State<AllCategory> {
     });
 
   }
+
+  //-------------------
+
+
+  getProductCard(BuildContext context ,ProductsModel model ,String productId  ) {
+
+    return ProductCard.productCardDesign(
+        context, language, model, () {
+      bool? isFavourite = model.isFavourite;
+      ProductCard.addToFav(context, isFavourite,
+          productId);
+      setState(() {
+        isFavourite = !isFavourite!;
+      });
+    }, onIncreaseBtnClicked: () {
+      setState(() {
+        ProductCard.addQtyToCart(context, productId);
+      });
+    }, onDecreaseBtnClicked: () {
+      setState(() {
+        ProductCard.deleteQtyFromCart(context, productId);
+      });
+    }, onDeleteBtnClicked: () {
+      setState(() {
+        ProductCard.deleteFromCart(context, productId);
+      });
+    }, onAddBtnClicked: () {
+      setState(() {
+        ProductCard.addToCart(context, productId);
+      });
+    });
+
+  }
 }
 
 
 
-
-
-// Container(
-//               width: double.infinity,
-//               decoration: BoxDecoration(
-//                 color: CustomColors().primaryWhiteColor,
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(40),
-//                   topRight: Radius.circular(40),
-//                 ),
-//               ),
-//               child: Column(
-//                 children: [
-//                   SizedBox(
-//                     height: 18,
-//                   ),
-//                   SearchHelper().searchBar(context, srController, false),
-//                   // SizedBox(
-//                   //   height: 5,
-//                   // ),
-//                   FutureBuilder<ProductListResponseModel?>(
-//                     future: getInfoFromDB(),
-//                     builder: (context, snapshot) {
-//                       if (snapshot.hasData) {
-//                         ProductListResponseModel? m=    snapshot.data;
-//                         print("data is $m");
-//                         return getListDesign();
-//                       } else
-//                         return errorCase(snapshot);
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ),
-
-            //appbar
-
-            //             centerTitle: true,
-            // // collapsedHeight: 200,
-            // title: Text(
-            //   LocaleKeys.all_category.tr(),
-            //   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
-            // ),
-            // flexibleSpace: Stack(
-            //   children: [
-            //     Positioned.fill(
-            //       left: 180,
-            //       child: Image.asset('images/grapevector.png'),
-            //     ),
-            //   ],
-            // ),
-            // expandedHeight: 160,
-            // elevation: 0.0,
-            // backgroundColor: CustomColors().primaryGreenColor,
-            // iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
-            // leading: IconButton(
-            //   icon: Icon(Icons.arrow_back_ios),
-            //   color: CustomColors().primaryWhiteColor,
-            //   onPressed: () => Navigator.pop(context),
-            // ),
