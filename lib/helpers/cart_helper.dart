@@ -360,24 +360,22 @@ String getTextWithPercentage(num value) {
   return ' $value %';
 }
 
-//todo: check if already added to cart
 Widget addToCartBtnContainer(BuildContext context,
-    {isDeleted,
-    isAvailable,
-    counter,
+    {productsModel,
+
     onDeleteBtnClicked,
     onIncreaseBtnClicked,
     onDecreaseBtnClicked,
     onBtnClicked}) {
   return Container(
-      child: isDeleted == false && isAvailable == true
-          ? counter == 0
+      child: productsModel.isDeleted == false && productsModel.isAvailabe == true
+          ? productsModel.isAddedToCart == false && productsModel.userProductQuantity == 0
               ? cartBtn(
                   Icons.shopping_cart,
                   // LocaleKeys.add_cart.tr(),
                   EdgeInsets.symmetric(horizontal: 0),
                   onBtnClicked)
-              : qtyContainer(context, counter, onDeleteBtnClicked,
+              : qtyContainer(context, productsModel.userProductQuantity, onDeleteBtnClicked,
                   onIncreaseBtnClicked, onDecreaseBtnClicked)
           : unAvailableBtn(LocaleKeys.not_available_product.tr(),
               EdgeInsets.symmetric(horizontal: 5)));
@@ -389,7 +387,8 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
   double scWidth = size.width;
   double scHeight = size.height;
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+
+    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     width: scWidth * 0.25,
     height: scHeight * 0.04,
     decoration: BoxDecoration(
@@ -457,7 +456,7 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
 }
 
 cartDBProcess(
-    BuildContext context, String productId, int counter, String process) async {
+    BuildContext context, String productId,  String process) async {
   showLoaderDialog(context);
   //----------start api ----------------
   ApiResponse apiResponse;
@@ -465,14 +464,14 @@ cartDBProcess(
 
   CartRepository cartRepository = CartRepository(headerMap);
   if (process == addToCartConst)
-    apiResponse = await cartRepository.addProductToCart(productId, counter);
+    apiResponse = await cartRepository.addProductToCart(productId);
   else if (process == addQtyToCartConst)
-    apiResponse = await cartRepository.addProductQtyToCart(productId, counter);
+    apiResponse = await cartRepository.addProductQtyToCart(productId);
   else if (process == deleteFromCartConst)
     apiResponse = await cartRepository.deleteProductFromCart(productId);
   else
     apiResponse =
-        await cartRepository.deleteProductQtyFromCart(productId, counter);
+        await cartRepository.deleteProductQtyFromCart(productId);
 
   if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
     MessageResponseModel model =

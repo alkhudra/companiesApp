@@ -89,7 +89,7 @@ Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry) {
 Widget cartBtn(IconData icon,
     EdgeInsetsGeometry edgeInsetsGeometry, Function() onPressed) {
   return Container(
-      height: ButtonsDesign.buttonsHeight,
+      height: 40,
       margin: edgeInsetsGeometry,
       decoration: BoxDecoration(),
       child: MaterialButton(

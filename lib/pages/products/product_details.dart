@@ -283,9 +283,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     addToCartBtnContainer(
                       context,
-                      isDeleted: isDeleted,
-                      isAvailable: isAvailable,
-                      counter: counter,
+                      productsModel: model,
                       onBtnClicked: () {
                         if (isAddToCartBtnEnabled) {
                           setState(() {
@@ -359,7 +357,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     print('counter $counter');
     isTrashBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId, counter, deleteFromCartConst);
+        await cartDBProcess(context, productId, deleteFromCartConst);
     showSuccessMessage(context, message);
     setState(() {
       isTrashBtnEnabled = true;
@@ -374,7 +372,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     print('counter $counter');
     isAddToCartBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId, counter, addToCartConst);
+        await cartDBProcess(context, productId, addToCartConst);
     showSuccessMessage(context, message);
     setState(() {
       isAddToCartBtnEnabled = true;
@@ -388,8 +386,9 @@ class _ProductDetailsState extends State<ProductDetails> {
     print('counter $counter , total $total');
     isIncreaseBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId, counter, addQtyToCartConst);
-    showSuccessMessage(context, message);
+        await cartDBProcess(context, productId, addQtyToCartConst);
+   // showSuccessMessage(context, message);
+    print(message);
 
     setState(() {
       isIncreaseBtnEnabled = true;
@@ -402,9 +401,10 @@ class _ProductDetailsState extends State<ProductDetails> {
     print('counter $counter');
     isDecreaseBtnEnabled = false;
     String message = await cartDBProcess(
-        context, productId, counter, deleteQtyFromCartConst);
-    showSuccessMessage(context, message);
+        context, productId, deleteQtyFromCartConst);
+  //  showSuccessMessage(context, message);
 
+    print(message);
     setState(() {
       isDecreaseBtnEnabled = true;
       total = total - price!;

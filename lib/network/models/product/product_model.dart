@@ -17,7 +17,7 @@ class ProductsModel {
     bool? isDeleted,
     String? arCategoryName,
     String? categoryId,
-    num? userProductQuantity,
+    int? userProductQuantity,
     bool? isAddedToCart,
   }) {
     _isDeleted = isDeleted;
@@ -79,7 +79,7 @@ class ProductsModel {
   String? _categoryName;
   String? _arCategoryName;
   bool? _isDeleted;
-  num? _userProductQuantity;
+  int? _userProductQuantity;
   bool? _isAddedToCart;
   bool? get isFavourite => _isFavourite;
 
@@ -100,6 +100,8 @@ class ProductsModel {
   String? get categoryId => _categoryId;
   String? get arCategoryName => _arCategoryName;
   String? get categoryName => _categoryName;
+  bool? get isAddedToCart => _isAddedToCart;
+  int? get userProductQuantity => _userProductQuantity;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -129,4 +131,5 @@ class ProductsModel {
   String toString() {
     return 'ProductsModel{_productId: $_productId, _name: $_name, _arName: $_arName, _hasSpecialPrice: $_hasSpecialPrice, _originalPrice: $_originalPrice, _specialPrice: $_specialPrice, _quantity: $_quantity, _description: $_description, _arDescription: $_arDescription, _isAvailabe: $_isAvailabe, _isActive: $_isActive, _image: $_image, _categoryId: $_categoryId, _isFavourite: $_isFavourite, _categoryName: $_categoryName, _arCategoryName: $_arCategoryName, _isDeleted: $_isDeleted, _userProductQuantity: $_userProductQuantity, _isAddedToCart: $_isAddedToCart}';
   }
+
 }

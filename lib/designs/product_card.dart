@@ -40,8 +40,7 @@ class ProductCard {
     String? productId = productModel.productId;
     bool isDeleted = productModel.isDeleted!;
     String? name = language == 'ar' ? productModel.arName : productModel.name;
-
-    int counter = 0;
+    num? stockQty = productModel.quantity!;
 
     //--------------------------
 
@@ -127,21 +126,42 @@ class ProductCard {
                             height: 15,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.23,
+                            /* width: MediaQuery.of(context).size.width * 0.23,
                             height: MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
                               color: CustomColors().primaryGreenColor,
-                            ),
+                            ),*/
                             child: addToCartBtnContainer(
                               context,
-                              isDeleted: isDeleted,
-                              isAvailable: isAvailable,
-                              counter: counter,
+                              productsModel:productModel,
+
                               onBtnClicked: () {
-                                //isAddToCartBtnEnabled == true ? favPressed : null;
                                 if (isAddToCartBtnEnabled) {
-                                  addToCart(context, counter, productId!);
+                                  //  counter++;
+                                  addToCart(context,productId!);
+                                }
+                              },
+                              onDecreaseBtnClicked: () {
+
+                                  if (isDecreaseBtnEnabled) {
+                                    deleteQtyFromCart(context,productId!);
+                                  }
+
+                              },
+                              onDeleteBtnClicked: () {
+                                if (isTrashBtnEnabled) {
+                                  deleteFromCart(context,productId!);
+                                }
+                              },
+                              onIncreaseBtnClicked: () {
+                                if (isIncreaseBtnEnabled) {
+                                  if (productModel.userProductQuantity! < stockQty) {
+
+                                    addQtyToCart(context,productId!);
+                                  } else
+                                    showSuccessMessage(
+                                        context, LocaleKeys.no_stock.tr());
                                 }
                               },
                             ),
@@ -210,20 +230,20 @@ class ProductCard {
 
   //----------------
   static void deleteFromCart(
-      BuildContext context, int counter, String productId) async {
+      BuildContext context , String productId) async {
     isTrashBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId, counter, deleteFromCartConst);
+        await cartDBProcess(context, productId,  deleteFromCartConst);
     showSuccessMessage(context, message);
 
     isTrashBtnEnabled = true;
   }
 
   static void addToCart(
-      BuildContext context, int counter, String productId) async {
+      BuildContext context , String productId) async {
     isAddToCartBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId, counter, addToCartConst);
+        await cartDBProcess(context, productId,  addToCartConst);
     showSuccessMessage(context, message);
 
     isAddToCartBtnEnabled = true;
@@ -233,10 +253,10 @@ class ProductCard {
 
   //---------------------
   static void addQtyToCart(
-      BuildContext context, int counter, String productId) async {
+      BuildContext context  ,String productId) async {
     isIncreaseBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId, counter, addQtyToCartConst);
+        await cartDBProcess(context, productId,  addQtyToCartConst);
     showSuccessMessage(context, message);
 
     isIncreaseBtnEnabled = true;
@@ -244,10 +264,10 @@ class ProductCard {
 
   //---------------------
   static void deleteQtyFromCart(
-      BuildContext context, int counter, String productId) async {
+      BuildContext context , String productId) async {
     isDecreaseBtnEnabled = false;
     String message = await cartDBProcess(
-        context, productId, counter, deleteQtyFromCartConst);
+        context, productId,  deleteQtyFromCartConst);
     showSuccessMessage(context, message);
 
     isDecreaseBtnEnabled = true;

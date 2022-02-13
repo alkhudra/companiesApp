@@ -57,15 +57,14 @@ class CartRepository{
   //-----------------------------------
   Future<ApiResponse> addProductToCart(
       String productId,
-      int userProductQuantity) async {
-    if (productId == null ||
-        userProductQuantity == null ){
+     ) async {
+    if (productId == null  ){
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
 
     Map<String, dynamic> hashMap = {
       "productId": productId,
-      "userProductQuantity": userProductQuantity,
+      "userProductQuantity": 1,
     };
 
     return await _client
@@ -99,15 +98,14 @@ class CartRepository{
   //-----------------------------------
   Future<ApiResponse> addProductQtyToCart(
       String productId,
-      int userProductQuantity) async {
-    if (productId == null ||
-        userProductQuantity == null ){
+      ) async {
+    if (productId == null  ){
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
 
     Map<String, dynamic> hashMap = {
       "productId": productId,
-      "userProductQuantity": userProductQuantity,
+      "userProductQuantity": 1,
     };
 
     return await _client
@@ -141,15 +139,14 @@ class CartRepository{
   //-----------------------------------
   Future<ApiResponse> deleteProductQtyFromCart(
       String productId,
-      int userProductQuantity) async {
-    if (productId == null ||
-        userProductQuantity == null ){
+      ) async {
+    if (productId == null  ){
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
 
     Map<String, dynamic> hashMap = {
       "productId": productId,
-      "userProductQuantity": userProductQuantity,
+      "userProductQuantity": 1,
     };
 
     return await _client
