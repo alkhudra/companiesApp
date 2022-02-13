@@ -72,7 +72,7 @@ Widget cartTotalDesign(num total) {
 }
 
 Widget cartTile(BuildContext context, String language,
-    List<CartProductsList?> list, int index,Function() messageAction) {
+    List<CartProductsList?> list, int index, Function() messageAction) {
   ProductsModel model = list[index]!.productDto!;
   Size size = MediaQuery.of(context).size;
   double scWidth = size.width;
@@ -85,25 +85,29 @@ Widget cartTile(BuildContext context, String language,
   String? category =
       language == 'ar' ? model.arCategoryName : model.categoryName;
 
-  bool? isPriceChanged =
-      true; //list[index]!.hasOriginalProductPriceChanged == true ||
-  // list[index]!.hasSpecialProductPriceChanged == true;
+  bool? isPriceChanged = model.hasSpecialPrice == true
+      ? list[index]!.hasSpecialProductPriceChanged
+      : list[index]!.hasOriginalProductPriceChanged;
 
-  bool? isQtyChanged =
-      list[index]!.hasUserProductQuantityChanged == true;
+  bool? isQtyChanged = list[index]!.hasUserProductQuantityChanged;
   num userQty = list[index]!.userProductQuantity!;
+  num stockQty = list[index]!.productDto!.quantity!;
+
   num productTotal = list[index]!.totalProductPrice!;
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
-  Color containerColor = isDeleted == false && isAvailable == true
-      ? CustomColors().primaryWhiteColor
-      : CustomColors().grayColor;
-  String priceMessage =
-      isPriceChanged ? LocaleKeys.cart_price_changed_note :
-      isQtyChanged ? LocaleKeys.cart_qty_changed_note :'price and qty';
+  Color containerColor =
+      isDeleted == false && isAvailable == true && userQty <= stockQty
+          ? CustomColors().primaryWhiteColor
+          : CustomColors().grayColor;
+  String priceMessage = isPriceChanged == true
+      ? LocaleKeys.cart_price_changed_note
+      : isQtyChanged == true
+          ? LocaleKeys.cart_qty_changed_note
+          : 'price and qty';
   //String qtyMessage = isQtyChanged ? LocaleKeys.cart_qty_changed_note : '';
   return Column(children: [
-    if (isPriceChanged|| isQtyChanged)
+    if (isPriceChanged == true || isQtyChanged == true)
       Visibility(
         child: GestureDetector(
           onTap: messageAction,
@@ -133,8 +137,7 @@ Widget cartTile(BuildContext context, String language,
         maintainSize: true,
         maintainAnimation: true,
         maintainState: true,
-
-        visible: isPriceChanged|| isQtyChanged,
+        visible: isPriceChanged! || isQtyChanged!,
       ),
     ListTile(
       title: Column(
@@ -145,7 +148,9 @@ Widget cartTile(BuildContext context, String language,
           ),
           GestureDetector(
             onTap: () {
-              if (isDeleted == false && isAvailable == true)
+              if (isDeleted == false &&
+                  isAvailable == true &&
+                  userQty <= stockQty)
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -178,12 +183,10 @@ Widget cartTile(BuildContext context, String language,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    Image(
                       width: 70,
                       height: 70,
-                      decoration: BoxDecoration(
-                        image: ProductCard.productImage(model.image),
-                      ),
+                      image: ProductCard.productImage(model.image),
                     ),
                     //category, name and price
                     Column(
@@ -221,7 +224,7 @@ Widget cartTile(BuildContext context, String language,
                               child: Text(
                                 getTextWithCurrency(price),
                                 style: TextStyle(
-                                    color: isPriceChanged == true
+                                    color: isPriceChanged!
                                         ? CustomColors().redColor
                                         : CustomColors().primaryGreenColor,
                                     fontWeight: FontWeight.w700),
@@ -244,7 +247,7 @@ Widget cartTile(BuildContext context, String language,
                               child: Text(
                                 getTextWithCurrency(productTotal),
                                 style: TextStyle(
-                                    color: isPriceChanged == true
+                                    color: isPriceChanged
                                         ? CustomColors().redColor
                                         : CustomColors().primaryGreenColor,
                                     fontWeight: FontWeight.w700),
@@ -362,23 +365,24 @@ String getTextWithPercentage(num value) {
 
 Widget addToCartBtnContainer(BuildContext context,
     {productsModel,
-      userQty,
+    userQty,
     onDeleteBtnClicked,
     onIncreaseBtnClicked,
     onDecreaseBtnClicked,
     onBtnClicked}) {
   return Container(
-      child: productsModel.isDeleted == false && productsModel.isAvailabe == true
-          ? productsModel.isAddedToCart == false && userQty == 0
-              ? cartBtn(
-                  Icons.shopping_cart,
-                  // LocaleKeys.add_cart.tr(),
-                  EdgeInsets.symmetric(horizontal: 0),
-                  onBtnClicked)
-              : qtyContainer(context, userQty, onDeleteBtnClicked,
-                  onIncreaseBtnClicked, onDecreaseBtnClicked)
-          : unAvailableBtn(LocaleKeys.not_available_product.tr(),
-              EdgeInsets.symmetric(horizontal: 5)));
+      child:
+          productsModel.isDeleted == false && productsModel.isAvailabe == true
+              ? productsModel.isAddedToCart == false && userQty == 0
+                  ? cartBtn(
+                      Icons.shopping_cart,
+                      // LocaleKeys.add_cart.tr(),
+                      EdgeInsets.symmetric(horizontal: 0),
+                      onBtnClicked)
+                  : qtyContainer(context, userQty, onDeleteBtnClicked,
+                      onIncreaseBtnClicked, onDecreaseBtnClicked)
+              : unAvailableBtn(LocaleKeys.not_available_product.tr(),
+                  EdgeInsets.symmetric(horizontal: 5)));
 }
 
 qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
@@ -387,7 +391,6 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
   double scWidth = size.width;
   double scHeight = size.height;
   return Container(
-
     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     width: scWidth * 0.25,
     height: scHeight * 0.04,
@@ -455,8 +458,7 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
   );
 }
 
-cartDBProcess(
-    BuildContext context, String productId,  String process) async {
+cartDBProcess(BuildContext context, String productId, String process) async {
   showLoaderDialog(context);
   //----------start api ----------------
   ApiResponse apiResponse;
@@ -470,8 +472,7 @@ cartDBProcess(
   else if (process == deleteFromCartConst)
     apiResponse = await cartRepository.deleteProductFromCart(productId);
   else
-    apiResponse =
-        await cartRepository.deleteProductQtyFromCart(productId);
+    apiResponse = await cartRepository.deleteProductQtyFromCart(productId);
 
   if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
     MessageResponseModel model =

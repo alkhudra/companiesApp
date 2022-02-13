@@ -24,15 +24,14 @@ class ProductCard {
       isIncreaseBtnEnabled = true,
       isDecreaseBtnEnabled = true;
 
-  static productCardDesign(
-    context,
-    String language,
-    ProductsModel productModel,
-    Function() favPressed,
-  {onAddBtnClicked , onIncreaseBtnClicked,onDecreaseBtnClicked,
-    onDeleteBtnClicked}
-    /*    {counter ,increaseCount, decreaseCount}*/
-  ) {
+  static productCardDesign(context, String language, ProductsModel productModel,
+      Function() favPressed,
+      {onAddBtnClicked,
+      onIncreaseBtnClicked,
+      onDecreaseBtnClicked,
+      onDeleteBtnClicked}
+      /*    {counter ,increaseCount, decreaseCount}*/
+      ) {
     double? price = (productModel.hasSpecialPrice == true
             ? productModel.specialPrice
             : productModel.originalPrice)
@@ -54,13 +53,10 @@ class ProductCard {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //left side of card
-                    Container(
-                      margin: EdgeInsets.only(bottom: 5),
+                    Image(
                       width: MediaQuery.of(context).size.width * 0.17,
                       height: MediaQuery.of(context).size.height * 0.17,
-                      decoration: BoxDecoration(
-                        image: productImage(productModel.image) ,
-                      ),
+                      image: productImage(productModel.image),
                     ),
                     SizedBox(
                       width: 10,
@@ -135,29 +131,28 @@ class ProductCard {
                             ),*/
                             child: addToCartBtnContainer(
                               context,
-                              productsModel:productModel,
-                              userQty:  qty,
+                              productsModel: productModel,
+                              userQty: qty,
                               onBtnClicked: () {
                                 if (isAddToCartBtnEnabled) {
                                   onAddBtnClicked();
                                 }
                               },
                               onDecreaseBtnClicked: () {
-
-                                  if (isDecreaseBtnEnabled) {
-                                    onDecreaseBtnClicked();
-                                  }
-
+                                if (isDecreaseBtnEnabled) {
+                                  onDecreaseBtnClicked();
+                                }
                               },
                               onDeleteBtnClicked: () {
                                 if (isTrashBtnEnabled) {
-                                 onDeleteBtnClicked();
+                                  onDeleteBtnClicked();
                                 }
                               },
                               onIncreaseBtnClicked: () {
                                 if (isIncreaseBtnEnabled) {
-                                  if (productModel.userProductQuantity! < stockQty) {
-                                   onIncreaseBtnClicked();
+                                  if (productModel.userProductQuantity! <
+                                      stockQty) {
+                                    onIncreaseBtnClicked();
                                   } else
                                     showSuccessMessage(
                                         context, LocaleKeys.no_stock.tr());
@@ -188,19 +183,20 @@ class ProductCard {
                       )));
         });
   }
-  static favoritesCard(    context,
-      String language,
-      ProductsModel productModel,
+
+  static favoritesCard(context, String language, ProductsModel productModel,
       Function() favPressed,
-      {onAddBtnClicked , onIncreaseBtnClicked,onDecreaseBtnClicked,
-        onDeleteBtnClicked}) {
+      {onAddBtnClicked,
+      onIncreaseBtnClicked,
+      onDecreaseBtnClicked,
+      onDeleteBtnClicked}) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     double? price = (productModel.hasSpecialPrice == true
-        ? productModel.specialPrice
-        : productModel.originalPrice)
+            ? productModel.specialPrice
+            : productModel.originalPrice)
         ?.toDouble();
 
     String productId = productModel.productId!;
@@ -229,9 +225,9 @@ class ProductCard {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ProductDetails(
-                      productModel: productModel,
-                      language: language,
-                    )));
+                          productModel: productModel,
+                          language: language,
+                        )));
           },
           child: Column(
             children: [
@@ -245,8 +241,7 @@ class ProductCard {
                     child: IconButton(
                       onPressed: () {
                         if (isAddToFavBtnEnabled) {
-                        favPressed();
-
+                          favPressed();
                         }
                       },
                       icon: Icon(
@@ -264,12 +259,10 @@ class ProductCard {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                      width: scWidth*0.18,
-                      height: scHeight*0.1,
-                      decoration: BoxDecoration(
-                        image: ProductCard.productImage(productModel.image) ,
-                      )
+                  Image(
+                    width: scWidth * 0.18,
+                    height: scHeight * 0.1,
+                    image: ProductCard.productImage(productModel.image),
                   ),
                   //name
                   Container(
@@ -312,20 +305,17 @@ class ProductCard {
                             ),*/
                     child: addToCartBtnContainer(
                       context,
-                      productsModel:productModel,
-                      userQty:  qty,
+                      productsModel: productModel,
+                      userQty: qty,
                       onBtnClicked: () {
                         if (isAddToCartBtnEnabled) {
-                         onAddBtnClicked();
+                          onAddBtnClicked();
                         }
                       },
                       onDecreaseBtnClicked: () {
-
                         if (isDecreaseBtnEnabled) {
                           onDecreaseBtnClicked();
-
                         }
-
                       },
                       onDeleteBtnClicked: () {
                         if (isTrashBtnEnabled) {
@@ -351,6 +341,7 @@ class ProductCard {
       ),
     );
   }
+
   ///------------------------------------------
   ///---------------DB process-----------------
   ///------------------------------------------
@@ -364,7 +355,7 @@ class ProductCard {
 
   static Future<String> dBProcess(
       BuildContext context, bool? isFavourite, String productId) async {
-   // showLoaderDialog(context);
+    // showLoaderDialog(context);
     //----------start api ----------------
 
     Map<String, dynamic> headerMap = await getHeaderMap();
@@ -379,32 +370,29 @@ class ProductCard {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       MessageResponseModel model =
           MessageResponseModel.fromJson(apiResponse.result);
-     // Navigator.pop(context);
+      // Navigator.pop(context);
       isAddToFavBtnEnabled = true;
       return model.message!;
     } else {
-   //   Navigator.pop(context);
+      //   Navigator.pop(context);
       isAddToFavBtnEnabled = true;
       throw ExceptionHelper(apiResponse.message);
     }
   }
 
   //----------------
-  static void deleteFromCart(
-      BuildContext context , String productId) async {
+  static void deleteFromCart(BuildContext context, String productId) async {
     isTrashBtnEnabled = false;
     String message =
-        await cartDBProcess(context, productId,  deleteFromCartConst);
+        await cartDBProcess(context, productId, deleteFromCartConst);
     showSuccessMessage(context, message);
 
     isTrashBtnEnabled = true;
   }
 
-  static void addToCart(
-      BuildContext context , String productId) async {
+  static void addToCart(BuildContext context, String productId) async {
     isAddToCartBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId,  addToCartConst);
+    String message = await cartDBProcess(context, productId, addToCartConst);
     showSuccessMessage(context, message);
 
     isAddToCartBtnEnabled = true;
@@ -413,32 +401,28 @@ class ProductCard {
   }
 
   //---------------------
-  static void addQtyToCart(
-      BuildContext context  ,String productId) async {
+  static void addQtyToCart(BuildContext context, String productId) async {
     isIncreaseBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId,  addQtyToCartConst);
+    String message = await cartDBProcess(context, productId, addQtyToCartConst);
 //    showSuccessMessage(context, message);
     print(message);
     isIncreaseBtnEnabled = true;
   }
 
   //---------------------
-  static void deleteQtyFromCart(
-      BuildContext context , String productId) async {
+  static void deleteQtyFromCart(BuildContext context, String productId) async {
     isDecreaseBtnEnabled = false;
-    String message = await cartDBProcess(
-        context, productId,  deleteQtyFromCartConst);
-  //  showSuccessMessage(context, message);
+    String message =
+        await cartDBProcess(context, productId, deleteQtyFromCartConst);
+    //  showSuccessMessage(context, message);
     print(message);
     isDecreaseBtnEnabled = true;
   }
 
   static productImage(String? imageUrl) {
-    return imageUrl != null?
-         NetworkImage(ApiConst.images_url + imageUrl)
-    :DecorationImage(image:AssetImage('images/green_fruit.png'));
-       // : Image.asset('images/green_fruit.png');
+    return imageUrl != null
+        ? NetworkImage(ApiConst.images_url + imageUrl)
+        : AssetImage('images/green_fruit.png');
   }
 
 //---------------------

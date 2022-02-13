@@ -96,6 +96,7 @@ class _CartPageState extends State<CartPage> {
       list = model.userCart!.cartProductsList!;
 
       if (model.message != '') {
+        print(model.message!);
         showMessageDialog(context, model.message!, '', noPage);
       }
 
