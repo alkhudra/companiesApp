@@ -4,6 +4,7 @@ import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
@@ -71,7 +72,7 @@ Widget cartTotalDesign(num total) {
 }
 
 Widget cartTile(BuildContext context, String language,
-    List<CartProductsList?> list, int index) {
+    List<CartProductsList?> list, int index,Function() messageAction) {
   ProductsModel model = list[index]!.productDto!;
   Size size = MediaQuery.of(context).size;
   double scWidth = size.width;
@@ -83,10 +84,13 @@ Widget cartTile(BuildContext context, String language,
   String? name = language == 'ar' ? model.arName : model.name;
   String? category =
       language == 'ar' ? model.arCategoryName : model.categoryName;
-  String image = model.image != null
-      ? ApiConst.images_url + model.image!
-      : 'images/green_fruit.png';
 
+  bool? isPriceChanged =
+      true; //list[index]!.hasOriginalProductPriceChanged == true ||
+  // list[index]!.hasSpecialProductPriceChanged == true;
+
+  bool? isQtyChanged =
+      list[index]!.hasUserProductQuantityChanged == true;
   num userQty = list[index]!.userProductQuantity!;
   num productTotal = list[index]!.totalProductPrice!;
   bool isAvailable = model.isAvailabe!;
@@ -94,66 +98,103 @@ Widget cartTile(BuildContext context, String language,
   Color containerColor = isDeleted == false && isAvailable == true
       ? CustomColors().primaryWhiteColor
       : CustomColors().grayColor;
-  return ListTile(
-    title: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 5,
-        ),
-
-        GestureDetector(
-          onTap: () {
-            if (isDeleted == false && isAvailable == true)
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProductDetails(
-                            productModel: model,
-                            language: language,
-                          )));
-          },
+  String priceMessage =
+      isPriceChanged ? LocaleKeys.cart_price_changed_note :
+      isQtyChanged ? LocaleKeys.cart_qty_changed_note :'price and qty';
+  //String qtyMessage = isQtyChanged ? LocaleKeys.cart_qty_changed_note : '';
+  return Column(children: [
+    if (isPriceChanged|| isQtyChanged)
+      Visibility(
+        child: GestureDetector(
+          onTap: messageAction,
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.15,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
-              // border: Border.all(
-              //   color: CustomColors().primaryGreenColor,
-              // ),
-              boxShadow: [
-                BoxShadow(
-                  color: CustomColors().blackColor.withOpacity(0.4),
-                  offset: Offset(2, 2),
-                  blurRadius: 5,
-                  spreadRadius: 0.2,
-                )
-              ],
-              color: containerColor,
-            ),
-            child: Stack(children: [
-              //green product icon
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    child: Image(
-                      image: NetworkImage(image),
-                    ),
-                  ),
-                  //category, name and price
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // SizedBox(height: 20,),
-                      //category and name
+              width: MediaQuery.of(context).size.width * 0.9,
+              padding: EdgeInsets.all(15),
+              child: Text(
+                priceMessage,
+                style:
+                    TextStyle(color: CustomColors().blackColor, fontSize: 15),
+              ),
+              decoration: BoxDecoration(
+                // border: Border.all(
+                //   color: CustomColors().primaryGreenColor,
+                // ),
+                boxShadow: [
+                  BoxShadow(
+                    color: CustomColors().blackColor.withOpacity(0.4),
+                    offset: Offset(2, 2),
+                    blurRadius: 5,
+                    spreadRadius: 0.2,
+                  )
+                ],
+                color: CustomColors().contactBG,
+              )),
+        ),
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
 
-                      //category
-                      /*     Container(
+        visible: isPriceChanged|| isQtyChanged,
+      ),
+    ListTile(
+      title: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 5,
+          ),
+          GestureDetector(
+            onTap: () {
+              if (isDeleted == false && isAvailable == true)
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductDetails(
+                              productModel: model,
+                              language: language,
+                            )));
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.15,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                // border: Border.all(
+                //   color: CustomColors().primaryGreenColor,
+                // ),
+                boxShadow: [
+                  BoxShadow(
+                    color: CustomColors().blackColor.withOpacity(0.4),
+                    offset: Offset(2, 2),
+                    blurRadius: 5,
+                    spreadRadius: 0.2,
+                  )
+                ],
+                color: containerColor,
+              ),
+              child: Stack(children: [
+                //green product icon
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        image: ProductCard.productImage(model.image),
+                      ),
+                    ),
+                    //category, name and price
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // SizedBox(height: 20,),
+                        //category and name
+
+                        //category
+                        /*     Container(
                               child: Text(
                                 '$category',
                                 style: TextStyle(
@@ -162,51 +203,59 @@ Widget cartTile(BuildContext context, String language,
                               ),
                               margin: EdgeInsets.all(5),
                             ),*/
-                      //product name
-                      Container(
-                        child: Text(
-                          '$name',
-                          style: TextStyle(
-                            color: CustomColors().brownColor,
+                        //product name
+                        Container(
+                          child: Text(
+                            '$name',
+                            style: TextStyle(
+                              color: CustomColors().brownColor,
+                            ),
                           ),
                         ),
-                      ),
 
-                      // price
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text(
-                              getTextWithCurrency(price)+'   /  ',
-                              style: TextStyle(
-                                  color: CustomColors().primaryGreenColor,
-                                  fontWeight: FontWeight.w700),
+                        // price
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                getTextWithCurrency(price),
+                                style: TextStyle(
+                                    color: isPriceChanged == true
+                                        ? CustomColors().redColor
+                                        : CustomColors().primaryGreenColor,
+                                    fontWeight: FontWeight.w700),
+                              ),
                             ),
-                          ),
-                          Container(
-                            child: Text(
-                              ' ×  $userQty  ',
-                              style: TextStyle(
-                                  color: CustomColors().primaryGreenColor,
-                                  fontWeight: FontWeight.w700),
+                            Container(
+                              child: Text(
+                                ' ×  $userQty  ',
+                                style: TextStyle(
+                                    color: isQtyChanged == true
+                                        ? CustomColors().redColor
+                                        : CustomColors().primaryGreenColor,
+                                    fontWeight: FontWeight.w700),
+                              ),
                             ),
-                          ),
-                          SizedBox(width: scHeight*0.08,),
-                          Container(
-                            child: Text(
-                              getTextWithCurrency(productTotal),
-                              style: TextStyle(
-                                  color: CustomColors().primaryGreenColor,
-                                  fontWeight: FontWeight.w700),
+                            SizedBox(
+                              width: scHeight * 0.08,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  //counter
-                  /*     Container(
+                            Container(
+                              child: Text(
+                                getTextWithCurrency(productTotal),
+                                style: TextStyle(
+                                    color: isPriceChanged == true
+                                        ? CustomColors().redColor
+                                        : CustomColors().primaryGreenColor,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    //counter
+                    /*     Container(
                       width: scWidth * 0.071,
                       height: scHeight * 0.13,
                       decoration: BoxDecoration(
@@ -259,45 +308,46 @@ Widget cartTile(BuildContext context, String language,
                         ],
                       ),
                     ),*/
-                  SizedBox(
-                    width: 10,
-                  ),
-                  
-                  // Container(
-                  //   child: Stack(
-                  //     children: [
-                  //       VerticalDivider(
-                  //         thickness: 30,
-                  //         color: CustomColors().primaryGreenColor,
-                  //       ),
-                  //       Container(
-                  //         alignment: Alignment.center,
-                  //         width: 2,
-                  //         child: IconButton(
-                  //           onPressed: () {},
-                  //           icon: Icon(Icons.arrow_back_ios,
-                  //             color: CustomColors().darkGrayColor,),
-                  //           padding: EdgeInsets.zero,
-                  //           constraints: BoxConstraints(),
-                  //         ),
-                  //       ),
-                  //       // GestureDetector(
-                  //       //   child: Container(
-                  //       //     child: Center(child: Icon(Icons.arrow_back_ios_new_rounded)),
-                  //       //   ),
-                  //       //   onTap: () {},
-                  //       // ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
-            ]),
+                    SizedBox(
+                      width: 10,
+                    ),
+
+                    // Container(
+                    //   child: Stack(
+                    //     children: [
+                    //       VerticalDivider(
+                    //         thickness: 30,
+                    //         color: CustomColors().primaryGreenColor,
+                    //       ),
+                    //       Container(
+                    //         alignment: Alignment.center,
+                    //         width: 2,
+                    //         child: IconButton(
+                    //           onPressed: () {},
+                    //           icon: Icon(Icons.arrow_back_ios,
+                    //             color: CustomColors().darkGrayColor,),
+                    //           padding: EdgeInsets.zero,
+                    //           constraints: BoxConstraints(),
+                    //         ),
+                    //       ),
+                    //       // GestureDetector(
+                    //       //   child: Container(
+                    //       //     child: Center(child: Icon(Icons.arrow_back_ios_new_rounded)),
+                    //       //   ),
+                    //       //   onTap: () {},
+                    //       // ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ]),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
-  );
+  ]);
 }
 
 String currency = LocaleKeys.sar.tr();
@@ -322,9 +372,11 @@ Widget addToCartBtnContainer(BuildContext context,
   return Container(
       child: isDeleted == false && isAvailable == true
           ? counter == 0
-              ? cartBtn(Icons.shopping_cart,
-                // LocaleKeys.add_cart.tr(),
-                  EdgeInsets.symmetric(horizontal: 0), onBtnClicked)
+              ? cartBtn(
+                  Icons.shopping_cart,
+                  // LocaleKeys.add_cart.tr(),
+                  EdgeInsets.symmetric(horizontal: 0),
+                  onBtnClicked)
               : qtyContainer(context, counter, onDeleteBtnClicked,
                   onIncreaseBtnClicked, onDecreaseBtnClicked)
           : unAvailableBtn(LocaleKeys.not_available_product.tr(),
@@ -404,8 +456,8 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
   );
 }
 
-cartDBProcess(BuildContext context, String productId, int counter,
-    String process) async {
+cartDBProcess(
+    BuildContext context, String productId, int counter, String process) async {
   showLoaderDialog(context);
   //----------start api ----------------
   ApiResponse apiResponse;
@@ -426,7 +478,6 @@ cartDBProcess(BuildContext context, String productId, int counter,
     MessageResponseModel model =
         MessageResponseModel.fromJson(apiResponse.result);
     Navigator.pop(context);
-
 
     return model.message!;
   } else {

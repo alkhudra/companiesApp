@@ -169,4 +169,7 @@ abstract class LocaleKeys {
   static const complete_orders = "Completed";
   static const order_status = "Order Status";
   static const track_order = "Track Your Order";
+  static const undo = "undo";
+  static const cart_price_changed_note = "cart_price_changed_note";
+  static const cart_qty_changed_note = "cart_qty_changed_note";
 }

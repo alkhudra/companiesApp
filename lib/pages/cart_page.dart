@@ -39,6 +39,7 @@ class _CartPageState extends State<CartPage> {
   static String language = 'ar';
   bool isTrashBtnEnabled = true;
   static String productId = '';
+
   static List<CartProductsList> list = [];
   @override
   void initState() {
@@ -92,19 +93,19 @@ class _CartPageState extends State<CartPage> {
     double scHeight = size.height;
 
     if (model!.userCart != null) {
+      list = model.userCart!.cartProductsList!;
+
       if (model.message != '') {
         showMessageDialog(context, model.message!, '', noPage);
       }
-      list = model.userCart!.cartProductsList!;
-      num price = model.userCart!.totalCartPrice!;
-      double subtotal = 3;
-      double vat = 5;
-      num total = model.userCart!.hasDiscount! == true
-          ? model.userCart!.priceAfterDiscount!
-          : model.userCart!.totalCartPrice!;
-      double price_vat = 27.2;
-      double discount = 20;
+
+      num priceAfterDiscount = model.userCart!.priceAfterDiscount!;
+      num? subtotal = model.userCart!.totalNetCartPrice!;
+      num? vat = model.userCart!.totalCartVAT15!;
+      num total = model.userCart!.totalCartPrice!;
+      num? discount = model.userCart!.discountPercentage! * 100;
       bool? hasDiscount = model.userCart!.hasDiscount;
+
       return SlidingUpPanel(
         body: ListView.builder(
           itemBuilder: (context, index) {
@@ -126,12 +127,14 @@ class _CartPageState extends State<CartPage> {
                     )
                   ],
                 ),
-                child: cartTile(context, language, list, index));
+                child: cartTile(context, language, list, index,(){
+
+                }));
           },
           itemCount: list.length,
         ),
         minHeight: scHeight * 0.07,
-        maxHeight: hasDiscount! ? scHeight*0.38 : 220,
+        maxHeight: hasDiscount! ? scHeight * 0.38 : 220,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
@@ -177,10 +180,8 @@ class _CartPageState extends State<CartPage> {
                       children: [
                         cartDetailsItem(LocaleKeys.discount_percentage.tr(),
                             getTextWithPercentage(discount)),
-                        cartDetailsItem(
-                            LocaleKeys.discount.tr(),
-                            getTextWithCurrency(
-                                model.userCart!.priceAfterDiscount!)),
+                        cartDetailsItem(LocaleKeys.discount.tr(),
+                            getTextWithCurrency(priceAfterDiscount)),
                       ],
                     )
                 ],
@@ -252,5 +253,69 @@ class _CartPageState extends State<CartPage> {
 
   void setValue() async {
     language = await PreferencesHelper.getSelectedLanguage;
+  }
+
+  noteWidget(bool boolCondition, String message) {
+    return /*Visibility(
+      child: GestureDetector(
+        onTap: (){
+
+          setState(() {
+            boolCondition=!boolCondition;
+          });
+        },
+        child: */
+        Container(
+            margin: EdgeInsets.only(bottom: 5),
+            width: MediaQuery.of(context).size.width * 0.9,
+            padding: EdgeInsets.all(15),
+            child: Text(
+              message,
+              style: TextStyle(color: CustomColors().blackColor, fontSize: 15),
+            ),
+            decoration: BoxDecoration(
+              // border: Border.all(
+              //   color: CustomColors().primaryGreenColor,
+              // ),
+              boxShadow: [
+                BoxShadow(
+                  color: CustomColors().blackColor.withOpacity(0.4),
+                  offset: Offset(2, 2),
+                  blurRadius: 5,
+                  spreadRadius: 0.2,
+                )
+              ],
+              color: CustomColors().contactBG,
+            )); /*,
+      ),
+      maintainSize: true,
+      maintainAnimation: true,
+      maintainState: true,
+      visible: boolCondition,
+    );*/
+
+/*
+    for (int i = 0; model.userCart!.cartProductsList!.length < i; i++) {
+      if (model.userCart!.cartProductsList![i]
+          .hasOriginalProductPriceChanged ==
+          true ||
+          model.userCart!.cartProductsList![i]
+              .hasSpecialProductPriceChanged ==
+              true) {
+        setState(() {
+          isPriceChanged = true;
+        });
+
+        break;
+      } else if (model
+          .userCart!.cartProductsList![i].hasUserProductQuantityChanged ==
+          true) {
+        setState(() {
+          isQtyChanged = true;
+        });
+
+        break;
+      }
+    }*/
   }
 }

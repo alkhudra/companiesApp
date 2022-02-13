@@ -17,12 +17,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class ProductCard {
-  static bool isAddToFavBtnEnabled = true,isTrashBtnEnabled=true,isAddToCartBtnEnabled=true,
-      isIncreaseBtnEnabled=true,isDecreaseBtnEnabled=true;
+  static bool isAddToFavBtnEnabled = true,
+      isTrashBtnEnabled = true,
+      isAddToCartBtnEnabled = true,
+      isIncreaseBtnEnabled = true,
+      isDecreaseBtnEnabled = true;
 
-  static productCardDesign(context, String language, ProductsModel productModel,Function() favPressed,
-  /*    {counter ,increaseCount, decreaseCount}*/) {
-
+  static productCardDesign(
+    context,
+    String language,
+    ProductsModel productModel,
+    Function() favPressed,
+    /*    {counter ,increaseCount, decreaseCount}*/
+  ) {
     double? price = (productModel.hasSpecialPrice == true
             ? productModel.specialPrice
             : productModel.originalPrice)
@@ -33,13 +40,10 @@ class ProductCard {
     String? productId = productModel.productId;
     bool isDeleted = productModel.isDeleted!;
     String? name = language == 'ar' ? productModel.arName : productModel.name;
-    String imageUrl = productModel.image != null ?ApiConst.images_url + productModel.image! :
-    'images/green_fruit.png';
 
     int counter = 0;
 
     //--------------------------
-
 
     return GestureDetector(
         child: ListTile(
@@ -55,9 +59,7 @@ class ProductCard {
                       width: MediaQuery.of(context).size.width * 0.17,
                       height: MediaQuery.of(context).size.height * 0.17,
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage('$imageUrl'),
-                        ),
+                        image: productImage(productModel.image) ,
                       ),
                     ),
                     SizedBox(
@@ -79,15 +81,15 @@ class ProductCard {
                         SizedBox(
                           height: 30,
                         ),
-                                                  Container(
-                            padding: EdgeInsets.all(2),
-                            child: Text(
-                                ( "$price "+ LocaleKeys.sar_per_kg.tr()),
-                              style: TextStyle(
-                                  color: CustomColors().primaryGreenColor,
-                                  fontWeight: FontWeight.w400),
-                            ),
+                        Container(
+                          padding: EdgeInsets.all(2),
+                          child: Text(
+                            ("$price " + LocaleKeys.sar_per_kg.tr()),
+                            style: TextStyle(
+                                color: CustomColors().primaryGreenColor,
+                                fontWeight: FontWeight.w400),
                           ),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -106,8 +108,9 @@ class ProductCard {
                           Container(
                             padding: EdgeInsets.all(10),
                             child: InkWell(
-
-                                onTap:isAddToFavBtnEnabled == true ? favPressed : null,
+                                onTap: isAddToFavBtnEnabled == true
+                                    ? favPressed
+                                    : null,
                                 child: isFavourite! == true
                                     ? Icon(
                                         Icons.favorite,
@@ -130,14 +133,15 @@ class ProductCard {
                               borderRadius: BorderRadius.circular(50),
                               color: CustomColors().primaryGreenColor,
                             ),
-                            child:addToCartBtnContainer(
-                            context, isDeleted: isDeleted,
-                              isAvailable :isAvailable,counter: counter,
+                            child: addToCartBtnContainer(
+                              context,
+                              isDeleted: isDeleted,
+                              isAvailable: isAvailable,
+                              counter: counter,
                               onBtnClicked: () {
                                 //isAddToCartBtnEnabled == true ? favPressed : null;
-                               if (isAddToCartBtnEnabled) {
-
-                                  addToCart(context,counter,productId!);
+                                if (isAddToCartBtnEnabled) {
+                                  addToCart(context, counter, productId!);
                                 }
                               },
                             ),
@@ -166,13 +170,9 @@ class ProductCard {
         });
   }
 
-
-
-
   ///------------------------------------------
   ///---------------DB process-----------------
   ///------------------------------------------
-
 
   static void addToFav(
       BuildContext context, bool? isFavourite, String productId) async {
@@ -207,56 +207,59 @@ class ProductCard {
       throw ExceptionHelper(apiResponse.message);
     }
   }
-  //----------------
-  static void deleteFromCart(BuildContext context, int counter,String productId) async {
 
+  //----------------
+  static void deleteFromCart(
+      BuildContext context, int counter, String productId) async {
     isTrashBtnEnabled = false;
     String message =
-    await cartDBProcess(context, productId, counter, deleteFromCartConst);
+        await cartDBProcess(context, productId, counter, deleteFromCartConst);
     showSuccessMessage(context, message);
 
-      isTrashBtnEnabled = true;
-
+    isTrashBtnEnabled = true;
   }
 
- static void addToCart(BuildContext context, int counter,String productId) async {
+  static void addToCart(
+      BuildContext context, int counter, String productId) async {
     isAddToCartBtnEnabled = false;
     String message =
-    await cartDBProcess(context, productId, counter, addToCartConst);
+        await cartDBProcess(context, productId, counter, addToCartConst);
     showSuccessMessage(context, message);
 
-      isAddToCartBtnEnabled = true;
+    isAddToCartBtnEnabled = true;
 
     // Navigator.pop(context);
   }
 
   //---------------------
-  static void addQtyToCart(BuildContext context, int counter,String productId) async {
+  static void addQtyToCart(
+      BuildContext context, int counter, String productId) async {
     isIncreaseBtnEnabled = false;
     String message =
-    await cartDBProcess(context, productId, counter, addQtyToCartConst);
+        await cartDBProcess(context, productId, counter, addQtyToCartConst);
     showSuccessMessage(context, message);
 
-
-      isIncreaseBtnEnabled = true;
-
+    isIncreaseBtnEnabled = true;
   }
 
   //---------------------
-  static void deleteQtyFromCart(BuildContext context, int counter,String productId) async {
-
+  static void deleteQtyFromCart(
+      BuildContext context, int counter, String productId) async {
     isDecreaseBtnEnabled = false;
     String message = await cartDBProcess(
         context, productId, counter, deleteQtyFromCartConst);
     showSuccessMessage(context, message);
 
+    isDecreaseBtnEnabled = true;
+  }
 
-      isDecreaseBtnEnabled = true;
-
-
+  static productImage(String? imageUrl) {
+    return imageUrl != null?
+         NetworkImage(ApiConst.images_url + imageUrl)
+    :DecorationImage(image:AssetImage('images/green_fruit.png'));
+       // : Image.asset('images/green_fruit.png');
   }
 
 //---------------------
 
 }
-

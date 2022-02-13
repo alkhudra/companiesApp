@@ -82,7 +82,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         language == 'ar' ? model.arCategoryName : model.categoryName;
 
     String? name = language == 'ar' ? model.arName : model.name;
-    String imageUrl = ApiConst.images_url + model.image!;
     bool? isFavourite = model.isFavourite;
     num? stockQty = model.quantity;
     Color favIconColor = isFavourite == true

@@ -158,5 +158,8 @@
   "Current": "Current",
   "Completed": "Completed",
   "Order Status": "Order Status",
-  "Track Your Order": "Track Your Order"
+  "Track Your Order": "Track Your Order",
+  "undo": "Undo",
+  "cart_price_changed_note": "Some products prices have been changed in your cart, Please review your cart before checkout",
+  "cart_qty_changed_note": "Some products quantity have been changed in your cart duo to unavailability, Please review your cart before checkout"
 }

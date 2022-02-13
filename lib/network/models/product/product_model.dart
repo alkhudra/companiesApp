@@ -17,6 +17,8 @@ class ProductsModel {
     bool? isDeleted,
     String? arCategoryName,
     String? categoryId,
+    num? userProductQuantity,
+    bool? isAddedToCart,
   }) {
     _isDeleted = isDeleted;
     _productId = productId;
@@ -35,6 +37,8 @@ class ProductsModel {
     _image = image;
     _isFavourite = isFavourite;
     _categoryId = categoryId;
+    _userProductQuantity = userProductQuantity;
+    _isAddedToCart = isAddedToCart;
   }
 
   ProductsModel.fromJson(dynamic json) {
@@ -55,6 +59,8 @@ class ProductsModel {
     _categoryId = json['categoryId'];
     _arCategoryName = json['arCategoryName'];
     _isDeleted = json['isDeleted'];
+    _userProductQuantity = json['userProductQuantity'];
+    _isAddedToCart = json['isAddedToCart'];
   }
   String? _productId;
   String? _name;
@@ -73,8 +79,8 @@ class ProductsModel {
   String? _categoryName;
   String? _arCategoryName;
   bool? _isDeleted;
-  static int _userSelectedQty = 0;
-  static bool _isAddedToCart = false;
+  num? _userProductQuantity;
+  bool? _isAddedToCart;
   bool? get isFavourite => _isFavourite;
 
   bool? get isDeleted => _isDeleted;
@@ -114,11 +120,13 @@ class ProductsModel {
     map['image'] = _image;
     map['isFavourite'] = _isFavourite;
     map['categoryId'] = _categoryId;
+    map['isAddedToCart'] = _isAddedToCart;
+    map['userProductQuantity'] = _userProductQuantity;
     return map;
   }
 
   @override
   String toString() {
-    return 'ProductsModel{_productId: $_productId, _name: $_name, _arName: $_arName, _hasSpecialPrice: $_hasSpecialPrice, _originalPrice: $_originalPrice, _specialPrice: $_specialPrice, _quantity: $_quantity, _description: $_description, _arDescription: $_arDescription, _isAvailabe: $_isAvailabe, _isActive: $_isActive, _image: $_image, _categoryId: $_categoryId, _isFavourite: $_isFavourite, _categoryName: $_categoryName, _arCategoryName: $_arCategoryName}';
+    return 'ProductsModel{_productId: $_productId, _name: $_name, _arName: $_arName, _hasSpecialPrice: $_hasSpecialPrice, _originalPrice: $_originalPrice, _specialPrice: $_specialPrice, _quantity: $_quantity, _description: $_description, _arDescription: $_arDescription, _isAvailabe: $_isAvailabe, _isActive: $_isActive, _image: $_image, _categoryId: $_categoryId, _isFavourite: $_isFavourite, _categoryName: $_categoryName, _arCategoryName: $_arCategoryName, _isDeleted: $_isDeleted, _userProductQuantity: $_userProductQuantity, _isAddedToCart: $_isAddedToCart}';
   }
 }

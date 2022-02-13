@@ -53,11 +53,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //   final provider=Provider.of<HomePageProvider>(context);
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return /*AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
-      child: Scaffold(
+      child:*/ Scaffold(
         endDrawer: drawerDesignWithName(context, name, email),
         appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
         // key: _scaffoldState,
@@ -73,8 +73,8 @@ class _HomePageState extends State<HomePage> {
               return errorCase(snapshot);
           },
         ),
-      ),
-    );
+      )
+    ;
   }
 
 
