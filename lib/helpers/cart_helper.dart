@@ -371,6 +371,7 @@ Widget addToCartBtnContainer(BuildContext context,
     onDecreaseBtnClicked,
     onBtnClicked}) {
   return Container(
+    margin: EdgeInsets.only(top: 10),
       child:
           productsModel.isDeleted == false && productsModel.isAvailabe == true
               ? productsModel.isAddedToCart == false && userQty == 0
@@ -382,7 +383,7 @@ Widget addToCartBtnContainer(BuildContext context,
                   : qtyContainer(context, userQty, onDeleteBtnClicked,
                       onIncreaseBtnClicked, onDecreaseBtnClicked)
               : unAvailableBtn(LocaleKeys.not_available_product.tr(),
-                  EdgeInsets.symmetric(horizontal: 5)));
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 2), MediaQuery.of(context).size.height*0.04));
 }
 
 qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,

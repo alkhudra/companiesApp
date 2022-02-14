@@ -74,13 +74,14 @@ Widget loadMoreBtn(BuildContext context, Function() onPressed) {
   );
 }
 
-Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry) {
+Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry, double scHeight) {
   return Container(
-    height: ButtonsDesign.buttonsHeight,
+    // height: ButtonsDesign.buttonsHeight,
+    height: scHeight,
     margin: edgeInsetsGeometry,
     decoration: BoxDecoration(
-      color: CustomColors().brownColor,
-      borderRadius: BorderRadius.circular(30),
+      color: CustomColors().brownColor.withOpacity(0.8),
+      borderRadius: BorderRadius.circular(35),
     ),
     child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
   );
