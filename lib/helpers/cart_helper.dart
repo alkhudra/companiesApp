@@ -371,18 +371,23 @@ Widget addToCartBtnContainer(BuildContext context,
     onDecreaseBtnClicked,
     onBtnClicked}) {
   return Container(
+    margin: EdgeInsets.only(top: 10),
       child:
           productsModel.isDeleted == false && productsModel.isAvailabe == true
+          //show add to cart options
               ? productsModel.isAddedToCart == false && userQty == 0
+              //show cart button
                   ? cartBtn(
                       Icons.shopping_cart,
                       // LocaleKeys.add_cart.tr(),
-                      EdgeInsets.symmetric(horizontal: 0),
+                      EdgeInsets.symmetric(horizontal: 30),
                       onBtnClicked)
+                      //show counter 
                   : qtyContainer(context, userQty, onDeleteBtnClicked,
                       onIncreaseBtnClicked, onDecreaseBtnClicked)
+                      //show product unavailable
               : unAvailableBtn(LocaleKeys.not_available_product.tr(),
-                  EdgeInsets.symmetric(horizontal: 5)));
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 2), MediaQuery.of(context).size.height*0.04));
 }
 
 qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
