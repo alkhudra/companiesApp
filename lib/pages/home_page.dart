@@ -168,8 +168,10 @@ class _HomePageState extends State<HomePage> {
                       return Column(
                         children: [
                           Container(
-                            width: scWidth * 0.27,
-                            height: scHeight * 0.11,
+                            // width: scWidth * 0.27,
+                            width: scWidth * 0.23,
+                            // height: scHeight * 0.11,
+                            height: scHeight * 0.1,
                             margin: EdgeInsets.symmetric(horizontal: 5,vertical: 3),
                             child: GestureDetector(
                               child: ProductCard.productImage(categoryList![index].image!),
