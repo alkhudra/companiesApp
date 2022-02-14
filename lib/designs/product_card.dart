@@ -303,34 +303,37 @@ class ProductCard {
                               borderRadius: BorderRadius.circular(50),
                               color: CustomColors().primaryGreenColor,
                             ),*/
-                    child: addToCartBtnContainer(
-                      context,
-                      productsModel: productModel,
-                      userQty: qty,
-                      onBtnClicked: () {
-                        if (isAddToCartBtnEnabled) {
-                          onAddBtnClicked();
-                        }
-                      },
-                      onDecreaseBtnClicked: () {
-                        if (isDecreaseBtnEnabled) {
-                          onDecreaseBtnClicked();
-                        }
-                      },
-                      onDeleteBtnClicked: () {
-                        if (isTrashBtnEnabled) {
-                          onDeleteBtnClicked();
-                        }
-                      },
-                      onIncreaseBtnClicked: () {
-                        if (isIncreaseBtnEnabled) {
-                          if (productModel.userProductQuantity! < stockQty) {
-                            onIncreaseBtnClicked();
-                          } else
-                            showSuccessMessage(
-                                context, LocaleKeys.no_stock.tr());
-                        }
-                      },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: addToCartBtnContainer(
+                        context,
+                        productsModel: productModel,
+                        userQty: qty,
+                        onBtnClicked: () {
+                          if (isAddToCartBtnEnabled) {
+                            onAddBtnClicked();
+                          }
+                        },
+                        onDecreaseBtnClicked: () {
+                          if (isDecreaseBtnEnabled) {
+                            onDecreaseBtnClicked();
+                          }
+                        },
+                        onDeleteBtnClicked: () {
+                          if (isTrashBtnEnabled) {
+                            onDeleteBtnClicked();
+                          }
+                        },
+                        onIncreaseBtnClicked: () {
+                          if (isIncreaseBtnEnabled) {
+                            if (productModel.userProductQuantity! < stockQty) {
+                              onIncreaseBtnClicked();
+                            } else
+                              showSuccessMessage(
+                                  context, LocaleKeys.no_stock.tr());
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ],
