@@ -53,10 +53,10 @@ class ProductCard {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //left side of card
-                    Image(
+                    Container(
                       width: MediaQuery.of(context).size.width * 0.17,
                       height: MediaQuery.of(context).size.height * 0.17,
-                      image: productImage(productModel.image),
+                      child: productImage(productModel.image),
                     ),
                     SizedBox(
                       width: 10,
@@ -259,10 +259,10 @@ class ProductCard {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Image(
+                  Container(
                     width: scWidth * 0.18,
                     height: scHeight * 0.1,
-                    image: ProductCard.productImage(productModel.image),
+                    child: ProductCard.productImage(productModel.image),
                   ),
                   //name
                   Container(
@@ -420,9 +420,15 @@ class ProductCard {
   }
 
   static productImage(String? imageUrl) {
-    return imageUrl != null
-        ? NetworkImage(ApiConst.images_url + imageUrl)
-        : AssetImage('images/green_fruit.png');
+    return /*imageUrl != null
+        ? Image.network(
+            ApiConst.images_url + imageUrl,
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
+              return Image.asset('images/green_fruit.png');
+            },
+          )
+        : */Image.asset('images/green_fruit.png');
   }
 
 //---------------------

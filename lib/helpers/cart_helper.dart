@@ -183,10 +183,10 @@ Widget cartTile(BuildContext context, String language,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image(
+                    Container(
                       width: 70,
                       height: 70,
-                      image: ProductCard.productImage(model.image),
+                      child: ProductCard.productImage(model.image),
                     ),
                     //category, name and price
                     Column(

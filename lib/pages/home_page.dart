@@ -170,16 +170,10 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             width: scWidth * 0.27,
                             height: scHeight * 0.11,
-                            margin: EdgeInsets.symmetric(horizontal: 3),
-                            child: IconButton(
-                              icon: categoryList![index].image != null
-                                  ? Image(
-                                      image: NetworkImage(ApiConst.images_url +
-                                          categoryList[index].image!))
-                                  : Image(
-                                      image:
-                                          AssetImage('images/green_fruit.png')),
-                              onPressed: () {
+                            margin: EdgeInsets.symmetric(horizontal: 5,vertical: 3),
+                            child: GestureDetector(
+                              child: ProductCard.productImage(categoryList![index].image!),
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
