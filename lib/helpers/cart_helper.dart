@@ -380,9 +380,9 @@ Widget addToCartBtnContainer(BuildContext context,
                   ? cartBtn(
                       Icons.shopping_cart,
                       // LocaleKeys.add_cart.tr(),
-                      EdgeInsets.symmetric(horizontal: 30),
+                      EdgeInsets.symmetric(horizontal: 20),
                       onBtnClicked)
-                      //show counter 
+                      //show counter
                   : qtyContainer(context, userQty, onDeleteBtnClicked,
                       onIncreaseBtnClicked, onDecreaseBtnClicked)
                       //show product unavailable
