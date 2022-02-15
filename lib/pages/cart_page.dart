@@ -141,7 +141,6 @@ class _CartPageState extends State<CartPage> {
           topRight: Radius.circular(40),
         ),
         panel: Container(
-          //Change height to be adaptable
           height: MediaQuery.of(context).size.height * 0.16,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
