@@ -12,7 +12,7 @@ Widget orderTileDesign(context, scWidth, scHeight) {
             left: 0,
             top: 2,
             child: Container(
-              width: 4, 
+              width: 6, 
               height: scHeight*0.12,
               color: CustomColors().primaryGreenColor,
             )
@@ -23,14 +23,14 @@ Widget orderTileDesign(context, scWidth, scHeight) {
             child: Container(
               margin: EdgeInsets.symmetric(vertical: 2),
               alignment: Alignment.center,
-              width: scWidth*0.83,
+              width: scWidth*1.2,
               height: scHeight*0.12,
               // scHeight*0.12
               decoration: BoxDecoration(
                 border: Border.all(color: CustomColors().primaryGreenColor),
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(45),
-                  bottomRight: Radius.circular(45),
+                  topRight: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
                 ),
                 // gradient: LinearGradient(
                 //   colors: [

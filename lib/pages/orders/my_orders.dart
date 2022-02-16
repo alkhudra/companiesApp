@@ -87,7 +87,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
               children: [
                 // first tab bar view widget 
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30,),
+                  margin: EdgeInsets.symmetric(horizontal: 20,),
                   child: ListView.builder(
                       itemBuilder: ((context, index) {
                         return orderTileDesign(context, scWidth, scHeight);
@@ -99,7 +99,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
 
                 // second tab bar view widget
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30),
+                  margin: EdgeInsets.symmetric(horizontal: 20),
                   child: ListView.builder(
                     itemBuilder: ((context, index) {
                       return orderTileDesign(context, scWidth, scHeight);
