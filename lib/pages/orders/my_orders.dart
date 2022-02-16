@@ -118,15 +118,3 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
     );
   }
 }
-
-
-// Center(
-//         child: Container(
-//           child: Lottie.asset(
-//              'images/anim_fruit.json',
-//               width: 300,
-//               height: 300,
-//               fit: BoxFit.fill,
-//           ),
-//         ),
-//       ),

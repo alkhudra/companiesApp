@@ -189,15 +189,18 @@ class _OrderStatusState extends State<OrderStatus> {
 
             //items in order
             Container(
-              // height: scHeight,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return orderItem();
-                },
-                itemCount: 7,
-                shrinkWrap: true,
-                dragStartBehavior: DragStartBehavior.down,
-                // physics: NeverScrollableScrollPhysics(),
+              //make height dynamic
+              height: scHeight*1.5,
+              child: Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return orderItem();
+                  },
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  // dragStartBehavior: DragStartBehavior.down,
+                  physics: NeverScrollableScrollPhysics(),
+                ),
               ),
             ),
             // SizedBox(height: 50,),
@@ -383,7 +386,8 @@ class _OrderStatusState extends State<OrderStatus> {
           Container(
             child: Text(status, style: TextStyle(
               color: isActive ? CustomColors().primaryGreenColor : CustomColors().darkGrayColor,
-              fontWeight: FontWeight.w600
+              fontWeight: FontWeight.w600,
+              fontSize: 16
             ),),
           ),
         ],
