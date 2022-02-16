@@ -1,12 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-import 'package:status_change/status_change.dart';
 
 import '../../helpers/cart_helper.dart';
 import '../../helpers/custom_btn.dart';
@@ -79,11 +78,27 @@ class _OrderStatusState extends State<OrderStatus> {
               ),
               children: [
                 Container(
-                  padding: EdgeInsets.all(20),
-                  // color: Colors.red,
-                  width: scWidth*0.12,
-                  height: scHeight*0.5,
-                  // status change as child
+                  width: scWidth,
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 10,bottom: 10, right: 10),
+                        width: 4,
+                        height: 255,
+                        color: CustomColors().grayColor,
+                      ),
+                      Column(
+                            children: [
+                              //status title, isActive, isCompleted
+                              statusChange('Confirmed', true, false),
+                              statusChange('Accepted By a Shop', false, false),
+                              statusChange('Picked Up By a Driver', false, false),
+                              statusChange('Delivered!', false, false),
+                            ],
+                          ),
+                    ],
+                  ),
                 ),
               ]
             ),
@@ -341,107 +356,38 @@ class _OrderStatusState extends State<OrderStatus> {
       ),
     );
   }
+
+  //maybe add icon
+  Container statusChange(String status, bool isActive, isCompleted) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        children: [
+          Container(
+            width: 25,
+            height: 25,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: 
+              isActive ? 
+              CustomColors().primaryGreenColor : 
+              isCompleted ? CustomColors().primaryGreenColor : CustomColors().primaryWhiteColor,
+              //change color depending on active stage
+              border: Border.all(
+                color: isActive||isCompleted ? Colors.transparent : CustomColors().primaryGreenColor,
+                width: 3
+              ),
+            ),
+          ),
+          SizedBox(width: 30,),
+          Container(
+            child: Text(status, style: TextStyle(
+              color: isActive ? CustomColors().primaryGreenColor : CustomColors().darkGrayColor,
+              fontWeight: FontWeight.w600
+            ),),
+          ),
+        ],
+      ),
+    );
+  }
 }
-
-
-                    // child: IconStepper(
-                    //   direction: Axis.vertical,
-                    //   enableNextPreviousButtons: false,
-                    //   stepColor: CustomColors().primaryGreenColor,
-                    //   icons: [
-                    //     Icon(Icons.receipt_long_rounded),
-                    //     Icon(Icons.drive_eta),
-                    //     Icon(Icons.store_mall_directory_rounded),
-                    //     Icon(Icons.check)
-                    //   ],
-                    // ),
-
-
-
-
-
-              //       StatusChange.tileBuilder(
-              //   theme: StatusChangeThemeData(
-              //     direction: Axis.vertical,
-              //     connectorTheme:
-              //         ConnectorThemeData(space: 1.0, thickness: 1.0),
-              //   ),
-              //   builder: StatusChangeTileBuilder.connected(
-              //     itemWidth: (_) =>
-              //         MediaQuery.of(context).size.width / 5, //_process.length
-              //     contentWidgetBuilder: (context, index) {
-              //       return Padding(
-              //         padding: const EdgeInsets.all(15.0),
-              //         child: Text(
-              //           'add content here',
-              //           style: TextStyle(
-              //             color: Colors
-              //                 .blue, // change color with dynamic color --> can find it with example section
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //     nameWidgetBuilder: (context, index) {
-              //       return Padding(
-              //         padding: const EdgeInsets.all(20),
-              //         child: Text(
-              //           'your text ',
-              //           style: TextStyle(
-              //             fontWeight: FontWeight.bold,
-              //             color: getColor(index),
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //     indicatorWidgetBuilder: (_, index) {
-              //       if (index <= _processIndex) {
-              //         return DotIndicator(
-              //           size: 35.0,
-              //           border: Border.all(color: Colors.green, width: 1),
-              //           child: Padding(
-              //             padding: const EdgeInsets.all(6.0),
-              //             child: Container(
-              //               decoration: BoxDecoration(
-              //                 shape: BoxShape.circle,
-              //                 color: Colors.green,
-              //               ),
-              //             ),
-              //           ),
-              //         );
-              //       } else {
-              //         return OutlinedDotIndicator(
-              //           size: 30,
-              //           borderWidth: 1.0,
-              //           color: todoColor,
-              //         );
-              //       }
-              //     },
-              //     lineWidgetBuilder: (index) {
-              //       if (index > 0) {
-              //         if (index == _processIndex) {
-              //           final prevColor = getColor(index - 1);
-              //           final color = getColor(index);
-              //           var gradientColors;
-              //           gradientColors = [
-              //             prevColor,
-              //             Color.lerp(prevColor, color, 0.5)
-              //           ];
-              //           return DecoratedLineConnector(
-              //             decoration: BoxDecoration(
-              //               gradient: LinearGradient(
-              //                 colors: gradientColors,
-              //               ),
-              //             ),
-              //           );
-              //         } else {
-              //           return SolidLineConnector(
-              //             color: getColor(index),
-              //           );
-              //         }
-              //       } else {
-              //         return null;
-              //       }
-              //     },
-              //     itemCount: _processes.length,
-              //   ),
-              // ),

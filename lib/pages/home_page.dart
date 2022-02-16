@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                             height: scHeight * 0.1,
                             margin: EdgeInsets.symmetric(horizontal: 5,vertical: 3),
                             child: GestureDetector(
-                              child: ProductCard.productImage(categoryList![index].image!),
+                              child: ProductCard.productImage(categoryList![index].image),
                               onTap: () {
                                 Navigator.push(
                                   context,
