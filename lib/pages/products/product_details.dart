@@ -137,14 +137,16 @@ class _ProductDetailsState extends State<ProductDetails> {
             backgroundColor: CustomColors().primaryGreenColor,
             iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: CustomColors().primaryWhiteColor,
-              onPressed: () => Navigator.pop(context),
-            ),
+                constraints: BoxConstraints(),
+                padding: EdgeInsets.all(0.0),
+                icon: Icon(Icons.cancel),
+                color: CustomColors().darkGrayColor.withOpacity(0.4),
+                iconSize: 32,
+                onPressed: () => Navigator.pop(context),
+              ),
           ),
           SliverToBoxAdapter(
             child: Container(
-              // margin: EdgeInsets.only(top: 100),
               width: double.infinity,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
@@ -166,20 +168,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Text(
-                      '$category',
-                      style: TextStyle(
-                        color: CustomColors().darkGrayColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  //   child: Text(
+                  //     '$category',
+                  //     style: TextStyle(
+                  //       color: CustomColors().darkGrayColor,
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 17,
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -218,8 +217,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                   SizedBox(
                     height: 5,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: Text(
+                      '$category',
+                      style: TextStyle(
+                        color: CustomColors().darkGrayColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   //row for price and counter
                   Row(
