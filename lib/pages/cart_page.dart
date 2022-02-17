@@ -135,7 +135,7 @@ class _CartPageState extends State<CartPage> {
           itemCount: list.length,
         ),
         minHeight: scHeight * 0.07,
-        maxHeight: hasDiscount! ? scHeight * 0.38 : 220,
+        maxHeight: hasDiscount! ? scHeight * 0.39 : 235,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
@@ -175,6 +175,14 @@ class _CartPageState extends State<CartPage> {
                       LocaleKeys.subtotal.tr(), getTextWithCurrency(subtotal)),
                   cartDetailsItem(
                       LocaleKeys.vat.tr(), getTextWithCurrency(vat)),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 30),
+                    child: Text(LocaleKeys.vat_inc.tr(),
+                    style: TextStyle(
+                      color: CustomColors().darkBlueColor,
+                      fontSize: 14.5
+                    ),),
+                  ),
                   if (hasDiscount)
                     Column(
                       children: [

@@ -172,4 +172,5 @@ abstract class LocaleKeys {
   static const undo = "undo";
   static const cart_price_changed_note = "cart_price_changed_note";
   static const cart_qty_changed_note = "cart_qty_changed_note";
+  static const vat_inc = "*Product prices are inclusive of VAT";
 }
