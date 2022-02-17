@@ -176,7 +176,7 @@ class _CartPageState extends State<CartPage> {
                   cartDetailsItem(
                       LocaleKeys.vat.tr(), getTextWithCurrency(vat)),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 30),
+                    margin: EdgeInsets.symmetric(horizontal: 30, vertical: 2),
                     child: Text(LocaleKeys.vat_inc.tr(),
                     style: TextStyle(
                       color: CustomColors().darkBlueColor,

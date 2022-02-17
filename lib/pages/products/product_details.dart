@@ -90,28 +90,48 @@ class _ProductDetailsState extends State<ProductDetails> {
     //counter = 0;
     bool isAvailable = model.isAvailabe!;
     bool isDeleted = model.isDeleted!;
+    //TODO: set to product image available or not: true for available, false for default green bg
+    bool imgAvl = true;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColors().primaryGreenColor,
+      backgroundColor: CustomColors().primaryWhiteColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             centerTitle: true,
             collapsedHeight: 200,
-            flexibleSpace: Stack(
-              children: [
-                //todo: set with product image
-                Positioned.fill(
-                  left: 180,
-                  child: Image.asset('images/grapevector.png'),
+            flexibleSpace: FlexibleSpaceBar(
+              //product image, default green or product network image
+              background: imgAvl ? Image.network('https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+              fit: BoxFit.cover,) : Padding(
+                padding: const EdgeInsets.only(left: 140),
+                child: Image.asset('images/grapevector.png'),
+              ) ,
+              ),
+              //
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(20),
+                child: Container(
+                  width: scWidth,
+                  decoration: BoxDecoration(
+                    color: CustomColors().primaryWhiteColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(70),
+                      topRight: Radius.circular(70),
+                    ),
+
+                  boxShadow: [
+                    BoxShadow(
+                        color: CustomColors().blackColor.withOpacity(0.3),
+                        offset: Offset(-4, -6.0),
+                        blurRadius: 6.0,
+                        spreadRadius: -6.0),
+                  ],
+                  ),
+                  child: Center(child: Text('')),
                 ),
-                //Product image
-                // Positioned.fill(
-                //   child: Image.network('https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-                //   fit: BoxFit.cover,),
-                //   ),
-              ],
-            ),
+              ),
             expandedHeight: 180,
             elevation: 0.0,
             backgroundColor: CustomColors().primaryGreenColor,
@@ -129,18 +149,18 @@ class _ProductDetailsState extends State<ProductDetails> {
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 // shadow top of container
-                boxShadow: [
-                  BoxShadow(
-                      color: CustomColors().blackColor.withOpacity(0.3),
-                      offset: Offset(-2, -6.0),
-                      blurRadius: 6.0,
-                      spreadRadius: -2.0),
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: CustomColors().blackColor.withOpacity(0.3),
+                //       offset: Offset(-2, -6.0),
+                //       blurRadius: 6.0,
+                //       spreadRadius: -2.0),
+                // ],
                 color: CustomColors().primaryWhiteColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
+                // borderRadius: BorderRadius.only(
+                //   topLeft: Radius.circular(40),
+                //   topRight: Radius.circular(40),
+                // ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -247,11 +267,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      '$description',
-                      overflow: TextOverflow.clip,
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        '$description',
+                        overflow: TextOverflow.clip,
+                      ),
                     ),
                   ),
                 ],
