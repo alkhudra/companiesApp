@@ -205,8 +205,7 @@ class ProductCard {
     String? unit = language == 'ar' ? productModel.arItemUnitDesc : productModel.enItemUnitDesc;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
-    num? stockQty = productModel.quantity!;
-    int? qty = productModel.userProductQuantity;
+
     return GridTile(
       child: Container(
         decoration: BoxDecoration(
@@ -311,7 +310,7 @@ class ProductCard {
                       child: addToCartBtnContainer(
                         context,
                         productsModel: productModel,
-                        userQty: qty,
+                        userQty: productModel.userProductQuantity,
                         onBtnClicked: () {
                           if (isAddToCartBtnEnabled) {
                             onAddBtnClicked();
@@ -329,7 +328,7 @@ class ProductCard {
                         },
                         onIncreaseBtnClicked: () {
                           if (isIncreaseBtnEnabled) {
-                            if (productModel.userProductQuantity! < stockQty) {
+                            if (productModel.userProductQuantity! < productModel.quantity!) {
                               onIncreaseBtnClicked();
                             } else
                               showSuccessMessage(

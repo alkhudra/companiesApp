@@ -99,9 +99,9 @@ Widget cartTile(BuildContext context, String language,
           ? CustomColors().primaryWhiteColor
           : CustomColors().grayColor;
   String priceMessage = isPriceChanged == true
-      ? LocaleKeys.cart_price_changed_note
+      ? LocaleKeys.cart_price_changed_note.tr()
       : isQtyChanged == true
-          ? LocaleKeys.cart_qty_changed_note
+          ? LocaleKeys.cart_qty_changed_note.tr()
           : 'price and qty';
   //String qtyMessage = isQtyChanged ? LocaleKeys.cart_qty_changed_note : '';
   return Column(children: [
