@@ -143,7 +143,7 @@ abstract class LocaleKeys {
   static const veg_category = "Vegetables";
   static const add_to_cart = "ADD TO CART";
   static const pro_description = "Description";
-  static const sar_per_kg = "SAR / Kg";
+  static const sar_per_kg = "sar_per_kg";
   static const sar = "SAR";
   static const on_the_way = "Your Order is On The Way!";
   static const add_cart = "add_cart";

@@ -29,6 +29,11 @@ class SuccessCartResponseModel {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return 'SuccessCartResponseModel{_message: $_message, _userCart: $_userCart}';
+  }
 }
 
 //-------------------
@@ -104,5 +109,10 @@ class CartProductsList {
     map['userProductQuantity'] = _userProductQuantity;
     map['totalNetProductPrice'] = _totalNetProductPrice;
     return map;
+  }
+
+  @override
+  String toString() {
+    return 'CartProductsList{_productDto: $_productDto, _totalProductPrice: $_totalProductPrice, _userProductQuantity: $_userProductQuantity, _totalNetProductPrice: $_totalNetProductPrice, _totalProductVAT15: $_totalProductVAT15, _hasUserProductQuantityChanged: $_hasUserProductQuantityChanged, _hasOriginalProductPriceChanged: $_hasOriginalProductPriceChanged, _hasSpecialProductPriceChanged: $_hasSpecialProductPriceChanged}';
   }
 }

@@ -36,7 +36,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  static String language = 'ar';
+  static String language = '';
   bool isTrashBtnEnabled = true;
   static String productId = '';
 
@@ -44,6 +44,7 @@ class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
+    setValue();
   }
 
   @override
@@ -53,7 +54,6 @@ class _CartPageState extends State<CartPage> {
       body: FutureBuilder<SuccessCartResponseModel?>(
         future: getListData(),
         builder: (context, snapshot) {
-          print(snapshot.toString());
           if (snapshot.hasData) {
             print(snapshot.hasData);
             print(snapshot.data);
@@ -259,9 +259,10 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-  void setValue() async {
+ static void setValue() async {
     language = await PreferencesHelper.getSelectedLanguage;
   }
+
 
   noteWidget(bool boolCondition, String message) {
     return /*Visibility(

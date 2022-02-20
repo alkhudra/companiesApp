@@ -65,4 +65,9 @@ class UserCart {
     map['priceAfterDiscount'] = _priceAfterDiscount;
     return map;
   }
+
+  @override
+  String toString() {
+    return 'UserCart{_cartProductsList: $_cartProductsList, _totalCartPrice: $_totalCartPrice, _hasDiscount: $_hasDiscount, _priceAfterDiscount: $_priceAfterDiscount, _discountPercentage: $_discountPercentage, _totalCartVAT15: $_totalCartVAT15, _totalNetCartPrice: $_totalNetCartPrice}';
+  }
 }

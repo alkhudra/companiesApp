@@ -80,6 +80,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     String? productId = model.productId;
     String? category =
         language == 'ar' ? model.arCategoryName : model.categoryName;
+    String? unit = language == 'ar' ? model.arItemUnitDesc : model.enItemUnitDesc;
 
     String? name = language == 'ar' ? model.arName : model.name;
     bool? isFavourite = model.isFavourite;
@@ -242,7 +243,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
-                          ("$price " + LocaleKeys.sar_per_kg.tr()),
+                          ("$price " + LocaleKeys.sar.tr() +' / '+ unit!),
                           style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontWeight: FontWeight.w600,

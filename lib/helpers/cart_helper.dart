@@ -82,8 +82,6 @@ Widget cartTile(BuildContext context, String language,
       ? model.specialPrice!
       : model.originalPrice!;
   String? name = language == 'ar' ? model.arName : model.name;
-  String? category =
-      language == 'ar' ? model.arCategoryName : model.categoryName;
 
   bool? isPriceChanged = model.hasSpecialPrice == true
       ? list[index]!.hasSpecialProductPriceChanged

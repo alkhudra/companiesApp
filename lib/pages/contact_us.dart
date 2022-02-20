@@ -42,15 +42,7 @@ class _ContactUsState extends State<ContactUs> {
     );
   }
 
-  //---------------------
-  Widget errorCase(AsyncSnapshot<ContactUsResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
 
-      // By default, show a loading spinner.
-      return Center(child: CircularProgressIndicator());
-  }
   //---------------------
 
   Widget getContactUsDesign(ContactUsResponseModel? model) {

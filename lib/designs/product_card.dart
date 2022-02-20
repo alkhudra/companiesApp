@@ -42,6 +42,8 @@ class ProductCard {
     String? name = language == 'ar' ? productModel.arName : productModel.name;
     num? stockQty = productModel.quantity!;
     int? qty = productModel.userProductQuantity;
+    String? unit = language == 'ar' ? productModel.arItemUnitDesc : productModel.enItemUnitDesc;
+
     //--------------------------
 
     return GestureDetector(
@@ -80,7 +82,7 @@ class ProductCard {
                         Container(
                           padding: EdgeInsets.all(2),
                           child: Text(
-                            ("$price " + LocaleKeys.sar_per_kg.tr()),
+                            ("$price " + LocaleKeys.sar.tr() +' / '+ unit!),
                             style: TextStyle(
                                 color: CustomColors().primaryGreenColor,
                                 fontWeight: FontWeight.w400),
@@ -200,6 +202,7 @@ class ProductCard {
         ?.toDouble();
 
     String productId = productModel.productId!;
+    String? unit = language == 'ar' ? productModel.arItemUnitDesc : productModel.enItemUnitDesc;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
     num? stockQty = productModel.quantity!;
@@ -284,7 +287,7 @@ class ProductCard {
                         //price
                         Container(
                           child: Text(
-                            '$price  ' + LocaleKeys.sar_per_kg.tr(),
+                            ("$price " + LocaleKeys.sar.tr() +' / '+ unit!),
                             style: TextStyle(
                                 color: CustomColors().primaryGreenColor,
                                 fontSize: 12,
@@ -423,7 +426,7 @@ class ProductCard {
   }
 
   static productImage(String? imageUrl) {
-    return /*imageUrl != null
+    return imageUrl != null
         ? Image.network(
             ApiConst.images_url + imageUrl,
             errorBuilder: (BuildContext context, Object exception,
@@ -431,7 +434,7 @@ class ProductCard {
               return Image.asset('images/green_fruit.png');
             },
           )
-        : */Image.asset('images/green_fruit.png');
+        : Image.asset('images/green_fruit.png');
   }
 
 //---------------------

@@ -1,135 +1,157 @@
+
 class ProductsModel {
   ProductsModel({
-    String? productId,
-    String? name,
-    String? arName,
-    String? categoryName,
-    bool? hasSpecialPrice,
-    num? originalPrice,
-    num? specialPrice,
-    num? quantity,
-    String? description,
-    String? arDescription,
-    bool? isAvailabe,
-    bool? isFavourite,
-    bool? isActive,
-    String? image,
-    bool? isDeleted,
-    String? arCategoryName,
-    String? categoryId,
-    int? userProductQuantity,
-    bool? isAddedToCart,
-  }) {
-    _isDeleted = isDeleted;
+      String? productId, 
+      String? name, 
+      String? arName, 
+      String? categoryName, 
+      String? arCategoryName, 
+      bool? hasSpecialPrice, 
+      int? originalPrice, 
+      int? specialPrice, 
+      bool? isFavourite, 
+      int? stockQuantity, 
+      String? description, 
+      String? arDescription, 
+      bool? isAvailabe, 
+      bool? isActive, 
+      bool? isDeleted, 
+      String? image, 
+      String? categoryId, 
+      String? productUnitId, 
+      String? unitCode, 
+      String? arItemUnitDesc, 
+      String? enItemUnitDesc, 
+      int? userProductQuantity, 
+      bool? isAddedToCart,}){
     _productId = productId;
     _name = name;
-    _arCategoryName = arCategoryName;
-    _categoryName = categoryName;
     _arName = arName;
+    _categoryName = categoryName;
+    _arCategoryName = arCategoryName;
     _hasSpecialPrice = hasSpecialPrice;
     _originalPrice = originalPrice;
     _specialPrice = specialPrice;
-    _quantity = quantity;
+    _isFavourite = isFavourite;
+    _quantity = stockQuantity;
     _description = description;
     _arDescription = arDescription;
     _isAvailabe = isAvailabe;
     _isActive = isActive;
+    _isDeleted = isDeleted;
     _image = image;
-    _isFavourite = isFavourite;
     _categoryId = categoryId;
+    _productUnitId = productUnitId;
+    _unitCode = unitCode;
+    _arItemUnitDesc = arItemUnitDesc;
+    _enItemUnitDesc = enItemUnitDesc;
     _userProductQuantity = userProductQuantity;
     _isAddedToCart = isAddedToCart;
-  }
+}
 
   ProductsModel.fromJson(dynamic json) {
     _productId = json['productId'];
     _name = json['name'];
     _arName = json['arName'];
+    _categoryName = json['categoryName'];
+    _arCategoryName = json['arCategoryName'];
     _hasSpecialPrice = json['hasSpecialPrice'];
     _originalPrice = json['originalPrice'];
     _specialPrice = json['specialPrice'];
+    _isFavourite = json['isFavourite'];
     _quantity = json['stockQuantity'];
     _description = json['description'];
     _arDescription = json['arDescription'];
     _isAvailabe = json['isAvailabe'];
     _isActive = json['isActive'];
-    _image = json['image'];
-    _categoryName = json['categoryName'];
-    _isFavourite = json['isFavourite'];
-    _categoryId = json['categoryId'];
-    _arCategoryName = json['arCategoryName'];
     _isDeleted = json['isDeleted'];
+    _image = json['image'];
+    _categoryId = json['categoryId'];
+    _productUnitId = json['productUnitId'];
+    _unitCode = json['unitCode'];
+    _arItemUnitDesc = json['arItemUnitDesc'];
+    _enItemUnitDesc = json['enItemUnitDesc'];
     _userProductQuantity = json['userProductQuantity'];
     _isAddedToCart = json['isAddedToCart'];
   }
   String? _productId;
   String? _name;
   String? _arName;
+  String? _categoryName;
+  String? _arCategoryName;
   bool? _hasSpecialPrice;
-  num? _originalPrice;
-  num? _specialPrice;
-  num? _quantity;
+  int? _originalPrice;
+  int? _specialPrice;
+  bool? _isFavourite;
+  int? _quantity;
   String? _description;
   String? _arDescription;
   bool? _isAvailabe;
   bool? _isActive;
+  bool? _isDeleted;
   String? _image;
   String? _categoryId;
-  bool? _isFavourite;
-  String? _categoryName;
-  String? _arCategoryName;
-  bool? _isDeleted;
+  String? _productUnitId;
+  String? _unitCode;
+  String? _arItemUnitDesc;
+  String? _enItemUnitDesc;
   int? _userProductQuantity;
   bool? _isAddedToCart;
-  bool? get isFavourite => _isFavourite;
-
-  bool? get isDeleted => _isDeleted;
 
   String? get productId => _productId;
   String? get name => _name;
   String? get arName => _arName;
+  String? get categoryName => _categoryName;
+  String? get arCategoryName => _arCategoryName;
   bool? get hasSpecialPrice => _hasSpecialPrice;
-  num? get originalPrice => _originalPrice;
-  num? get specialPrice => _specialPrice;
-  num? get quantity => _quantity;
+  int? get originalPrice => _originalPrice;
+  int? get specialPrice => _specialPrice;
+  bool? get isFavourite => _isFavourite;
+  int? get quantity => _quantity;
   String? get description => _description;
   String? get arDescription => _arDescription;
   bool? get isAvailabe => _isAvailabe;
   bool? get isActive => _isActive;
+  bool? get isDeleted => _isDeleted;
   String? get image => _image;
   String? get categoryId => _categoryId;
-  String? get arCategoryName => _arCategoryName;
-  String? get categoryName => _categoryName;
-  bool? get isAddedToCart => _isAddedToCart;
+  String? get productUnitId => _productUnitId;
+  String? get unitCode => _unitCode;
+  String? get arItemUnitDesc => _arItemUnitDesc;
+  String? get enItemUnitDesc => _enItemUnitDesc;
   int? get userProductQuantity => _userProductQuantity;
+  bool? get isAddedToCart => _isAddedToCart;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = _productId;
     map['name'] = _name;
     map['arName'] = _arName;
-    map['isDeleted'] = _isDeleted;
-    map['arCategoryName'] = _arCategoryName;
     map['categoryName'] = _categoryName;
+    map['arCategoryName'] = _arCategoryName;
     map['hasSpecialPrice'] = _hasSpecialPrice;
     map['originalPrice'] = _originalPrice;
     map['specialPrice'] = _specialPrice;
+    map['isFavourite'] = _isFavourite;
     map['stockQuantity'] = _quantity;
     map['description'] = _description;
     map['arDescription'] = _arDescription;
     map['isAvailabe'] = _isAvailabe;
     map['isActive'] = _isActive;
+    map['isDeleted'] = _isDeleted;
     map['image'] = _image;
-    map['isFavourite'] = _isFavourite;
     map['categoryId'] = _categoryId;
-    map['isAddedToCart'] = _isAddedToCart;
+    map['productUnitId'] = _productUnitId;
+    map['unitCode'] = _unitCode;
+    map['arItemUnitDesc'] = _arItemUnitDesc;
+    map['enItemUnitDesc'] = _enItemUnitDesc;
     map['userProductQuantity'] = _userProductQuantity;
+    map['isAddedToCart'] = _isAddedToCart;
     return map;
   }
 
   @override
   String toString() {
-    return 'ProductsModel{_productId: $_productId, _name: $_name, _arName: $_arName, _hasSpecialPrice: $_hasSpecialPrice, _originalPrice: $_originalPrice, _specialPrice: $_specialPrice, _quantity: $_quantity, _description: $_description, _arDescription: $_arDescription, _isAvailabe: $_isAvailabe, _isActive: $_isActive, _image: $_image, _categoryId: $_categoryId, _isFavourite: $_isFavourite, _categoryName: $_categoryName, _arCategoryName: $_arCategoryName, _isDeleted: $_isDeleted, _userProductQuantity: $_userProductQuantity, _isAddedToCart: $_isAddedToCart}';
+    return 'ProductsModel{_productId: $_productId, _name: $_name, _arName: $_arName, _categoryName: $_categoryName, _arCategoryName: $_arCategoryName, _hasSpecialPrice: $_hasSpecialPrice, _originalPrice: $_originalPrice, _specialPrice: $_specialPrice, _isFavourite: $_isFavourite, _quantity: $_quantity, _description: $_description, _arDescription: $_arDescription, _isAvailabe: $_isAvailabe, _isActive: $_isActive, _isDeleted: $_isDeleted, _image: $_image, _categoryId: $_categoryId, _productUnitId: $_productUnitId, _unitCode: $_unitCode, _arItemUnitDesc: $_arItemUnitDesc, _enItemUnitDesc: $_enItemUnitDesc, _userProductQuantity: $_userProductQuantity, _isAddedToCart: $_isAddedToCart}';
   }
-
 }
