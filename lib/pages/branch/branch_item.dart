@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
@@ -13,7 +15,9 @@ import 'add_brunches_page.dart';
 class BranchItem extends StatefulWidget {
   final int index;
   final List<BranchModel> list;
-  const BranchItem({Key? key, required this.list,required this.index}) : super(key: key);
+  final List<Cities> cities ;
+
+  const BranchItem({Key? key, required this.list,required this.index,required this.cities}) : super(key: key);
 
   @override
   _BranchItemState createState() => _BranchItemState();
@@ -73,9 +77,10 @@ class _BranchItemState extends State<BranchItem> {
     );
   }
 
-  void directToEditItem() {
+  void directToEditItem() async{
+    String language = await PreferencesHelper.getSelectedLanguage;
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return EditBranchPage(branchModel: widget.list[widget.index]);
+      return EditBranchPage(language : language,branchModel: widget.list[widget.index],cities: widget.cities,);
     }));
   }
 }

@@ -13,6 +13,7 @@ import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
@@ -26,7 +27,10 @@ import '../pick_location_page.dart';
 
 class EditBranchPage extends StatefulWidget {
   final BranchModel branchModel;
-  const EditBranchPage({Key? key, required this.branchModel}) : super(key: key);
+  final List<Cities> cities ;
+  final String language ;
+
+  const EditBranchPage({Key? key,required this.language, required this.branchModel,required this.cities}) : super(key: key);
 
   @override
   _EditBranchPageState createState() => _EditBranchPageState();
@@ -50,29 +54,26 @@ class _EditBranchPageState extends State<EditBranchPage> {
 
 // = LatLng(ksaLat,ksaLng);
   late Map<String, dynamic> alreadyUsedMap = {};
-  List<String> cities = [
-    LocaleKeys.select_city.tr(),
-    LocaleKeys.jeddah_city.tr(),
-    LocaleKeys.makkah_city.tr(),
-  ];
+
   String dropdownValue = LocaleKeys.select_city.tr();
+
   @override
   void initState() {
     super.initState();
 
     branchID = widget.branchModel.id!;
     nameController.text = widget.branchModel.branchName!;
-    districtController.text = widget.branchModel.district!;
-    streetController.text = widget.branchModel.street!;
-    nationalIDAddressController.text = widget.branchModel.nationalID!;
+    districtController.text = widget.branchModel.districtName!;
+    streetController.text = widget.branchModel.streetName!;
+    nationalIDAddressController.text = widget.branchModel.nationalAddressNo!;
     phoneController.text = widget.branchModel.phoneNumber!;
-    addressController.text = widget.branchModel.adress!.toString();
+    addressController.text = widget.branchModel.address!.toString();
     city = widget.branchModel.city!;
 
     double lat = widget.branchModel.latitude!.toDouble();
     double lng = widget.branchModel.longitude!.toDouble();
     latLng = LatLng(lat, lng);
-    address = widget.branchModel.adress!;
+    address = widget.branchModel.address!;
   }
 
   @override
@@ -80,6 +81,9 @@ class _EditBranchPageState extends State<EditBranchPage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
+    List<String> cities = [dropdownValue];
+    for(Cities c in widget.cities)
+      cities.add( widget.language == 'ar'? c.arCityName! : c.enCityName!);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -162,7 +166,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField<String>(
-                    value: dropdownValue,
+                    value: city,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
@@ -173,7 +177,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
                         if (newValue != dropdownValue) {
                           city = newValue!;
                           print(city);
-                        }else city = ' ';
+                        }else city = widget.branchModel.city!;
                       });
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
@@ -287,6 +291,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
   //Add setState to method to update
   //status without restarting app
   void editBranch() async {
+    print('city is $city');
     if (nameController.value.text == '') {
       showErrorDialog(LocaleKeys.branch_name_required.tr());
       return;
@@ -367,9 +372,10 @@ class _EditBranchPageState extends State<EditBranchPage> {
       SuccessBranchResponseModel successBranchResponseModel =
       SuccessBranchResponseModel.fromJson(result.result);
       showSuccessMessage(context, successBranchResponseModel.message!);
+      BranchModel branchModel = successBranchResponseModel.branchObject!;
 
       Navigator.pop(context);
-
+   //   Navigator.pop(context, branchModel);
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) => BranchList()));
     });

@@ -1,86 +1,82 @@
 class BranchModel {
-
-  BranchModel(
+  BranchModel({
     String? id,
     String? branchName,
     String? phoneNumber,
-    String? adress,
-    String? district,
-    String? street,
-    String? nationalID,
+    String? address,
+    String? districtName,
+    String? streetName,
+    String? nationalAddressNo,
     String? city,
     String? country,
-    num? longitude,
-    num? latitude,
+    double? longitude,
+    double? latitude,
     String? companyId,
-  ) {
+  }) {
     _id = id;
     _branchName = branchName;
     _phoneNumber = phoneNumber;
-    _adress = adress;
-    _nationalID = nationalID;
+    _address = address;
+    _districtName = districtName;
+    _streetName = streetName;
+    _nationalAddressNo = nationalAddressNo;
     _city = city;
-    _street = street;
-    _district = district;
     _country = country;
     _longitude = longitude;
     _latitude = latitude;
     _companyId = companyId;
   }
 
-
   BranchModel.fromJson(dynamic json) {
     _id = json['id'];
     _branchName = json['branchName'];
     _phoneNumber = json['phoneNumber'];
-    _adress = json['address'];
-    _nationalID = json['nationalAddressNo'];
+    _address = json['address'];
+    _districtName = json['districtName'];
+    _streetName = json['streetName'];
+    _nationalAddressNo = json['nationalAddressNo'];
     _city = json['city'];
-    _street = json['streetName'];
-    _district = json['districtName'];
     _country = json['country'];
     _longitude = json['longitude'];
     _latitude = json['latitude'];
     _companyId = json['companyId'];
   }
   String? _id;
-  String? _phoneNumber;
-  String? _adress;
-  String? _nationalID;
-  String? _city;
-  String? _district;
-  String? _street;
-  String? _country;
-  num? _longitude;
-  num? _latitude;
-  String? _companyId;
   String? _branchName;
-
-
-  String? get district => _district;
+  String? _phoneNumber;
+  String? _address;
+  String? _districtName;
+  String? _streetName;
+  String? _nationalAddressNo;
+  String? _city;
+  String? _country;
+  double? _longitude;
+  double? _latitude;
+  String? _companyId;
 
   String? get id => _id;
+  String? get branchName => _branchName;
   String? get phoneNumber => _phoneNumber;
-  String? get adress => _adress;
-  String? get nationalID => _nationalID;
+  String? get address => _address;
+  String? get districtName => _districtName;
+  String? get streetName => _streetName;
+  String? get nationalAddressNo => _nationalAddressNo;
   String? get city => _city;
   String? get country => _country;
-  num? get longitude => _longitude;
-  num? get latitude => _latitude;
+  double? get longitude => _longitude;
+  double? get latitude => _latitude;
   String? get companyId => _companyId;
-  String? get branchName => _branchName;
-  String? get street => _street;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['branchName'] = _branchName;
     map['phoneNumber'] = _phoneNumber;
-    map['address'] = _adress;
-    map['nationalAddressNo'] = _nationalID;
+    map['address'] = _address;
+    map['districtName'] = _districtName;
+    map['streetName'] = _streetName;
+    map['nationalAddressNo'] = _nationalAddressNo;
     map['city'] = _city;
-    map['districtName'] = _district;
-    map['streetName'] = _street;
     map['country'] = _country;
     map['longitude'] = _longitude;
     map['latitude'] = _latitude;
@@ -90,6 +86,6 @@ class BranchModel {
 
   @override
   String toString() {
-    return 'BranchModel{_id: $_id, _phoneNumber: $_phoneNumber, _adress: $_adress, _nationalID: $_nationalID, _city: $_city, _district: $_district, _street: $_street, _country: $_country, _longitude: $_longitude, _latitude: $_latitude, _companyId: $_companyId, _branchName: $_branchName}';
+    return 'BranchModel{_id: $_id, _branchName: $_branchName, _phoneNumber: $_phoneNumber, _address: $_address, _districtName: $_districtName, _streetName: $_streetName, _nationalAddressNo: $_nationalAddressNo, _city: $_city, _country: $_country, _longitude: $_longitude, _latitude: $_latitude, _companyId: $_companyId}';
   }
 }

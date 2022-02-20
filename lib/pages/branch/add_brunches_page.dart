@@ -16,6 +16,7 @@ import 'package:khudrah_companies/helpers/location_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
@@ -28,9 +29,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
 class AddBranchesPage extends StatefulWidget {
-  //  final Function addToList ;
+    final List<Cities> cities ;
+    final String language ;
 
-  const AddBranchesPage({Key? key /*,required this.addToList*/})
+  const AddBranchesPage({Key? key ,required this.cities,required this.language})
       : super(key: key);
 
   @override
@@ -66,14 +68,9 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    List<String> cities = [
-      getCityTxt(),
-      getJeddahTxt(),
-      getMakkahTxt(),
-      // LocaleKeys.select_city.tr(),
-      // LocaleKeys.jeddah_city.tr(),
-      // LocaleKeys.makkah_city.tr(),
-    ];
+    List<String> cities = [dropdownValue];
+    for(Cities c in widget.cities)
+    cities.add( widget.language == 'ar'? c.arCityName! : c.enCityName!);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -172,6 +169,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                       });
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
+
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -413,13 +411,6 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     return LocaleKeys.select_city.tr();
   }
 
-  String getJeddahTxt() {
-    return LocaleKeys.jeddah_city.tr();
-  }
-
-  String getMakkahTxt() {
-    return LocaleKeys.makkah_city.tr();
-  }
 
   void backButtonClicked() {
     List<Function()> actions = [

@@ -22,8 +22,8 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'add_brunches_page.dart';
-import 'branch_item.dart';import 'package:khudrah_companies/network/helper/exception_helper.dart';
-
+import 'branch_item.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
 class BranchList extends StatefulWidget {
 //  final List<BranchModel> list;
@@ -35,6 +35,7 @@ class BranchList extends StatefulWidget {
 }
 
 class _BranchListState extends State<BranchList> {
+  static List<Cities> cities = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +45,7 @@ class _BranchListState extends State<BranchList> {
         body: FutureBuilder<BranchListResponseModel?>(
           future: getListData(),
           builder: (context, snapshot) {
-            print(snapshot.toString());
             if (snapshot.hasData) {
-              print(snapshot.hasData);
-              print(snapshot.data);
-              //     list.addAll(snapshot.data!.products);
-
               return _buildBody(context, snapshot.data);
             } else
               return errorCase(snapshot);
@@ -60,7 +56,6 @@ class _BranchListState extends State<BranchList> {
   //-----------------------
 
   Future<BranchListResponseModel> getListData() async {
-
     Map<String, dynamic> headerMap = await getHeaderMap();
     String companyId = await PreferencesHelper.getUserID;
 
@@ -72,13 +67,13 @@ class _BranchListState extends State<BranchList> {
       BranchListResponseModel? responseModel =
           BranchListResponseModel.fromJson(apiResponse.result);
 
+      cities = responseModel.cities!;
+      print(responseModel.branches.toString());
       return responseModel;
     } else {
-
       throw ExceptionHelper(apiResponse.message);
     }
   }
-
 
   //-----------------------
   Widget _buildBody(BuildContext context, BranchListResponseModel? snapshot) {
@@ -88,34 +83,38 @@ class _BranchListState extends State<BranchList> {
 
     return Column(children: [
       Expanded(
-        child:snapshot!.branches.length > 0 ? ListView.builder(
-          itemBuilder: (context, index) {
-            //  print(snapshot?[index].toString());
-            return BranchItem(
-              list: snapshot.branches,
-              index: index,
-            );
-          },
-          itemCount: snapshot.branches.length,
-        ): noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
+        child: snapshot!.branches!.length > 0
+            ? ListView.builder(
+                itemBuilder: (context, index) {
+                  //  print(snapshot?[index].toString());
+                  return BranchItem(
+                    list: snapshot.branches!,
+                    index: index,
+                    cities: cities,
+                  );
+                },
+                itemCount: snapshot.branches!.length,
+              )
+            : noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
       ),
       SizedBox(
         height: 20,
       ),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
-
-         directToAddBranch(snapshot.branches);
+        directToAddBranch(snapshot.branches!);
       })
     ]);
   }
 
   void directToAddBranch(List<BranchModel> list) async {
+
+    String language = await PreferencesHelper.getSelectedLanguage;
     final model =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage();
+      return AddBranchesPage(cities: cities,language: language,);
     }));
 
-      if (model != null) {
+    if (model != null) {
       setState(() {
         list.add(model);
       });

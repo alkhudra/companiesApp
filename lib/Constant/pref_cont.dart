@@ -24,3 +24,5 @@ const  bankData = "bankData";
 const  userName = "userName";
 const  userLaunchDate = "userLaunchDate";
 const  userID = "userID";
+
+const cities="cities";

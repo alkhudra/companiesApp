@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:khudrah_companies/Constant/pref_cont.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
+import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 class PreferencesHelper {
@@ -45,8 +46,26 @@ class PreferencesHelper {
 
   static Future setUserToken(String value) =>
       SharedPrefsManager.setString(token, value);
+  //--------------------
+/*
+  static Future<List<Cities>> get getCities async {
+    List<Cities> citiesList =[];
+  *//*  Map<String, dynamic> userMap =
+    await SharedPrefsManager.getFromJson(cities);*//*
+   List< Cities> o = SharedPrefsManager.getFromJson(cities);
+    o.forEach((v) {
+      citiesList.add(Cities.fromJson(v));
+    });
+    return citiesList;//Cities.fromJson(userMap);
+  }
 
-
+  static Future setCities(List<Cities>? citiesValue) {
+    //  user = User.fromJson(user);
+    if (citiesValue != null)
+      return SharedPrefsManager.setToJson(cities, citiesValue);
+    else
+      return SharedPrefsManager.setToJson(cities, '');
+  }*/
   //--------------------
 
   static Future<User> get getUser async {
@@ -62,6 +81,8 @@ class PreferencesHelper {
     else
       return SharedPrefsManager.setToJson(currentUser, '');
   }
+  //--------------------
+
   static Future<List<BranchModel>?> get getUserList async {
     Map<String, dynamic> userMap =
     await SharedPrefsManager.getFromJson(currentUser);
