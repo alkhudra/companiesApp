@@ -39,7 +39,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
     double scHeight = size.height;
 
     return Scaffold(
-      //add body
       body: Column(
         children: [
           Padding(
@@ -50,7 +49,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with SingleTickerProviderSt
               decoration: BoxDecoration(
                 // color: CustomColors().primaryWhiteColor,
                 borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: CustomColors().primaryGreenColor)
+                border: Border.all(color: CustomColors().primaryGreenColor),
               ),
               child: TabBar(
                 controller: _tabController,
