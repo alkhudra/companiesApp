@@ -39,8 +39,8 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
         Container(
           child: Image.asset(
             'images/logo.png',
-            width: 200,
-            height: 200,
+            width: 100,
+            height: 100,
             fit: BoxFit.cover,
             ),
         ),

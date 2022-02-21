@@ -32,6 +32,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/models/product/category_model.dart';
 import 'cart_page.dart';
 import 'categories/category_page.dart';
+import 'package:widget_mask/widget_mask.dart';
 
 class HomePage extends StatefulWidget {
   //final bool isHasBranch;
@@ -130,15 +131,20 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   children: [
                     Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40)),
                       child: Container(
-                        width: scWidth * 0.27,
-                        height: scHeight * 0.11,
-                        child: IconButton(
-                          icon:
-                              Image(image: AssetImage('images/fruitsnveg.png')),
-                          onPressed: () {
+                        width: scWidth * 0.24,
+                        height: scHeight * 0.1,
+                        child: GestureDetector(
+                          child: WidgetMask(
+                            blendMode: BlendMode.srcATop,
+                            childSaveLayer: true,
+                            mask: Image.network('https://images.unsplash.com/photo-1580928986783-bd8256003f29?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbmdvfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60', fit: BoxFit.cover,),
+                            child: Image.asset('images/product_mask.png', width: 350,),
+                          ),
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -146,6 +152,17 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                         ),
+                        // IconButton(
+                        //   icon:
+                        //       Image(image: AssetImage('images/fruitsnveg.png')),
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => AllCategory()),
+                        //     );
+                        //   },
+                        // ),
                       ),
                     ),
                     SizedBox(
@@ -159,6 +176,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+                //category page
                 Container(
                   margin: EdgeInsets.only(top: 25),
                   width: scWidth * 0.8,
@@ -174,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                             height: scHeight * 0.1,
                             margin: EdgeInsets.symmetric(horizontal: 5,vertical: 3),
                             child: GestureDetector(
-                              child: ProductCard.productImage(categoryList![index].image),
+                              child: ProductCard.categoryImage(categoryList![index].image),
                               onTap: () {
                                 Navigator.push(
                                   context,

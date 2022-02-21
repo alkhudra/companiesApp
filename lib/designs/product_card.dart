@@ -16,6 +16,7 @@ import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:widget_mask/widget_mask.dart';
 
 class ProductCard {
   static bool isAddToFavBtnEnabled = true,
@@ -437,6 +438,29 @@ class ProductCard {
         : Image.asset('images/green_fruit.png');
   }
 
-//---------------------
+//--------------------- 
+
+  static categoryImage(String? imageUrl) {
+    return imageUrl != null
+        ? WidgetMask(
+          blendMode: BlendMode.srcATop,
+          childSaveLayer: true,
+          mask: Image.network(ApiConst.images_url + imageUrl, fit: BoxFit.cover, 
+                      errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
+              return Image.asset('images/green_fruit.png');
+            },
+          ),
+          child: Image.asset('images/product_mask.png', width: 350,),
+        )
+        // Image.network(
+        //     ApiConst.images_url + imageUrl,
+        //     errorBuilder: (BuildContext context, Object exception,
+        //         StackTrace? stackTrace) {
+        //       return Image.asset('images/green_fruit.png');
+        //     },
+        //   )
+        : Image.asset('images/green_fruit.png');
+  }
 
 }
