@@ -453,13 +453,6 @@ class ProductCard {
           ),
           child: Image.asset('images/product_mask.png', width: 350,),
         )
-        // Image.network(
-        //     ApiConst.images_url + imageUrl,
-        //     errorBuilder: (BuildContext context, Object exception,
-        //         StackTrace? stackTrace) {
-        //       return Image.asset('images/green_fruit.png');
-        //     },
-        //   )
         : Image.asset('images/green_fruit.png');
   }
 

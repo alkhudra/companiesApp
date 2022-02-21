@@ -158,196 +158,185 @@ Widget cartTile(BuildContext context, String language,
                             )));
             },
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.15,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                // border: Border.all(
-                //   color: CustomColors().primaryGreenColor,
-                // ),
-                boxShadow: [
-                  BoxShadow(
-                    color: CustomColors().blackColor.withOpacity(0.4),
-                    offset: Offset(2, 2),
-                    blurRadius: 5,
-                    spreadRadius: 0.2,
-                  )
-                ],
-                color: containerColor,
-              ),
-              child: Stack(children: [
-                //green product icon
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 70,
-                      height: 70,
-                      child: ProductCard.productImage(model.image),
-                    ),
-                    //category, name and price
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // SizedBox(height: 20,),
-                        //category and name
+              width: double.infinity,
+              height: scHeight*0.1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 75,
+                    height: 75,
+                    child: ProductCard.productImage(model.image),
+                  ),
+                  //category, name and price
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // SizedBox(height: 20,),
+                      //category and name
 
-                        //category
-                        /*     Container(
-                              child: Text(
-                                '$category',
-                                style: TextStyle(
-                                  color: CustomColors().darkGrayColor,
-                                ),
+                      //category
+                      /*     Container(
+                            child: Text(
+                              '$category',
+                              style: TextStyle(
+                                color: CustomColors().darkGrayColor,
                               ),
-                              margin: EdgeInsets.all(5),
-                            ),*/
-                        //product name
-                        Container(
-                          child: Text(
-                            '$name',
-                            style: TextStyle(
-                              color: CustomColors().brownColor,
                             ),
+                            margin: EdgeInsets.all(5),
+                          ),*/
+                      //product name
+                      Container(
+                        child: Text(
+                          '$name',
+                          style: TextStyle(
+                            color: CustomColors().brownColor,
+                            fontWeight: FontWeight.w600
                           ),
                         ),
-
-                        // price
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Text(
-                                getTextWithCurrency(price),
-                                style: TextStyle(
-                                    color: isPriceChanged!
-                                        ? CustomColors().redColor
-                                        : CustomColors().primaryGreenColor,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                ' ×  $userQty  ',
-                                style: TextStyle(
-                                    color: isQtyChanged == true
-                                        ? CustomColors().redColor
-                                        : CustomColors().primaryGreenColor,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                            SizedBox(
-                              width: scHeight * 0.08,
-                            ),
-                            Container(
-                              child: Text(
-                                getTextWithCurrency(productTotal),
-                                style: TextStyle(
-                                    color: isPriceChanged
-                                        ? CustomColors().redColor
-                                        : CustomColors().primaryGreenColor,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    //counter
-                    /*     Container(
-                      width: scWidth * 0.071,
-                      height: scHeight * 0.13,
-                      decoration: BoxDecoration(
-                        color: CustomColors().grayColor,
-                        borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      // price
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              child: Text(
-                                '-',
-                                style: TextStyle(
-                                  color: CustomColors().darkBlueColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                          Container(
+                            child: Text(
+                              getTextWithCurrency(price),
+                              style: TextStyle(
+                                  color: isPriceChanged!
+                                      ? CustomColors().redColor
+                                      : CustomColors().primaryGreenColor,
+                                  fontWeight: FontWeight.w500),
                             ),
-                            onTap: () {
-                              //Decrease count method
-                            },
                           ),
                           Container(
                             child: Text(
-                              '$userQty',
-                              // '$counter',
+                              ' ×  $userQty  ',
+                              style: TextStyle(
+                                  color: isQtyChanged == true
+                                      ? CustomColors().redColor
+                                      : CustomColors().primaryGreenColor,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          SizedBox(
+                            width: scHeight * 0.08,
+                          ),
+                          Container(
+                            child: Text(
+                              getTextWithCurrency(productTotal),
+                              style: TextStyle(
+                                  color: isPriceChanged
+                                      ? CustomColors().redColor
+                                      : CustomColors().primaryGreenColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  //counter
+                  /*     Container(
+                    width: scWidth * 0.071,
+                    height: scHeight * 0.13,
+                    decoration: BoxDecoration(
+                      color: CustomColors().grayColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            child: Text(
+                              '-',
                               style: TextStyle(
                                 color: CustomColors().darkBlueColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              child: Text(
-                                '+',
-                                style: TextStyle(
-                                  color: CustomColors().darkBlueColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          onTap: () {
+                            //Decrease count method
+                          },
+                        ),
+                        Container(
+                          child: Text(
+                            '$userQty',
+                            // '$counter',
+                            style: TextStyle(
+                              color: CustomColors().darkBlueColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            child: Text(
+                              '+',
+                              style: TextStyle(
+                                color: CustomColors().darkBlueColor,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onTap: () {
-                              //increase count method
-                            },
                           ),
-                        ],
-                      ),
-                    ),*/
-                    SizedBox(
-                      width: 10,
+                          onTap: () {
+                            //increase count method
+                          },
+                        ),
+                      ],
                     ),
+                  ),*/
+                  SizedBox(
+                    width: 10,
+                  ),
 
-                    // Container(
-                    //   child: Stack(
-                    //     children: [
-                    //       VerticalDivider(
-                    //         thickness: 30,
-                    //         color: CustomColors().primaryGreenColor,
-                    //       ),
-                    //       Container(
-                    //         alignment: Alignment.center,
-                    //         width: 2,
-                    //         child: IconButton(
-                    //           onPressed: () {},
-                    //           icon: Icon(Icons.arrow_back_ios,
-                    //             color: CustomColors().darkGrayColor,),
-                    //           padding: EdgeInsets.zero,
-                    //           constraints: BoxConstraints(),
-                    //         ),
-                    //       ),
-                    //       // GestureDetector(
-                    //       //   child: Container(
-                    //       //     child: Center(child: Icon(Icons.arrow_back_ios_new_rounded)),
-                    //       //   ),
-                    //       //   onTap: () {},
-                    //       // ),
-                    //     ],
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ]),
+                  // Container(
+                  //   child: Stack(
+                  //     children: [
+                  //       VerticalDivider(
+                  //         thickness: 30,
+                  //         color: CustomColors().primaryGreenColor,
+                  //       ),
+                  //       Container(
+                  //         alignment: Alignment.center,
+                  //         width: 2,
+                  //         child: IconButton(
+                  //           onPressed: () {},
+                  //           icon: Icon(Icons.arrow_back_ios,
+                  //             color: CustomColors().darkGrayColor,),
+                  //           padding: EdgeInsets.zero,
+                  //           constraints: BoxConstraints(),
+                  //         ),
+                  //       ),
+                  //       // GestureDetector(
+                  //       //   child: Container(
+                  //       //     child: Center(child: Icon(Icons.arrow_back_ios_new_rounded)),
+                  //       //   ),
+                  //       //   onTap: () {},
+                  //       // ),
+                  //     ],
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
           ),
+          SizedBox(height: 10,),
+
         ],
       ),
     ),
+    Divider(
+      thickness: 1,
+      color: CustomColors().grayColor,
+    )
   ]);
 }
 

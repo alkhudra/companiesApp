@@ -108,31 +108,37 @@ class _CartPageState extends State<CartPage> {
       bool? hasDiscount = model.userCart!.hasDiscount;
 
       return SlidingUpPanel(
-        body: ListView.builder(
-          itemBuilder: (context, index) {
-            return Slidable(
-                key: const ValueKey(0),
-                endActionPane: ActionPane(
-                  motion: const BehindMotion(),
-                  dismissible: DismissiblePane(onDismissed: () {}),
-                  children: [
-                    SlidableAction(
-                      flex: 2,
-                      backgroundColor: CustomColors().redColor,
-                      icon: Icons.delete,
-                      label: LocaleKeys.delete_from_cart.tr(),
-                      onPressed: (BuildContext context) {
-                        productId = list[index].productDto!.productId!;
-                        deleteFromCart(context, index, productId);
-                      },
-                    )
-                  ],
-                ),
-                child: cartTile(context, language, list, index,(){
+        body: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Slidable(
+                    key: const ValueKey(0),
+                    endActionPane: ActionPane(
+                      motion: const BehindMotion(),
+                      dismissible: DismissiblePane(onDismissed: () {}),
+                      children: [
+                        SlidableAction(
+                          flex: 2,
+                          backgroundColor: CustomColors().redColor,
+                          icon: Icons.delete,
+                          label: LocaleKeys.delete_from_cart.tr(),
+                          onPressed: (BuildContext context) {
+                            productId = list[index].productDto!.productId!;
+                            deleteFromCart(context, index, productId);
+                          },
+                        )
+                      ],
+                    ),
+                    child: cartTile(context, language, list, index,(){
 
-                }));
-          },
-          itemCount: list.length,
+                    }));
+              },
+              itemCount: list.length,
+            ),
+            // SizedBox(height: 40,)
+          ],
         ),
         minHeight: scHeight * 0.07,
         maxHeight: hasDiscount! ? scHeight * 0.39 : 235,
@@ -166,7 +172,6 @@ class _CartPageState extends State<CartPage> {
               SizedBox(
                 height: 25,
               ),
-              // SizedBox(height: 40,),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

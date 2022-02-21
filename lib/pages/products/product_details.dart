@@ -101,7 +101,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         slivers: [
           SliverAppBar(
             centerTitle: true,
-            collapsedHeight: 200,
+            collapsedHeight: 250,
             flexibleSpace: FlexibleSpaceBar(
               //product image, default green or product network image
               background: GestureDetector(
