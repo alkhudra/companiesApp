@@ -68,6 +68,7 @@ class ProductCard {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+                          margin: EdgeInsets.only(bottom: 10, top: 15),
                           child: Text(
                             '$name',
                             style: TextStyle(

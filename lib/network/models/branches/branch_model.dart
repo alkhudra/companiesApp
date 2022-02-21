@@ -9,8 +9,8 @@ class BranchModel {
     String? nationalAddressNo,
     String? city,
     String? country,
-    double? longitude,
-    double? latitude,
+    num? longitude,
+    num? latitude,
     String? companyId,
   }) {
     _id = id;
@@ -50,8 +50,8 @@ class BranchModel {
   String? _nationalAddressNo;
   String? _city;
   String? _country;
-  double? _longitude;
-  double? _latitude;
+  num? _longitude;
+  num? _latitude;
   String? _companyId;
 
   String? get id => _id;
@@ -63,8 +63,8 @@ class BranchModel {
   String? get nationalAddressNo => _nationalAddressNo;
   String? get city => _city;
   String? get country => _country;
-  double? get longitude => _longitude;
-  double? get latitude => _latitude;
+  num? get longitude => _longitude;
+  num? get latitude => _latitude;
   String? get companyId => _companyId;
 
   Map<String, dynamic> toJson() {

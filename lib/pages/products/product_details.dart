@@ -104,10 +104,15 @@ class _ProductDetailsState extends State<ProductDetails> {
             collapsedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               //product image, default green or product network image
-              background: imgAvl ? Image.network('https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-              fit: BoxFit.cover,) : Padding(
-                padding: const EdgeInsets.only(left: 140),
-                child: Image.asset('images/grapevector.png'),
+              background: GestureDetector(
+                child: imgAvl ? Image.network('https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+                fit: BoxFit.cover,) : Padding(
+                  padding: const EdgeInsets.only(left: 140),
+                  child: Image.asset('images/grapevector.png'),
+                ),
+                onTap: () {
+                  //on click function
+                },
               ) ,
               ),
               //
