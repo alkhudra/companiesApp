@@ -37,11 +37,10 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
+          width: 250,
+          height: 250,
           child: Image.asset(
             'images/logo.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.cover,
             ),
         ),
         SizedBox(height: 15,),
