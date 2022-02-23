@@ -38,6 +38,7 @@ dependencies:
   firebase_dynamic_links: ^4.0.5
   flutter_local_notifications: ^9.3.2
   widget_mask: ^1.0.0
+  firebase_messaging: ^11.2.6
 
 dev_dependencies:
   retrofit_generator: any
