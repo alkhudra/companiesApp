@@ -22,6 +22,7 @@ import 'package:khudrah_companies/network/models/cart/success_cart_response_mode
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/cart_repository.dart';
+import 'package:khudrah_companies/pages/checkout_page.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
@@ -215,7 +216,14 @@ class _CartPageState extends State<CartPage> {
                   //checkout button
                   Container(
                     child: greenBtn(LocaleKeys.checkout.tr(),
-                        EdgeInsets.symmetric(vertical: 4), () {}),
+                        EdgeInsets.symmetric(vertical: 4), () {
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return CheckoutPage(
+
+                            );
+                          }));
+                        }),
                   ),
                 ],
               ),
