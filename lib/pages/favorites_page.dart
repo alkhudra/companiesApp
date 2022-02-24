@@ -42,7 +42,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       isIncreaseBtnEnabled = true,
       isDecreaseBtnEnabled = true;
   static List<ProductsModel> list = [];
-  bool isThereMoreItems = true;
+  bool isThereMoreItems = false;
   static String language = 'ar';
 
   void setValues() async {
@@ -62,10 +62,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       body: FutureBuilder<ProductListResponseModel?>(
         future: getInfoFromDB(),
         builder: (context, snapshot) {
-          print(snapshot.toString());
           if (snapshot.hasData) {
-            print(snapshot.hasData);
-            print(snapshot.data);
             return listDesign(snapshot.data!);
           } else
             return errorCase(snapshot);
@@ -92,10 +89,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
     ProductRepository productRepository = ProductRepository(headerMap);
 
     ApiResponse apiResponse =
-    await productRepository.getFavoriteProducts(pageSize, pageNumber);
+        await productRepository.getFavoriteProducts(pageSize, pageNumber);
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
-      ProductListResponseModel.fromJson(apiResponse.result);
+          ProductListResponseModel.fromJson(apiResponse.result);
       if (pageNumber == 1)
         list = responseModel.products;
       else
@@ -121,52 +118,74 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget listDesign(ProductListResponseModel? snapshot) {
     return list.length > 0
         ? Column(
-      children: [
-        GridView.builder(
-          itemBuilder: (context, index) {
-            String productId = list[index].productId!;
-
-            return ProductCard.favoritesCard(
-                context, language, list[index], () {
-              ProductCard.addToFav(context, true,
-                  productId);
-              setState(() {
-                list.removeAt(index);
-              });
-            }, onIncreaseBtnClicked: () {
-              setState(() {
-                ProductCard.addQtyToCart(context, productId);
-              });
-            }, onDecreaseBtnClicked: () {
-              setState(() {
-                ProductCard.deleteQtyFromCart(context, productId);
-              });
-            }, onDeleteBtnClicked: () {
-              setState(() {
-                ProductCard.deleteFromCart(context, productId);
-              });
-            }, onAddBtnClicked: () {
-              setState(() {
-                ProductCard.addToCart(context, productId);
-              });
-            });
-          },
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              childAspectRatio: 14 / 17.4),
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: list.length,
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
-        ),
-        if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
-      ],
-    )
+            children: [
+              GridView.builder(
+                itemBuilder: (context, index) {
+                  String productId = list[index].productId!;
+                  return ProductCard.favoritesCard(
+                      context, language, list[index], () {
+                    deleteFromFav(context, productId).then((value) {
+                      if (value == true) {
+                        setState(() {
+                          list.remove(list[index]);
+                        });
+                      }
+                    });
+                  }, onIncreaseBtnClicked: () {
+                    setState(() {
+                      ProductCard.addQtyToCart(context, productId);
+                    });
+                  }, onDecreaseBtnClicked: () {
+                    setState(() {
+                      ProductCard.deleteQtyFromCart(context, productId);
+                    });
+                  }, onDeleteBtnClicked: () {
+                    setState(() {
+                      ProductCard.deleteFromCart(context, productId);
+                    });
+                  }, onAddBtnClicked: () {
+                    setState(() {
+                      ProductCard.addToCart(context, productId);
+                    });
+                  });
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 14 / 17.4),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: list.length,
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+              ),
+              if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
+            ],
+          )
         : noItemDesign(LocaleKeys.no_fav_product.tr(), 'images/not_found.png');
   }
 
 //-----------------------
 
+  static Future<bool> deleteFromFav(
+      BuildContext context, String productId) async {
+    // showLoaderDialog(context);
+    //----------start api ----------------
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    ProductRepository productRepository = ProductRepository(headerMap);
+    ApiResponse apiResponse;
+
+    apiResponse = await productRepository.deleteProductFromFav(productId);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      MessageResponseModel model =
+          MessageResponseModel.fromJson(apiResponse.result);
+      showSuccessMessage(context, model.message!);
+      return true;
+    } else {
+      throw ExceptionHelper(apiResponse.message);
+    }
+  }
 }

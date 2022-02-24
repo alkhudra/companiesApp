@@ -47,10 +47,11 @@ class SearchHelper{
               ),
             ),
             onTap: () {
+              if(seController.text != ''){
               if(fromSearchPage)
                 directToSearchPageFromSearchPage(context, seController);
                 else
-              directToSearchPage(context, seController);
+              directToSearchPage(context, seController);}
             },
           ),
         ],

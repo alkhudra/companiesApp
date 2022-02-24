@@ -204,7 +204,7 @@ class TextFieldDesign {
             child: TextFormField(
               textInputAction: TextInputAction.search,
               onFieldSubmitted: (value) {
-
+                if(controller!.text != '')
                 SearchHelper.directToSearchPage(context,controller);
               },
               controller: controller,

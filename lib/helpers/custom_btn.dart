@@ -57,20 +57,26 @@ Widget greenBtnWithIcon(String txt, IconData icon,
 
 Widget loadMoreBtn(BuildContext context, Function() onPressed) {
   return Container(
-    margin: EdgeInsets.only(bottom: 20),
-    width: MediaQuery.of(context).size.width * 0.8,
-    height: MediaQuery.of(context).size.height * 0.05,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(30),
-      color: CustomColors().grayColor,
+    margin: EdgeInsets.only(top:20),
+    alignment: Alignment.bottomCenter,
+    child: SizedBox(
+      height: 45,
+      width: 180,
+      child: FloatingActionButton(
+        child: Text(LocaleKeys.load_more.tr(), style: TextStyle(
+            fontWeight: FontWeight.w600
+        ),),
+        onPressed: () {
+         onPressed();
+        },
+        backgroundColor: CustomColors().grayColor,
+        foregroundColor: CustomColors().darkBlueColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40)
+        ),
+        elevation: 0.0,
+      ),
     ),
-    child: TextButton(
-        onPressed: onPressed,
-        child: Text(
-          LocaleKeys.load_more.tr(),
-          style: TextStyle(
-              color: CustomColors().darkBlueColor, fontWeight: FontWeight.w600),
-        )),
   );
 }
 

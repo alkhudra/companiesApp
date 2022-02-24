@@ -36,7 +36,7 @@ class _CategoryPageState extends State<CategoryPage> {
   static String language = 'ar';
 
   List<ProductsModel> list = [];
-  bool isThereMoreItems = true;
+  bool isThereMoreItems = false;
   static void setValues() async {
     language = await PreferencesHelper.getSelectedLanguage;
   }
@@ -68,7 +68,6 @@ class _CategoryPageState extends State<CategoryPage> {
               FutureBuilder<ProductListResponseModel?>(
                 future: getInfoFromDB(item.id!),
                 builder: (context, snapshot) {
-                  print(snapshot.toString());
                   if (snapshot.hasData) {
                     return getListDesign(snapshot.data);
                   } else
@@ -79,28 +78,6 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ),
       ),
-      //load more button
-      floatingActionButton: SizedBox(
-        height: 45,
-        width: 180,
-        child: FloatingActionButton(
-          child: Text(LocaleKeys.load_more.tr(), style: TextStyle(
-            fontWeight: FontWeight.w600
-          ),),
-          onPressed: () {
-            // loadMoreInfo();
-            if (isThereMoreItems == true)
-              loadMoreInfo(); 
-          },
-          backgroundColor: CustomColors().grayColor,
-          foregroundColor: CustomColors().darkBlueColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40)
-          ),
-          elevation: 0.0,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: appBarWithActions(context,
         setCategoryName(item)!, () {Navigator.pop(context);}),
     );
@@ -110,18 +87,24 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Widget getListDesign(ProductListResponseModel? snapshot) {
 
-    return list.length >0 ? Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        // physics: NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemBuilder:(context, index) {
-          ProductsModel model = list[index];
-          String productId=model.productId!;
-          return getProductCard(context,model,productId);
-        },
-        itemCount: list.length,
-      ),
+    return list.length > 0 ? Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            // physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemBuilder:(context, index) {
+              ProductsModel model = list[index];
+              String productId=model.productId!;
+              return getProductCard(context,model,productId);
+            },
+            itemCount: list.length,
+          ),
+        ),
+        if (isThereMoreItems == true)
+          loadMoreBtn(context, loadMoreInfo),
+      ],
     ): noItemDesign(LocaleKeys.no_items_category.tr(), 'images/not_found.png');
 
   }
