@@ -34,7 +34,7 @@ class _AllCategoryState extends State<AllCategory> {
   static String language = 'ar';
 
   List<ProductsModel> list = [];
-  bool isThereMoreItems = true;
+  bool isThereMoreItems = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,26 +64,6 @@ class _AllCategoryState extends State<AllCategory> {
           ],
         ),
       ),
-      //load more button
-      floatingActionButton: SizedBox(
-        height: 45,
-        width: 180,
-        child: FloatingActionButton(
-          child: Text(LocaleKeys.load_more.tr(), style: TextStyle(
-            fontWeight: FontWeight.w600
-          ),),
-          onPressed: () {
-            loadMoreInfo();
-          },
-          backgroundColor: CustomColors().grayColor,
-          foregroundColor: CustomColors().darkBlueColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40)
-          ),
-          elevation: 0.0,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: appBarWithActions(context,
         LocaleKeys.all_category.tr(), () {Navigator.pop(context);}),
       // endDrawer: drawerDesign(context),
@@ -95,16 +75,22 @@ class _AllCategoryState extends State<AllCategory> {
   Widget getListDesign() {
 
     return Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        // physics: NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemBuilder:(context, index) {
-          ProductsModel model =list[index];
-          String productId=model.productId!;
-          return getProductCard(context,model,productId);
-        },
-        itemCount: list.length,
+      child: Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            // physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemBuilder:(context, index) {
+              ProductsModel model =list[index];
+              String productId=model.productId!;
+              return getProductCard(context,model,productId);
+            },
+            itemCount: list.length,
+          ),
+          if (isThereMoreItems == true)
+            loadMoreBtn(context, loadMoreInfo),
+        ],
       ),
     );
   }

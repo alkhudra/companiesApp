@@ -39,6 +39,7 @@ dependencies:
   flutter_local_notifications: ^9.3.2
   widget_mask: ^1.0.0
   firebase_messaging: ^11.2.6
+  myfatoorah_flutter: ^2.1.5
 
 dev_dependencies:
   retrofit_generator: any

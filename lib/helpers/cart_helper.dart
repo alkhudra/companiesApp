@@ -78,7 +78,7 @@ Widget cartTile(BuildContext context, String language,
   double scWidth = size.width;
   double scHeight = size.height;
 
-  num price = model.hasSpecialPrice == true
+  num? price = model.hasSpecialPrice == true
       ? model.specialPrice!
       : model.originalPrice!;
   String? name = language == 'ar' ? model.arName : model.name;
