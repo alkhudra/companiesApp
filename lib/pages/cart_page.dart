@@ -51,7 +51,6 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //add body
       body: FutureBuilder<SuccessCartResponseModel?>(
         future: getListData(),
         builder: (context, snapshot) {
@@ -109,38 +108,45 @@ class _CartPageState extends State<CartPage> {
       bool? hasDiscount = model.userCart!.hasDiscount;
 
       return SlidingUpPanel(
-        body: Column(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              // physics: ScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Slidable(
-                    key: const ValueKey(0),
-                    endActionPane: ActionPane(
-                      motion: const BehindMotion(),
-                      dismissible: DismissiblePane(onDismissed: () {}),
-                      children: [
-                        SlidableAction(
-                          flex: 2,
-                          backgroundColor: CustomColors().redColor,
-                          icon: Icons.delete,
-                          label: LocaleKeys.delete_from_cart.tr(),
-                          onPressed: (BuildContext context) {
-                            productId = list[index].productDto!.productId!;
-                            deleteFromCart(context, index, productId);
-                          },
-                        )
-                      ],
-                    ),
-                    child: cartTile(context, language, list, index,(){
-        
-                    }));
-              },
-              itemCount: list.length,
+        body: Padding(
+          padding: EdgeInsets.only(bottom: scHeight * 0.27),
+          child: Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    // physics: ScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Slidable(
+                          key: const ValueKey(0),
+                          endActionPane: ActionPane(
+                            motion: const BehindMotion(),
+                            dismissible: DismissiblePane(onDismissed: () {}),
+                            children: [
+                              SlidableAction(
+                                flex: 2,
+                                backgroundColor: CustomColors().redColor,
+                                icon: Icons.delete,
+                                label: LocaleKeys.delete_from_cart.tr(),
+                                onPressed: (BuildContext context) {
+                                  productId = list[index].productDto!.productId!;
+                                  deleteFromCart(context, index, productId);
+                                },
+                              )
+                            ],
+                          ),
+                          child: cartTile(context, language, list, index,(){
+                          
+                          }));
+                    },
+                    itemCount: list.length,
+                  ),
+                ),
+                // SizedBox(height: 40,)
+              ],
             ),
-            // SizedBox(height: 40,)
-          ],
+          ),
         ),
         minHeight: scHeight * 0.07,
         maxHeight: hasDiscount! ? scHeight * 0.39 : 235,
