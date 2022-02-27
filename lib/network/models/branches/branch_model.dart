@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 class BranchModel {
+
   BranchModel({
     String? id,
     String? branchName,
@@ -26,6 +29,8 @@ class BranchModel {
     _latitude = latitude;
     _companyId = companyId;
   }
+
+
 
   BranchModel.fromJson(dynamic json) {
     _id = json['id'];
@@ -84,8 +89,31 @@ class BranchModel {
     return map;
   }
 
+  static Map<String, dynamic> toMap(BranchModel branch) => {
+        'id': branch.id,
+        'branchName': branch.branchName,
+        'phoneNumber': branch.phoneNumber,
+        'districtName': branch.districtName,
+        'address': branch.address,
+        'nationalAddressNo': branch.nationalAddressNo,
+        'streetName': branch.streetName,
+        'city': branch.city,
+        'country': branch.country,
+        'longitude': branch.longitude,
+        'latitude': branch.latitude,
+        'companyId': branch.companyId,
+      };
+  static String encode(List<BranchModel> branch) => json.encode(
+        branch.map<Map<String, dynamic>>((branch) => toMap(branch)).toList(),
+      );
+
+  static List<BranchModel> decode(String branch) =>
+      (json.decode(branch) as List<dynamic>)
+          .map<BranchModel>((item) => BranchModel.fromJson(item))
+          .toList();
   @override
   String toString() {
     return 'BranchModel{_id: $_id, _branchName: $_branchName, _phoneNumber: $_phoneNumber, _address: $_address, _districtName: $_districtName, _streetName: $_streetName, _nationalAddressNo: $_nationalAddressNo, _city: $_city, _country: $_country, _longitude: $_longitude, _latitude: $_latitude, _companyId: $_companyId}';
   }
+
 }

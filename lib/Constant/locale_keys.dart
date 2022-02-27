@@ -173,4 +173,9 @@ abstract class LocaleKeys {
   static const cart_price_changed_note = "cart_price_changed_note";
   static const cart_qty_changed_note = "cart_qty_changed_note";
   static const vat_inc = "*Product prices are inclusive of VAT";
+  static const cart_qty_price_changed_note = "cart_qty_price_changed_note";
+  static const select_branch = "select_branch";
+  static const select_branch_note = "select_branch_note";
+  static const branch_address = "branch_address";
+  static const continue_payment="continue_payment";
 }

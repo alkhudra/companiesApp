@@ -26,3 +26,4 @@ const  userLaunchDate = "userLaunchDate";
 const  userID = "userID";
 
 const cities="cities";
+const branchList="branchList";

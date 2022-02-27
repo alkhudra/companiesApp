@@ -64,8 +64,8 @@ class _AllCategoryState extends State<AllCategory> {
           ],
         ),
       ),
-      appBar: appBarWithActions(context,
-        LocaleKeys.all_category.tr(), () {Navigator.pop(context);}),
+      appBar: appBarDesign(context,
+        LocaleKeys.all_category.tr()),
       // endDrawer: drawerDesign(context),
     );
   }

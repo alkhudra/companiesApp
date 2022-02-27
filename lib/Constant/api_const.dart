@@ -4,6 +4,7 @@ abstract class ApiConst {
   static const String images_url =
       'http://alkhadraunited.com';
 
+  static const String payment_token ="F96WjHY0jaqWAgvtK2bcaCahmPneBWA0ANaSp0EZNgF7T5Lw0o1PkZ4pnCAry153gBO-ggXS0HvcfR_pdcTh9JTKOsfVqK4kaRR3Or_EHZO2BRwTQj1fTulwV2LEUfzO1-Kw3DXJrqygW9gMwqX7uVrnyCWrZUxILLtaP22e7ubN5UWCU3lIBRYtDErTQ507gg-c3Zs406NdVNlZ-FWjSYAb8voL7p8eW2UpT8Fy-qGH4EaXgIR35QRhv_uX0pZJHqkoCGO7RV5mf8IJvsr3WlKRkEhEHcO5wY_kQ5OzODUEcL6vFG-SaPEeYAgqTsUDe6vWJCCflwLrGW-tqoyODye1N1Bc-cm2lB3zynJI43z321ehbUqwYw1LPXOPA7weE8cafRBQyn8FRtkqeLaWqQqVCrpGPnAfUQS1EfvLLOMeakS1lp9K4VBDueuD_laY0IoynXB8QzGiID1DSV5spvFUknJKnoeWvdTplGgW48R9qrHeapAA0rFUWMsG46xN-GiLcwqG5-hVFR3zECclct3J_2TikDoeI2HZXUF1ALov4SHJHZlfsJoxjoCv0BftO1HHoiyLsercA93iqihvYiW1Wls4CjOdhPJgHmSTHsU2FQC4w0Sqc1CQqjMhKjsOr9GAH7PeCsl02ZR63fpEh727mHsmO0fuFyEfmvnvzrmkd0aGaxSiAKZsMZuEkIBaefeQGQ";
   //---------------auth ----------------
   static const String register_url = '/account/register';
   static const String login_url = '/account/login';

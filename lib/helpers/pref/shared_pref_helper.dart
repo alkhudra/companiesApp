@@ -4,14 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:khudrah_companies/Constant/pref_cont.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 class PreferencesHelper {
   static Future<bool> get getIsUserFirstLogIn =>
       SharedPrefsManager.getBool(firstLogin);
   static Future setUserFirstLogIn(bool value) =>
       SharedPrefsManager.setBool(firstLogin, value);
-
 
   //----------------
   static Future<bool> get getIsUserLoggedIn =>
@@ -26,13 +26,11 @@ class PreferencesHelper {
   static Future setUserLoggedOut(bool value) =>
       SharedPrefsManager.setBool(isLoggedOut, value);
 
-
   //------------------
 
   static Future<String> get getUserID => SharedPrefsManager.getString(userID);
   static Future setUserID(String value) =>
       SharedPrefsManager.setString(userID, value);
-
 
   //--------------------
   static Future<String> get getSelectedLanguage =>
@@ -50,8 +48,8 @@ class PreferencesHelper {
 /*
   static Future<List<Cities>> get getCities async {
     List<Cities> citiesList =[];
-  *//*  Map<String, dynamic> userMap =
-    await SharedPrefsManager.getFromJson(cities);*//*
+  */ /*  Map<String, dynamic> userMap =
+    await SharedPrefsManager.getFromJson(cities);*/ /*
    List< Cities> o = SharedPrefsManager.getFromJson(cities);
     o.forEach((v) {
       citiesList.add(Cities.fromJson(v));
@@ -83,32 +81,30 @@ class PreferencesHelper {
   }
   //--------------------
 
-  static Future<List<BranchModel>?> get getUserList async {
-    Map<String, dynamic> userMap =
-    await SharedPrefsManager.getFromJson(currentUser);
-    User user= User.fromJson(userMap);
-    List<BranchModel>? list = user.branches;
-    return list;
-  }
-  static Future  addToUserList (BranchModel model)async {
-    Map<String, dynamic> userMap =
-    await SharedPrefsManager.getFromJson(currentUser);
-    User user= User.fromJson(userMap);
-    List<BranchModel>? list = user.branches;
 
-    list?.add(model);
+  static Future<List<BranchModel>?> get getBranchesList async {
+    // Fetch and decode data
+    String branches = await SharedPrefsManager.getString(branchList);
+    return BranchModel.decode(branches);
   }
-  static Future  removeFromUserList (BranchModel model)async {
+
+  static Future saveBranchesList(List<BranchModel> branch) async {
+    final String encodedData = BranchModel.encode(branch);
+
+    SharedPrefsManager.setString(branchList, encodedData);
+  }
+//--------------------
+
+  static Future removeFromUserList(BranchModel model) async {
     Map<String, dynamic> userMap =
-    await SharedPrefsManager.getFromJson(currentUser);
-    User user= User.fromJson(userMap);
+        await SharedPrefsManager.getFromJson(currentUser);
+    User user = User.fromJson(userMap);
     List<BranchModel>? list = user.branches;
 
     list?.remove(model);
   }
-//--------------------
 
-  static void clearPrefs(){
+  static void clearPrefs() {
     SharedPrefsManager.clear();
   }
 /*  Future<void> clear() async {

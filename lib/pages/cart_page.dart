@@ -18,11 +18,12 @@ import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
+import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/cart/success_cart_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/cart_repository.dart';
-import 'package:khudrah_companies/pages/checkout_page.dart';
+import 'package:khudrah_companies/pages/checkout/checkout_page.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
@@ -40,6 +41,7 @@ class _CartPageState extends State<CartPage> {
   static String language = '';
   bool isTrashBtnEnabled = true;
   static String productId = '';
+  static  List<BranchModel>? branchList =[];
 
   static List<CartProductsList> list = [];
   @override
@@ -227,7 +229,7 @@ class _CartPageState extends State<CartPage> {
 
                           Navigator.push(context, MaterialPageRoute(builder: (context) {
                             return CheckoutPage(
-
+                              branchList:branchList,
                             );
                           }));
                         }),
@@ -281,7 +283,9 @@ class _CartPageState extends State<CartPage> {
 
  static void setValue() async {
     language = await PreferencesHelper.getSelectedLanguage;
-  }
+    branchList = await PreferencesHelper.getBranchesList;
+
+ }
 
 
   noteWidget(bool boolCondition, String message) {

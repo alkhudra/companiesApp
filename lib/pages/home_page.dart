@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       child:*/
         Scaffold(
       endDrawer: drawerDesignWithName(context, name, email),
-      appBar: homeAppBarDesign(context, LocaleKeys.home.tr()),
+      appBar: bnbAppBar(context, LocaleKeys.home.tr()),
       // key: _scaffoldState,
       body: FutureBuilder<HomeSuccessResponseModel?>(
         future: getHomePage(), //provider.fetchData(),
@@ -86,6 +86,8 @@ class _HomePageState extends State<HomePage> {
     List<CategoryItem>? categoryList = home!.categoriesList;
     name = home.user!.companyName!;
     email = home.user!.email!;
+    PreferencesHelper.saveBranchesList(home.user!.branches!);
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

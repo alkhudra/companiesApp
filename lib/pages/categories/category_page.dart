@@ -78,8 +78,8 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ),
       ),
-      appBar: appBarWithActions(context,
-        setCategoryName(item)!, () {Navigator.pop(context);}),
+      appBar: appBarDesign(context,
+        setCategoryName(item)!),
     );
   }
 

@@ -148,12 +148,11 @@ class TextFieldDesign {
       String? initValue,
       validat}) {
     return Container(
-      alignment: Alignment.center,
       margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
       width: MediaQuery.of(context).size.width / 1.15,
-      height: MediaQuery.of(context).size.height / 9,
+      height: MediaQuery.of(context).size.height / 8,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(60),
+        borderRadius: BorderRadius.circular(40),
         border: Border.all(color: CustomColors().primaryGreenColor, width: 1.5),
       ),
       child: Expanded(
