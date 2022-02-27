@@ -113,6 +113,7 @@ class _CartPageState extends State<CartPage> {
           children: [
             ListView.builder(
               shrinkWrap: true,
+              // physics: ScrollPhysics(),
               itemBuilder: (context, index) {
                 return Slidable(
                     key: const ValueKey(0),
@@ -133,7 +134,7 @@ class _CartPageState extends State<CartPage> {
                       ],
                     ),
                     child: cartTile(context, language, list, index,(){
-
+        
                     }));
               },
               itemCount: list.length,

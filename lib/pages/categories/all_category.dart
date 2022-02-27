@@ -77,19 +77,22 @@ class _AllCategoryState extends State<AllCategory> {
     return Expanded(
       child: Column(
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            // physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemBuilder:(context, index) {
-              ProductsModel model =list[index];
-              String productId=model.productId!;
-              return getProductCard(context,model,productId);
-            },
-            itemCount: list.length,
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              // physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemBuilder:(context, index) {
+                ProductsModel model =list[index];
+                String productId=model.productId!;
+                return getProductCard(context,model,productId);
+              },
+              itemCount: list.length,
+            ),
           ),
           if (isThereMoreItems == true)
             loadMoreBtn(context, loadMoreInfo),
+          SizedBox(height: 20,),
         ],
       ),
     );
