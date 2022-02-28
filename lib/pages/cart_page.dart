@@ -109,6 +109,19 @@ class _CartPageState extends State<CartPage> {
       num? discount = model.userCart!.discountPercentage! * 100;
       bool? hasDiscount = model.userCart!.hasDiscount;
 
+
+      //todo: code for show image
+/*
+      for(CartProductsList? cartProductsList in list ){
+        if(cartProductsList?.hasOriginalProductPriceChanged == true ||
+            cartProductsList?.hasUserProductQuantityChanged == true ||
+            cartProductsList?.hasSpecialProductPriceChanged == true){
+          isQtyChanged = true;
+          break;
+        }
+      }
+
+      print('ischanged is $isQtyChanged');*/
       return SlidingUpPanel(
         body: Padding(
           padding: EdgeInsets.only(bottom: scHeight * 0.27),
@@ -227,6 +240,8 @@ class _CartPageState extends State<CartPage> {
                     child: greenBtn(LocaleKeys.checkout.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
 
+              /*        if(isChaged == true)
+                        showErrorMessageDialog(context, txt) */
                           Navigator.push(context, MaterialPageRoute(builder: (context) {
                             return CheckoutPage(
                               branchList:branchList,

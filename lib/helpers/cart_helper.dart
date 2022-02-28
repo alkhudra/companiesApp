@@ -103,6 +103,9 @@ Widget cartTile(BuildContext context, String language,
       : isQtyChanged == true
           ? LocaleKeys.cart_qty_changed_note.tr()
           : LocaleKeys.cart_qty_price_changed_note.tr();
+
+
+
   //String qtyMessage = isQtyChanged ? LocaleKeys.cart_qty_changed_note : '';
   return Column(children: [
     if (isPriceChanged == true || isQtyChanged == true)
