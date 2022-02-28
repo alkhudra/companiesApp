@@ -140,6 +140,7 @@ class _HomePageState extends State<HomePage> {
                           child: WidgetMask(
                             blendMode: BlendMode.srcATop,
                             childSaveLayer: true,
+                            //TODO: replace by image
                             mask: Image.network('https://images.unsplash.com/photo-1580928986783-bd8256003f29?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbmdvfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60', fit: BoxFit.cover,),
                             child: Image.asset('images/product_mask.png', width: 350,),
                           ),
@@ -203,6 +204,7 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           ),
+                          SizedBox(height: 5,),
                           Text(
                             setCategoryName(categoryList[index])!,
                             style: TextStyle(

@@ -166,5 +166,6 @@
   "select_branch": "Select Branch",
   "select_branch_note": "Please Select the branch you want to deliver to , the branch address will be appear in the address field, you can make changes to the address ",
   "branch_address": "Branch Address ",
-  "continue_payment": "Continue to Pay "
+  "continue_payment": "Continue to Pay ",
+  "sign_up": "Sign Up "
 }

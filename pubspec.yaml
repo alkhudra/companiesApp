@@ -40,6 +40,7 @@ dependencies:
   widget_mask: ^1.0.0
   firebase_messaging: ^11.2.6
   myfatoorah_flutter: ^2.1.5
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   retrofit_generator: any

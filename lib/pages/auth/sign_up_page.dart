@@ -61,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Container(
               margin: EdgeInsets.only(top: 200, bottom: 30),
               width: MediaQuery.of(context).size.width/0.9,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height*1.05,
               decoration: CardDesign.largeCardDesign(),
               child: Container(
               // color: Colors.red,
@@ -69,9 +69,23 @@ class _SignUpPageState extends State<SignUpPage> {
               height: scHeight,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: scHeight*0.09,),
+                  SizedBox(height: scHeight*0.05,),
+                  Container(
+                    child: Text(LocaleKeys.sign_up_title.tr(), 
+                    style: TextStyle(
+                      color: CustomColors().brownColor,
+                      fontSize: 25
+                    ),),
+                  ),
+                  Divider(
+                    color: CustomColors().grayColor,
+                    thickness: 1.8,
+                    indent: 60,
+                    endIndent: 60,
+                  ),
+                  SizedBox(height: scHeight*0.03,),
                   TextFieldDesign.textFieldStyle(
                     context: context,
                     verMarg: 5,
@@ -167,6 +181,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             Text(LocaleKeys.terms_conditions_note.tr(),
                                 style: TextStyle(
                                     color: CustomColors().blackColor)),
+                                    SizedBox(height: 8,),
                             Text(LocaleKeys.terms_conditions.tr(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -174,6 +189,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ],
                         ),
                       )),
+                      SizedBox(height: 10,),
                     Container(
                       margin: EdgeInsets.only(bottom: 5),
                       padding: EdgeInsets.only(right: 10, left: 10),
@@ -196,24 +212,43 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       )
                     ),
-                      SizedBox(height: scHeight*0.02,),
-                  Container(
-                      height: ButtonsDesign.buttonsHeight,
-                      margin: EdgeInsets.only(left: 50, right: 50),
-                      child: MaterialButton(
-                        onPressed: () {
-                          if (isBtnEnabled)
-                            continueSignUp(emailController.text);
-                        },
-                        shape: StadiumBorder(),
-                        child: ButtonsDesign.buttonsText(
-                            LocaleKeys.continue_btn.tr(),
-                            CustomColors().primaryWhiteColor),
-                        color: CustomColors().primaryGreenColor,
-                      ))
+                      SizedBox(height: scHeight*0.05,),
+                  // Container(
+                  //     height: ButtonsDesign.buttonsHeight,
+                  //     margin: EdgeInsets.only(left: 50, right: 50),
+                  //     child: MaterialButton(
+                  //       onPressed: () {
+                  //         if (isBtnEnabled)
+                  //           continueSignUp(emailController.text);
+                  //       },
+                  //       shape: StadiumBorder(),
+                  //       child: ButtonsDesign.buttonsText(
+                  //           LocaleKeys.continue_btn.tr(),
+                  //           CustomColors().primaryWhiteColor),
+                  //       color: CustomColors().primaryGreenColor,
+                  //     ))
                 ],
               ),
             ),
+            ),
+            Positioned(
+              bottom: scHeight*0.015,
+              right: 40,
+              left: 40,
+              child: Container(
+                height: ButtonsDesign.buttonsHeight,
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: MaterialButton(
+                  onPressed: () {
+                    if (isBtnEnabled)
+                      continueSignUp(emailController.text);
+                  },
+                  shape: StadiumBorder(),
+                  child: ButtonsDesign.buttonsText(
+                      LocaleKeys.continue_btn.tr(),
+                      CustomColors().primaryWhiteColor),
+                  color: CustomColors().primaryGreenColor,
+                )),
             ),
             brandNameMiddle(),
           ],
