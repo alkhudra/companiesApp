@@ -81,7 +81,8 @@ class _BranchListState extends State<BranchList> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    return Column(children: [
+    return Column(
+      children: [
       Expanded(
         child: snapshot!.branches!.length > 0
             ? ListView.builder(
@@ -97,12 +98,10 @@ class _BranchListState extends State<BranchList> {
               )
             : noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
       ),
-      SizedBox(
-        height: 20,
-      ),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
         directToAddBranch(snapshot.branches!);
-      })
+      }),
+      SizedBox(height: 30,),
     ]);
   }
 
