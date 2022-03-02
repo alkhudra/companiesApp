@@ -246,7 +246,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   shape: StadiumBorder(),
                   child: ButtonsDesign.buttonsText(
                       LocaleKeys.continue_btn.tr(),
-                      CustomColors().primaryWhiteColor),
+                      CustomColors().primaryWhiteColor, 15),
                   color: CustomColors().primaryGreenColor,
                 )),
             ),

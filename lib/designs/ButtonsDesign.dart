@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 class ButtonsDesign {
   static const double buttonsHeight = 50;
 
-  static TextStyle buttonsTextStyle(Color color) {
+  static TextStyle buttonsTextStyle(Color color, double tSize) {
     return TextStyle(
-      fontSize: 15,
+      fontSize: tSize,
       fontWeight: FontWeight.bold,
       color: color,
     );
   }
 
-  static Center buttonsText(String txt , Color color) {
+  static Center buttonsText(String txt , Color color, double txtSize) {
     return Center(
         child:
-            Text(txt.toUpperCase(), style: ButtonsDesign.buttonsTextStyle(color)));
+            Text(txt.toUpperCase(), style: ButtonsDesign.buttonsTextStyle(color, txtSize), maxLines: 1));
   }
 }

@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 );
               },
-              itemCount: categoryList?.length,
+              itemCount: categoryList.length,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
             ),

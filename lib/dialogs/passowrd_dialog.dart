@@ -65,7 +65,7 @@ Widget showEnterEmailDialog(BuildContext context,bool isForgetPassBtnEnabled) {
                 shape: StadiumBorder(),
                 child: ButtonsDesign.buttonsText(
                     LocaleKeys.reset_password.tr(),
-                    CustomColors().primaryWhiteColor),
+                    CustomColors().primaryWhiteColor, 15),
                 color: CustomColors().primaryGreenColor,
               ))
         ],

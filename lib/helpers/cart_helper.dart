@@ -377,7 +377,8 @@ Widget addToCartBtnContainer(BuildContext context,
                       onIncreaseBtnClicked, onDecreaseBtnClicked)
                       //show product unavailable
               : unAvailableBtn(LocaleKeys.not_available_product.tr(),
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 2), MediaQuery.of(context).size.height*0.04));
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 2), 
+                  MediaQuery.of(context).size.height*0.04, 11.6));
 }
 
 qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
@@ -386,7 +387,8 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
   double scWidth = size.width;
   double scHeight = size.height;
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    margin: EdgeInsets.symmetric(vertical: 5),
+    padding: EdgeInsets.symmetric(horizontal: 10),
     width: scWidth * 0.25,
     height: scHeight * 0.04,
     decoration: BoxDecoration(

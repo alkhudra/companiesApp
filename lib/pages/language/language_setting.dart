@@ -64,7 +64,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
                 child: ButtonsDesign.buttonsText(
-                    'عربي', CustomColors().primaryWhiteColor),
+                    'عربي', CustomColors().primaryWhiteColor, 15),
                 color: CustomColors().brownColor,
               ),
             ),
@@ -80,7 +80,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
                 height: ButtonsDesign.buttonsHeight,
                 shape: StadiumBorder(),
                 child: ButtonsDesign.buttonsText(
-                    'english', CustomColors().primaryWhiteColor),
+                    'english', CustomColors().primaryWhiteColor, 15),
                 color: CustomColors().primaryGreenColor,
               ),
             ),

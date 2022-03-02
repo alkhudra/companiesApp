@@ -13,7 +13,7 @@ Widget greenBtn(
       child: MaterialButton(
         onPressed: onPressed,
         shape: StadiumBorder(),
-        child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
+        child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor, 15),
         color: CustomColors().primaryGreenColor,
       ));
 }
@@ -26,7 +26,7 @@ Widget redBtn(
       child: MaterialButton(
         onPressed: onPressed,
         shape: StadiumBorder(),
-        child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
+        child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor, 15),
         color: CustomColors().redColor,
       ));
 }
@@ -48,7 +48,7 @@ Widget greenBtnWithIcon(String txt, IconData icon,
               color: CustomColors().primaryWhiteColor,
             ),
             SizedBox(width: 15),
-            ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
+            ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor, 15),
           ],
         ),
         color: CustomColors().primaryGreenColor,
@@ -57,7 +57,7 @@ Widget greenBtnWithIcon(String txt, IconData icon,
 
 Widget loadMoreBtn(BuildContext context, Function() onPressed) {
   return Container(
-    margin: EdgeInsets.only(top:20),
+    margin: EdgeInsets.only(top:20, bottom: 40),
     alignment: Alignment.bottomCenter,
     child: SizedBox(
       height: 45,
@@ -80,16 +80,16 @@ Widget loadMoreBtn(BuildContext context, Function() onPressed) {
   );
 }
 
-Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry, double scHeight) {
+Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry, double scHeight, double txtSize) {
   return Container(
     // height: ButtonsDesign.buttonsHeight,
     height: scHeight,
     margin: edgeInsetsGeometry,
     decoration: BoxDecoration(
-      color: CustomColors().brownColor.withOpacity(0.8),
-      borderRadius: BorderRadius.circular(35),
+      color: CustomColors().brownColor.withOpacity(0.6),
+      borderRadius: BorderRadius.circular(30),
     ),
-    child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor),
+    child: ButtonsDesign.buttonsText(txt, CustomColors().primaryWhiteColor, txtSize),
   );
 }
 
@@ -97,6 +97,7 @@ Widget cartBtn(IconData icon,
     EdgeInsetsGeometry edgeInsetsGeometry, Function() onPressed) {
   return Container(
       height: 40,
+      width: 80,
       margin: edgeInsetsGeometry,
       decoration: BoxDecoration(),
       child: MaterialButton(

@@ -107,7 +107,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       shape: StadiumBorder(),
                       child: ButtonsDesign.buttonsText(
                           LocaleKeys.reset_password.tr(),
-                          CustomColors().primaryWhiteColor),
+                          CustomColors().primaryWhiteColor, 15),
                       color: CustomColors().primaryGreenColor,
                     )),
               ],
