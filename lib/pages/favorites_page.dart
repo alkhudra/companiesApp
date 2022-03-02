@@ -119,45 +119,47 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return list.length > 0
         ? Column(
             children: [
-              GridView.builder(
-                itemBuilder: (context, index) {
-                  String productId = list[index].productId!;
-                  return ProductCard.favoritesCard(
-                      context, language, list[index], () {
-                    deleteFromFav(context, productId).then((value) {
-                      if (value == true) {
-                        setState(() {
-                          list.remove(list[index]);
-                        });
-                      }
+              Expanded(
+                child: GridView.builder(
+                  itemBuilder: (context, index) {
+                    String productId = list[index].productId!;
+                    return ProductCard.favoritesCard(
+                        context, language, list[index], () {
+                      deleteFromFav(context, productId).then((value) {
+                        if (value == true) {
+                          setState(() {
+                            list.remove(list[index]);
+                          });
+                        }
+                      });
+                    }, onIncreaseBtnClicked: () {
+                      setState(() {
+                        ProductCard.addQtyToCart(context, productId);
+                      });
+                    }, onDecreaseBtnClicked: () {
+                      setState(() {
+                        ProductCard.deleteQtyFromCart(context, productId);
+                      });
+                    }, onDeleteBtnClicked: () {
+                      setState(() {
+                        ProductCard.deleteFromCart(context, productId);
+                      });
+                    }, onAddBtnClicked: () {
+                      setState(() {
+                        ProductCard.addToCart(context, productId);
+                      });
                     });
-                  }, onIncreaseBtnClicked: () {
-                    setState(() {
-                      ProductCard.addQtyToCart(context, productId);
-                    });
-                  }, onDecreaseBtnClicked: () {
-                    setState(() {
-                      ProductCard.deleteQtyFromCart(context, productId);
-                    });
-                  }, onDeleteBtnClicked: () {
-                    setState(() {
-                      ProductCard.deleteFromCart(context, productId);
-                    });
-                  }, onAddBtnClicked: () {
-                    setState(() {
-                      ProductCard.addToCart(context, productId);
-                    });
-                  });
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    childAspectRatio: 14 / 17.4),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: list.length,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                  },
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 14 / 17.4),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: list.length,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                ),
               ),
               if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
             ],
