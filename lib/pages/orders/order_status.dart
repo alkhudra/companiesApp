@@ -85,13 +85,12 @@ class _OrderStatusState extends State<OrderStatus> {
                       Container(
                         margin: EdgeInsets.only(left: 10,bottom: 10, right: 10),
                         width: 4,
-                        height: 255,
+                        height: 200,
                         color: CustomColors().grayColor,
                       ),
                       Column(
                             children: [
                               //status title, isActive, isCompleted
-                              statusChange('Confirmed', true, false),
                               statusChange('Accepted By a Shop', false, false),
                               statusChange('Picked Up By a Driver', false, false),
                               statusChange('Delivered!', false, false),
@@ -186,27 +185,7 @@ class _OrderStatusState extends State<OrderStatus> {
                 ],
               ),
             ),
-
-            //items in order
-            Container(
-              //make height dynamic
-              height: scHeight*1.5,
-              child: Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return orderItem();
-                  },
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  // dragStartBehavior: DragStartBehavior.down,
-                  physics: NeverScrollableScrollPhysics(),
-                ),
-              ),
-            ),
-            // SizedBox(height: 50,),
-
-            // //costs summary
-            Container(
+                        Container(
               height: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -232,7 +211,6 @@ class _OrderStatusState extends State<OrderStatus> {
                   SizedBox(
                     height: 25,
                   ),
-                  // SizedBox(height: 40,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,6 +257,133 @@ class _OrderStatusState extends State<OrderStatus> {
                 ],
               ),
             ),
+
+            //items in order
+            ExpansionTile(
+              initiallyExpanded: false,
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text('Order Items', style: TextStyle(
+                      color: CustomColors().darkBlueColor,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 19
+                    ),),
+                  ),
+                ],
+              ),
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return orderItem();
+                          },
+                          itemCount: 20,
+                          shrinkWrap: true,
+                          // dragStartBehavior: DragStartBehavior.down,
+                          physics: NeverScrollableScrollPhysics(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // Column(
+            //   children: [
+            //     Expanded(
+            //       child: ListView.builder(
+            //         itemBuilder: (context, index) {
+            //           return orderItem();
+            //         },
+            //         itemCount: 20,
+            //         shrinkWrap: true,
+            //         // dragStartBehavior: DragStartBehavior.down,
+            //         physics: NeverScrollableScrollPhysics(),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 50,),
+
+            // //costs summary
+            // Container(
+            //   height: MediaQuery.of(context).size.height * 0.3,
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       SizedBox(
+            //         height: 10,
+            //       ),
+            //       Row(
+            //         children: [
+            //           Container(
+            //             padding: EdgeInsets.symmetric(horizontal: 30),
+            //             child: Text(
+            //               LocaleKeys.order_details.tr(),
+            //               style: TextStyle(
+            //                   color: CustomColors().brownColor.withOpacity(0.7),
+            //                   fontWeight: FontWeight.w600,
+            //                   fontSize: 18),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       SizedBox(
+            //         height: 25,
+            //       ),
+            //       Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           cartDetailsItem(
+            //               LocaleKeys.subtotal.tr(), getTextWithCurrency(subtotal!)),
+            //           cartDetailsItem(
+            //               LocaleKeys.vat.tr(), getTextWithCurrency(vat!)),
+            //           if (hasDiscount!)
+            //             Column(
+            //               children: [
+            //                 cartDetailsItem(LocaleKeys.discount_percentage.tr(),
+            //                     getTextWithPercentage(discount!)),
+            //                 cartDetailsItem(LocaleKeys.discount.tr(),
+            //                     getTextWithCurrency(priceAfterDiscount)),
+            //               ],
+            //             )
+            //         ],
+            //       ),
+            //       SizedBox(
+            //         height: 10,
+            //       ),
+            //       // Divider(
+            //       //   thickness: 1,
+            //       //   indent: 25,
+            //       //   endIndent: 25,
+            //       // ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //         children: [
+            //           //total
+            //           cartTotalDesign(total),
+            //           //Receipt download button
+            //           InkWell(
+            //             child: Container(
+            //               width: 50,
+            //               height: 50,
+            //               child: Image.asset('images/ic_file_pdf.png')
+            //             ),
+            //             onTap: () {},
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
