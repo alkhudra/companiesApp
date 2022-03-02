@@ -83,7 +83,13 @@ class _HomePageState extends State<HomePage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    List<CategoryItem>? categoryList = home!.categoriesList;
+    String categoryName = LocaleKeys.all_category.tr();
+    List<CategoryItem>? categoryList = [
+      CategoryItem(name: categoryName, arName: categoryName)
+    ];
+    for (CategoryItem categoryItem in home!.categoriesList!) {
+      categoryList.add(categoryItem);
+    }
     name = home.user!.companyName!;
     email = home.user!.email!;
     PreferencesHelper.saveBranchesList(home.user!.branches!);
@@ -120,109 +126,57 @@ class _HomePageState extends State<HomePage> {
           //   height: 10,
           // ),
           //Categories items
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                //all category iconbutton
-                Column(
+          Container(
+            margin: EdgeInsets.only(top: 25),
+         //   width: scWidth * 0.8,
+            height: scHeight * 0.16,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Container(
-                        width: scWidth * 0.24,
-                        height: scHeight * 0.1,
-                        child: GestureDetector(
-                          child: WidgetMask(
-                            blendMode: BlendMode.srcATop,
-                            childSaveLayer: true,
-                            //TODO: replace by image
-                            mask: Image.network('https://images.unsplash.com/photo-1580928986783-bd8256003f29?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbmdvfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60', fit: BoxFit.cover,),
-                            child: Image.asset('images/product_mask.png', width: 350,),
-                          ),
-                          onTap: () {
+                      // width: scWidth * 0.27,
+                      width: scWidth * 0.23,
+                      // height: scHeight * 0.11,
+                      height: scHeight * 0.1,
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      child: GestureDetector(
+                        child: ProductCard.categoryImage(
+                            categoryList[index].image),
+                        onTap: () {
+                          if (index != 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CategoryPage(
+                                        categoriesItem: categoryList[index],
+                                      )),
+                            );
+                          } else {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AllCategory()),
                             );
-                          },
-                        ),
-                        // IconButton(
-                        //   icon:
-                        //       Image(image: AssetImage('images/fruitsnveg.png')),
-                        //   onPressed: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => AllCategory()),
-                        //     );
-                        //   },
-                        // ),
+                          }
+                        },
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      LocaleKeys.all_category.tr(),
+                      setCategoryName(categoryList[index])!,
                       style: TextStyle(
                           color: CustomColors().brownColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
-                ),
-                //category page
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  width: scWidth * 0.8,
-                  height: scHeight * 0.16,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Container(
-                            // width: scWidth * 0.27,
-                            width: scWidth * 0.23,
-                            // height: scHeight * 0.11,
-                            height: scHeight * 0.1,
-                            margin: EdgeInsets.symmetric(horizontal: 5,vertical: 3),
-                            child: GestureDetector(
-                              child: ProductCard.categoryImage(categoryList![index].image),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CategoryPage(
-                                            categoriesItem: categoryList[index],
-                                          )),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 5,),
-                          Text(
-                            setCategoryName(categoryList[index])!,
-                            style: TextStyle(
-                                color: CustomColors().brownColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      );
-                    },
-                    itemCount: categoryList?.length,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                )
-              ],
+                );
+              },
+              itemCount: categoryList?.length,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
             ),
           ),
           SizedBox(
@@ -251,10 +205,10 @@ class _HomePageState extends State<HomePage> {
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemBuilder:(context, index) {
+              itemBuilder: (context, index) {
                 ProductsModel model = home.productsList![index];
-                String productId=model.productId!;
-                return getProductCard(context,model,productId);
+                String productId = model.productId!;
+                return getProductCard(context, model, productId);
               },
               itemCount: home.productsList!.length,
             ),
@@ -324,7 +278,10 @@ class _HomePageState extends State<HomePage> {
   void addBranchesPage() {
     Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage(cities: [],language: language,);
+      return AddBranchesPage(
+        cities: [],
+        language: language,
+      );
     }));
   }
   ////---------------------------
@@ -344,34 +301,31 @@ class _HomePageState extends State<HomePage> {
   String? setCategoryName(CategoryItem categoryList) {
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
+
 //----------------------
-   getProductCard(BuildContext context ,ProductsModel model ,String productId  ) {
-
-    return ProductCard.productCardDesign(
-          context, language, model, () {
-        bool? isFavourite = model.isFavourite;
-        ProductCard.addToFav(context, isFavourite,
-            productId);
-        setState(() {
-          isFavourite = !isFavourite!;
-        });
-      }, onIncreaseBtnClicked: () {
-        setState(() {
-          ProductCard.addQtyToCart(context, productId);
-        });
-      }, onDecreaseBtnClicked: () {
-        setState(() {
-          ProductCard.deleteQtyFromCart(context, productId);
-        });
-      }, onDeleteBtnClicked: () {
-        setState(() {
-          ProductCard.deleteFromCart(context, productId);
-        });
-      }, onAddBtnClicked: () {
-        setState(() {
-          ProductCard.addToCart(context, productId);
-        });
+  getProductCard(BuildContext context, ProductsModel model, String productId) {
+    return ProductCard.productCardDesign(context, language, model, () {
+      bool? isFavourite = model.isFavourite;
+      ProductCard.addToFav(context, isFavourite, productId);
+      setState(() {
+        isFavourite = !isFavourite!;
       });
-
+    }, onIncreaseBtnClicked: () {
+      setState(() {
+        ProductCard.addQtyToCart(context, productId);
+      });
+    }, onDecreaseBtnClicked: () {
+      setState(() {
+        ProductCard.deleteQtyFromCart(context, productId);
+      });
+    }, onDeleteBtnClicked: () {
+      setState(() {
+        ProductCard.deleteFromCart(context, productId);
+      });
+    }, onAddBtnClicked: () {
+      setState(() {
+        ProductCard.addToCart(context, productId);
+      });
+    });
   }
 }

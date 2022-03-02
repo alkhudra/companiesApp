@@ -33,7 +33,7 @@ Widget errorText(String txt){
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Text(txt, style: TextStyle(
-      color: CustomColors().primaryGreenColor.withOpacity(0.5),
+      color: CustomColors().primaryGreenColor,
       fontSize: 15,
     ),),
   );
