@@ -69,7 +69,7 @@ class _OrderStatusState extends State<OrderStatus> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(LocaleKeys.track_order.tr(), style: TextStyle(
-                      color: CustomColors().darkBlueColor,
+                      color: CustomColors().brownColor,
                       fontWeight: FontWeight.w800,
                       fontSize: 19
                     ),),
@@ -112,8 +112,8 @@ class _OrderStatusState extends State<OrderStatus> {
                     height: scHeight*0.12,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(40),
-                        bottomRight: Radius.circular(40),
+                        topRight: Radius.circular(55),
+                        bottomRight: Radius.circular(55),
                       ),
                       border: Border.all(
                         color: CustomColors().primaryGreenColor,
@@ -185,14 +185,14 @@ class _OrderStatusState extends State<OrderStatus> {
                 ],
               ),
             ),
-                        Container(
+            Container(
               height: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 10,
+                    height: 25,
                   ),
                   Row(
                     children: [
@@ -201,9 +201,10 @@ class _OrderStatusState extends State<OrderStatus> {
                         child: Text(
                           LocaleKeys.order_details.tr(),
                           style: TextStyle(
-                              color: CustomColors().brownColor.withOpacity(0.7),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18),
+                              color: CustomColors().brownColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 19
+                          ),
                         ),
                       ),
                     ],
@@ -233,11 +234,6 @@ class _OrderStatusState extends State<OrderStatus> {
                   SizedBox(
                     height: 10,
                   ),
-                  // Divider(
-                  //   thickness: 1,
-                  //   indent: 25,
-                  //   endIndent: 25,
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -257,33 +253,34 @@ class _OrderStatusState extends State<OrderStatus> {
                 ],
               ),
             ),
-
-            //items in order
-            ExpansionTile(
-              initiallyExpanded: false,
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text('Order Items', style: TextStyle(
-                      color: CustomColors().darkBlueColor,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 19
-                    ),),
-                  ),
-                ],
-              ),
-              children: [
-                Expanded(
+            //ordered products title
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        LocaleKeys.products_in_order.tr(),
+                        style: TextStyle(
+                            color: CustomColors().brownColor,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 19
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                //list of ordered products 
+                LimitedBox(
+                  maxHeight: scHeight*20,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return orderItem();
                           },
-                          itemCount: 20,
+                          itemCount: 10,
                           shrinkWrap: true,
                           // dragStartBehavior: DragStartBehavior.down,
                           physics: NeverScrollableScrollPhysics(),
@@ -292,8 +289,8 @@ class _OrderStatusState extends State<OrderStatus> {
                     ],
                   ),
                 ),
-              ],
-            ),
+            //   ],
+            // ),
             // Column(
             //   children: [
             //     Expanded(
@@ -310,7 +307,7 @@ class _OrderStatusState extends State<OrderStatus> {
             //   ],
             // ),
             // SizedBox(height: 50,),
-
+      
             // //costs summary
             // Container(
             //   height: MediaQuery.of(context).size.height * 0.3,
@@ -391,76 +388,80 @@ class _OrderStatusState extends State<OrderStatus> {
   }
 
   Widget orderItem() {
-    return Container(
-      // margin: EdgeInsets.symmetric(horizontal: 20),
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height*0.14,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          //product image
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 75,
-                height: 75,
-                child: Image.asset('images/green_fruit.png'),
-              ),
-              //name and price
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //category
-                      Container(
-                        child: Text(LocaleKeys.fruit_category.tr(),
-                        style: TextStyle(
-                          color: CustomColors().darkGrayColor,
-                        ),),
-                      ),
-                      //product name
-                      Container(
-                        child: Text('Strawberry',
-                        style: TextStyle(
-                          color: CustomColors().darkBlueColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16
-                        ),),
-                      ),
-                    ],
-                  ),
-                  //price
-                  Container(
-                    child: Text( '$price ' + LocaleKeys.sar.tr(),
-                    style: TextStyle(
-                      color: CustomColors().primaryGreenColor
-                    ),),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(width: 7,),
-          //quantity
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Text('3 x', style: TextStyle(
-                  color: CustomColors().darkGrayColor,
-                  fontSize: 18
-                ),),
-              ),
-            ],
-          )
-        ],
+    return ListTile(
+      title: Container(
+        // margin: EdgeInsets.symmetric(horizontal: 20),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height*0.14,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            //product image
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 75,
+                  height: 75,
+                  child: Image.asset('images/green_fruit.png'),
+                ),
+                SizedBox(width: 18,),
+                //name and price
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //category
+                        Container(
+                          child: Text(LocaleKeys.fruit_category.tr(),
+                          style: TextStyle(
+                            color: CustomColors().darkGrayColor,
+                          ),),
+                        ),
+                        SizedBox(height: 5,),
+                        //product name
+                        Container(
+                          child: Text('Strawberry',
+                          style: TextStyle(
+                            color: CustomColors().darkBlueColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16
+                          ),),
+                        ),
+                      ],
+                    ),
+                    //price
+                    Container(
+                      child: Text( '$price ' + LocaleKeys.sar.tr(),
+                      style: TextStyle(
+                        color: CustomColors().primaryGreenColor
+                      ),),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(width: 7,),
+            //quantity
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Text('3 x', style: TextStyle(
+                    color: CustomColors().darkGrayColor,
+                    fontSize: 18
+                  ),),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
