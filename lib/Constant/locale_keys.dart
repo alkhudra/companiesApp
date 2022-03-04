@@ -179,4 +179,6 @@ abstract class LocaleKeys {
   static const branch_address = "branch_address";
   static const continue_payment="continue_payment";
   static const sign_up_title ="sign_up";
+  static const products_in_order ="products_in_order";
+  static const contact_driver ="contact_driver";
 }
