@@ -181,4 +181,8 @@ abstract class LocaleKeys {
   static const sign_up_title ="sign_up";
   static const products_in_order ="products_in_order";
   static const contact_driver ="contact_driver";
+  static const payment_method ="payment_method";
+  static const cash ="cash";
+  static const credit_card ="credit_card";
+  static const postpaid ="postpaid";
 }

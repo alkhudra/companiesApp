@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
@@ -62,6 +63,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       );
   BranchModel dropdownValue =
       BranchModel(branchName: LocaleKeys.select_branch.tr(), address: '----');
+    int? _selectedValueIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
+
+    List<String> payMethod= [
+      LocaleKeys.cash.tr(),
+      LocaleKeys.credit_card.tr(),
+      LocaleKeys.postpaid.tr()
+    ];
+
+    List<IconData> iconList = [
+      FontAwesomeIcons.moneyBillWave,
+      FontAwesomeIcons.solidCreditCard, 
+      FontAwesomeIcons.receipt
+
+    ];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -167,6 +182,31 @@ class _CheckoutPageState extends State<CheckoutPage> {
               kbType: TextInputType.multiline,
               initValue: LocaleKeys.enter_branch_address.tr(),
             ),
+            SizedBox(height: 20,), 
+            Container(
+              child: Text(LocaleKeys.payment_method.tr(),
+              style: TextStyle(
+                color: CustomColors().blackColor,
+                fontWeight: FontWeight.w600
+              ),),
+            ),
+            SizedBox(height: 20,), 
+
+            //payment method list
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ...List.generate(
+                  payMethod.length,
+                  (index) => payButton(
+                    index: index,
+                    text: payMethod[index],
+                    iconData: iconList[index]
+                  ),
+                ),
+              ],
+            ),
+
             SizedBox(
               height: 30,
             )
@@ -246,5 +286,50 @@ class _CheckoutPageState extends State<CheckoutPage> {
               })
             }
         });
+  }
+
+  Widget payButton({required String text, required IconData iconData, required int index}) {
+    return InkWell(
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width*0.27,
+                  height: MediaQuery.of(context).size.height*0.09,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: index == _selectedValueIndex ? CustomColors().primaryGreenColor : CustomColors().darkGrayColor.withOpacity(0.6)
+                    )
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(iconData,
+                      color: index == _selectedValueIndex ? CustomColors().primaryGreenColor : CustomColors().darkGrayColor.withOpacity(0.5),
+                      size: 25,
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        child: Text(text, style: TextStyle(
+                          color: index == _selectedValueIndex ? CustomColors().primaryGreenColor : CustomColors().darkGrayColor.withOpacity(0.7),
+                          fontSize: 13
+                        ),),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  _selectedValueIndex = index;
+                });
+
+                //could be converted to a switch case if needed 
+                if(text == 'Credit Card') {
+                  //credit card payment method
+                }
+              },
+            );
   }
 }
