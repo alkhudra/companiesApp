@@ -42,29 +42,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
   var sessionIdValue = "";
 
   static String address = '';
-  MFPaymentCardView mfPaymentCardView = MFPaymentCardView(
-      /*  inputColor: Colors.red,
-    labelColor: Colors.yellow,
-    errorColor: Colors.blue,
-    borderColor: Colors.green,
-    fontSize: 14,
-    borderWidth: 1,
-    borderRadius: 10,
-    cardHeight: 220,
-    cardHolderNameHint: "card holder name hint",
-    cardNumberHint: "card number hint",
-    expiryDateHint: "expiry date hint",
-    cvvHint: "cvv hint",
-    showLabels: true,
-    cardHolderNameLabel: "card holder name label",
-    cardNumberLabel: "card number label",
-    expiryDateLabel: "expiry date label",
-    cvvLabel: "cvv label",*/
-      );
+ static late  MFPaymentCardView     mfPaymentCardView;
+
   BranchModel dropdownValue =
       BranchModel(branchName: LocaleKeys.select_branch.tr(), address: '----');
     int? _selectedValueIndex;
+  bool isPayOnlineSelected = false;
+  bool isPayDebitSelected = false;
+  bool isPayCashSelected = true;
 
+  Color onlineSelected = CustomColors().primaryWhiteColor;
+
+  String paymentMethod = 'C';
   @override
   Widget build(BuildContext context) {
     //  List<BranchModel> branches = widget.branchList!;
@@ -208,17 +197,98 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
 
             SizedBox(
-              height: 30,
-            )
-            ,
+              height: 10,
+            ),
+            Container(
+              margin: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'select payment method',
+                style: TextStyle(
+                    fontSize: 15,
+                    height: 1.5,
+                    color: CustomColors().blackColor,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      isPayCashSelected = true;
+                      paymentMethod = 'C';
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      child: Text('cash'),
+                      decoration: BoxDecoration(
+                        color: CustomColors().primaryWhiteColor,
+                        border: Border.all(
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      isPayDebitSelected = true;
+                      paymentMethod = 'D';
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      child: Text('debit'),
+                      decoration: BoxDecoration(
+                        color: CustomColors().primaryWhiteColor,
+                        border: Border.all(
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      print('online clicked');
+                      // payWithEmbeddedPayment();
+
+                      setState(() {
+                        onlineSelected = CustomColors().primaryGreenColor;
+                        isPayOnlineSelected = true;
+
+                        paymentMethod = 'O';
+                      });
+
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      child: Text('online'),
+                      decoration: BoxDecoration(
+                        color: onlineSelected,
+                        border: Border.all(
+                          color: CustomColors().primaryGreenColor,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            if (isPayOnlineSelected == true) createPaymentCardView(),
             Container(
               alignment: Alignment.bottomCenter,
               child: greenBtn(
                   LocaleKeys.continue_payment.tr(), EdgeInsets.all(20), () {
                 if (addressController.text != '') {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  payWithEmbeddedPayment();
+           /*       Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return PaymentPage();
-                  }));
+                  }));*/
                 } else {
                   showErrorMessageDialog(
                       context, LocaleKeys.select_branch_note.tr());
@@ -235,57 +305,110 @@ class _CheckoutPageState extends State<CheckoutPage> {
     var request = MFExecutePaymentRequest.constructor(0.100);
     mfPaymentCardView.pay(
         request,
+        MFAPILanguage.AR,
+            (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+          if (result.isSuccess())
+            {
+              setState(() {
+                print("invoiceId: " + invoiceId);
+                print("Response: " + result.response!.toJson().toString());
+                _response = result.response!.toJson().toString();
+              })
+            }
+          else
+            {
+              setState(() {
+                print("invoiceId: " + invoiceId);
+                print("Error: " + result.error!.toJson().toString());
+                _response = result.error!.message!;
+              })
+            }
+        });
+
+    setState(() {
+      _response = _loading;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+
+    // TODO, don't forget to init the MyFatoorah Plugin with the following line
+    MFSDK.init(mAPIKey, MFCountry.KUWAIT, MFEnvironment.TEST);
+    // (Optional) un comment the following lines if you want to set up properties of AppBar.
+    initiatePayment('100');
+    initiateSession();
+    // MFSDK.setUpAppBar(isShowAppBar: false);
+  }
+
+  void initiatePayment(String amount) {
+    var request = new MFInitiatePaymentRequest(
+        double.parse(amount), MFCurrencyISO.KUWAIT_KWD);
+
+    MFSDK.initiatePayment(
+        request,
         MFAPILanguage.EN,
-        (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+        (MFResult<MFInitiatePaymentResponse> result) => {
               if (result.isSuccess())
                 {
                   setState(() {
-                    print("invoiceId: " + invoiceId);
-                    print("Response: " + result.response!.toJson().toString());
-                    _response = result.response!.toJson().toString();
+                    print(result.response!.toJson());
+                    _response = ""; //result.response.toJson().toString();
+                    /*      paymentMethods.addAll(result.response.paymentMethods);
+                for (int i = 0; i < paymentMethods.length; i++)
+                  isSelected.add(false);*/
                   })
                 }
               else
                 {
                   setState(() {
-                    print("invoiceId: " + invoiceId);
-                    print("Error: " + result.error!.toJson().toString());
+                    print(result.error!.toJson());
                     _response = result.error!.message!;
                   })
                 }
             });
-  }
 
-  @override
-  void initState() {
-    super.initState();
-
-    if (mAPIKey.isEmpty) {
-      setState(() {
-        _response =
-            "Missing API Token Key.. You can get it from here: https://myfatoorah.readme.io/docs/test-token";
-      });
-      return;
-    }
-    MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
-
-    // initiateSession();
-    // MFSDK.setUpAppBar(isShowAppBar: false);
+    setState(() {
+      _response = _loading;
+    });
   }
 
   void initiateSession() {
+    mfPaymentCardView   = MFPaymentCardView(
+    inputColor: CustomColors().primaryGreenColor,
+    //  labelColor: CustomColors().primaryGreenColor,
+//      errorColor: Colors.blue,
+    borderColor: CustomColors().primaryGreenColor,
+//      fontSize: 14,
+    borderWidth: 1,
+    borderRadius: 10,
+//      cardHeight: 220,
+    cardHolderNameHint: "card holder name hint",
+    cardNumberHint: "card number hint",
+    expiryDateHint: "expiry date hint",
+    cvvHint: "cvv hint",
+    // showLabels: true,
+//      cardHolderNameLabel: "card holder name label",
+//      cardNumberLabel: "card number label",
+//      expiryDateLabel: "expiry date label",
+//      cvvLabel: "cvv label",
+    );
     MFSDK.initiateSession((MFResult<MFInitiateSessionResponse> result) => {
-          if (result.isSuccess())
-            {mfPaymentCardView.load(result.response!)}
-          else
-            {
-              setState(() {
-                print("Response: " +
-                    result.error!.toJson().toString().toString());
-                _response = result.error!.message!;
-              })
-            }
-        });
+      if (result.isSuccess())
+        {mfPaymentCardView.load(result.response!)}
+      else
+        {
+          setState(() {
+            print(
+                "Response: " + result.error!.toJson().toString().toString());
+            _response = result.error!.message!;
+          })
+        }
+    });
+  }
+  createPaymentCardView() {
+
+    return mfPaymentCardView;
   }
 
   Widget payButton({required String text, required IconData iconData, required int index}) {
