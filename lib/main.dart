@@ -57,7 +57,7 @@ Future<void> main() async {
   );
 }
 
-// Future init() async {
+// Future init() async  1q2a{
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      if(notification != null && android != null) {
+      if(notification  != null && android != null) {
         flutterLocalNotificationsPlugin.show(
           notification.hashCode, 
           notification.title, 
