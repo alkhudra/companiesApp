@@ -1,29 +1,33 @@
-
 class ProductsModel {
   ProductsModel({
-      String? productId, 
-      String? name, 
-      String? arName, 
-      String? categoryName, 
-      String? arCategoryName, 
-      bool? hasSpecialPrice, 
-      int? originalPrice, 
-      int? specialPrice, 
-      bool? isFavourite, 
-      int? stockQuantity, 
-      String? description, 
-      String? arDescription, 
-      bool? isAvailabe, 
-      bool? isActive, 
-      bool? isDeleted, 
-      String? image, 
-      String? categoryId, 
-      String? productUnitId, 
-      String? unitCode, 
-      String? arItemUnitDesc, 
-      String? enItemUnitDesc, 
-      int? userProductQuantity, 
-      bool? isAddedToCart,}){
+    String? productId,
+    String? name,
+    String? arName,
+    String? categoryName,
+    String? arCategoryName,
+    bool? hasSpecialPrice,
+    int? originalPrice,
+    int? specialPrice,
+    bool? isFavourite,
+    int? stockQuantity,
+    String? description,
+    String? arDescription,
+    bool? isAvailabe,
+    bool? isActive,
+    bool? isDeleted,
+    String? image,
+    String? categoryId,
+    String? productUnitId,
+    String? unitCode,
+    String? arItemUnitDesc,
+    String? enItemUnitDesc,
+    int? userProductQuantity,
+    bool? isAddedToCart,
+    num? netPrice,
+    num? vaT15OriginalValue,
+    num? netSpecialPrice,
+    num? vaT15SpecialPrice,
+  }) {
     _productId = productId;
     _name = name;
     _arName = arName;
@@ -31,6 +35,10 @@ class ProductsModel {
     _arCategoryName = arCategoryName;
     _hasSpecialPrice = hasSpecialPrice;
     _originalPrice = originalPrice;
+    _netPrice = netPrice;
+    _vaT15OriginalValue = vaT15OriginalValue;
+    _netSpecialPrice = netSpecialPrice;
+    _vaT15SpecialPrice = vaT15SpecialPrice;
     _specialPrice = specialPrice;
     _isFavourite = isFavourite;
     _quantity = stockQuantity;
@@ -47,7 +55,7 @@ class ProductsModel {
     _enItemUnitDesc = enItemUnitDesc;
     _userProductQuantity = userProductQuantity;
     _isAddedToCart = isAddedToCart;
-}
+  }
 
   ProductsModel.fromJson(dynamic json) {
     _productId = json['productId'];
@@ -57,7 +65,7 @@ class ProductsModel {
     _arCategoryName = json['arCategoryName'];
     _hasSpecialPrice = json['hasSpecialPrice'];
     _originalPrice = json['originalPrice'];
-    _specialPrice = json['specialPrice'];
+    _specialPrice = json['originalSpecialPrice'];
     _isFavourite = json['isFavourite'];
     _quantity = json['stockQuantity'];
     _description = json['description'];
@@ -73,6 +81,10 @@ class ProductsModel {
     _enItemUnitDesc = json['enItemUnitDesc'];
     _userProductQuantity = json['userProductQuantity'];
     _isAddedToCart = json['isAddedToCart'];
+    _netPrice = json['netPrice'];
+    _vaT15OriginalValue = json['vaT15'];
+    _netSpecialPrice = json['netSpecialPrice'];
+    _vaT15SpecialPrice = json['vaT15SpecialPrice'];
   }
   String? _productId;
   String? _name;
@@ -80,8 +92,13 @@ class ProductsModel {
   String? _categoryName;
   String? _arCategoryName;
   bool? _hasSpecialPrice;
-  int? _originalPrice;
-  int? _specialPrice;
+  num? _originalPrice;
+  num? _netPrice;
+  num? _vaT15OriginalValue;
+  num? _netSpecialPrice;
+  num? _vaT15SpecialPrice;
+
+  num? _specialPrice;
   bool? _isFavourite;
   int? _quantity;
   String? _description;
@@ -104,8 +121,8 @@ class ProductsModel {
   String? get categoryName => _categoryName;
   String? get arCategoryName => _arCategoryName;
   bool? get hasSpecialPrice => _hasSpecialPrice;
-  int? get originalPrice => _originalPrice;
-  int? get specialPrice => _specialPrice;
+  num? get originalPrice => _originalPrice;
+  num? get specialPrice => _specialPrice;
   bool? get isFavourite => _isFavourite;
   int? get quantity => _quantity;
   String? get description => _description;
@@ -122,6 +139,10 @@ class ProductsModel {
   int? get userProductQuantity => _userProductQuantity;
   bool? get isAddedToCart => _isAddedToCart;
 
+  num? get netPrice => _netPrice;
+  num? get vaT15OriginalValue => _vaT15OriginalValue;
+  num? get netSpecialPrice => _netSpecialPrice;
+  num? get vaT15SpecialPrice => _vaT15SpecialPrice;
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = _productId;
@@ -131,7 +152,7 @@ class ProductsModel {
     map['arCategoryName'] = _arCategoryName;
     map['hasSpecialPrice'] = _hasSpecialPrice;
     map['originalPrice'] = _originalPrice;
-    map['specialPrice'] = _specialPrice;
+    map['originalSpecialPrice'] = _specialPrice;
     map['isFavourite'] = _isFavourite;
     map['stockQuantity'] = _quantity;
     map['description'] = _description;
@@ -147,6 +168,11 @@ class ProductsModel {
     map['enItemUnitDesc'] = _enItemUnitDesc;
     map['userProductQuantity'] = _userProductQuantity;
     map['isAddedToCart'] = _isAddedToCart;
+    map['netPrice'] = _netPrice;
+    map['vaT15'] = _vaT15OriginalValue;
+    map['netSpecialPrice'] = _netSpecialPrice;
+    map['vaT15SpecialPrice'] = _vaT15SpecialPrice;
+
     return map;
   }
 

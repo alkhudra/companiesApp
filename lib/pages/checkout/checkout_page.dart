@@ -54,7 +54,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
   var sessionIdValue = "";
 
   static String address = '';
-  static late MFPaymentCardView mfPaymentCardView;
+  static  MFPaymentCardView mfPaymentCardView = MFPaymentCardView(
+  inputColor: CustomColors().primaryGreenColor,
+  //  labelColor: CustomColors().primaryGreenColor,
+//      errorColor: Colors.blue,
+  borderColor: CustomColors().primaryGreenColor,
+//      fontSize: 14,
+  borderWidth: 1,
+  borderRadius: 10,
+//      cardHeight: 220,
+  cardHolderNameHint: "card holder name hint",
+  cardNumberHint: "card number hint",
+  expiryDateHint: "expiry date hint",
+  cvvHint: "cvv hint",
+   showLabels: false,
+//
+//cardHolderNameLabel: "card holder name label",
+//      cardNumberLabel: "card number label",
+//      expiryDateLabel: "expiry date label",
+//      cvvLabel: "cvv label",
+  );
 
   BranchModel dropdownValue =
       BranchModel(branchName: LocaleKeys.select_branch.tr(), address: '----');
@@ -97,9 +116,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
 
     num priceAfterDiscount = widget.userCart!.priceAfterDiscount!;
-    num subtotal = widget.userCart!.totalNetCartPrice!;
+    num subtotal = widget.userCart!.totalCartPrice!;
     num vat = widget.userCart!.totalCartVAT15!;
-    num total = widget.userCart!.totalCartPrice!;
+    num total = widget.userCart!.totalNetCartPrice!;
     num discount = widget.userCart!.discountPercentage! * 100;
     bool? hasDiscount = widget.userCart!.hasDiscount;
     return Scaffold(
@@ -354,16 +373,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
 
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 if (isPayOnlineSelected == true) onlineView(),
+                SizedBox(
+                  height: 100,
+                ),
+
               ],
             ),
           ),
         ),
         //slide up panel height
         minHeight: scHeight * 0.07,
-        maxHeight: hasDiscount! ? scHeight * 0.39 : 235,
+        maxHeight: hasDiscount ? scHeight * 0.39 : 235,
       ),
     );
   }
@@ -377,9 +400,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
         // price view
 
         createPaymentCardView(),
-        Container(
+ /*       Container(
           alignment: Alignment.bottomCenter,
-          child: greenBtn(LocaleKeys.continue_payment.tr(), EdgeInsets.all(20),
+          child: greenBtn(LocaleKeys.continue_payment.tr(), EdgeInsets.only(bottom: 100),
               () {
             if (addressController.text != '') {
               payWithEmbeddedPayment();
@@ -388,7 +411,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   context, LocaleKeys.select_branch_note.tr());
             }
           }),
-        ),
+        ),*/
       ],
     );
   }
@@ -467,25 +490,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   //------------------------
 
   void initiateSession() {
-    mfPaymentCardView = MFPaymentCardView(
-      inputColor: CustomColors().primaryGreenColor,
-      //  labelColor: CustomColors().primaryGreenColor,
-//      errorColor: Colors.blue,
-      borderColor: CustomColors().primaryGreenColor,
-//      fontSize: 14,
-      borderWidth: 1,
-      borderRadius: 10,
-//      cardHeight: 220,
-      cardHolderNameHint: "card holder name hint",
-      cardNumberHint: "card number hint",
-      expiryDateHint: "expiry date hint",
-      cvvHint: "cvv hint",
-      // showLabels: true,
-//      cardHolderNameLabel: "card holder name label",
-//      cardNumberLabel: "card number label",
-//      expiryDateLabel: "expiry date label",
-//      cvvLabel: "cvv label",
-    );
+
     MFSDK.initiateSession((MFResult<MFInitiateSessionResponse> result) => {
           if (result.isSuccess())
             {mfPaymentCardView.load(result.response!)}
@@ -511,17 +516,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
   ///general  methods
   ///
   ///********
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  //   // TODO, don't forget to init the MyFatoorah Plugin with the following line
-  //   MFSDK.init(mAPIKey, MFCountry.KUWAIT, MFEnvironment.TEST);
-  //   // (Optional) un comment the following lines if you want to set up properties of AppBar.
-  //   initiatePayment('100');
-  //   initiateSession();
-  //   // MFSDK.setUpAppBar(isShowAppBar: false);
-  // }
+    // TODO, don't forget to init the MyFatoorah Plugin with the following line
+    MFSDK.init(mAPIKey, MFCountry.KUWAIT, MFEnvironment.TEST);
+    // (Optional) un comment the following lines if you want to set up properties of AppBar.
+    initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
+    initiateSession();
+    // MFSDK.setUpAppBar(isShowAppBar: false);
+  }
   //------------------------
 
   Widget payButton(
@@ -569,27 +574,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
       onTap: () {
         //could be converted to a switch case if needed
         if (text == LocaleKeys.credit_card.tr()) {
-          //TODO: UNCOMMENT BELOW
           //credit card payment method
-        //   setState(() {
-        //     isPayOnlineSelected = true;
-        //     _selectedValueIndex = index;
-        //     paymentMethod = 'O';
-        //   });
-        // } else {
-        //   if (text == LocaleKeys.postpaid.tr()) {
-        //     setState(() {
-        //       isPayDebitSelected = true;
-        //       paymentMethod = 'D';
-        //       _selectedValueIndex = index;
-        //     });
-        //   } else {
-        //     setState(() {
-        //       _selectedValueIndex = index;
-        //       isPayCashSelected = true;
-        //       paymentMethod = 'C';
-        //     });
-        //   }
+          setState(() {
+            isPayOnlineSelected = true;
+            _selectedValueIndex = index;
+            paymentMethod = 'O';
+          });
+        } else {
+          if (text == LocaleKeys.postpaid.tr()) {
+            setState(() {
+              isPayDebitSelected = true;
+              paymentMethod = 'D';
+              _selectedValueIndex = index;
+            });
+          } else {
+            setState(() {
+              _selectedValueIndex = index;
+              isPayCashSelected = true;
+              paymentMethod = 'C';
+            });
+          }
         }
       },
     );

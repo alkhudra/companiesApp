@@ -78,9 +78,7 @@ Widget cartTile(BuildContext context, String language,
   double scWidth = size.width;
   double scHeight = size.height;
 
-  num? price = model.hasSpecialPrice == true
-      ? model.specialPrice!
-      : model.originalPrice!;
+  num? price = model.hasSpecialPrice!? model.specialPrice :model.originalPrice ;
   String? name = language == 'ar' ? model.arName : model.name;
 
   bool? isPriceChanged = model.hasSpecialPrice == true
@@ -88,10 +86,10 @@ Widget cartTile(BuildContext context, String language,
       : list[index]!.hasOriginalProductPriceChanged;
 
   bool? isQtyChanged = list[index]!.hasUserProductQuantityChanged;
-  num userQty = list[index]!.userProductQuantity!;
+  num? userQty = list[index]!.userProductQuantity! !=null ? list[index]!.userProductQuantity! : 0;
   num stockQty = list[index]!.productDto!.quantity!;
 
-  num productTotal = list[index]!.totalProductPrice!;
+  num productTotal = list[index]!.totalProductPrice!=null ? list[index]!.totalProductPrice! : 0;
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
   Color containerColor =
@@ -207,7 +205,7 @@ Widget cartTile(BuildContext context, String language,
                         children: [
                           Container(
                             child: Text(
-                              getTextWithCurrency(price),
+                              getTextWithCurrency(price!),
                               style: TextStyle(
                                   color: isPriceChanged!
                                       ? CustomColors().redColor

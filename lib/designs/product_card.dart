@@ -34,8 +34,8 @@ class ProductCard {
       /*    {counter ,increaseCount, decreaseCount}*/
       ) {
     double? price = (productModel.hasSpecialPrice == true
-            ? productModel.specialPrice
-            : productModel.originalPrice)
+            ? productModel.netSpecialPrice
+            : productModel.netPrice)
         ?.toDouble();
 
     bool? isFavourite = productModel.isFavourite;

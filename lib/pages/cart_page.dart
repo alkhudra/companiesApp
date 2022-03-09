@@ -106,9 +106,9 @@ class _CartPageState extends State<CartPage> {
       }
 
       num priceAfterDiscount = model.userCart!.priceAfterDiscount!;
-      num? subtotal = model.userCart!.totalNetCartPrice!;
+      num? subtotal = model.userCart!.totalCartPrice!;
       num? vat = model.userCart!.totalCartVAT15!;
-      num total = model.userCart!.totalCartPrice!;
+      num total = model.userCart!.totalNetCartPrice!;
       num? discount = model.userCart!.discountPercentage! * 100;
       bool? hasDiscount = model.userCart!.hasDiscount;
 
