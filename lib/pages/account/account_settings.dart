@@ -59,11 +59,11 @@ class _AccountSettingsState extends State<AccountSettings> {
     print('get user info ');
     //----------show progress----------------
 
-    showLoaderDialog(context);
+   // showLoaderDialog(context);
 
     User user = await PreferencesHelper.getUser;
     print(user.toString());
-    Navigator.pop(context);
+   // Navigator.pop(context);
 
     Navigator.push(
         context,

@@ -68,7 +68,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
     nationalIDAddressController.text = widget.branchModel.nationalAddressNo!;
     phoneController.text = widget.branchModel.phoneNumber!;
     addressController.text = widget.branchModel.address!.toString();
-    city = widget.branchModel.city!;
+    //todo: edit to  widget.branchModel.city!
+   city = "widget.branchModel.city!";
 
     double lat = widget.branchModel.latitude!.toDouble();
     double lng = widget.branchModel.longitude!.toDouble();
@@ -166,7 +167,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField<String>(
-                    value: city,
+                    //todo: edit to city
+                    value: dropdownValue,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,

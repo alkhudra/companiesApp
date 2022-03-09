@@ -185,4 +185,5 @@ abstract class LocaleKeys {
   static const cash ="cash";
   static const credit_card ="credit_card";
   static const postpaid ="postpaid";
+  static const send_order="send_order";
 }

@@ -22,6 +22,7 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/cart/success_cart_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/cart_repository.dart';
 import 'package:khudrah_companies/pages/checkout/checkout_page.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
@@ -41,9 +42,11 @@ class _CartPageState extends State<CartPage> {
   static String language = '';
   bool isTrashBtnEnabled = true;
   static String productId = '';
-  static  List<BranchModel>? branchList =[];
+  static late User user;
 
   static List<CartProductsList> list = [];
+  static List<BranchModel>? branchList = [];
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +112,6 @@ class _CartPageState extends State<CartPage> {
       num? discount = model.userCart!.discountPercentage! * 100;
       bool? hasDiscount = model.userCart!.hasDiscount;
 
-
       //todo: code for show image
 /*
       for(CartProductsList? cartProductsList in list ){
@@ -145,15 +147,15 @@ class _CartPageState extends State<CartPage> {
                                 icon: Icons.delete,
                                 label: LocaleKeys.delete_from_cart.tr(),
                                 onPressed: (BuildContext context) {
-                                  productId = list[index].productDto!.productId!;
+                                  productId =
+                                      list[index].productDto!.productId!;
                                   deleteFromCart(context, index, productId);
                                 },
                               )
                             ],
                           ),
-                          child: cartTile(context, language, list, index,(){
-                          
-                          }));
+                          child:
+                              cartTile(context, language, list, index, () {}));
                     },
                     itemCount: list.length,
                   ),
@@ -205,11 +207,11 @@ class _CartPageState extends State<CartPage> {
                       LocaleKeys.vat.tr(), getTextWithCurrency(vat)),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 30, vertical: 2),
-                    child: Text(LocaleKeys.vat_inc.tr(),
-                    style: TextStyle(
-                      color: CustomColors().darkBlueColor,
-                      fontSize: 14.5
-                    ),),
+                    child: Text(
+                      LocaleKeys.vat_inc.tr(),
+                      style: TextStyle(
+                          color: CustomColors().darkBlueColor, fontSize: 14.5),
+                    ),
                   ),
                   if (hasDiscount)
                     Column(
@@ -239,15 +241,15 @@ class _CartPageState extends State<CartPage> {
                   Container(
                     child: greenBtn(LocaleKeys.checkout.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
-
-              /*        if(isChaged == true)
+                      /*        if(isChaged == true)
                         showErrorMessageDialog(context, txt) */
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return CheckoutPage(
-                              branchList:branchList,
-                            );
-                          }));
-                        }),
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CheckoutPage(
+                            currentUser: user, userCart: model.userCart,
+                        branchList : branchList);
+                      }));
+                    }),
                   ),
                 ],
               ),
@@ -296,12 +298,11 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
- static void setValue() async {
+  static void setValue() async {
     language = await PreferencesHelper.getSelectedLanguage;
+    user = await PreferencesHelper.getUser;
     branchList = await PreferencesHelper.getBranchesList;
-
- }
-
+  }
 
   noteWidget(bool boolCondition, String message) {
     return /*Visibility(
