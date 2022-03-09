@@ -70,7 +70,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     //  List<BranchModel> branches = widget.branchList!;
-    isDebitAllow = widget.currentUser!.hasCreditOption!;
+    // isDebitAllow = widget.currentUser!.hasCreditOption!;
     branches = [dropdownValue];
 
     if (widget.branchList!.length != 0) {
@@ -111,7 +111,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           topRight: Radius.circular(40),
         ),
         panel: Container(
-          height: MediaQuery.of(context).size.height * 0.16,
+          height: scHeight * 0.16,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,6 +201,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ),
         ),
         body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: Container(
             margin: EdgeInsets.only(left: 20, right: 20),
             child: Column(
@@ -360,6 +361,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
           ),
         ),
+        //slide up panel height
+        minHeight: scHeight * 0.07,
+        maxHeight: hasDiscount! ? scHeight * 0.39 : 235,
       ),
     );
   }
@@ -507,17 +511,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
   ///general  methods
   ///
   ///********
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    // TODO, don't forget to init the MyFatoorah Plugin with the following line
-    MFSDK.init(mAPIKey, MFCountry.KUWAIT, MFEnvironment.TEST);
-    // (Optional) un comment the following lines if you want to set up properties of AppBar.
-    initiatePayment('100');
-    initiateSession();
-    // MFSDK.setUpAppBar(isShowAppBar: false);
-  }
+  //   // TODO, don't forget to init the MyFatoorah Plugin with the following line
+  //   MFSDK.init(mAPIKey, MFCountry.KUWAIT, MFEnvironment.TEST);
+  //   // (Optional) un comment the following lines if you want to set up properties of AppBar.
+  //   initiatePayment('100');
+  //   initiateSession();
+  //   // MFSDK.setUpAppBar(isShowAppBar: false);
+  // }
   //------------------------
 
   Widget payButton(
@@ -526,8 +530,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.27,
-          height: MediaQuery.of(context).size.height * 0.09,
+          width: MediaQuery.of(context).size.width * 0.293,
+          height: MediaQuery.of(context).size.height * 0.094,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               border: Border.all(
@@ -565,26 +569,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
       onTap: () {
         //could be converted to a switch case if needed
         if (text == LocaleKeys.credit_card.tr()) {
+          //TODO: UNCOMMENT BELOW
           //credit card payment method
-          setState(() {
-            isPayOnlineSelected = true;
-            _selectedValueIndex = index;
-            paymentMethod = 'O';
-          });
-        } else {
-          if (text == LocaleKeys.postpaid.tr()) {
-            setState(() {
-              isPayDebitSelected = true;
-              paymentMethod = 'D';
-              _selectedValueIndex = index;
-            });
-          } else {
-            setState(() {
-              _selectedValueIndex = index;
-              isPayCashSelected = true;
-              paymentMethod = 'C';
-            });
-          }
+        //   setState(() {
+        //     isPayOnlineSelected = true;
+        //     _selectedValueIndex = index;
+        //     paymentMethod = 'O';
+        //   });
+        // } else {
+        //   if (text == LocaleKeys.postpaid.tr()) {
+        //     setState(() {
+        //       isPayDebitSelected = true;
+        //       paymentMethod = 'D';
+        //       _selectedValueIndex = index;
+        //     });
+        //   } else {
+        //     setState(() {
+        //       _selectedValueIndex = index;
+        //       isPayCashSelected = true;
+        //       paymentMethod = 'C';
+        //     });
+        //   }
         }
       },
     );
