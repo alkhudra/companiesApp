@@ -16,6 +16,7 @@ import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/checkout/payment_page.dart';
+import 'package:khudrah_companies/pages/order_completed_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:myfatoorah_flutter/embeddedpayment/MFPaymentCardView.dart';
 import 'package:myfatoorah_flutter/model/executepayment/MFExecutePaymentRequest.dart';
@@ -206,7 +207,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         if (isPayOnlineSelected == true)
                           payWithEmbeddedPayment();
                         else {
+
                           //  continue order ( api , show success page)
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return OrderCompletedPage(isSuccess: false);
+                              }));
                         }
                       } else {
                         showErrorMessageDialog(

@@ -162,7 +162,7 @@
   "cart_price_changed_note": "Some product prices have changed in your cart, Please review your cart before checkout",
   "cart_qty_changed_note": "Some product quantity have been changed in your cart due to unavailability, Please review your cart before checkout",
   "*Product prices are inclusive of VAT": "*Product prices are inclusive of VAT",
-  "cart_qty_price_changed_note":"Some product prices and quantity have changed in your cart, Please review your cart before checkout",
+  "cart_qty_price_changed_note": "Some product prices and quantity have changed in your cart, Please review your cart before checkout",
   "select_branch": "Select Branch",
   "select_branch_note": "Please Select the branch you want to deliver to , the branch address will be appear in the address field, you can make changes to the address ",
   "branch_address": "Branch Address ",
@@ -173,5 +173,11 @@
   "cash": "Cash",
   "credit_card": "Credit/Debit Card",
   "postpaid": "Postpaid",
-  "send_order":"Send Order "
+  "send_order": "Send Order ",
+  "order_complete_successfully": "Order Completed Successfully",
+  "order_complete_fail": "Oops ! Fail in Completing Order ",
+  "display_order": "Display Order Details",
+  "go_to_cart": "Go To Cart",
+  "main_page": "Home Page",
+  "order_no": "Order No."
 }

@@ -173,6 +173,11 @@
   "cash": "دفع نقدي",
   "credit_card": "بطاقة ائتمانية",
   "postpaid": "دفع آجل",
-  "send_order": "إرسال الطلب "
-
+  "send_order": "إرسال الطلب ",
+  "order_complete_successfully": "تم اكمال الطلب بنجاح",
+  "order_complete_fail": "حدث خطا اثناء اكمال الطلب ",
+  "display_order": "عرض تفاصيل الطلب ",
+  "go_to_cart": "الذهاب للسلة",
+  "main_page": "الصفحة الرئيسية",
+  "order_no": "رقم الطلب "
 }

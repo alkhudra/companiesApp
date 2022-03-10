@@ -13,9 +13,11 @@ import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
+import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:provider/provider.dart';
 import 'package:widget_mask/widget_mask.dart';
 
 class ProductCard {
@@ -47,6 +49,8 @@ class ProductCard {
 
     //--------------------------
 
+    //var provider = Provider.of<ProductListProvider>(context);
+   // provider.setQty(qty);
     return GestureDetector(
         child: ListTile(
           title: Column(
@@ -139,16 +143,19 @@ class ProductCard {
                               userQty: qty,
                               onBtnClicked: () {
                                 if (isAddToCartBtnEnabled) {
+                                //  provider.addToCart();
                                   onAddBtnClicked();
                                 }
                               },
                               onDecreaseBtnClicked: () {
                                 if (isDecreaseBtnEnabled) {
+                                //  provider.decreaseQty();
                                   onDecreaseBtnClicked();
                                 }
                               },
                               onDeleteBtnClicked: () {
                                 if (isTrashBtnEnabled) {
+                              //    provider.deleteFromCart();
                                   onDeleteBtnClicked();
                                 }
                               },
@@ -156,6 +163,7 @@ class ProductCard {
                                 if (isIncreaseBtnEnabled) {
                                   if (productModel.userProductQuantity! <
                                       stockQty) {
+                              //      provider.increaseQty();
                                     onIncreaseBtnClicked();
                                   } else
                                     showSuccessMessage(

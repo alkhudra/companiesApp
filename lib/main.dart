@@ -8,9 +8,11 @@ import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
+import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 import 'helpers/pref/shared_pref_helper.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -36,7 +38,9 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+  ChangeNotifierProvider<ProductListProvider>(
+    create: (_) => ProductListProvider(),
+  );
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
