@@ -1,3 +1,4 @@
+const version = '1.1.0';
 const validPhone = 'valid phone number';
 const missingInfo = 'Missing Information';
 const success = "success";

@@ -36,13 +36,10 @@ class BranchList extends StatefulWidget {
 
 class _BranchListState extends State<BranchList> {
   static List<Cities> cities = [];
-  static  BranchModel branchModel = BranchModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarWithActions(context, LocaleKeys.branch_list.tr(),(){
-          Navigator.pop(context,branchModel);
-        }),
+        appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
         endDrawer: drawerDesign(context),
         backgroundColor: Colors.grey[100],
         body: FutureBuilder<BranchListResponseModel?>(
@@ -73,7 +70,6 @@ class _BranchListState extends State<BranchList> {
       cities = responseModel.cities!;
       print(responseModel.branches.toString());
       PreferencesHelper.saveBranchesList(responseModel.branches!);
-
       return responseModel;
     } else {
       throw ExceptionHelper(apiResponse.message);
@@ -121,7 +117,6 @@ class _BranchListState extends State<BranchList> {
     if (model != null) {
       setState(() {
         list.add(model);
-        branchModel = model;
       });
 
     }

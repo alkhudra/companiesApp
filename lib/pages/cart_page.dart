@@ -247,7 +247,8 @@ class _CartPageState extends State<CartPage> {
                           MaterialPageRoute(builder: (context) {
                         return CheckoutPage(
                             currentUser: user, userCart: model.userCart,
-                        branchList : branchList);
+                        branchList : branchList,
+                        language: language);
                       }));
                     }),
                   ),

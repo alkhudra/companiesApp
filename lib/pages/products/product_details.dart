@@ -12,6 +12,7 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
+import 'package:khudrah_companies/pages/full_image_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
@@ -80,7 +81,8 @@ class _ProductDetailsState extends State<ProductDetails> {
     String? productId = model.productId;
     String? category =
         language == 'ar' ? model.arCategoryName : model.categoryName;
-    String? unit = language == 'ar' ? model.arItemUnitDesc : model.enItemUnitDesc;
+    String? unit =
+        language == 'ar' ? model.arItemUnitDesc : model.enItemUnitDesc;
 
     String? name = language == 'ar' ? model.arName : model.name;
     bool? isFavourite = model.isFavourite;
@@ -88,11 +90,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     Color favIconColor = isFavourite == true
         ? CustomColors().redColor
         : CustomColors().grayColor;
-    //counter = 0;
-    bool isAvailable = model.isAvailabe!;
-    bool isDeleted = model.isDeleted!;
-    //TODO: set to product image available or not: true for available, false for default green bg
-    bool imgAvl = true;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -105,28 +102,42 @@ class _ProductDetailsState extends State<ProductDetails> {
             flexibleSpace: FlexibleSpaceBar(
               //product image, default green or product network image
               background: GestureDetector(
-                child: imgAvl ? Image.network('https://images.pexels.com/photos/161559/background-bitter-breakfast-bright-161559.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-                fit: BoxFit.cover,) : Padding(
-                  padding: const EdgeInsets.only(left: 140),
-                  child: Image.asset('images/grapevector.png'),
-                ),
+                child: model.image != null
+                    ? Image.network(
+                        ApiConst.images_url + model.image!,
+                        fit: BoxFit.fill,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return Image.asset('images/grapevector.png');
+                        },
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 140),
+                        child: Image.asset('images/grapevector.png'),
+                      ),
                 onTap: () {
                   //on click function
-                },
-              ) ,
-              ),
-              //
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(20),
-                child: Container(
-                  width: scWidth,
-                  decoration: BoxDecoration(
-                    color: CustomColors().primaryWhiteColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(70),
-                      topRight: Radius.circular(70),
-                    ),
 
+                  if (model.image != null) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return FullImagePage(imageUrl: model.image!);
+                    }));
+                  }
+                },
+              ),
+            ),
+            //
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(20),
+              child: Container(
+                width: scWidth,
+                decoration: BoxDecoration(
+                  color: CustomColors().primaryWhiteColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(70),
+                    topRight: Radius.circular(70),
+                  ),
                   boxShadow: [
                     BoxShadow(
                         color: CustomColors().blackColor.withOpacity(0.3),
@@ -134,22 +145,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                         blurRadius: 6.0,
                         spreadRadius: -6.0),
                   ],
-                  ),
-                  child: Center(child: Text('')),
                 ),
+                child: Center(child: Text('')),
               ),
+            ),
             expandedHeight: 180,
             elevation: 0.0,
             backgroundColor: CustomColors().primaryGreenColor,
             iconTheme: IconThemeData(color: CustomColors().primaryWhiteColor),
             leading: IconButton(
-                constraints: BoxConstraints(),
-                padding: EdgeInsets.all(0.0),
-                icon: Icon(Icons.cancel),
-                color: CustomColors().darkGrayColor.withOpacity(0.4),
-                iconSize: 32,
-                onPressed: () => Navigator.pop(context),
-              ),
+              constraints: BoxConstraints(),
+              padding: EdgeInsets.all(0.0),
+              icon: Icon(Icons.cancel),
+              color: CustomColors().darkGrayColor.withOpacity(0.4),
+              iconSize: 32,
+              onPressed: () => Navigator.pop(context),
+            ),
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -223,7 +234,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 5,
                   ),
                   Container(
@@ -248,7 +259,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
-                          ("$price " + LocaleKeys.sar.tr() +' / '+ unit!),
+                          ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
                           style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontWeight: FontWeight.w600,
@@ -413,8 +424,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   void addToCart(String productId) async {
     print('counter $counter');
     isAddToCartBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId, addToCartConst);
+    String message = await cartDBProcess(context, productId, addToCartConst);
     showSuccessMessage(context, message);
     setState(() {
       isAddToCartBtnEnabled = true;
@@ -427,9 +437,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   void addQtyToCart(String productId) async {
     print('counter $counter , total $total');
     isIncreaseBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId, addQtyToCartConst);
-   // showSuccessMessage(context, message);
+    String message = await cartDBProcess(context, productId, addQtyToCartConst);
+    // showSuccessMessage(context, message);
     print(message);
 
     setState(() {
@@ -442,9 +451,9 @@ class _ProductDetailsState extends State<ProductDetails> {
   void deleteQtyFromCart(String productId) async {
     print('counter $counter');
     isDecreaseBtnEnabled = false;
-    String message = await cartDBProcess(
-        context, productId, deleteQtyFromCartConst);
-  //  showSuccessMessage(context, message);
+    String message =
+        await cartDBProcess(context, productId, deleteQtyFromCartConst);
+    //  showSuccessMessage(context, message);
 
     print(message);
     setState(() {

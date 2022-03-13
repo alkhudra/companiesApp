@@ -33,11 +33,13 @@ class CheckoutPage extends StatefulWidget {
   final User? currentUser;
   final UserCart? userCart;
   final List<BranchModel>? branchList;
+  final String language;
   const CheckoutPage(
       {Key? key,
       required this.currentUser,
       required this.userCart,
-      required this.branchList})
+      required this.branchList,
+      required this.language})
       : super(key: key);
 
   @override
@@ -55,20 +57,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
   var sessionIdValue = "";
 
   static String address = '';
-  static  MFPaymentCardView mfPaymentCardView = MFPaymentCardView(
-  inputColor: CustomColors().primaryGreenColor,
-  //  labelColor: CustomColors().primaryGreenColor,
+  static MFPaymentCardView mfPaymentCardView = MFPaymentCardView(
+    inputColor: CustomColors().primaryGreenColor,
+    //  labelColor: CustomColors().primaryGreenColor,
 //      errorColor: Colors.blue,
-  borderColor: CustomColors().primaryGreenColor,
+    borderColor: CustomColors().primaryGreenColor,
 //      fontSize: 14,
-  borderWidth: 1,
-  borderRadius: 10,
+    borderWidth: 1,
+    borderRadius: 10,
 //      cardHeight: 220,
-  cardHolderNameHint: "card holder name hint",
-  cardNumberHint: "card number hint",
-  expiryDateHint: "expiry date hint",
-  cvvHint: "cvv hint",
-   showLabels: false,
+    cardHolderNameHint: "card holder name hint",
+    cardNumberHint: "card number hint",
+    expiryDateHint: "expiry date hint",
+    cvvHint: "cvv hint",
+    showLabels: false,
 //
 //cardHolderNameLabel: "card holder name label",
 //      cardNumberLabel: "card number label",
@@ -82,7 +84,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   bool isPayOnlineSelected = false;
   bool isPayDebitSelected = false;
   bool isPayCashSelected = true;
-  bool isDebitAllow = false;
+  bool isDebitAllow = true;
+  bool isSuccess = false;
+  bool isOnlineAvailable = true;
 
   Color onlineSelected = CustomColors().primaryWhiteColor;
   static late List<BranchModel> branches;
@@ -93,10 +97,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     // isDebitAllow = widget.currentUser!.hasCreditOption!;
     branches = [dropdownValue];
 
-    if (widget.branchList!.length != 0) {
-      for (BranchModel c in widget.branchList!)
-        branches.add(c);
-    }
+    for (BranchModel c in widget.branchList!) branches.add(c);
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -207,12 +208,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         if (isPayOnlineSelected == true)
                           payWithEmbeddedPayment();
                         else {
-
                           //  continue order ( api , show success page)
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return OrderCompletedPage(isSuccess: false);
-                              }));
+                            return OrderCompletedPage(isSuccess: isSuccess);
+                          }));
                         }
                       } else {
                         showErrorMessageDialog(
@@ -263,6 +263,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         // icon: const Icon(Icons.arrow_downward),
                         elevation: 16,
                         style: TextStyle(color: CustomColors().darkGrayColor),
+
                         onChanged: (BranchModel? newValue) {
                           setState(() {
                             if (newValue != dropdownValue) {
@@ -299,22 +300,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ),
                 ),
-                if (widget.branchList!.length == 0)
+
+                // TODO: make user add branch if none
+                /* if (widget.branchList!.length != 0)
                   GestureDetector(
                     onTap: () {
-                      final model = Navigator.push(context,
+                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return BranchList();
-                      }));
-                      BranchModel branchModel = BranchModel();
-
-                      if (model != null) {
+                      })).then((value) {
                         setState(() {
-                          branchModel = model as BranchModel;
-                          branches.add(branchModel);
-                          print('branhc is $branchModel');
+                          setBranches();
                         });
-                      }
+                        print('returned value $branches');
+
+                       });
+
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 10),
@@ -328,7 +329,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
+                  ),*/
                 Container(
                   margin: EdgeInsets.all(10),
                   padding: const EdgeInsets.all(8.0),
@@ -385,7 +386,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 SizedBox(
                   height: 100,
                 ),
-
               ],
             ),
           ),
@@ -406,7 +406,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         // price view
 
         createPaymentCardView(),
- /*       Container(
+        /*       Container(
           alignment: Alignment.bottomCenter,
           child: greenBtn(LocaleKeys.continue_payment.tr(), EdgeInsets.only(bottom: 100),
               () {
@@ -422,8 +422,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  orderDetails() {}
-
   ///********
   ///
   ///payment methods
@@ -434,7 +432,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     var request = MFExecutePaymentRequest.constructor(0.100);
     mfPaymentCardView.pay(
         request,
-        MFAPILanguage.AR,
+        widget.language == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN,
         (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
               if (result.isSuccess())
                 {
@@ -443,6 +441,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print("Response: " + result.response!.toJson().toString());
                     _response = result.response!.toJson().toString();
                     // continue order ( api , show success page)
+                    isSuccess = true;
                   })
                 }
               else
@@ -451,6 +450,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print("invoiceId: " + invoiceId);
                     print("Error: " + result.error!.toJson().toString());
                     _response = result.error!.message!;
+                    isSuccess = false;
+
                     // continue order (  show fail page)
                   })
                 }
@@ -464,15 +465,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void initiatePayment(String amount) {
     var request = new MFInitiatePaymentRequest(
-        double.parse(amount), MFCurrencyISO.KUWAIT_KWD);
+        double.parse(amount), MFCurrencyISO.SAUDI_ARABIA_SAR);
 
     MFSDK.initiatePayment(
         request,
-        MFAPILanguage.EN,
+        widget.language == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN,
         (MFResult<MFInitiatePaymentResponse> result) => {
               if (result.isSuccess())
                 {
                   setState(() {
+                    isOnlineAvailable = true;
                     print(result.response!.toJson());
                     _response = ""; //result.response.toJson().toString();
                     /*      paymentMethods.addAll(result.response.paymentMethods);
@@ -483,6 +485,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               else
                 {
                   setState(() {
+                    isOnlineAvailable = false;
                     print(result.error!.toJson());
                     _response = result.error!.message!;
                   })
@@ -496,13 +499,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
   //------------------------
 
   void initiateSession() {
-
     MFSDK.initiateSession((MFResult<MFInitiateSessionResponse> result) => {
           if (result.isSuccess())
             {mfPaymentCardView.load(result.response!)}
           else
             {
               setState(() {
+                isOnlineAvailable = false;
                 print("Response: " +
                     result.error!.toJson().toString().toString());
                 _response = result.error!.message!;
@@ -527,7 +530,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.initState();
 
     // TODO, don't forget to init the MyFatoorah Plugin with the following line
-    MFSDK.init(mAPIKey, MFCountry.KUWAIT, MFEnvironment.TEST);
+    MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
     // (Optional) un comment the following lines if you want to set up properties of AppBar.
     initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
     initiateSession();
@@ -538,43 +541,40 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget payButton(
       {required String text, required IconData iconData, required int index}) {
     return InkWell(
-      child: Padding(
-        padding: const EdgeInsets.all(1.0),
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.293,
-          height: MediaQuery.of(context).size.height * 0.094,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(
-                  color: index == _selectedValueIndex
-                      ? CustomColors().primaryGreenColor
-                      : CustomColors().darkGrayColor.withOpacity(0.6))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                iconData,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.27,
+        height: MediaQuery.of(context).size.height * 0.094,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
                 color: index == _selectedValueIndex
                     ? CustomColors().primaryGreenColor
-                    : CustomColors().darkGrayColor.withOpacity(0.5),
-                size: 25,
+                    : CustomColors().darkGrayColor.withOpacity(0.6))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              iconData,
+              color: index == _selectedValueIndex
+                  ? CustomColors().primaryGreenColor
+                  : CustomColors().darkGrayColor.withOpacity(0.5),
+              size: 25,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Text(
+                text,
+                style: TextStyle(
+                    color: index == _selectedValueIndex
+                        ? CustomColors().primaryGreenColor
+                        : CustomColors().darkGrayColor.withOpacity(0.7),
+                    fontSize: 13),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                child: Text(
-                  text,
-                  style: TextStyle(
-                      color: index == _selectedValueIndex
-                          ? CustomColors().primaryGreenColor
-                          : CustomColors().darkGrayColor.withOpacity(0.7),
-                      fontSize: 13),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
       onTap: () {
@@ -582,19 +582,30 @@ class _CheckoutPageState extends State<CheckoutPage> {
         if (text == LocaleKeys.credit_card.tr()) {
           //credit card payment method
           setState(() {
-            isPayOnlineSelected = true;
-            _selectedValueIndex = index;
-            paymentMethod = 'O';
+            if(isOnlineAvailable == true) {
+              isPayOnlineSelected = true;
+              isPayCashSelected = false;
+              isPayDebitSelected = false;
+              _selectedValueIndex = index;
+              paymentMethod = 'O';
+            }
           });
         } else {
           if (text == LocaleKeys.postpaid.tr()) {
             setState(() {
               isPayDebitSelected = true;
+              isPayOnlineSelected = false;
+              isPayCashSelected = false;
+              isSuccess = true;
+
               paymentMethod = 'D';
               _selectedValueIndex = index;
             });
           } else {
             setState(() {
+              isPayOnlineSelected = false;
+              isPayDebitSelected = false;
+              isSuccess = true;
               _selectedValueIndex = index;
               isPayCashSelected = true;
               paymentMethod = 'C';

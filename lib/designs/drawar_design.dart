@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
@@ -132,10 +133,9 @@ Drawer drawerDesign(context) {
               context,
               MaterialPageRoute(
                   builder: (context) => BranchList(
-                    //  list: [],//branchListResponseModel.branches,
-                  )),
+                      //  list: [],//branchListResponseModel.branches,
+                      )),
             );
-
           },
         ),
         Divider(
@@ -393,7 +393,6 @@ Drawer drawerDesignWithName(context, String name, String email) {
         SizedBox(
           height: 10,
         ),
-
         ListTile(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -428,13 +427,12 @@ Drawer drawerDesignWithName(context, String name, String email) {
               context,
               MaterialPageRoute(
                   builder: (context) => BranchList(
-                    //  list: [],//branchListResponseModel.branches,
-                  )),
+                      //  list: [],//branchListResponseModel.branches,
+                      )),
             );
-
           },
         ),
-        Divider(
+/*        Divider(
           thickness: 2.5,
         ),
         ListTile(
@@ -474,7 +472,7 @@ Drawer drawerDesignWithName(context, String name, String email) {
               ),
             );
           },
-        ),
+        ),*/
         Divider(
           thickness: 2.5,
         ),
@@ -601,7 +599,7 @@ Drawer drawerDesignWithName(context, String name, String email) {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Version 0.1.1',
+                'Version ' + version,
                 style: TextStyle(
                   color: CustomColors().primaryGreenColor,
                   fontWeight: FontWeight.w400,
@@ -614,5 +612,3 @@ Drawer drawerDesignWithName(context, String name, String email) {
     ),
   );
 }
-
-

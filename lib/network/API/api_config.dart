@@ -97,5 +97,10 @@ abstract class RestClient {
 
   @POST(ApiConst.delete_product_from_cart_url)
   Future<dynamic> deleteProductFromCart(@Path()String productId);
+//--------------- orders ----------------
+  @GET(ApiConst.get_orders)
+  Future<dynamic> getOrders(@Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
+
+
 
 }
