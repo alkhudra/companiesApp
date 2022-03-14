@@ -68,8 +68,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
     nationalIDAddressController.text = widget.branchModel.nationalAddressNo!;
     phoneController.text = widget.branchModel.phoneNumber!;
     addressController.text = widget.branchModel.address!.toString();
-    //todo: edit to  widget.branchModel.city!
-   city = "widget.branchModel.city!";
+   city = widget.branchModel.city!;
 
     double lat = widget.branchModel.latitude!.toDouble();
     double lng = widget.branchModel.longitude!.toDouble();
@@ -83,9 +82,11 @@ class _EditBranchPageState extends State<EditBranchPage> {
     double scWidth = size.width;
     double scHeight = size.height;
     List<String> cities = [dropdownValue];
-    for(Cities c in widget.cities)
-      cities.add( widget.language == 'ar'? c.arCityName! : c.enCityName!);
-
+    for(Cities c in widget.cities) {
+      if(c.enCityName == city || c.arCityName == city)
+        city = widget.language == 'ar' ? c.arCityName! : c.enCityName!;
+      cities.add(widget.language == 'ar' ? c.arCityName! : c.enCityName!);
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: appBarWithActions(context, LocaleKeys.edit_branch.tr(), () {
@@ -167,8 +168,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField<String>(
-                    //todo: edit to city
-                    value: dropdownValue,
+                    value: city,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
