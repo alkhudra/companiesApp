@@ -3,6 +3,16 @@ import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 
 
+void openPDF(String path)async{
+  String filePath = path;
+  final Uri uri = Uri.file(filePath);
+
+  if (await File(uri.toFilePath()).exists()) {
+  if (!await launch(uri.toString())) {
+  throw 'Could not launch $uri';
+  }
+  }
+}
 
 void openTwitterApp(String address)async{
 

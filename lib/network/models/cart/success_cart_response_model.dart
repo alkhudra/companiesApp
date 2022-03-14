@@ -86,7 +86,7 @@ class CartProductsList {
   bool? _hasUserProductQuantityChanged;
   bool? _hasOriginalProductPriceChanged;
   bool? _hasSpecialProductPriceChanged;
-  ProductsModel? get productDto => _productDto;
+  ProductsModel? get productModel => _productDto;
   num? get totalProductPrice => _totalProductPrice;
   num? get userProductQuantity => _userProductQuantity;
   num? get totalProductVAT15 => _totalProductVAT15;

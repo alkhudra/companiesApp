@@ -192,4 +192,5 @@ abstract class LocaleKeys {
   static const go_to_cart = "go_to_cart";
   static const main_page = "main_page";
   static const order_no = "order_no";
+  static const display_invoice = "display_invoice";
 }

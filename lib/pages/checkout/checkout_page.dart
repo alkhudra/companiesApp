@@ -7,12 +7,22 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
+import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/order_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/cart/success_cart_response_model.dart';
 import 'package:khudrah_companies/network/models/cart/user_cart.dart';
+import 'package:khudrah_companies/network/models/orders/order_items.dart';
+import 'package:khudrah_companies/network/models/orders/submit_order_success_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/repository/order_repository.dart';
 import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/checkout/payment_page.dart';
@@ -81,14 +91,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
   BranchModel dropdownValue =
       BranchModel(branchName: LocaleKeys.select_branch.tr(), address: '----');
   int _selectedValueIndex = 0;
+
+  // for view
   bool isPayOnlineSelected = false;
   bool isPayDebitSelected = false;
   bool isPayCashSelected = true;
   bool isDebitAllow = true;
-  bool isSuccess = false;
   bool isOnlineAvailable = true;
 
-  Color onlineSelected = CustomColors().primaryWhiteColor;
+  // for api
+  bool isSuccess = false;
+  bool hasPaid = false;
   static late List<BranchModel> branches;
   String paymentMethod = 'C';
   @override
@@ -209,10 +222,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           payWithEmbeddedPayment();
                         else {
                           //  continue order ( api , show success page)
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return OrderCompletedPage(isSuccess: isSuccess);
-                          }));
+                          OrderHelper.callApi(context, widget.userCart!, selectedBranch, hasPaid, paymentMethod);
                         }
                       } else {
                         showErrorMessageDialog(
@@ -441,7 +451,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print("Response: " + result.response!.toJson().toString());
                     _response = result.response!.toJson().toString();
                     // continue order ( api , show success page)
+                  setState(() {
                     isSuccess = true;
+                    hasPaid = true;
+                  });
+
+                  //  callApi(context,widget.userCart!);
                   })
                 }
               else
@@ -451,7 +466,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print("Error: " + result.error!.toJson().toString());
                     _response = result.error!.message!;
                     isSuccess = false;
-
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return OrderCompletedPage(isSuccess: false);
+                        }));
                     // continue order (  show fail page)
                   })
                 }
@@ -522,6 +540,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   ///********
   ///
+  ///api  methods
+  ///
+  ///********
+
+
+  ///********
+  ///
   ///general  methods
   ///
   ///********
@@ -529,12 +554,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
 
-    // TODO, don't forget to init the MyFatoorah Plugin with the following line
-    MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
-    // (Optional) un comment the following lines if you want to set up properties of AppBar.
-    initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
-    initiateSession();
-    // MFSDK.setUpAppBar(isShowAppBar: false);
+    if(isPayOnlineSelected == true) {
+      setState(() {
+        // TODO, don't forget to init the MyFatoorah Plugin with the following line
+        MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
+        // (Optional) un comment the following lines if you want to set up properties of AppBar.
+        initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
+        initiateSession();
+        // MFSDK.setUpAppBar(isShowAppBar: false);
+      });
+    }
   }
   //------------------------
 
@@ -581,15 +610,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
         //could be converted to a switch case if needed
         if (text == LocaleKeys.credit_card.tr()) {
           //credit card payment method
-          setState(() {
-            if(isOnlineAvailable == true) {
+          if (addressController.text != '') {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) {
+                  return PaymentPage(userCart: widget.userCart,
+                    language: widget.language,
+                    branchModel: selectedBranch,);
+                }));
+          }else {
+            showErrorMessageDialog(
+                context, LocaleKeys.select_branch_note.tr());
+          }
+/*          setState(() {
+            if (isOnlineAvailable == true) {
               isPayOnlineSelected = true;
               isPayCashSelected = false;
               isPayDebitSelected = false;
               _selectedValueIndex = index;
               paymentMethod = 'O';
             }
-          });
+          });*/
         } else {
           if (text == LocaleKeys.postpaid.tr()) {
             setState(() {
@@ -597,7 +637,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               isPayOnlineSelected = false;
               isPayCashSelected = false;
               isSuccess = true;
-
+              hasPaid = false;
               paymentMethod = 'D';
               _selectedValueIndex = index;
             });
@@ -606,6 +646,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               isPayOnlineSelected = false;
               isPayDebitSelected = false;
               isSuccess = true;
+              hasPaid = false;
               _selectedValueIndex = index;
               isPayCashSelected = true;
               paymentMethod = 'C';

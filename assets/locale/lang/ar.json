@@ -179,5 +179,6 @@
   "display_order": "عرض تفاصيل الطلب ",
   "go_to_cart": "الذهاب للسلة",
   "main_page": "الصفحة الرئيسية",
-  "order_no": "رقم الطلب "
+  "order_no": "رقم الطلب ",
+  "display_invoice": "عرض الفاتورة"
 }

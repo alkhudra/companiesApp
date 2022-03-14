@@ -73,7 +73,7 @@ Widget cartTotalDesign(num total) {
 
 Widget cartTile(BuildContext context, String language,
     List<CartProductsList?> list, int index, Function() messageAction) {
-  ProductsModel model = list[index]!.productDto!;
+  ProductsModel model = list[index]!.productModel!;
   Size size = MediaQuery.of(context).size;
   double scWidth = size.width;
   double scHeight = size.height;
@@ -87,7 +87,7 @@ Widget cartTile(BuildContext context, String language,
 
   bool? isQtyChanged = list[index]!.hasUserProductQuantityChanged;
   num? userQty = list[index]!.userProductQuantity! !=null ? list[index]!.userProductQuantity! : 0;
-  num stockQty = list[index]!.productDto!.quantity!;
+  num stockQty = list[index]!.productModel!.quantity!;
 
   num productTotal = list[index]!.totalProductPrice!=null ? list[index]!.totalProductPrice! : 0;
   bool isAvailable = model.isAvailabe!;

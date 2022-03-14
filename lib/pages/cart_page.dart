@@ -148,7 +148,7 @@ class _CartPageState extends State<CartPage> {
                                 label: LocaleKeys.delete_from_cart.tr(),
                                 onPressed: (BuildContext context) {
                                   productId =
-                                      list[index].productDto!.productId!;
+                                      list[index].productModel!.productId!;
                                   deleteFromCart(context, index, productId);
                                 },
                               )

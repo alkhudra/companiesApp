@@ -11,8 +11,19 @@ const waiting_approval = "waiting_approval";
 const registered = "registered";
 
 const listItemsCount = 3;
-const addToCartConst= 'addToCart';
-const addQtyToCartConst= 'addQtyToCart';
-const deleteFromCartConst= 'deleteFromCart';
-const deleteQtyFromCartConst= 'deleteQtyFromCart';
+const addToCartConst = 'addToCart';
+const addQtyToCartConst = 'addQtyToCart';
+const deleteFromCartConst = 'deleteFromCart';
+const deleteQtyFromCartConst = 'deleteQtyFromCart';
+
+const underProcess = "under_process";
+
+
+
+const cash = 'C';
+const credit = 'R';
+const visa = 'V';
+const stcPay = 'S';
+const applePay = 'A';
+
 

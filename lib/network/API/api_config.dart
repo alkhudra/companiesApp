@@ -101,6 +101,7 @@ abstract class RestClient {
   @GET(ApiConst.get_orders)
   Future<dynamic> getOrders(@Query('PageNumber') int PageNumber, @Query('PageSize') int  PageSize);
 
-
+  @POST(ApiConst.submit_order)
+  Future<dynamic> submitOrder(@Body() Map<String, dynamic> hashMap);
 
 }
