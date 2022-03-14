@@ -193,4 +193,9 @@ abstract class LocaleKeys {
   static const main_page = "main_page";
   static const order_no = "order_no";
   static const display_invoice = "display_invoice";
+  static const under_process = "under_process";
+  static const on_delivery = "on_delivery";
+  static const completed_order = "completed_order";
+  static const no_current_orders="no_current_orders";
+  static const no_finished_orders  ="no_finished_orders";
 }

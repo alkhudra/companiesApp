@@ -180,5 +180,10 @@
   "go_to_cart": "الذهاب للسلة",
   "main_page": "الصفحة الرئيسية",
   "order_no": "رقم الطلب ",
-  "display_invoice": "عرض الفاتورة"
+  "display_invoice": "عرض الفاتورة",
+  "under_process": "قيد المراجعة",
+  "on_delivery": "في الطريق",
+  "completed_order": "تم التوصيل",
+  "no_current_orders": "لا يوجد لديك طلبات حالية",
+  "no_finished_orders": "لا يوجد لديك طلبات منتهية "
 }

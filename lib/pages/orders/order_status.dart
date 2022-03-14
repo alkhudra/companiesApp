@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -13,7 +14,8 @@ import '../../helpers/custom_btn.dart';
 import '../../network/models/cart/success_cart_response_model.dart';
 
 class OrderStatus extends StatefulWidget {
-  const OrderStatus({ Key? key }) : super(key: key);
+  final OrderHeader orderModel;
+  const OrderStatus({ Key? key ,required this.orderModel}) : super(key: key);
 
   @override
   _OrderStatusState createState() => _OrderStatusState();
