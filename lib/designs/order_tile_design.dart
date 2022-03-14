@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 
 import '../pages/orders/order_status.dart';
@@ -27,12 +28,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
       child: GestureDetector(
         onTap: () {
           // navigate to order status page
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => OrderStatus(
-                        orderModel: model,
-                      )));
+          directToOrderDetails(context,model);
         },
         child: Stack(
           children: [
@@ -126,4 +122,16 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
       ),
     ),
   );
+}
+
+void directToOrderDetails(context,model)async {
+  String language = await PreferencesHelper.getSelectedLanguage;
+
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => OrderDetails(
+            orderModel: model,
+            language:language ,
+          )));
 }

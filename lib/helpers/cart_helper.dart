@@ -78,7 +78,8 @@ Widget cartTile(BuildContext context, String language,
   double scWidth = size.width;
   double scHeight = size.height;
 
-  num? price = model.hasSpecialPrice!? model.specialPrice :model.originalPrice ;
+  num? price =
+      model.hasSpecialPrice! ? model.specialPrice : model.originalPrice;
   String? name = language == 'ar' ? model.arName : model.name;
 
   bool? isPriceChanged = model.hasSpecialPrice == true
@@ -86,23 +87,22 @@ Widget cartTile(BuildContext context, String language,
       : list[index]!.hasOriginalProductPriceChanged;
 
   bool? isQtyChanged = list[index]!.hasUserProductQuantityChanged;
-  num? userQty = list[index]!.userProductQuantity! !=null ? list[index]!.userProductQuantity! : 0;
+  num? userQty = list[index]!.userProductQuantity! != null
+      ? list[index]!.userProductQuantity!
+      : 0;
   num stockQty = list[index]!.productModel!.quantity!;
 
-  num productTotal = list[index]!.totalProductPrice!=null ? list[index]!.totalProductPrice! : 0;
+  num productTotal = list[index]!.totalProductPrice != null
+      ? list[index]!.totalProductPrice!
+      : 0;
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
-  Color containerColor =
-      isDeleted == false && isAvailable == true && userQty <= stockQty
-          ? CustomColors().primaryWhiteColor
-          : CustomColors().grayColor;
+
   String priceMessage = isPriceChanged == true
       ? LocaleKeys.cart_price_changed_note.tr()
       : isQtyChanged == true
           ? LocaleKeys.cart_qty_changed_note.tr()
           : LocaleKeys.cart_qty_price_changed_note.tr();
-
-
 
   //String qtyMessage = isQtyChanged ? LocaleKeys.cart_qty_changed_note : '';
   return Column(children: [
@@ -160,7 +160,7 @@ Widget cartTile(BuildContext context, String language,
             },
             child: Container(
               width: double.infinity,
-              height: scHeight*0.1,
+              height: scHeight * 0.1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -193,9 +193,8 @@ Widget cartTile(BuildContext context, String language,
                         child: Text(
                           '$name',
                           style: TextStyle(
-                            color: CustomColors().brownColor,
-                            fontWeight: FontWeight.w600
-                          ),
+                              color: CustomColors().brownColor,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
 
@@ -329,8 +328,9 @@ Widget cartTile(BuildContext context, String language,
               ),
             ),
           ),
-          SizedBox(height: 10,),
-
+          SizedBox(
+            height: 10,
+          ),
         ],
       ),
     ),
@@ -359,24 +359,26 @@ Widget addToCartBtnContainer(BuildContext context,
     onDecreaseBtnClicked,
     onBtnClicked}) {
   return Container(
-    margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 10),
       child:
           productsModel.isDeleted == false && productsModel.isAvailabe == true
-          //show add to cart options
+              //show add to cart options
               ? productsModel.isAddedToCart == false && userQty == 0
-              //show cart button
+                  //show cart button
                   ? cartBtn(
                       Icons.shopping_cart,
                       // LocaleKeys.add_cart.tr(),
                       EdgeInsets.symmetric(horizontal: 5),
                       onBtnClicked)
-                      //show counter
+                  //show counter
                   : qtyContainer(context, userQty, onDeleteBtnClicked,
                       onIncreaseBtnClicked, onDecreaseBtnClicked)
-                      //show product unavailable
-              : unAvailableBtn(LocaleKeys.not_available_product.tr(),
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 2), 
-                  MediaQuery.of(context).size.height*0.04, 11.6));
+              //show product unavailable
+              : unAvailableBtn(
+                  LocaleKeys.not_available_product.tr(),
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+                  MediaQuery.of(context).size.height * 0.04,
+                  11.6));
 }
 
 qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,

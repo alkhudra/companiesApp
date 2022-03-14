@@ -196,6 +196,7 @@ abstract class LocaleKeys {
   static const under_process = "under_process";
   static const on_delivery = "on_delivery";
   static const completed_order = "completed_order";
-  static const no_current_orders="no_current_orders";
-  static const no_finished_orders  ="no_finished_orders";
+  static const no_current_orders = "no_current_orders";
+  static const no_finished_orders = "no_finished_orders";
+  static const items = "items";
 }

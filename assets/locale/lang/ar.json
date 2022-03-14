@@ -183,7 +183,8 @@
   "display_invoice": "عرض الفاتورة",
   "under_process": "قيد المراجعة",
   "on_delivery": "في الطريق",
-  "completed_order": "تم التوصيل",
+  "completed_order": "تم التوصيل!",
   "no_current_orders": "لا يوجد لديك طلبات حالية",
-  "no_finished_orders": "لا يوجد لديك طلبات منتهية "
+  "no_finished_orders": "لا يوجد لديك طلبات منتهية ",
+  "items": "منتجات "
 }
