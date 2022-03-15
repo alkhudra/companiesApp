@@ -182,7 +182,6 @@ class _PaymentPageState extends State<PaymentPage> {
   ///********
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // TODO, don't forget to init the MyFatoorah Plugin with the following line
     MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);

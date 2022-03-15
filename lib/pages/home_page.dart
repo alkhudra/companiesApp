@@ -13,6 +13,7 @@ import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
+import 'package:khudrah_companies/helpers/image_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
@@ -141,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                       height: scHeight * 0.1,
                       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                       child: GestureDetector(
-                        child: ProductCard.categoryImage(
+                        child: ImageHelper.categoryImage(
                             categoryList[index].image),
                         onTap: () {
                           if (index != 0) {

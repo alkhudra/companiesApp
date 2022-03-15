@@ -104,7 +104,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               background: GestureDetector(
                 child: model.image != null
                     ? Image.network(
-                        ApiConst.images_url + model.image!,
+                        ApiConst.dashboard_url + model.image!,
                         fit: BoxFit.fill,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {

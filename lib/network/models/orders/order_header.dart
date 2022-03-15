@@ -1,30 +1,33 @@
-import 'order_items.dart';
 
+import 'package:khudrah_companies/network/models/orders/driver_user.dart';
+import 'package:khudrah_companies/network/models/orders/order_items.dart';
 
 class OrderHeader {
   OrderHeader({
-    num? id,
-    String? companyId,
-    String? branchId,
-    String? warehouseCode,
-    String? orderStatus,
-    String? orderCheckCode,
-    num? invoiceNumber,
-    String? orderInitializedDate,
-    String? onDeliveryStatusDate,
-    String? deliveredStatusDate,
-    String? driverId,
-    dynamic driverUser,
-    String? paymentType,
-    bool? hasPaid,
-    String? paymentDeadLine,
-    num? totalOrderPrice,
-    num? totalNetOrderPrice,
-    num? totalOrderVAT15,
-    bool? hasDiscount,
-    num? discountPercentage,
-    num? totalDiscount,
-    List<OrderItems>? orderItems,}){
+      num? id, 
+      String? companyId, 
+      String? branchId, 
+      String? warehouseCode, 
+      String? orderStatus, 
+      String? orderCheckCode, 
+      num? invoiceNumber, 
+      String? orderInitializedDate, 
+      String? onDeliveryStatusDate, 
+      String? deliveredStatusDate, 
+      String? driverId, 
+      DriverUser? driverUser, 
+      String? paymentType, 
+      bool? hasPaid, 
+      String? paymentDeadLine, 
+      num? totalOrderPrice, 
+      num? totalNetOrderPrice, 
+      num? totalOrderVAT15, 
+      bool? hasDiscount, 
+      num? discountPercentage, 
+      num? totalDiscount, 
+      String? invoicePDFPath, 
+      bool? hasOrderCreatedFromDashboard,
+      List<OrderItems>? orderItems,}){
     _id = id;
     _companyId = companyId;
     _branchId = branchId;
@@ -46,8 +49,10 @@ class OrderHeader {
     _hasDiscount = hasDiscount;
     _discountPercentage = discountPercentage;
     _totalDiscount = totalDiscount;
+    _invoicePDFPath = invoicePDFPath;
+    _hasOrderCreatedFromDashboard = hasOrderCreatedFromDashboard;
     _orderItems = orderItems;
-  }
+}
 
   OrderHeader.fromJson(dynamic json) {
     _id = json['id'];
@@ -61,7 +66,7 @@ class OrderHeader {
     _onDeliveryStatusDate = json['onDeliveryStatusDate'];
     _deliveredStatusDate = json['deliveredStatusDate'];
     _driverId = json['driverId'];
-    _driverUser = json['driverUser'];
+    _driverUser = json['driverUser'] != null ? DriverUser.fromJson(json['driverUser']) : null;
     _paymentType = json['paymentType'];
     _hasPaid = json['hasPaid'];
     _paymentDeadLine = json['paymentDeadLine'];
@@ -71,6 +76,8 @@ class OrderHeader {
     _hasDiscount = json['hasDiscount'];
     _discountPercentage = json['discountPercentage'];
     _totalDiscount = json['totalDiscount'];
+    _invoicePDFPath = json['invoicePDFPath'];
+    _hasOrderCreatedFromDashboard = json['orderCreatedFromDashboard'];
     if (json['orderItems'] != null) {
       _orderItems = [];
       json['orderItems'].forEach((v) {
@@ -89,7 +96,7 @@ class OrderHeader {
   String? _onDeliveryStatusDate;
   String? _deliveredStatusDate;
   String? _driverId;
-  dynamic _driverUser;
+  DriverUser? _driverUser;
   String? _paymentType;
   bool? _hasPaid;
   String? _paymentDeadLine;
@@ -99,6 +106,8 @@ class OrderHeader {
   bool? _hasDiscount;
   num? _discountPercentage;
   num? _totalDiscount;
+  String? _invoicePDFPath;
+  bool? _hasOrderCreatedFromDashboard;
   List<OrderItems>? _orderItems;
 
   num? get id => _id;
@@ -112,7 +121,7 @@ class OrderHeader {
   String? get onDeliveryStatusDate => _onDeliveryStatusDate;
   String? get deliveredStatusDate => _deliveredStatusDate;
   String? get driverId => _driverId;
-  dynamic get driverUser => _driverUser;
+  DriverUser? get driverUser => _driverUser;
   String? get paymentType => _paymentType;
   bool? get hasPaid => _hasPaid;
   String? get paymentDeadLine => _paymentDeadLine;
@@ -122,6 +131,8 @@ class OrderHeader {
   bool? get hasDiscount => _hasDiscount;
   num? get discountPercentage => _discountPercentage;
   num? get totalDiscount => _totalDiscount;
+  String? get invoicePDFPath => _invoicePDFPath;
+  bool? get hasOrderCreatedFromDashboard => _hasOrderCreatedFromDashboard;
   List<OrderItems>? get orderItems => _orderItems;
 
   Map<String, dynamic> toJson() {
@@ -137,7 +148,9 @@ class OrderHeader {
     map['onDeliveryStatusDate'] = _onDeliveryStatusDate;
     map['deliveredStatusDate'] = _deliveredStatusDate;
     map['driverId'] = _driverId;
-    map['driverUser'] = _driverUser;
+    if (_driverUser != null) {
+      map['driverUser'] = _driverUser?.toJson();
+    }
     map['paymentType'] = _paymentType;
     map['hasPaid'] = _hasPaid;
     map['paymentDeadLine'] = _paymentDeadLine;
@@ -147,6 +160,8 @@ class OrderHeader {
     map['hasDiscount'] = _hasDiscount;
     map['discountPercentage'] = _discountPercentage;
     map['totalDiscount'] = _totalDiscount;
+    map['invoicePDFPath'] = _invoicePDFPath;
+    map['orderCreatedFromDashboard'] = _hasOrderCreatedFromDashboard;
     if (_orderItems != null) {
       map['orderItems'] = _orderItems?.map((v) => v.toJson()).toList();
     }
@@ -154,3 +169,6 @@ class OrderHeader {
   }
 
 }
+
+
+

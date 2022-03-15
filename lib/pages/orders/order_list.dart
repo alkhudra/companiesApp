@@ -14,7 +14,7 @@ import 'package:khudrah_companies/network/models/orders/get_orders_response_mode
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/order_items.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
-import 'package:khudrah_companies/pages/orders/order_status.dart';
+import 'package:khudrah_companies/pages/orders/order_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:lottie/lottie.dart';
 

@@ -7,6 +7,10 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
+import 'package:khudrah_companies/helpers/contact_helper.dart';
+import 'package:khudrah_companies/helpers/image_helper.dart';
+import 'package:khudrah_companies/helpers/order_helper.dart';
+import 'package:khudrah_companies/network/models/orders/driver_user.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/order_items.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -49,7 +53,9 @@ class _OrderDetailsState extends State<OrderDetails> {
     double scHeight = size.height;
 
     OrderHeader model = widget.orderModel;
-
+    DriverUser driverUser = DriverUser();
+    if (widget.orderModel.driverUser != null)
+      driverUser = widget.orderModel.driverUser!;
     return Scaffold(
       appBar: appBarDesign(context, LocaleKeys.order_status.tr()),
       body: model.orderStatus == onDelivery
@@ -61,7 +67,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                 topLeft: Radius.circular(40),
                 topRight: Radius.circular(40),
               ),
-              //todo: driver info
               panel: Container(
                 height: MediaQuery.of(context).size.height * 0.14,
                 child: Column(
@@ -97,15 +102,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             //driver profile pic
-                            Container(
-                              child: Icon(
-                                Icons.person_pin_rounded,
-                                color: CustomColors()
-                                    .darkGrayColor
-                                    .withOpacity(0.3),
-                                size: 55,
-                              ),
-                            ),
+                          ImageHelper.driverImage(driverUser.image),
                             SizedBox(
                               width: 20,
                             ),
@@ -115,7 +112,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 //driver name
                                 Container(
                                   child: Text(
-                                    'Driver Name',
+                                    driverUser.driverName != null
+                                        ? driverUser.driverName!
+                                        : '',
                                     style: TextStyle(
                                         color: CustomColors().darkBlueColor,
                                         fontSize: 16,
@@ -128,7 +127,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 //driver number
                                 Container(
                                   child: Text(
-                                    '05********',
+                                    driverUser.phoneNumber != null
+                                        ? driverUser.phoneNumber!
+                                        : '',
                                     style: TextStyle(
                                         color: CustomColors()
                                             .darkGrayColor
@@ -153,7 +154,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 color: CustomColors().primaryWhiteColor,
                                 size: 24,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                directToPhoneCall(driverUser.phoneNumber != null
+                                    ? driverUser.phoneNumber!
+                                    : '');
+                              },
                             ))
                       ],
                     ),
@@ -185,7 +190,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 Container(
                   width: 75,
                   height: 75,
-                  child: ProductCard.productImage(null),
+                  child: ImageHelper.productImage(item.product!.image),
                 ),
                 //category, name and price
                 Column(
@@ -194,7 +199,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                   children: [
                     Container(
                       child: Text(
-                        'name',
+                        widget.language == "ar"
+                            ? item.product!.arName!
+                            : item.product!.name!,
                         style: TextStyle(
                             color: CustomColors().brownColor,
                             fontWeight: FontWeight.w600),
@@ -565,11 +572,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                           statusChange(
                               LocaleKeys.on_delivery.tr(),
                               model.orderStatus == onDelivery,
-                              model.orderStatus == completed),
+                              model.orderStatus == delivered),
                           statusChange(
                               LocaleKeys.completed_order.tr(),
-                              model.orderStatus == completed,
-                              model.orderStatus == completed),
+                              model.orderStatus == delivered,
+                              model.orderStatus == delivered),
                         ],
                       ),
                     ],
@@ -770,7 +777,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                           width: 50,
                           height: 50,
                           child: Image.asset('images/ic_file_pdf.png')),
-                      onTap: () {},
+                      onTap: () {
+                        print(widget.orderModel.invoicePDFPath!);
+                        OrderHelper.displayInvoice(
+                            widget.orderModel.invoicePDFPath!,
+                            widget.orderModel.hasOrderCreatedFromDashboard!);
+                      },
                     ),
                   ],
                 ),

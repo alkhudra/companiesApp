@@ -10,16 +10,15 @@ const waiting_confirmation = "waiting_confirmation";
 const waiting_approval = "waiting_approval";
 const registered = "registered";
 
-const listItemsCount = 10;
+const listItemsCount = 30;
 const addToCartConst = 'addToCart';
 const addQtyToCartConst = 'addQtyToCart';
 const deleteFromCartConst = 'deleteFromCart';
 const deleteQtyFromCartConst = 'deleteQtyFromCart';
 
 const underProcess = "under_process";
-//todo: edit status
 const onDelivery = "on_delivery";
-const completed = "completed";
+const delivered = "delivered";
 
 
 const cash = 'C';

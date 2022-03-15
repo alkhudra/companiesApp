@@ -4,7 +4,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 
-import '../pages/orders/order_status.dart';
+import '../pages/orders/order_details.dart';
 import '../resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 

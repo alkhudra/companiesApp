@@ -5,7 +5,7 @@ import 'package:khudrah_companies/pages/notifications_page.dart';
 import 'package:khudrah_companies/pages/cart_page.dart';
 import 'package:khudrah_companies/pages/favorites_page.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
-import 'package:khudrah_companies/pages/orders/my_orders.dart';
+import 'package:khudrah_companies/pages/orders/order_list.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class DashboardPage extends StatefulWidget {

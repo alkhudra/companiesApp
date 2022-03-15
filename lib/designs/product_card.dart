@@ -5,6 +5,7 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
+import 'package:khudrah_companies/helpers/image_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -63,7 +64,7 @@ class ProductCard {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.17,
                       height: MediaQuery.of(context).size.height * 0.17,
-                      child: productImage(productModel.image),
+                      child: ImageHelper.productImage(productModel.image),
                     ),
                     SizedBox(
                       width: 10,
@@ -274,7 +275,7 @@ class ProductCard {
                   Container(
                     width: scWidth * 0.18,
                     height: scHeight * 0.1,
-                    child: ProductCard.productImage(productModel.image),
+                    child: ImageHelper.productImage(productModel.image),
                   ),
                   //name
                   Container(
@@ -434,34 +435,5 @@ class ProductCard {
     isDecreaseBtnEnabled = true;
   }
 
-  static productImage(String? imageUrl) {
-    return imageUrl != null
-        ? Image.network(
-            ApiConst.images_url + imageUrl,
-            errorBuilder: (BuildContext context, Object exception,
-                StackTrace? stackTrace) {
-              return Image.asset('images/green_fruit.png');
-            },
-          )
-        : Image.asset('images/green_fruit.png');
-  }
-
-//--------------------- 
-
-  static categoryImage(String? imageUrl) {
-    return imageUrl != null
-        ? WidgetMask(
-          blendMode: BlendMode.srcATop,
-          childSaveLayer: true,
-          mask: Image.network(ApiConst.images_url + imageUrl, fit: BoxFit.cover, 
-                      errorBuilder: (BuildContext context, Object exception,
-                StackTrace? stackTrace) {
-              return Image.asset('images/green_fruit.png');
-            },
-          ),
-          child: Image.asset('images/product_mask.png', width: 350,),
-        )
-        : Image.asset('images/green_fruit.png');
-  }
 
 }

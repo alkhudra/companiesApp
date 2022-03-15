@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/image_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
@@ -168,7 +169,7 @@ Widget cartTile(BuildContext context, String language,
                   Container(
                     width: 75,
                     height: 75,
-                    child: ProductCard.productImage(model.image),
+                    child: ImageHelper.productImage(model.image),
                   ),
                   //category, name and price
                   Column(

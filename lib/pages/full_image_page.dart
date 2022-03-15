@@ -17,7 +17,7 @@ class _FullImagePageState extends State<FullImagePage> {
       body: SafeArea(
         child: Center(
           child: FittedBox(
-            child: Image.network(ApiConst.images_url + widget.imageUrl,
+            child: Image.network(ApiConst.dashboard_url + widget.imageUrl,
               fit: BoxFit.cover,
 
               errorBuilder: (BuildContext context, Object exception,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -638,7 +639,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               isPayCashSelected = false;
               isSuccess = true;
               hasPaid = false;
-              paymentMethod = 'D';
+              paymentMethod = credit;
               _selectedValueIndex = index;
             });
           } else {
@@ -649,7 +650,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               hasPaid = false;
               _selectedValueIndex = index;
               isPayCashSelected = true;
-              paymentMethod = 'C';
+              paymentMethod = cash;
             });
           }
         }

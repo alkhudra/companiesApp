@@ -4,7 +4,9 @@ import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/contact_helper.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/order_helper.dart';
 import 'package:khudrah_companies/helpers/route_helper.dart';
+import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/submit_order_success_response_model.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -82,7 +84,7 @@ class _OrderCompletedPageState extends State<OrderCompletedPage> {
 
                   GestureDetector(
                     onTap: () {
-                      displayInvoice();
+                     OrderHelper. displayInvoice(widget.model!.orderHeader!.invoicePDFPath!,widget.model!.orderHeader!.hasOrderCreatedFromDashboard!);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -119,8 +121,5 @@ class _OrderCompletedPageState extends State<OrderCompletedPage> {
     );
   }
 
-  void displayInvoice() async{
 
-    openURL( widget.model!.invoicePDFPath!);
-  }
 }

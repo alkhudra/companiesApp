@@ -1,7 +1,9 @@
+import 'package:khudrah_companies/network/models/product/product_model.dart';
+
 class OrderItems {
   OrderItems({
     String? id,
-    String? productId,
+    ProductsModel? product,
     String? userId,
     num? orderedProductPrice,
     num? orderedNetProductPrice,
@@ -9,10 +11,9 @@ class OrderItems {
     num? totalProductPrice,
     num? totalNetProductPrice,
     num? totalProductVAT15,
-    num? orderHeaderId,
-  }) {
+    num? orderHeaderId,}){
     _id = id;
-    _productId = productId;
+    _product = product;
     _userId = userId;
     _orderedProductPrice = orderedProductPrice;
     _orderedNetProductPrice = orderedNetProductPrice;
@@ -25,7 +26,7 @@ class OrderItems {
 
   OrderItems.fromJson(dynamic json) {
     _id = json['id'];
-    _productId = json['productId'];
+    _product = json['product'] != null ? ProductsModel.fromJson(json['product']) : null;
     _userId = json['userId'];
     _orderedProductPrice = json['orderedProductPrice'];
     _orderedNetProductPrice = json['orderedNetProductPrice'];
@@ -36,7 +37,7 @@ class OrderItems {
     _orderHeaderId = json['orderHeaderId'];
   }
   String? _id;
-  String? _productId;
+  ProductsModel? _product;
   String? _userId;
   num? _orderedProductPrice;
   num? _orderedNetProductPrice;
@@ -47,7 +48,7 @@ class OrderItems {
   num? _orderHeaderId;
 
   String? get id => _id;
-  String? get productId => _productId;
+  ProductsModel? get product => _product;
   String? get userId => _userId;
   num? get orderedProductPrice => _orderedProductPrice;
   num? get orderedNetProductPrice => _orderedNetProductPrice;
@@ -60,7 +61,9 @@ class OrderItems {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
-    map['productId'] = _productId;
+    if (_product != null) {
+      map['product'] = _product?.toJson();
+    }
     map['userId'] = _userId;
     map['orderedProductPrice'] = _orderedProductPrice;
     map['orderedNetProductPrice'] = _orderedNetProductPrice;
@@ -71,6 +74,7 @@ class OrderItems {
     map['orderHeaderId'] = _orderHeaderId;
     return map;
   }
+
 }
 
 class SubmitOrderItems {
