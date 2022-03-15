@@ -12,15 +12,22 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
   String orderStatus = '';
   String orderDate = '';
 
+  //todo: edit statusColor
+  Color statusColor ;
   if (model.orderStatus == underProcess) {
     orderDate = model.orderInitializedDate!;
     orderStatus = LocaleKeys.under_process.tr();
+    statusColor = CustomColors().brownColor;
   } else if (model.orderStatus == onDelivery) {
     orderDate = model.onDeliveryStatusDate!;
     orderStatus = LocaleKeys.on_delivery.tr();
+    statusColor = CustomColors().brownColor;
+
   } else {
     orderDate = model.deliveredStatusDate!;
     orderStatus = LocaleKeys.completed_order.tr();
+    statusColor = CustomColors().brownColor;
+
   }
 
   return ListTile(
@@ -38,7 +45,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
                 child: Container(
                   width: 6,
                   height: scHeight * 0.12,
-                  color: CustomColors().primaryGreenColor,
+                  color:statusColor,
                 )),
             //background container
             Container(
@@ -48,7 +55,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
               height: scHeight * 0.12,
               // scHeight*0.12
               decoration: BoxDecoration(
-                border: Border.all(color: CustomColors().primaryGreenColor),
+                border: Border.all(color: statusColor),
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(50),
                   bottomRight: Radius.circular(50),
@@ -108,7 +115,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
                     child: Text(
                       orderStatus,
                       style: TextStyle(
-                        color: CustomColors().darkBlueColor,
+                        color: statusColor,
                         fontWeight: FontWeight.w400,
                         fontSize: 19,
                       ),

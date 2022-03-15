@@ -6,6 +6,7 @@ import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/order_tile_design.dart';
+import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
@@ -30,7 +31,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   late TabController _tabController;
   int pageNumber = 1;
   int pageSize = listItemsCount;
-
+ // List<OrderHeader> list = [];
+  bool isThereMoreItems = false;
+  List<OrderHeader> orderList = [];
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
@@ -60,20 +63,44 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       endDrawer: drawerDesign(context),
     );
   }
+//---------------------
 
   pageDesign(BuildContext context, GetOrdersResponseModel model) {
-    List<OrderHeader> currentOrder = [], finishedOrder = [];
+/*    List<OrderHeader> currentOrder = [], finishedOrder = [];
     for (OrderHeader orderItems in model.orderList) {
       if (orderItems.orderStatus == delivered) {
         finishedOrder.add(orderItems);
       } else {
         currentOrder.add(orderItems);
       }
-    }
+    }*/
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    return Column(
+
+    return Container(
+      child: Column(
+        children: [
+          Expanded(
+            child: orderList.length > 0
+                ? ListView.builder(
+              itemBuilder: ((context, index) {
+                return orderTileDesign(
+                    context, orderList[index], scWidth, scHeight);
+              }),
+              itemCount: orderList.length,
+            )
+                : noItemDesign(
+                LocaleKeys.no_finished_orders.tr(), 'images/not_found.png'),
+          ),
+
+          if (isThereMoreItems == true)
+            loadMoreBtn(context, loadMoreInfo),
+          SizedBox(height: 20,),
+        ],
+      ),
+    );
+ /*   return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -154,9 +181,16 @@ class _MyOrdersPageState extends State<MyOrdersPage>
           ),
         ),
       ],
-    );
+    );*/
   }
+//---------------------
 
+  loadMoreInfo() async {
+    setState(() {
+      pageNumber++;
+    });
+
+  }
   //--------------------------
   Future<GetOrdersResponseModel> getListData() async {
     Map<String, dynamic> headerMap = await getHeaderMap();
@@ -170,6 +204,21 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       GetOrdersResponseModel? responseModel =
           GetOrdersResponseModel.fromJson(apiResponse.result);
 
+    //  orderList = responseModel.orderList;
+      if (pageNumber == 1) orderList = responseModel.orderList;
+      else  orderList.addAll(responseModel.orderList);
+
+      if (responseModel.orderList.length > 0) {
+        if (responseModel.orderList.length < listItemsCount) {
+          isThereMoreItems = false;
+        }else {
+          isThereMoreItems = true;
+        }
+
+      }else{
+        isThereMoreItems = false;
+        pageNumber = 1;
+      }
       //-----------------------------------
       return responseModel;
     } else {
