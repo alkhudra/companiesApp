@@ -385,6 +385,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       (index) => payButton(
                           index: index,
                           text: payMethod[index],
+                          color:  index == _selectedValueIndex
+                              ? CustomColors().primaryGreenColor
+                              : CustomColors().darkGrayColor.withOpacity(0.6),
                           iconData: iconList[index]),
                     ),
                   ],
@@ -569,44 +572,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   //------------------------
 
   Widget payButton(
-      {required String text, required IconData iconData, required int index}) {
+      {required String text, required IconData iconData, required int index,color}) {
     return InkWell(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.27,
-        height: MediaQuery.of(context).size.height * 0.094,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(
-                color: index == _selectedValueIndex
-                    ? CustomColors().primaryGreenColor
-                    : CustomColors().darkGrayColor.withOpacity(0.6))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              iconData,
-              color: index == _selectedValueIndex
-                  ? CustomColors().primaryGreenColor
-                  : CustomColors().darkGrayColor.withOpacity(0.5),
-              size: 25,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: Text(
-                text,
-                style: TextStyle(
-                    color: index == _selectedValueIndex
-                        ? CustomColors().primaryGreenColor
-                        : CustomColors().darkGrayColor.withOpacity(0.7),
-                    fontSize: 13),
-              ),
-            )
-          ],
-        ),
-      ),
+      child: payButtonDesign(context,color, text, iconData),
       onTap: () {
         //could be converted to a switch case if needed
         if (text == LocaleKeys.credit_card.tr()) {

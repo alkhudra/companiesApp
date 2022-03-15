@@ -199,4 +199,7 @@ abstract class LocaleKeys {
   static const no_current_orders = "no_current_orders";
   static const no_finished_orders = "no_finished_orders";
   static const items = "items";
+  static const apple_pay = "apple_pay";
+  static const stc_pay = "stc_pay";
+  static const pay_now = "pay_now";
 }

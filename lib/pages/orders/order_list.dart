@@ -64,7 +64,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   pageDesign(BuildContext context, GetOrdersResponseModel model) {
     List<OrderHeader> currentOrder = [], finishedOrder = [];
     for (OrderHeader orderItems in model.orderList) {
-      if (orderItems.orderStatus != underProcess) {
+      if (orderItems.orderStatus == delivered) {
         finishedOrder.add(orderItems);
       } else {
         currentOrder.add(orderItems);

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -102,7 +103,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             //driver profile pic
-                          ImageHelper.driverImage(driverUser.image),
+                            ImageHelper.driverImage(driverUser.image),
                             SizedBox(
                               width: 20,
                             ),
@@ -243,91 +244,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ],
                 ),
-                //counter
-                /*     Container(
-                  width: scWidth * 0.071,
-                  height: scHeight * 0.13,
-                  decoration: BoxDecoration(
-                    color: CustomColors().grayColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.all(4),
-                          child: Text(
-                            '-',
-                            style: TextStyle(
-                              color: CustomColors().darkBlueColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          //Decrease count method
-                        },
-                      ),
-                      Container(
-                        child: Text(
-                          '$userQty',
-                          // '$counter',
-                          style: TextStyle(
-                            color: CustomColors().darkBlueColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.all(4),
-                          child: Text(
-                            '+',
-                            style: TextStyle(
-                              color: CustomColors().darkBlueColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          //increase count method
-                        },
-                      ),
-                    ],
-                  ),
-                ),*/
+
                 SizedBox(
                   width: 10,
                 ),
-
-                // Container(
-                //   child: Stack(
-                //     children: [
-                //       VerticalDivider(
-                //         thickness: 30,
-                //         color: CustomColors().primaryGreenColor,
-                //       ),
-                //       Container(
-                //         alignment: Alignment.center,
-                //         width: 2,
-                //         child: IconButton(
-                //           onPressed: () {},
-                //           icon: Icon(Icons.arrow_back_ios,
-                //             color: CustomColors().darkGrayColor,),
-                //           padding: EdgeInsets.zero,
-                //           constraints: BoxConstraints(),
-                //         ),
-                //       ),
-                //       // GestureDetector(
-                //       //   child: Container(
-                //       //     child: Center(child: Icon(Icons.arrow_back_ios_new_rounded)),
-                //       //   ),
-                //       //   onTap: () {},
-                //       // ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -337,125 +257,6 @@ class _OrderDetailsState extends State<OrderDetails> {
         ],
       ),
     );
-    /* return ListTile(
-      title: Container(
-        // margin: EdgeInsets.symmetric(horizontal: 20),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.14,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            //product image
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 75,
-                  height: 75,
-                  child: Image.asset('images/green_fruit.png'),
-                ),
-                SizedBox(
-                  width: 18,
-                ),
-                //name and price
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //category
-                        */ /*  Container(
-                         child: Text(
-                            LocaleKeys.fruit_category.tr(),
-                            style: TextStyle(
-                              color: CustomColors().darkGrayColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),*/ /*
-                        //product name
-                        Container(
-                          child: Text(
-                            "item.",
-                            style: TextStyle(
-                                color: CustomColors().darkBlueColor,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    ),
-                    //price
-                    Container(
-                      child: Text(
-                        '$productPrice ' + LocaleKeys.sar.tr(),
-                        style:
-                            TextStyle(color: CustomColors().primaryGreenColor),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 7,
-            ),
-            //quantity
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Text(
-                    getTextWithCurrency(productPrice!),
-                    style: TextStyle(
-                        color: CustomColors().primaryGreenColor,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-                Container(
-                  child: Text(
-                    ' ×'+item.userProductQuantity.toString(),
-                    style: TextStyle(
-                        color: CustomColors().primaryGreenColor,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              */ /*  SizedBox(
-                  width: scHeight * 0.08,
-                ),*/ /*
-                Container(
-                  child: Text(
-                    getTextWithCurrency(productPrice * item.userProductQuantity!),
-                    style: TextStyle(
-                        color:CustomColors().primaryGreenColor,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ],
-            ),
-      */ /*      Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    item.userProductQuantity!.toString()+' x',
-                    style: TextStyle(
-                        color: CustomColors().darkGrayColor, fontSize: 18),
-                  ),
-                ),
-              ],
-            )*/ /*
-          ],
-        ),
-      ),
-    );*/
   }
 
 //-------------status line--------------------
@@ -503,7 +304,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 //---------------------------------
 
-  pageContent(model) {
+  pageContent(OrderHeader model) {
     num? priceAfterDiscount = model.totalDiscount;
     num? subtotal = model.totalOrderPrice;
     num? vat = model.totalOrderVAT15;
@@ -511,6 +312,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     num? discount = model.discountPercentage;
     bool? hasDiscount = model.hasDiscount;
 
+    //------ date
     String orderDate = '';
     if (model.orderStatus == underProcess) {
       orderDate = model.orderInitializedDate!;
@@ -519,6 +321,30 @@ class _OrderDetailsState extends State<OrderDetails> {
     } else {
       orderDate = model.deliveredStatusDate!;
     }
+    //----- payment
+    Color paymentColor = CustomColors().primaryGreenColor;
+    String paymentText = '';
+    IconData paymentIcon = FontAwesomeIcons.moneyBillWave;
+
+    if (model.paymentType == visa) {
+      paymentText = LocaleKeys.credit_card.tr();
+      paymentIcon = FontAwesomeIcons.solidCreditCard;
+    } else if (model.paymentType == cash) {
+      paymentText = LocaleKeys.cash.tr();
+      paymentIcon = FontAwesomeIcons.moneyBillWave;
+    } else if (model.paymentType == applePay) {
+      paymentText = LocaleKeys.apple_pay.tr();
+      paymentIcon = FontAwesomeIcons.applePay;
+    } else if (model.paymentType == stcPay) {
+      paymentText = LocaleKeys.stc_pay.tr();
+      //todo:edit stc pay icon
+      paymentIcon = FontAwesomeIcons.gratipay;
+    } else {
+      paymentText = LocaleKeys.postpaid.tr();
+      paymentIcon = FontAwesomeIcons.receipt;
+    }
+
+    //--------
     int listItemsNumber = model.orderItems!.length;
 
     Size size = MediaQuery.of(context).size;
@@ -534,21 +360,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           //Stepper container
           ExpansionTile(
               initiallyExpanded: false,
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      LocaleKeys.track_order.tr(),
-                      style: TextStyle(
-                          color: CustomColors().brownColor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 19),
-                    ),
-                  ),
-                ],
-              ),
+              title: titleTextDesign(LocaleKeys.track_order.tr()),
               children: [
                 Container(
                   width: scWidth,
@@ -661,7 +473,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             margin: EdgeInsets.symmetric(
                                 horizontal: scWidth * 0.12),
                             child: Text(
-                              '($listItemsNumber)' + LocaleKeys.items.tr(),
+                              '($listItemsNumber) ' + LocaleKeys.items.tr(),
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -682,16 +494,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           //ordered products title
           Row(
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
-                  LocaleKeys.products_in_order.tr(),
-                  style: TextStyle(
-                      color: CustomColors().brownColor,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 19),
-                ),
-              ),
+              titleTextDesign(LocaleKeys.products_in_order.tr()),
             ],
           ),
           SizedBox(
@@ -717,9 +520,8 @@ class _OrderDetailsState extends State<OrderDetails> {
               ],
             ),
           ),
-          //order details
+          //payment method
           Container(
-            height: MediaQuery.of(context).size.height * 0.3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -729,16 +531,52 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
                 Row(
                   children: [
+                    titleTextDesign(LocaleKeys.payment_method.tr()),
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Container(
+
+                      child: payButtonDesign(
+                          context, paymentColor, paymentText, paymentIcon),
                       padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Text(
-                        LocaleKeys.order_details.tr(),
-                        style: TextStyle(
-                            color: CustomColors().brownColor,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 19),
-                      ),
                     ),
+                    if (model.paymentType == credit)
+                      greenBtn(
+                          LocaleKeys.pay_now.tr(),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          () {
+
+                            //todo: show payment page
+
+                          })
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
+          //order details
+          Container(
+            //  height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    titleTextDesign(LocaleKeys.order_details.tr()),
                   ],
                 ),
                 SizedBox(
@@ -792,81 +630,20 @@ class _OrderDetailsState extends State<OrderDetails> {
           SizedBox(
             height: 220,
           ),
-
-          // //costs summary
-          // Container(
-          //   height: MediaQuery.of(context).size.height * 0.3,
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       Row(
-          //         children: [
-          //           Container(
-          //             padding: EdgeInsets.symmetric(horizontal: 30),
-          //             child: Text(
-          //               LocaleKeys.order_details.tr(),
-          //               style: TextStyle(
-          //                   color: CustomColors().brownColor.withOpacity(0.7),
-          //                   fontWeight: FontWeight.w600,
-          //                   fontSize: 18),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //       SizedBox(
-          //         height: 25,
-          //       ),
-          //       Column(
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           cartDetailsItem(
-          //               LocaleKeys.subtotal.tr(), getTextWithCurrency(subtotal!)),
-          //           cartDetailsItem(
-          //               LocaleKeys.vat.tr(), getTextWithCurrency(vat!)),
-          //           if (hasDiscount!)
-          //             Column(
-          //               children: [
-          //                 cartDetailsItem(LocaleKeys.discount_percentage.tr(),
-          //                     getTextWithPercentage(discount!)),
-          //                 cartDetailsItem(LocaleKeys.discount.tr(),
-          //                     getTextWithCurrency(priceAfterDiscount)),
-          //               ],
-          //             )
-          //         ],
-          //       ),
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       // Divider(
-          //       //   thickness: 1,
-          //       //   indent: 25,
-          //       //   endIndent: 25,
-          //       // ),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: [
-          //           //total
-          //           cartTotalDesign(total),
-          //           //Receipt download button
-          //           InkWell(
-          //             child: Container(
-          //               width: 50,
-          //               height: 50,
-          //               child: Image.asset('images/ic_file_pdf.png')
-          //             ),
-          //             onTap: () {},
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
+      ),
+    );
+  }
+
+  titleTextDesign(text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: Text(
+        text,
+        style: TextStyle(
+            color: CustomColors().brownColor,
+            fontWeight: FontWeight.w800,
+            fontSize: 19),
       ),
     );
   }

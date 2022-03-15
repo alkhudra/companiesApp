@@ -186,5 +186,8 @@
   "completed_order": "تم التوصيل!",
   "no_current_orders": "لا يوجد لديك طلبات حالية",
   "no_finished_orders": "لا يوجد لديك طلبات منتهية ",
-  "items": "منتجات "
+  "items": "منتجات ",
+  "apple_pay": "ابل باي",
+  "stc_pay": "STC Pay",
+  "pay_now": "ادفع الان"
 }
