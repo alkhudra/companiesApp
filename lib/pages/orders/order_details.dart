@@ -14,6 +14,7 @@ import 'package:khudrah_companies/helpers/order_helper.dart';
 import 'package:khudrah_companies/network/models/orders/driver_user.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/order_items.dart';
+import 'package:khudrah_companies/pages/orders/order_list.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -58,7 +59,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     if (widget.orderModel.driverUser != null)
       driverUser = widget.orderModel.driverUser!;
     return Scaffold(
-      appBar: appBarDesign(context, LocaleKeys.order_status.tr()),
+      appBar:  appBarDesign(context, LocaleKeys.order_status.tr()),
       body: model.orderStatus == onDelivery
           ? SlidingUpPanel(
               body: pageContent(model),

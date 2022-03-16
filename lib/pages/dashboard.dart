@@ -27,7 +27,7 @@ class _DashboardPageState extends State<DashboardPage> {
     HomePage(),
     FavoritesPage(),
     CartPage(),
-    MyOrdersPage(),
+    OrderList(),
     NotificationsPage()
   ];
 
@@ -162,7 +162,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     minWidth: 20,
                     onPressed: () {
                       setState(() {
-                        currentScreen = MyOrdersPage();
+                        currentScreen = OrderList();
                         currentTab = 3;
                       });
                     },

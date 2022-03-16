@@ -215,10 +215,8 @@ class _PaymentPageState extends State<PaymentPage> {
                     print("Error: " + result.error!.toJson().toString());
                     _response = result.error!.message!;
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return OrderCompletedPage(isSuccess: false);
-                    }));
+                    OrderHelper. viewCompleteOrderPage(context , false);
+
                     // continue order (  show fail page)
                   })
                 }

@@ -19,14 +19,14 @@ import 'package:khudrah_companies/pages/orders/order_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:lottie/lottie.dart';
 
-class MyOrdersPage extends StatefulWidget {
-  const MyOrdersPage({Key? key}) : super(key: key);
+class OrderList extends StatefulWidget {
+  const OrderList({Key? key}) : super(key: key);
 
   @override
-  _MyOrdersPageState createState() => _MyOrdersPageState();
+  _OrderListState createState() => _OrderListState();
 }
 
-class _MyOrdersPageState extends State<MyOrdersPage>
+class _OrderListState extends State<OrderList>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int pageNumber = 1;

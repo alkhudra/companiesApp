@@ -223,7 +223,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           payWithEmbeddedPayment();
                         else {
                           //  continue order ( api , show success page)
-                          OrderHelper.callApi(context, widget.userCart!, selectedBranch, hasPaid, paymentMethod);
+                          setState(() {
+                            OrderHelper.callApi(context, widget.userCart!,
+                                selectedBranch, hasPaid, paymentMethod);
+                          });
+
                         }
                       } else {
                         showErrorMessageDialog(
@@ -385,7 +389,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       (index) => payButton(
                           index: index,
                           text: payMethod[index],
-                          color:  index == _selectedValueIndex
+                          color: index == _selectedValueIndex
                               ? CustomColors().primaryGreenColor
                               : CustomColors().darkGrayColor.withOpacity(0.6),
                           iconData: iconList[index]),
@@ -455,12 +459,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print("Response: " + result.response!.toJson().toString());
                     _response = result.response!.toJson().toString();
                     // continue order ( api , show success page)
-                  setState(() {
-                    isSuccess = true;
-                    hasPaid = true;
-                  });
+                    setState(() {
+                      isSuccess = true;
+                      hasPaid = true;
+                    });
 
-                  //  callApi(context,widget.userCart!);
+                    //  callApi(context,widget.userCart!);
                   })
                 }
               else
@@ -470,10 +474,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print("Error: " + result.error!.toJson().toString());
                     _response = result.error!.message!;
                     isSuccess = false;
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                          return OrderCompletedPage(isSuccess: false);
-                        }));
+                    OrderHelper.viewCompleteOrderPage(context, false);
                     // continue order (  show fail page)
                   })
                 }
@@ -548,7 +549,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   ///
   ///********
 
-
   ///********
   ///
   ///general  methods
@@ -558,7 +558,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
 
-    if(isPayOnlineSelected == true) {
+    if (isPayOnlineSelected == true) {
       setState(() {
         // TODO, don't forget to init the MyFatoorah Plugin with the following line
         MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
@@ -572,23 +572,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
   //------------------------
 
   Widget payButton(
-      {required String text, required IconData iconData, required int index,color}) {
+      {required String text,
+      required IconData iconData,
+      required int index,
+      color}) {
     return InkWell(
-      child: payButtonDesign(context,color, text, iconData),
+      child: payButtonDesign(context, color, text, iconData),
       onTap: () {
         //could be converted to a switch case if needed
         if (text == LocaleKeys.credit_card.tr()) {
           //credit card payment method
           if (addressController.text != '') {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) {
-                  return PaymentPage(userCart: widget.userCart,
-                    language: widget.language,
-                    branchModel: selectedBranch,);
-                }));
-          }else {
-            showErrorMessageDialog(
-                context, LocaleKeys.select_branch_note.tr());
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return PaymentPage(
+                userCart: widget.userCart,
+                language: widget.language,
+                branchModel: selectedBranch,
+              );
+            }));
+          } else {
+            showErrorMessageDialog(context, LocaleKeys.select_branch_note.tr());
           }
 /*          setState(() {
             if (isOnlineAvailable == true) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/contact_helper.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
@@ -14,12 +15,12 @@ import 'package:khudrah_companies/network/models/orders/order_items.dart';
 import 'package:khudrah_companies/network/models/orders/submit_order_success_response_model.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
 import 'package:khudrah_companies/pages/order_completed_page.dart';
+import 'package:khudrah_companies/router/route_constants.dart';
 
 class OrderHelper {
   static callApi(BuildContext context, UserCart userCart,
       BranchModel selectedBranch, bool hasPaid, String paymentMethod) async {
     //----------show progress----------------
-
     showLoaderDialog(context);
     //----------start api ----------------
     Map<String, dynamic> headerMap = await getHeaderMap();
@@ -58,26 +59,35 @@ class OrderHelper {
           SubmitOrderSuccessResponseModel.fromJson(apiResponse.result);
       print(model.toString());
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return OrderCompletedPage(
-          isSuccess: true,
-          model: model,
-        );
-      }));
+      OrderHelper. viewCompleteOrderPage(context , true ,model: model);
+
     } else {
       Navigator.pop(context);
       //return apiResponse.message;
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return OrderCompletedPage(isSuccess: false);
-      }));
+      OrderHelper. viewCompleteOrderPage(context , false);
+
       throw ExceptionHelper(apiResponse.message);
     }
+
+
+
   }
 
   static displayInvoice(url, isFromDashBoard) {
     if (isFromDashBoard == true)
       openURL(ApiConst.dashboard_url + url);
     else
-      openURL(url);
+      openURL(ApiConst.pdf_url +url);
   }
+
+
+  static viewCompleteOrderPage(context , isSuccess,{model}){
+
+    moveToNewStackWithArgs(context ,MaterialPageRoute(builder: (context) {
+      return OrderCompletedPage(isSuccess: isSuccess,model: model);
+    } ));
+
+  }
+
+
 }

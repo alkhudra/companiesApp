@@ -21,12 +21,12 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
   } else if (model.orderStatus == onDelivery) {
     orderDate = model.onDeliveryStatusDate!;
     orderStatus = LocaleKeys.on_delivery.tr();
-    statusColor = CustomColors().brownColor;
+    statusColor = CustomColors().darkBlueColor;
 
   } else {
     orderDate = model.deliveredStatusDate!;
     orderStatus = LocaleKeys.completed_order.tr();
-    statusColor = CustomColors().brownColor;
+    statusColor = CustomColors().primaryGreenColor;
 
   }
 
