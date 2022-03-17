@@ -401,7 +401,7 @@ class ProductCard {
     isTrashBtnEnabled = false;
     String message =
         await cartDBProcess(context, productId, deleteFromCartConst);
-    showSuccessMessage(context, message);
+   // showSuccessMessage(context, message);
 
     isTrashBtnEnabled = true;
   }
@@ -409,7 +409,7 @@ class ProductCard {
   static void addToCart(BuildContext context, String productId) async {
     isAddToCartBtnEnabled = false;
     String message = await cartDBProcess(context, productId, addToCartConst);
-    showSuccessMessage(context, message);
+   // showSuccessMessage(context, message);
 
     isAddToCartBtnEnabled = true;
 

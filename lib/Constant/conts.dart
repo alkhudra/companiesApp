@@ -10,7 +10,7 @@ const waiting_confirmation = "waiting_confirmation";
 const waiting_approval = "waiting_approval";
 const registered = "registered";
 
-const listItemsCount = 30;
+const listItemsCount = 5;
 const addToCartConst = 'addToCart';
 const addQtyToCartConst = 'addQtyToCart';
 const deleteFromCartConst = 'deleteFromCart';

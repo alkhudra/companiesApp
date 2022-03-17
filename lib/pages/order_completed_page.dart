@@ -94,7 +94,7 @@ class _OrderCompletedPageState extends State<OrderCompletedPage> {
                         print(widget.model!.orderHeader!
                             .hasOrderCreatedFromDashboard!);
                         OrderHelper.displayInvoice(
-                            widget.model!.htmlpath,
+                            widget.model!.invoicePDFPath,
                             widget.model!.orderHeader!
                                 .hasOrderCreatedFromDashboard!);
                       }),
