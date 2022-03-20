@@ -34,7 +34,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    // options: 
+  );
   await EasyLocalization.ensureInitialized();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -88,7 +90,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   static  bool isUserFirstLogin=false;
-  static  bool isUserLoggedIn=true;
+  static  bool isUserLoggedIn=false;
   static int counter = 0;
   @override
   void initState() {

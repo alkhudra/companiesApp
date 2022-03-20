@@ -95,8 +95,8 @@ class _OrderListState extends State<OrderList>
           ),
 
           if (isThereMoreItems == true)
-            loadMoreBtn(context, loadMoreInfo),
-   //       SizedBox(height: 20,),
+            loadMoreBtn(context, loadMoreInfo, 0, 0),
+         SizedBox(height: 32,),
         ],
       ),
     );

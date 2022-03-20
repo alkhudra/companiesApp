@@ -103,7 +103,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ),
         if (isThereMoreItems == true)
-          loadMoreBtn(context, loadMoreInfo),
+          loadMoreBtn(context, loadMoreInfo, 20, 40),
       ],
     ): noItemDesign(LocaleKeys.no_items_category.tr(), 'images/not_found.png');
 

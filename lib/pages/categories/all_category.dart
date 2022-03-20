@@ -91,7 +91,7 @@ class _AllCategoryState extends State<AllCategory> {
             ),
           ),
           if (isThereMoreItems == true)
-            loadMoreBtn(context, loadMoreInfo),
+            loadMoreBtn(context, loadMoreInfo, 20, 40),
           SizedBox(height: 20,),
         ],
       ),

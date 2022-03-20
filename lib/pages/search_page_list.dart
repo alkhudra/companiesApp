@@ -143,7 +143,7 @@ class _SearchListPageState extends State<SearchListPage> {
                     },
                     itemCount:list.length,
                   ),
-                  if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo),
+                  if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo, 20, 40),
 
                 ],
 

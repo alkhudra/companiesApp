@@ -58,9 +58,9 @@ Widget greenBtnWithIcon(String txt, IconData icon,
       ));
 }
 
-Widget loadMoreBtn(BuildContext context, Function() onPressed) {
+Widget loadMoreBtn(BuildContext context, Function() onPressed, double topMarg, double botMarg) {
   return Container(
-    margin: EdgeInsets.only(top: 20, bottom: 40),
+    margin: EdgeInsets.only(top: topMarg, bottom: botMarg),
     alignment: Alignment.bottomCenter,
     child: SizedBox(
       height: 45,

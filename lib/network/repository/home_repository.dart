@@ -48,6 +48,7 @@ class HomeRepository {
       return ApiResponse(apiResponseType, null, errorMessage);
     });
   }
+  
 //-----------------
 
   Future<ApiResponse> updateProfile(
@@ -114,6 +115,7 @@ class HomeRepository {
   }
 
 //-----------------
+
   Future<ApiResponse> getContactInfo() async {
 
     return await _client
