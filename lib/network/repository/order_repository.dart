@@ -97,7 +97,7 @@ class OrderRepository {
       "totalDiscount": totalDiscount,
       "orderItems": orderItem
     };
-
+    print(hashMap.toString());
     return await _client
         .submitOrder(hashMap)
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))

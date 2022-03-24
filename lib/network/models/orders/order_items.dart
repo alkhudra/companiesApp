@@ -11,7 +11,8 @@ class OrderItems {
     num? totalProductPrice,
     num? totalNetProductPrice,
     num? totalProductVAT15,
-    num? orderHeaderId,}){
+    num? orderHeaderId,
+  }) {
     _id = id;
     _product = product;
     _userId = userId;
@@ -26,7 +27,9 @@ class OrderItems {
 
   OrderItems.fromJson(dynamic json) {
     _id = json['id'];
-    _product = json['product'] != null ? ProductsModel.fromJson(json['product']) : null;
+    _product = json['product'] != null
+        ? ProductsModel.fromJson(json['product'])
+        : null;
     _userId = json['userId'];
     _orderedProductPrice = json['orderedProductPrice'];
     _orderedNetProductPrice = json['orderedNetProductPrice'];
@@ -74,20 +77,22 @@ class OrderItems {
     map['orderHeaderId'] = _orderHeaderId;
     return map;
   }
-
 }
 
 class SubmitOrderItems {
   SubmitOrderItems({
     String? productId,
     num? orderedProductPrice,
+    num? orderedNetProductPrice,
     num? userProductQuantity,
     num? totalProductPrice,
     num? totalNetProductPrice,
     num? totalProductVAT15,
+
   }) {
     _orderedProductPrice = orderedProductPrice;
     _productId = productId;
+    _orderedNetProductPrice = orderedNetProductPrice;
     _userProductQuantity = userProductQuantity;
     _totalProductPrice = totalProductPrice;
     _totalNetProductPrice = totalNetProductPrice;
@@ -101,6 +106,7 @@ class SubmitOrderItems {
     _totalProductPrice = json['totalProductPrice'];
     _totalNetProductPrice = json['totalNetProductPrice'];
     _totalProductVAT15 = json['totalProductVAT15'];
+    _orderedNetProductPrice = json['orderedNetProductPrice'];
   }
   String? _productId;
 
@@ -109,13 +115,15 @@ class SubmitOrderItems {
   num? _totalNetProductPrice;
   num? _totalProductVAT15;
   num? _orderedProductPrice;
-
+  num? _orderedNetProductPrice;
   String? get productId => _productId;
   num? get orderedProductPrice => _orderedProductPrice;
   num? get userProductQuantity => _userProductQuantity;
   num? get totalProductPrice => _totalProductPrice;
   num? get totalNetProductPrice => _totalNetProductPrice;
   num? get totalProductVAT15 => _totalProductVAT15;
+
+  num? get orderedNetProductPrice => _orderedNetProductPrice;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -125,6 +133,7 @@ class SubmitOrderItems {
     map['totalProductPrice'] = _totalProductPrice;
     map['totalNetProductPrice'] = _totalNetProductPrice;
     map['totalProductVAT15'] = _totalProductVAT15;
+    map['orderedNetProductPrice'] = _orderedNetProductPrice;
     return map;
   }
 

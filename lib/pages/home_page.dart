@@ -311,7 +311,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         isFavourite = !isFavourite!;
       });
-    }, onIncreaseBtnClicked: () {
+    }/*, onIncreaseBtnClicked: () {
       setState(() {
         ProductCard.addQtyToCart(context, productId);
       });
@@ -327,6 +327,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         ProductCard.addToCart(context, productId);
       });
-    });
-  }
+    }*/);
+     }
 }

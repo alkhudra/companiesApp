@@ -20,6 +20,7 @@ import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/cart/success_cart_response_model.dart';
+import 'package:khudrah_companies/network/models/cart/user_cart.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
@@ -60,8 +61,6 @@ class _CartPageState extends State<CartPage> {
         future: getListData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.hasData);
-            print(snapshot.data);
             return listDesign(context, snapshot.data!);
           } else {
             return errorCase(snapshot);
@@ -84,7 +83,6 @@ class _CartPageState extends State<CartPage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       SuccessCartResponseModel? responseModel =
           SuccessCartResponseModel.fromJson(apiResponse.result);
-
       return responseModel;
     } else {
       throw ExceptionHelper(apiResponse.message);
@@ -241,14 +239,14 @@ class _CartPageState extends State<CartPage> {
                   Container(
                     child: greenBtn(LocaleKeys.checkout.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
-                      /*        if(isChaged == true)
-                        showErrorMessageDialog(context, txt) */
+                   
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return CheckoutPage(
-                            currentUser: user, userCart: model.userCart,
-                        branchList : branchList,
-                        language: language);
+                            currentUser: user,
+                            userCart: model.userCart,
+                            branchList: branchList,
+                            language: language);
                       }));
                     }),
                   ),

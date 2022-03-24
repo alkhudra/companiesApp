@@ -80,7 +80,8 @@ Widget cartTile(BuildContext context, String language,
   double scHeight = size.height;
 
   num? price =
-      model.hasSpecialPrice! ? model.specialPrice : model.originalPrice;
+      (model.hasSpecialPrice == true ? model.specialPrice : model.originalPrice)
+          ?.toDouble();
   String? name = language == 'ar' ? model.arName : model.name;
 
   bool? isPriceChanged = model.hasSpecialPrice == true
@@ -96,8 +97,8 @@ Widget cartTile(BuildContext context, String language,
   num productTotal = list[index]!.totalProductPrice != null
       ? list[index]!.totalProductPrice!
       : 0;
-  bool isAvailable = model.isAvailabe!;
-  bool isDeleted = model.isDeleted!;
+  bool isAvailable = false;//model.isAvailabe!;
+  bool isDeleted =true;// model.isDeleted!;
 
   String priceMessage = isPriceChanged == true
       ? LocaleKeys.cart_price_changed_note.tr()
@@ -140,6 +141,7 @@ Widget cartTile(BuildContext context, String language,
         visible: isPriceChanged! || isQtyChanged!,
       ),
     ListTile(
+
       title: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -147,6 +149,7 @@ Widget cartTile(BuildContext context, String language,
             height: 5,
           ),
           GestureDetector(
+
             onTap: () {
               if (isDeleted == false &&
                   isAvailable == true &&
@@ -169,6 +172,7 @@ Widget cartTile(BuildContext context, String language,
                   Container(
                     width: 75,
                     height: 75,
+
                     child: ImageHelper.productImage(model.image),
                   ),
                   //category, name and price
@@ -176,25 +180,13 @@ Widget cartTile(BuildContext context, String language,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // SizedBox(height: 20,),
-                      //category and name
 
-                      //category
-                      /*     Container(
-                            child: Text(
-                              '$category',
-                              style: TextStyle(
-                                color: CustomColors().darkGrayColor,
-                              ),
-                            ),
-                            margin: EdgeInsets.all(5),
-                          ),*/
                       //product name
                       Container(
                         child: Text(
                           '$name',
                           style: TextStyle(
-                              color: CustomColors().brownColor,
+                              color: isAvailable == true || isDeleted == false ? CustomColors().brownColor : CustomColors().grayColor ,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -209,7 +201,7 @@ Widget cartTile(BuildContext context, String language,
                               style: TextStyle(
                                   color: isPriceChanged!
                                       ? CustomColors().redColor
-                                      : CustomColors().primaryGreenColor,
+                                      :isAvailable == true || isDeleted == false? CustomColors().primaryGreenColor : CustomColors().grayColor ,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -219,7 +211,7 @@ Widget cartTile(BuildContext context, String language,
                               style: TextStyle(
                                   color: isQtyChanged == true
                                       ? CustomColors().redColor
-                                      : CustomColors().primaryGreenColor,
+                                      : isAvailable == true || isDeleted == false? CustomColors().primaryGreenColor : CustomColors().grayColor ,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -232,7 +224,7 @@ Widget cartTile(BuildContext context, String language,
                               style: TextStyle(
                                   color: isPriceChanged
                                       ? CustomColors().redColor
-                                      : CustomColors().primaryGreenColor,
+                                      : isAvailable == true || isDeleted == false? CustomColors().primaryGreenColor : CustomColors().grayColor ,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),

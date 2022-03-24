@@ -16,33 +16,29 @@ import 'package:provider/provider.dart';
 import 'helpers/pref/shared_pref_helper.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', //id
-  'High Importance Notifications', //title
-  description: 'This channel is used for important notifications',
-  importance: Importance.high,
-  playSound: true
-);
+    'high_importance_channel', //id
+    'High Importance Notifications', //title
+    description: 'This channel is used for important notifications',
+    importance: Importance.high,
+    playSound: true);
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg msg just showed up : ${message.messageId}');
 }
 
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // options: 
-  );
+      // options:
+      );
   await EasyLocalization.ensureInitialized();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  ChangeNotifierProvider<ProductListProvider>(
-    create: (_) => ProductListProvider(),
-  );
+
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
@@ -51,32 +47,29 @@ Future<void> main() async {
         child: MyApp()),
   );
 
-
   await flutterLocalNotificationsPlugin
-  .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-  ?.createNotificationChannel(channel);
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true
-  );
+      alert: true, badge: true, sound: true);
 }
 
 // Future init() async  1q2a{
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+// WidgetsFlutterBinding.ensureInitialized();
+// await Firebase.initializeApp();
+// FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  // await flutterLocalNotificationsPlugin
-  // .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-  // ?.createNotificationChannel(channel);
+// await flutterLocalNotificationsPlugin
+// .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+// ?.createNotificationChannel(channel);
 
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true
-  // );
+// await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//   alert: true,
+//   badge: true,
+//   sound: true
+// );
 // }
 
 class MyApp extends StatefulWidget {
@@ -89,8 +82,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static  bool isUserFirstLogin=false;
-  static  bool isUserLoggedIn=false;
+  static bool isUserFirstLogin = false;
+  static bool isUserLoggedIn = false;
   static int counter = 0;
   @override
   void initState() {
@@ -100,23 +93,18 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      if(notification  != null && android != null) {
+      if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-          notification.hashCode, 
-          notification.title, 
-          notification.body, 
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelDescription: channel.description,
-              color: CustomColors().primaryGreenColor,
-              playSound: true,
-              //TODO: Add custom icon
-              icon: '@mipmap/ic_launcher'
-            )
-          )
-        );
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+                android: AndroidNotificationDetails(channel.id, channel.name,
+                    channelDescription: channel.description,
+                    color: CustomColors().primaryGreenColor,
+                    playSound: true,
+                    //TODO: Add custom icon
+                    icon: '@mipmap/ic_launcher')));
       }
     });
 
@@ -124,21 +112,20 @@ class _MyAppState extends State<MyApp> {
       print('A new onMessageOpenedApp event was published');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      if(notification != null && android != null) {
-        showDialog(context: context,
-          builder: (_) {
-            return AlertDialog(
-              title: Text('Notification.title'),
-              content:  SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(notification.body!)
-                  ],
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text('Notification.title'),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
                 ),
-              ),
-            );
-          });
+              );
+            });
       }
     });
   }
@@ -149,45 +136,47 @@ class _MyAppState extends State<MyApp> {
     });
 
     flutterLocalNotificationsPlugin.show(
-      0, 
-      'Testing $counter', 
-      'How you doin?', 
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id, 
-          channel.name,
-          channelDescription: channel.description,
-          importance: Importance.high,
-          color: CustomColors().primaryGreenColor,
-          playSound: true,
-          //TODO: Add custom icon
-          icon: '@mipmap/ic_launcher'
-        )
-      ));
+        0,
+        'Testing $counter',
+        'How you doin?',
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                importance: Importance.high,
+                color: CustomColors().primaryGreenColor,
+                playSound: true,
+                //TODO: Add custom icon
+                icon: '@mipmap/ic_launcher')));
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      color: CustomColors().primaryGreenColor,
-      supportedLocales: context.supportedLocales,
-      localizationsDelegates: context.localizationDelegates,
-      locale: context.locale,
-      routes: routMap,
-      theme: ThemeData(
-        fontFamily: 'Almarai',
-        accentColor: CustomColors().primaryGreenColor,
-        primarySwatch: Colors.green,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ProductListProvider>(
+          create: (_) => ProductListProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        color: CustomColors().primaryGreenColor,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        locale: context.locale,
+        routes: routMap,
+        theme: ThemeData(
+          fontFamily: 'Almarai',
+          accentColor: CustomColors().primaryGreenColor,
+          primarySwatch: Colors.green,
+        ),
+        home: getRout(),
+        // home: tempHome(),
       ),
-      home: getRout(),
-      // home: tempHome(),
     );
   }
 
   //replace getRout widget with tempHome to test local notifs
   Widget tempHome() {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Testing Notifications'),
@@ -207,7 +196,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget getRout() {
-
     print(isUserFirstLogin);
 
     if (isUserFirstLogin == false && isUserLoggedIn == true)

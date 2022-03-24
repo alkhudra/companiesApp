@@ -36,7 +36,7 @@ class ProductCard {
       onDeleteBtnClicked}
       /*    {counter ,increaseCount, decreaseCount}*/
       ) {
-    double? price = (productModel.hasSpecialPrice == true
+    num? price = (productModel.hasSpecialPrice == true
             ? productModel.netSpecialPrice
             : productModel.netPrice)
         ?.toDouble();
@@ -46,12 +46,14 @@ class ProductCard {
     String? name = language == 'ar' ? productModel.arName : productModel.name;
     num? stockQty = productModel.quantity!;
     int? qty = productModel.userProductQuantity;
-    String? unit = language == 'ar' ? productModel.arItemUnitDesc : productModel.enItemUnitDesc;
+    String? unit = language == 'ar'
+        ? productModel.arItemUnitDesc
+        : productModel.enItemUnitDesc;
 
     //--------------------------
 
     //var provider = Provider.of<ProductListProvider>(context);
-   // provider.setQty(qty);
+    // provider.setQty(qty);
     return GestureDetector(
         child: ListTile(
           title: Column(
@@ -89,7 +91,7 @@ class ProductCard {
                         Container(
                           padding: EdgeInsets.all(2),
                           child: Text(
-                            ("$price " + LocaleKeys.sar.tr() +' / '+ unit!),
+                            ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
                             style: TextStyle(
                                 color: CustomColors().primaryGreenColor,
                                 fontWeight: FontWeight.w400),
@@ -138,39 +140,43 @@ class ProductCard {
                               borderRadius: BorderRadius.circular(50),
                               color: CustomColors().primaryGreenColor,
                             ),*/
-                            child: addToCartBtnContainer(
-                              context,
-                              productsModel: productModel,
-                              userQty: qty,
-                              onBtnClicked: () {
-                                if (isAddToCartBtnEnabled) {
-                                //  provider.addToCart();
-                                  onAddBtnClicked();
-                                }
-                              },
-                              onDecreaseBtnClicked: () {
-                                if (isDecreaseBtnEnabled) {
-                                //  provider.decreaseQty();
-                                  onDecreaseBtnClicked();
-                                }
-                              },
-                              onDeleteBtnClicked: () {
-                                if (isTrashBtnEnabled) {
-                              //    provider.deleteFromCart();
-                                  onDeleteBtnClicked();
-                                }
-                              },
-                              onIncreaseBtnClicked: () {
-                                if (isIncreaseBtnEnabled) {
-                                  if (productModel.userProductQuantity! <
-                                      stockQty) {
-                              //      provider.increaseQty();
-                                    onIncreaseBtnClicked();
-                                  } else
-                                    showSuccessMessage(
-                                        context, LocaleKeys.no_stock.tr());
-                                }
-                              },
+                            child: Consumer<ProductListProvider>(
+                              builder: (context, value, child) =>
+                                  addToCartBtnContainer(
+                                context,
+                                productsModel: productModel,
+                                userQty: qty,
+                                onBtnClicked: () {
+                                  if (isAddToCartBtnEnabled) {
+                                    //  provider.addToCart();
+                                    value.addToCart(context,productModel.productId);
+                                  //  onAddBtnClicked();
+                                  }
+                                },
+                                onDecreaseBtnClicked: () {
+                                  if (isDecreaseBtnEnabled) {
+                                      value.decreaseQty(qty,context,productModel.productId);
+                                  //  onDecreaseBtnClicked();
+                                  }
+                                },
+                                onDeleteBtnClicked: () {
+                                  if (isTrashBtnEnabled) {
+                                        value.deleteFromCart(context,productModel.productId);
+                                  //  onDeleteBtnClicked();
+                                  }
+                                },
+                                onIncreaseBtnClicked: () {
+                                  if (isIncreaseBtnEnabled) {
+                                    if (productModel.userProductQuantity! <
+                                        stockQty) {
+                                            value.increaseQty(qty ,context,productModel.productId);
+                                      //onIncreaseBtnClicked();
+                                    } else
+                                      showSuccessMessage(
+                                          context, LocaleKeys.no_stock.tr());
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -213,7 +219,9 @@ class ProductCard {
         ?.toDouble();
 
     String productId = productModel.productId!;
-    String? unit = language == 'ar' ? productModel.arItemUnitDesc : productModel.enItemUnitDesc;
+    String? unit = language == 'ar'
+        ? productModel.arItemUnitDesc
+        : productModel.enItemUnitDesc;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
 
@@ -297,7 +305,7 @@ class ProductCard {
                         //price
                         Container(
                           child: Text(
-                            ("$price " + LocaleKeys.sar.tr() +' / '+ unit!),
+                            ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
                             style: TextStyle(
                                 color: CustomColors().primaryGreenColor,
                                 fontSize: 12,
@@ -339,7 +347,8 @@ class ProductCard {
                         },
                         onIncreaseBtnClicked: () {
                           if (isIncreaseBtnEnabled) {
-                            if (productModel.userProductQuantity! < productModel.quantity!) {
+                            if (productModel.userProductQuantity! <
+                                productModel.quantity!) {
                               onIncreaseBtnClicked();
                             } else
                               showSuccessMessage(
@@ -401,7 +410,7 @@ class ProductCard {
     isTrashBtnEnabled = false;
     String message =
         await cartDBProcess(context, productId, deleteFromCartConst);
-   // showSuccessMessage(context, message);
+    // showSuccessMessage(context, message);
 
     isTrashBtnEnabled = true;
   }
@@ -409,7 +418,7 @@ class ProductCard {
   static void addToCart(BuildContext context, String productId) async {
     isAddToCartBtnEnabled = false;
     String message = await cartDBProcess(context, productId, addToCartConst);
-   // showSuccessMessage(context, message);
+    // showSuccessMessage(context, message);
 
     isAddToCartBtnEnabled = true;
 
@@ -434,6 +443,4 @@ class ProductCard {
     print(message);
     isDecreaseBtnEnabled = true;
   }
-
-
 }

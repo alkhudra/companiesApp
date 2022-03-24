@@ -219,8 +219,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             : LocaleKeys.send_order.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
                       if (addressController.text != '') {
-                        if (isPayOnlineSelected == true)
-                          payWithEmbeddedPayment();
+                        if (isPayDebitSelected == true){
+                       //   payWithEmbeddedPayment();
+                         if(widget.currentUser!.companyBalance! <= 0 ) {
+                           showErrorMessageDialog(
+                               context, LocaleKeys.no_debit_balance.tr());
+                         }
+                        }
                         else {
                           //  continue order ( api , show success page)
                           setState(() {

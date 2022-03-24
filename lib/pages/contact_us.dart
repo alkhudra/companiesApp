@@ -281,7 +281,6 @@ class _ContactUsState extends State<ContactUs> {
                         alignment: Alignment.center,
                         width: scWidth * 0.4,
                         child: Text(
-                          //TODO: replace text with twitter handle
                           LocaleKeys.twit.tr(),
                           style: TextStyle(
                               color: CustomColors().darkBlueColor,

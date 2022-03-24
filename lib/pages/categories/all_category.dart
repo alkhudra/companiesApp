@@ -137,7 +137,6 @@ class _AllCategoryState extends State<AllCategory> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setValues();
   }

@@ -189,5 +189,6 @@
   "items": "items",
   "apple_pay": "Apple Pay",
   "stc_pay": "STC Pay",
-  "pay_now": "Pay Now"
+  "pay_now": "Pay Now",
+  "no_debit_balance": "You have no balance in credit payment, change payment method "
 }

@@ -37,10 +37,13 @@ class OrderHelper {
           totalProductVAT15: cartItems.totalProductVAT15,
           orderedProductPrice: cartItems.productModel?.hasSpecialPrice == true
               ? cartItems.productModel?.specialPrice
-              : cartItems.productModel?.originalPrice));
+              : cartItems.productModel?.originalPrice,
+          orderedNetProductPrice :cartItems.productModel?.hasSpecialPrice == true
+              ? cartItems.productModel?.netSpecialPrice
+              : cartItems.productModel?.netPrice, ));
+
     }
 
-    print(orderItemsList.toString());
     apiResponse = await orderRepository.submitOrder(
         paymentType: paymentMethod,
         hasPaid: hasPaid,
@@ -51,7 +54,7 @@ class OrderHelper {
         totalOrderVAT15: userCart.totalCartVAT15,
         hasDiscount: userCart.hasDiscount,
         discountPercentage: userCart.discountPercentage,
-        totalDiscount: 0,
+        totalDiscount: userCart.priceAfterDiscount,
         orderItem: orderItemsList);
 
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {

@@ -10,6 +10,7 @@ class User {
     String? commercialRegistrationNo,
     String? vatNo,
     bool? hasCreditOption,
+    num? companyBalance,
     int? branchNumber,
     List<BranchModel>? branches,
   }) {
@@ -18,6 +19,7 @@ class User {
     _hasCreditOption = hasCreditOption;
     _phoneNumber = phoneNumber;
     _ownerName = ownerName;
+    _companyBalance = companyBalance;
     _companyName = companyName;
     _commercialRegistrationNo = commercialRegistrationNo;
     _vatNo = vatNo;
@@ -28,6 +30,7 @@ class User {
   User.fromJson(dynamic json) {
     _id = json['id'];
     _email = json['email'];
+    _companyBalance = json['companyBalance'];
     _phoneNumber = json['phoneNumber'];
     _ownerName = json['ownerName'];
     _companyName = json['companyName'];
@@ -49,6 +52,7 @@ class User {
   String? _companyName;
   String? _commercialRegistrationNo;
   String? _vatNo;
+  num? _companyBalance;
   int? _branchNumber;
   List<BranchModel>? _branches;
   bool? _hasCreditOption;
@@ -62,13 +66,14 @@ class User {
   List<BranchModel>? get branches => _branches;
 
   bool? get hasCreditOption => _hasCreditOption;
-
+  num? get companyBalance => _companyBalance;
   String? get vatNo => _vatNo;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['email'] = _email;
+    map['companyBalance'] = _companyBalance;
     map['phoneNumber'] = _phoneNumber;
     map['ownerName'] = _ownerName;
     map['companyName'] = _companyName;
@@ -84,6 +89,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{_id: $_id, _email: $_email, _phoneNumber: $_phoneNumber, _ownerName: $_ownerName, _companyName: $_companyName, _commercialRegistrationNo: $_commercialRegistrationNo, _vatNo: $_vatNo, _branchNumber: $_branchNumber, _branches: $_branches}';
+    return 'User{_id: $_id, _email: $_email, _phoneNumber: $_phoneNumber, _ownerName: $_ownerName, _companyName: $_companyName, _commercialRegistrationNo: $_commercialRegistrationNo, _vatNo: $_vatNo, _companyBalance: $_companyBalance, _branchNumber: $_branchNumber, _branches: $_branches, _hasCreditOption: $_hasCreditOption}';
   }
 }
