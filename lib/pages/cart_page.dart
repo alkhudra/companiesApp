@@ -164,7 +164,7 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
         minHeight: scHeight * 0.07,
-        maxHeight: hasDiscount! ? scHeight * 0.39 : 235,
+        maxHeight: hasDiscount! ? scHeight * 0.39 : 220,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
