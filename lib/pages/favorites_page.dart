@@ -161,7 +161,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
                 ),
               ),
-              if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo, 0, 0),
+              //TODO: load more button
+              // if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo, 0, 0),
             ],
           )
         : noItemDesign(LocaleKeys.no_fav_product.tr(), 'images/not_found.png');

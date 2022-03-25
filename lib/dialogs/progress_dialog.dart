@@ -40,7 +40,9 @@ Widget alertContent(){
       SizedBox(
         height: 5,
       ),
-      Container(child: Text(LocaleKeys.wait.tr())),
+      Container(child: Text(LocaleKeys.wait.tr(), style: TextStyle(
+        fontFamily: 'Almarai'
+      ),)),
     ],
   );
 }
