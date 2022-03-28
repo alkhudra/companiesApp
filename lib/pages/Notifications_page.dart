@@ -3,6 +3,9 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -30,8 +33,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
         padding: EdgeInsets.only(bottom: 25),
       ),
       appBar: bnbAppBar(context, LocaleKeys.notifications.tr()),
-      //TODO: replace with drawer(name & email)
-      endDrawer: drawerDesign(context),
+
+      endDrawer: drawerDesignWithName(context,name,email),
     );
   }
 
@@ -117,5 +120,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setValues();
+  }
+
+  void setValues()async {
+    User user = await PreferencesHelper.getUser;
+    name = user.companyName!;
+    email = user.email!;
   }
 }

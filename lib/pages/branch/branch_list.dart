@@ -40,7 +40,6 @@ class _BranchListState extends State<BranchList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
-        endDrawer: drawerDesign(context),
         backgroundColor: Colors.grey[100],
         body: FutureBuilder<BranchListResponseModel?>(
           future: getListData(),

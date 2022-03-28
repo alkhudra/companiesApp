@@ -20,6 +20,7 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/get_products_list_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -33,6 +34,7 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   double price = 6.0;
+  static String name = '', email = '';
   int counter = 0;
   int pageSize = listItemsCount;
   int pageNumber = 1;
@@ -46,6 +48,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
   static String language = 'ar';
 
   void setValues() async {
+    User user = await PreferencesHelper.getUser;
+    name = user.companyName!;
+    email = user.email!;
     language = await PreferencesHelper.getSelectedLanguage;
   }
 
@@ -69,7 +74,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         },
       ),
       appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
-      endDrawer: drawerDesign(context),
+      endDrawer: drawerDesignWithName(context,name , email ),
     );
   }
 

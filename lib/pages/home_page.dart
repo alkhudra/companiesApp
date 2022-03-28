@@ -91,8 +91,8 @@ class _HomePageState extends State<HomePage> {
     for (CategoryItem categoryItem in home!.categoriesList!) {
       categoryList.add(categoryItem);
     }
-    name = home.user!.companyName!;
-    email = home.user!.email!;
+    /*name = home.user!.companyName!;
+    email = home.user!.email!;*/
     PreferencesHelper.saveBranchesList(home.user!.branches!);
 
     return SingleChildScrollView(
@@ -224,9 +224,9 @@ class _HomePageState extends State<HomePage> {
 
   //------------------------
   static void setValues() async {
-/*    User user = await PreferencesHelper.getUser;
+    User user = await PreferencesHelper.getUser;
     name = user.companyName!;
-    email = user.email!;*/
+    email = user.email!;
     language = await PreferencesHelper.getSelectedLanguage;
   }
 

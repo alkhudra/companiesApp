@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/order_tile_design.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
@@ -14,6 +15,7 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/orders/get_orders_response_model.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/order_items.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
 import 'package:khudrah_companies/pages/orders/order_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -33,11 +35,13 @@ class _OrderListState extends State<OrderList>
   int pageSize = listItemsCount;
  // List<OrderHeader> list = [];
   bool isThereMoreItems = false;
+  static String name = '', email = '';
   List<OrderHeader> orderList = [];
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    setValues();
   }
 
   @override
@@ -46,6 +50,12 @@ class _OrderListState extends State<OrderList>
     _tabController.dispose();
   }
 
+
+  void setValues()async {
+    User user = await PreferencesHelper.getUser;
+    name = user.companyName!;
+    email = user.email!;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +70,7 @@ class _OrderListState extends State<OrderList>
       ),
       // endDrawer: drawerDesign(context),
       appBar: bnbAppBar(context, LocaleKeys.my_orders.tr()),
-      endDrawer: drawerDesign(context),
+      endDrawer: drawerDesignWithName(context,name,email),
     );
   }
 //---------------------
@@ -226,3 +236,5 @@ class _OrderListState extends State<OrderList>
     }
   }
 }
+
+
