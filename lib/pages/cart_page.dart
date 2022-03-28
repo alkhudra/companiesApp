@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
+import 'package:khudrah_companies/dialogs/two_btns_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -45,6 +47,7 @@ class _CartPageState extends State<CartPage> {
   static String productId = '';
   static late User user;
 
+   List<CartProductsList> unavailableItemsList = [];
   static List<CartProductsList> list = [];
   static List<BranchModel>? branchList = [];
 
@@ -83,6 +86,15 @@ class _CartPageState extends State<CartPage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       SuccessCartResponseModel? responseModel =
           SuccessCartResponseModel.fromJson(apiResponse.result);
+
+      for (CartProductsList productsCartList
+          in responseModel.userCart!.cartProductsList!) {
+        if (productsCartList.productModel!.isDeleted == true ||
+            productsCartList.productModel!.isAvailabe == false) {
+          unavailableItemsList.add(productsCartList);
+          print(unavailableItemsList.toString());
+        }
+      }
       return responseModel;
     } else {
       throw ExceptionHelper(apiResponse.message);
@@ -98,7 +110,7 @@ class _CartPageState extends State<CartPage> {
     if (model!.userCart != null) {
       list = model.userCart!.cartProductsList!;
 
-      if (model.message != '') {
+      if (unavailableItemsList.length != 0) {
         print(model.message!);
         showMessageDialog(context, model.message!, '', noPage);
       }
@@ -147,7 +159,7 @@ class _CartPageState extends State<CartPage> {
                                 onPressed: (BuildContext context) {
                                   productId =
                                       list[index].productModel!.productId!;
-                                  deleteFromCart(context, index, productId);
+                                  deleteFromCart(context, index: index, productId: productId);
                                 },
                               )
                             ],
@@ -239,15 +251,7 @@ class _CartPageState extends State<CartPage> {
                   Container(
                     child: greenBtn(LocaleKeys.checkout.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
-                   
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return CheckoutPage(
-                            currentUser: user,
-                            userCart: model.userCart,
-                            branchList: branchList,
-                            language: language);
-                      }));
+                      directToCheckoutPage(model);
                     }),
                   ),
                 ],
@@ -266,7 +270,7 @@ class _CartPageState extends State<CartPage> {
 
   //--------
   void deleteFromCart(
-      BuildContext context, int index, String? productId) async {
+      BuildContext context,{ int? index, String? productId}) async {
     if (isTrashBtnEnabled) {
       isTrashBtnEnabled = false;
       // showLoaderDialog(context);
@@ -286,9 +290,10 @@ class _CartPageState extends State<CartPage> {
         //  Navigator.pop(context);
         setState(() {
           isTrashBtnEnabled = true;
-          list.removeAt(index);
+          list.removeAt(index!);
         });
-        showSuccessMessage(context, model.message!);
+        print(model.message!);
+    //    showSuccessMessage(context, model.message!);
       } else {
         //  Navigator.pop(context);
         isTrashBtnEnabled = true;
@@ -296,12 +301,14 @@ class _CartPageState extends State<CartPage> {
       }
     }
   }
+  //--------
 
   static void setValue() async {
     language = await PreferencesHelper.getSelectedLanguage;
     user = await PreferencesHelper.getUser;
     branchList = await PreferencesHelper.getBranchesList;
   }
+  //--------
 
   noteWidget(bool boolCondition, String message) {
     return /*Visibility(
@@ -365,5 +372,55 @@ class _CartPageState extends State<CartPage> {
         break;
       }
     }*/
+  }
+  //--------
+
+  showUnavailableItemsDialog(Function() btnTwoAction) {
+    List<Function()> actions = [
+      () {
+        Navigator.pop(context);
+      },
+      btnTwoAction
+    ];
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => showTwoBtnDialog(
+            context,
+            LocaleKeys.add_branch.tr(),
+          'some items not available , delete them? ',
+          //  LocaleKeys.continue_add_branch_note_dialog.tr(),
+            LocaleKeys.cancel.tr(),
+'           delete',
+           // LocaleKeys.continue_btn.tr(),
+            actions));
+  }
+  //--------
+
+  void directToCheckoutPage(SuccessCartResponseModel model) async {
+    if(unavailableItemsList.length > 0){
+      Navigator.pop(context);
+
+      showUnavailableItemsDialog(() {
+        for(CartProductsList item in unavailableItemsList){
+          deleteFromCart(context , productId: item.productModel!.productId);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return CheckoutPage(
+              currentUser: user,
+              userCart: model.userCart,
+              branchList: branchList,
+              language: language);
+        }));
+      });
+    }else{
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return CheckoutPage(
+            currentUser: user,
+            userCart: model.userCart,
+            branchList: branchList,
+            language: language);
+      }));
+    }
+
   }
 }

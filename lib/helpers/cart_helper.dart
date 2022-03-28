@@ -97,8 +97,8 @@ Widget cartTile(BuildContext context, String language,
   num productTotal = list[index]!.totalProductPrice != null
       ? list[index]!.totalProductPrice!
       : 0;
-  bool isAvailable = false;//model.isAvailabe!;
-  bool isDeleted =true;// model.isDeleted!;
+  bool isAvailable = model.isAvailabe!;
+  bool isDeleted = model.isDeleted!;
 
   String priceMessage = isPriceChanged == true
       ? LocaleKeys.cart_price_changed_note.tr()
