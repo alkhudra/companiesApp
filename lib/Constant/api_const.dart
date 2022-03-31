@@ -51,9 +51,11 @@ abstract class ApiConst {
   static const String delete_product_from_cart_url =
       "/Cart/deleteFromCart/{productId}";
 
-//--------------- checkout ----------------
 //--------------- orders ----------------
 
   static const String get_orders = "/Order/getOrders";
   static const String submit_order = "/Order/submitOrder";
+//--------------- orders ----------------
+  static const String get_notification = "/Notification/getUserNotifications";
+
 }

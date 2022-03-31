@@ -103,5 +103,8 @@ abstract class RestClient {
 
   @POST(ApiConst.submit_order)
   Future<dynamic> submitOrder(@Body() Map<String, dynamic> hashMap);
+//--------------- orders ----------------
+  @GET(ApiConst.get_notification)
+  Future<dynamic> getNotification();
 
 }
