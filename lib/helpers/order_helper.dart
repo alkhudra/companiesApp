@@ -54,7 +54,7 @@ class OrderHelper {
         totalOrderVAT15: userCart.totalCartVAT15,
         hasDiscount: userCart.hasDiscount,
         discountPercentage: userCart.discountPercentage,
-        totalDiscount: userCart.priceAfterDiscount,
+        totalDiscount: userCart.totalDiscount,
         orderItem: orderItemsList);
 
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {

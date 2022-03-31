@@ -162,20 +162,20 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        color: CustomColors().primaryGreenColor,
-        supportedLocales: context.supportedLocales,
-        localizationsDelegates: context.localizationDelegates,
-        locale: context.locale,
-        routes: routMap,
-        theme: ThemeData(
-          fontFamily: 'Almarai',
-          accentColor: CustomColors().primaryGreenColor,
-          primarySwatch: Colors.green,
-        ),
-        home: tempHome(),
-        // home: tempHome(),
-      ),
+          debugShowCheckedModeBanner: false,
+          color: CustomColors().primaryGreenColor,
+          supportedLocales: context.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
+          locale: context.locale,
+          routes: routMap,
+          theme: ThemeData(
+            fontFamily: 'Almarai',
+            accentColor: CustomColors().primaryGreenColor,
+            primarySwatch: Colors.green,
+          ),
+          home: getRout() //tempHome(),
+          // home: tempHome(),
+          ),
     );
   }
 

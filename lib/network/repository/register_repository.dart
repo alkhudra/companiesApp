@@ -14,10 +14,9 @@ import 'package:khudrah_companies/network/models/auth/fail_reset_password_respon
 import 'package:khudrah_companies/network/models/error_response_model.dart';
 
 class AuthRepository {
- late final RestClient _client;
+  late final RestClient _client;
 
-  AuthRepository(Map<String,dynamic> headerMap) {
-
+  AuthRepository(Map<String, dynamic> headerMap) {
     _client = RestClient(Dio(
       BaseOptions(contentType: 'application/json', headers: headerMap),
     ));
@@ -76,7 +75,7 @@ class AuthRepository {
                 errorMessage = res.data['message'];
               } else {
                 ErrorResponseModel errorResponseModel =
-                ErrorResponseModel.fromJson(res.data);
+                    ErrorResponseModel.fromJson(res.data);
                 errorMessage = errorResponseModel.error!.message!;
                 print(errorMessage);
               }
@@ -96,14 +95,17 @@ class AuthRepository {
 
   //--------------------------
 
-  Future<ApiResponse> loginUser(String email, String password) async {
-    if (email == null || password == null) {
+  Future<ApiResponse> loginUser(
+      String email, String password, deviceId,isAndroiodDevice) async {
+    if (email == null || password == null || deviceId == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
 
     Map<String, dynamic> hashMap = {
       "email": email,
       "password": password,
+      "isAndroiodDevice": isAndroiodDevice,
+      "deviceId": deviceId
     };
 
     return await _client
@@ -123,15 +125,18 @@ class AuthRepository {
               FailLoginResponseModel model =
                   FailLoginResponseModel.fromJson(res.data);
 
-              if (model.companyStatus == null)
-                errorMessage = model.message!;
-              else {
+              if (model.companyStatus == null) {
+                if (model.message != null) errorMessage = model.message!;
+              } else {
                 switch (model.companyStatus) {
                   case waiting_confirmation:
                     errorMessage = LocaleKeys.auth_note.tr();
                     break;
                   case waiting_approval:
                     errorMessage = LocaleKeys.waiting_approval.tr();
+                    break;
+                  case rejected:
+                    errorMessage = LocaleKeys.rejected.tr();
                     break;
                   case registered:
                     errorMessage = LocaleKeys.worng_password.tr();

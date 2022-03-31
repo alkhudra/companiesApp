@@ -9,6 +9,7 @@ const ksaLng = 39.172779;
 const waiting_confirmation = "waiting_confirmation";
 const waiting_approval = "waiting_approval";
 const registered = "registered";
+const rejected = "rejected";
 
 const listItemsCount = 5;
 const addToCartConst = 'addToCart';

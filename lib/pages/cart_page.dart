@@ -47,7 +47,7 @@ class _CartPageState extends State<CartPage> {
   static String productId = '';
   static late User user;
 
-   List<CartProductsList> unavailableItemsList = [];
+  List<CartProductsList> unavailableItemsList = [];
   static List<CartProductsList> list = [];
   static List<BranchModel>? branchList = [];
 
@@ -87,14 +87,19 @@ class _CartPageState extends State<CartPage> {
       SuccessCartResponseModel? responseModel =
           SuccessCartResponseModel.fromJson(apiResponse.result);
 
-      for (CartProductsList productsCartList
-          in responseModel.userCart!.cartProductsList!) {
-        if (productsCartList.productModel!.isDeleted == true ||
-            productsCartList.productModel!.isAvailabe == false) {
-          unavailableItemsList.add(productsCartList);
-          print(unavailableItemsList.toString());
+
+      if (responseModel.userCart != null) {
+        for (CartProductsList productsCartList
+            in responseModel.userCart!.cartProductsList!) {
+          if (productsCartList.productModel!.isDeleted == true ||
+              productsCartList.productModel!.isAvailabe == false) {
+            unavailableItemsList.add(productsCartList);
+            print(unavailableItemsList.toString());
+          }
         }
       }
+
+
       return responseModel;
     } else {
       throw ExceptionHelper(apiResponse.message);
@@ -115,7 +120,7 @@ class _CartPageState extends State<CartPage> {
         showMessageDialog(context, model.message!, '', noPage);
       }
 
-      num priceAfterDiscount = model.userCart!.priceAfterDiscount!;
+      num priceAfterDiscount = model.userCart!.totalDiscount!;
       num? subtotal = model.userCart!.totalCartPrice!;
       num? vat = model.userCart!.totalCartVAT15!;
       num total = model.userCart!.totalNetCartPrice!;
@@ -159,7 +164,8 @@ class _CartPageState extends State<CartPage> {
                                 onPressed: (BuildContext context) {
                                   productId =
                                       list[index].productModel!.productId!;
-                                  deleteFromCart(context, index: index, productId: productId);
+                                  deleteFromCart(context,
+                                      index: index, productId: productId);
                                 },
                               )
                             ],
@@ -269,8 +275,8 @@ class _CartPageState extends State<CartPage> {
   //--------
 
   //--------
-  void deleteFromCart(
-      BuildContext context,{ int? index, String? productId}) async {
+  void deleteFromCart(BuildContext context,
+      {int? index, String? productId}) async {
     if (isTrashBtnEnabled) {
       isTrashBtnEnabled = false;
       // showLoaderDialog(context);
@@ -293,7 +299,7 @@ class _CartPageState extends State<CartPage> {
           list.removeAt(index!);
         });
         print(model.message!);
-    //    showSuccessMessage(context, model.message!);
+        //    showSuccessMessage(context, model.message!);
       } else {
         //  Navigator.pop(context);
         isTrashBtnEnabled = true;
@@ -387,23 +393,23 @@ class _CartPageState extends State<CartPage> {
         builder: (BuildContext context) => showTwoBtnDialog(
             context,
             LocaleKeys.add_branch.tr(),
-          'some items not available , delete them? ',
-          //  LocaleKeys.continue_add_branch_note_dialog.tr(),
+            'some items not available , delete them? ',
+            //  LocaleKeys.continue_add_branch_note_dialog.tr(),
             LocaleKeys.cancel.tr(),
-'           delete',
-           // LocaleKeys.continue_btn.tr(),
+            '           delete',
+            // LocaleKeys.continue_btn.tr(),
             actions));
   }
   //--------
 
   void directToCheckoutPage(SuccessCartResponseModel model) async {
     //todo: test
-    if(unavailableItemsList.length > 0){
+    if (unavailableItemsList.length > 0) {
       Navigator.pop(context);
 
       showUnavailableItemsDialog(() {
-        for(CartProductsList item in unavailableItemsList){
-          deleteFromCart(context , productId: item.productModel!.productId);
+        for (CartProductsList item in unavailableItemsList) {
+          deleteFromCart(context, productId: item.productModel!.productId);
         }
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return CheckoutPage(
@@ -413,7 +419,7 @@ class _CartPageState extends State<CartPage> {
               language: language);
         }));
       });
-    }else{
+    } else {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return CheckoutPage(
             currentUser: user,
@@ -422,6 +428,5 @@ class _CartPageState extends State<CartPage> {
             language: language);
       }));
     }
-
   }
 }

@@ -190,5 +190,7 @@
   "apple_pay": "Apple Pay",
   "stc_pay": "STC Pay",
   "pay_now": "Pay Now",
+  "rejected": "Thank you for choosing AlKhadra United Company ، and we are very sorry for not accepting your account",
+
   "no_debit_balance": "You have no balance in credit payment, change payment method "
 }

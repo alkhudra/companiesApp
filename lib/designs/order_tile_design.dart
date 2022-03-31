@@ -12,7 +12,6 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
   String orderStatus = '';
   String orderDate = '';
 
-  //todo: edit statusColor
   Color statusColor ;
   if (model.orderStatus == underProcess) {
     orderDate = model.orderInitializedDate!;

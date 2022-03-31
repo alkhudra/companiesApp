@@ -72,7 +72,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    num priceAfterDiscount = widget.userCart!.priceAfterDiscount!;
+    num priceAfterDiscount = widget.userCart!.totalDiscount!;
     num subtotal = widget.userCart!.totalCartPrice!;
     num vat = widget.userCart!.totalCartVAT15!;
     num total = widget.userCart!.totalNetCartPrice!;

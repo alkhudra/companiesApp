@@ -8,12 +8,14 @@ class UserCart {
     num? discountPercentage,
     num? totalCartVAT15,
     num? totalNetCartPrice,
+    num? totalDiscount,
     num? priceAfterDiscount,
   }) {
     _totalCartVAT15 = totalCartVAT15;
     _cartProductsList = cartProductsList;
     _totalCartPrice = totalCartPrice;
     _hasDiscount = hasDiscount;
+    _totalDiscount = totalDiscount;
     _totalNetCartPrice = totalNetCartPrice;
     _discountPercentage = discountPercentage;
     _priceAfterDiscount = priceAfterDiscount;
@@ -29,7 +31,7 @@ class UserCart {
     _discountPercentage = json['discountPercentage'];
     _totalNetCartPrice = json['totalNetCartPrice'];
     _totalCartVAT15 = json['totalCartVAT15'];
-
+    _totalDiscount = json['totalDiscount'];
     _totalCartPrice = json['totalCartPrice'];
     _hasDiscount = json['hasDiscount'];
     _priceAfterDiscount = json['priceAfterDiscount'];
@@ -41,6 +43,9 @@ class UserCart {
   num? _discountPercentage;
   num? _totalCartVAT15;
   num? _totalNetCartPrice;
+  num? _totalDiscount;
+
+  num? get totalDiscount => _totalDiscount;
 
   List<CartProductsList>? get cartProductsList => _cartProductsList;
   num? get totalCartPrice => _totalCartPrice;
@@ -59,7 +64,7 @@ class UserCart {
     map['totalNetCartPrice'] = _totalNetCartPrice;
     map['totalCartVAT15'] = _totalCartVAT15;
     map['discountPercentage'] = _discountPercentage;
-
+    map['totalDiscount'] = _totalDiscount;
     map['totalCartPrice'] = _totalCartPrice;
     map['hasDiscount'] = _hasDiscount;
     map['priceAfterDiscount'] = _priceAfterDiscount;

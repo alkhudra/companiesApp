@@ -7,6 +7,7 @@ class User {
     String? phoneNumber,
     String? ownerName,
     String? companyName,
+    String? companyStatus,
     String? commercialRegistrationNo,
     String? vatNo,
     bool? hasCreditOption,
@@ -16,6 +17,7 @@ class User {
   }) {
     _id = id;
     _email = email;
+    _companyStatus = companyStatus;
     _hasCreditOption = hasCreditOption;
     _phoneNumber = phoneNumber;
     _ownerName = ownerName;
@@ -36,6 +38,7 @@ class User {
     _companyName = json['companyName'];
     _commercialRegistrationNo = json['commercialRegistrationNo'];
     _vatNo = json['vatNo'];
+    _companyStatus = json['companyStatus'];
     _hasCreditOption = json['hasCreditOption'];
     _branchNumber = json['branchNumber'];
     if (json['branches'] != null) {
@@ -52,6 +55,7 @@ class User {
   String? _companyName;
   String? _commercialRegistrationNo;
   String? _vatNo;
+  String? _companyStatus;
   num? _companyBalance;
   int? _branchNumber;
   List<BranchModel>? _branches;
@@ -64,6 +68,7 @@ class User {
   String? get commercialRegistrationNo => _commercialRegistrationNo;
   int? get branchNumber => _branchNumber;
   List<BranchModel>? get branches => _branches;
+  String? get companyStatus => _companyStatus;
 
   bool? get hasCreditOption => _hasCreditOption;
   num? get companyBalance => _companyBalance;
@@ -81,6 +86,8 @@ class User {
     map['vatNo'] = _vatNo;
     map['hasCreditOption'] = _hasCreditOption;
     map['branchNumber'] = _branchNumber;
+    map['companyStatus'] = _companyStatus;
+
     if (_branches != null) {
       map['branches'] = _branches?.map((v) => v.toJson()).toList();
     }

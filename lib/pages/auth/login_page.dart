@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:another_flushbar/flushbar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -21,7 +24,8 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/fail_login_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/forget_password_response_model.dart';
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/helper/network_helper.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/register_repository.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
@@ -53,6 +57,7 @@ class _LogInPageState extends State<LogInPage> {
     super.initState();
     print('welcome in log in  ');
   }
+
   @override
   Widget build(BuildContext context) {
     Size? size = MediaQuery.of(context).size;
@@ -88,7 +93,9 @@ class _LogInPageState extends State<LogInPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: scHeight*0.19,),
+                SizedBox(
+                  height: scHeight * 0.19,
+                ),
                 TextFieldDesign.textFieldStyle(
                   context: context,
                   verMarg: 5,
@@ -121,7 +128,8 @@ class _LogInPageState extends State<LogInPage> {
                         if (isForgetPassBtnEnabled)
                           showDialog(
                               builder: (BuildContext context) =>
-                                  showEnterEmailDialog(context,isForgetPassBtnEnabled),
+                                  showEnterEmailDialog(
+                                      context, isForgetPassBtnEnabled),
                               context: context);
                       },
                       child: Text(LocaleKeys.forget_pass.tr(),
@@ -142,8 +150,8 @@ class _LogInPageState extends State<LogInPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(LocaleKeys.new_user.tr(),
-                              style: TextStyle(
-                                  color: CustomColors().blackColor)),
+                              style:
+                                  TextStyle(color: CustomColors().blackColor)),
                           Text(LocaleKeys.create_account.tr(),
                               style: TextStyle(
                                   color: CustomColors().primaryGreenColor))
@@ -153,12 +161,11 @@ class _LogInPageState extends State<LogInPage> {
                 SizedBox(
                   height: scHeight * 0.065,
                 ),
-                greenBtn(LocaleKeys.log_in.tr(), EdgeInsets.only(left: 50, right: 50),  () {
-                    if (isBtnEnabled) logIn();
+                greenBtn(LocaleKeys.log_in.tr(),
+                    EdgeInsets.only(left: 50, right: 50), () {
+                  if (isBtnEnabled) logIn();
                   //Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage(isHasBranch: true)));
-                })
-
-                ,
+                }),
               ],
             ),
           ),
@@ -179,7 +186,7 @@ class _LogInPageState extends State<LogInPage> {
 
   ////---------------------------
 
-  void logIn() async{
+  void logIn() async {
     if (emailController.value.text == '') {
       showErrorDialog(LocaleKeys.email_required.tr());
       return;
@@ -205,9 +212,12 @@ class _LogInPageState extends State<LogInPage> {
     //----------start api ----------------
     Map<String, dynamic> headerMap = await getAuthHeaderMap();
 
+    String? token = await FirebaseMessaging.instance.getToken();
     AuthRepository registerRepository = AuthRepository(headerMap);
+
     registerRepository
-        .loginUser(emailController.text, passController.text)
+        .loginUser(
+            emailController.text, passController.text, token, Platform.isIOS)
         .then((result) async {
       //-------- fail response ---------
 
@@ -218,7 +228,8 @@ class _LogInPageState extends State<LogInPage> {
       }
 
       //-------- success response ---------
-      SuccessLoginResponseModel model = SuccessLoginResponseModel.fromJson(result.result);
+      SuccessLoginResponseModel model =
+          SuccessLoginResponseModel.fromJson(result.result);
 
       print(model.user.toString());
       User user = model.user!;
@@ -234,33 +245,27 @@ class _LogInPageState extends State<LogInPage> {
       PreferencesHelper.setUserFirstLogIn(false);
       isHasBranches = user.branches!.isNotEmpty;
       Navigator.pop(context);
-     String name = user.companyName!;
+      String name = user.companyName!;
       directToHomePage(name);
-
     });
   }
-
 
 ////---------------------------
 
   void directToHomePage(String name) {
-
-    moveToNewStack(context , dashBoardRoute);
+    moveToNewStack(context, dashBoardRoute);
 
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       Flushbar(
         // title: "Hey User",
-        message:
-        LocaleKeys.welcome_back.tr()+" $name",
+        message: LocaleKeys.welcome_back.tr() + " $name",
         flushbarPosition: FlushbarPosition.BOTTOM,
         duration: Duration(seconds: 3),
         backgroundColor: CustomColors().primaryGreenColor.withOpacity(0.8),
       )..show(context);
     });
-
   }
 
   ////---------------------------
-
 
 }

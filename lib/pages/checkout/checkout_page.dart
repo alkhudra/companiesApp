@@ -131,7 +131,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       payMethod.insert(2, LocaleKeys.postpaid.tr());
     }
 
-    num priceAfterDiscount = widget.userCart!.priceAfterDiscount!;
+    num priceAfterDiscount = widget.userCart!.totalDiscount!;
     num subtotal = widget.userCart!.totalCartPrice!;
     num vat = widget.userCart!.totalCartVAT15!;
     num total = widget.userCart!.totalNetCartPrice!;
