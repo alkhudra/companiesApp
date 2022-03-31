@@ -130,10 +130,14 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void showNotification() {
+  void showNotification() async {
     setState(() {
       counter++;
     });
+
+    String? token = await FirebaseMessaging.instance.getToken();
+
+    print('token:' + token!);
 
     flutterLocalNotificationsPlugin.show(
         0,
@@ -169,7 +173,7 @@ class _MyAppState extends State<MyApp> {
           accentColor: CustomColors().primaryGreenColor,
           primarySwatch: Colors.green,
         ),
-        home: getRout(),
+        home: tempHome(),
         // home: tempHome(),
       ),
     );
