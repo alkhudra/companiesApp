@@ -4,48 +4,48 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
+import 'package:khudrah_companies/network/models/notification/get_notification_response_model.dart';
+import 'package:khudrah_companies/network/models/notification/notification_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({ Key? key }) : super(key: key);
+  const NotificationsPage({Key? key}) : super(key: key);
 
   @override
   _NotificationsPageState createState() => _NotificationsPageState();
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-
   static String name = '', email = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return notifCard();
+      body: FutureBuilder<GetNotificationResponseModel>(
+        future: getListData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return pageDesign(context, snapshot.data!);
+          } else
+            return errorCase(snapshot);
         },
-        //replace count by array.length
-        itemCount: 10,
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.only(bottom: 25),
       ),
       appBar: bnbAppBar(context, LocaleKeys.notifications.tr()),
-
-      endDrawer: drawerDesignWithName(context,name,email),
+      endDrawer: drawerDesignWithName(context, name, email),
     );
   }
 
-  Widget notifCard() {
+  Widget notifCard(NotificationModel model) {
     return ListTile(
       title: Column(
         children: [
           Container(
             margin: EdgeInsets.only(top: 5),
-            width: MediaQuery.of(context).size.width*0.9,
-            height: MediaQuery.of(context).size.height*0.1,
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(40),
@@ -61,20 +61,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   left: 0,
                   child: Container(
                     width: 5,
-                    height: MediaQuery.of(context).size.height*0.1,
+                    height: MediaQuery.of(context).size.height * 0.1,
                     color: CustomColors().primaryGreenColor,
                   ),
                 ),
                 Positioned(
                   left: 0,
                   child: Container(
-                    width: MediaQuery.of(context).size.width*0.2,
-                    height: MediaQuery.of(context).size.height*0.14,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.14,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/ic_fruit_green.png')
-                      )
-                    ),
+                        image: DecorationImage(
+                            image: AssetImage('images/ic_fruit_green.png'))),
                   ),
                 ),
                 Column(
@@ -87,30 +85,37 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       children: [
                         Container(
                           //replace by order no
-                          child: Text('Order Num', style: TextStyle(
-                            color: CustomColors().primaryGreenColor,
-                            fontSize: 18, 
-                            fontWeight: FontWeight.bold,
-                          ),),
+                          child: Text(
+                            'Order Num',
+                            style: TextStyle(
+                              color: CustomColors().primaryGreenColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         Container(
                           //replace by actual date
-                          child: Text('25/01/2022', style: TextStyle(
-                            color: CustomColors().primaryGreenColor,
-                            fontSize: 18, 
-                            fontWeight: FontWeight.bold,
-                          ),),
+                          child: Text(
+                            model.sentDateTime!.toString(),
+                            style: TextStyle(
+                              color: CustomColors().primaryGreenColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                     Container(
                       //replace text by notification
-                      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.12),
-                      child: Text(LocaleKeys.on_the_way.tr(),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: CustomColors().darkBlueColor
-                      ),),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.12),
+                      child: Text(
+                       model.body!.toString(),
+                        style: TextStyle(
+                            fontSize: 16, color: CustomColors().darkBlueColor),
+                      ),
                     )
                   ],
                 ),
@@ -129,9 +134,25 @@ class _NotificationsPageState extends State<NotificationsPage> {
     setValues();
   }
 
-  void setValues()async {
+  void setValues() async {
     User user = await PreferencesHelper.getUser;
     name = user.companyName!;
     email = user.email!;
+  }
+
+  getListData() {}
+
+  Widget pageDesign(
+      BuildContext context, GetNotificationResponseModel getOrdersResponseModel) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return notifCard(getOrdersResponseModel.notificationList[index]);
+      },
+      //replace count by array.length
+      itemCount: 10,
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      padding: EdgeInsets.only(bottom: 25),
+    );
   }
 }
