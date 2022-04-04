@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
 
     HomeRepository homeRepository = HomeRepository(headerMap);
 
-    ApiResponse apiResponse = await homeRepository.getHomeInfo();
+    ApiResponse apiResponse = await homeRepository.getHomeInfo(context);
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code)
       return HomeSuccessResponseModel.fromJson(apiResponse.result);
     else

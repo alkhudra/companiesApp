@@ -17,7 +17,7 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
-import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/network/repository/auth_repository.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
@@ -140,9 +140,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     showLoaderDialog(context);
     //----------start api ----------------
-    Map<String, dynamic> headerMap = await getAuthHeaderMap();
 
-    AuthRepository registerRepository = AuthRepository(headerMap);
+    AuthRepository registerRepository = AuthRepository();
     String email = widget.dataMap.values.first;
     String token = widget.dataMap.values.last;
 

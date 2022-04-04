@@ -7,7 +7,7 @@ import 'helper/network_helper.dart';
 import 'models/home/home_success_response_model.dart';
 
 class HomePageProvider {
-  static late HomeSuccessResponseModel response;
+/*  static late HomeSuccessResponseModel response;
 
   factory HomePageProvider() => HomePageProvider._internal();
   HomePageProvider._internal();
@@ -24,5 +24,5 @@ class HomePageProvider {
       response = apiResponse.message;
       throw ExceptionHelper(apiResponse.message);
     }
-  }
+  }*/
 }

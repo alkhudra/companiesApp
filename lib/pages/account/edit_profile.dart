@@ -21,7 +21,7 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/success_edit_profile_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';
-import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/network/repository/auth_repository.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';

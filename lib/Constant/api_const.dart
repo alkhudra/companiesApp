@@ -10,6 +10,7 @@ abstract class ApiConst {
   //---------------auth ----------------
   static const String register_url = '/account/register';
   static const String login_url = '/account/login';
+  static const String logout_url = '/Account/logout';
   static const String get_user_info_url = '/account/getRegisteredUser/{id}';
   static const String update_profile_url = '/account/updateUser/{id}';
   static const String reset_password_url = '/account/resetPassword';
@@ -57,5 +58,4 @@ abstract class ApiConst {
   static const String submit_order = "/Order/submitOrder";
 //--------------- orders ----------------
   static const String get_notification = "/Notification/getUserNotifications";
-
 }

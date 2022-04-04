@@ -17,7 +17,7 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/success_register_response_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
-import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/network/repository/auth_repository.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -364,9 +364,8 @@ class _SignUpPageState extends State<SignUpPage> {
     showLoaderDialog(context);
     //----------start api ----------------
 
-    Map<String, dynamic> headerMap = await getAuthHeaderMap();
 
-    AuthRepository registerRepository = AuthRepository(headerMap);
+    AuthRepository registerRepository = AuthRepository();
     registerRepository
         .registerUser(
             emailController.text,

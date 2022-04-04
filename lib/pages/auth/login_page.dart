@@ -26,7 +26,7 @@ import 'package:khudrah_companies/network/models/auth/forget_password_response_m
 import 'package:khudrah_companies/network/models/auth/success_login_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
-import 'package:khudrah_companies/network/repository/register_repository.dart';
+import 'package:khudrah_companies/network/repository/auth_repository.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
@@ -210,10 +210,10 @@ class _LogInPageState extends State<LogInPage> {
 
     showLoaderDialog(context);
     //----------start api ----------------
-    Map<String, dynamic> headerMap = await getAuthHeaderMap();
+
 
     String? token = await FirebaseMessaging.instance.getToken();
-    AuthRepository registerRepository = AuthRepository(headerMap);
+    AuthRepository registerRepository = AuthRepository();
 
 
     registerRepository

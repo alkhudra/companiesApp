@@ -22,6 +22,9 @@ abstract class RestClient {
   @POST(ApiConst.login_url)
   Future<dynamic> loginUser(@Body() Map<String, dynamic> hashMap);
 
+  @POST(ApiConst.logout_url)
+  Future<dynamic> logoutUser();
+
   @POST(ApiConst.forget_password_url)
   Future<ForgetPasswordResponseModel> forgetPassword(@Body() Map<String, dynamic> hashMap);
 

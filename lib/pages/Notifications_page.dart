@@ -4,10 +4,14 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/notification/get_notification_response_model.dart';
 import 'package:khudrah_companies/network/models/notification/notification_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/repository/notification_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
@@ -86,7 +90,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         Container(
                           //replace by order no
                           child: Text(
-                            'Order Num',
+                            model.title!,
                             style: TextStyle(
                               color: CustomColors().primaryGreenColor,
                               fontSize: 18,
@@ -94,28 +98,33 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             ),
                           ),
                         ),
+
+                      ],
+                    ),
+                    Column(
+
+                      children: [
                         Container(
                           //replace by actual date
                           child: Text(
                             model.sentDateTime!.toString(),
                             style: TextStyle(
                               color: CustomColors().primaryGreenColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
                           ),
                         ),
+                        Container(
+                          //replace text by notification
+                          margin: EdgeInsets.symmetric(
+                              horizontal: MediaQuery.of(context).size.width * 0.12),
+                          child: Text(
+                           model.body!.toString(),
+                            style: TextStyle(
+                                fontSize: 16, color: CustomColors().darkBlueColor),
+                          ),
+                        ),
                       ],
-                    ),
-                    Container(
-                      //replace text by notification
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.12),
-                      child: Text(
-                       model.body!.toString(),
-                        style: TextStyle(
-                            fontSize: 16, color: CustomColors().darkBlueColor),
-                      ),
                     )
                   ],
                 ),
@@ -140,7 +149,25 @@ class _NotificationsPageState extends State<NotificationsPage> {
     email = user.email!;
   }
 
-  getListData() {}
+  Future<GetNotificationResponseModel> getListData() async{
+
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    NotificationRepository orderRepository = NotificationRepository(headerMap);
+
+    ApiResponse apiResponse =
+        await orderRepository.getAllNotifications();
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      GetNotificationResponseModel? responseModel =
+      GetNotificationResponseModel.fromJson(apiResponse.result);
+
+      //-----------------------------------
+      return responseModel;
+    } else {
+      throw ExceptionHelper(apiResponse.message);
+    }
+  }
 
   Widget pageDesign(
       BuildContext context, GetNotificationResponseModel getOrdersResponseModel) {
