@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
+import 'package:khudrah_companies/network/API/api_response.dart';
+import 'package:khudrah_companies/network/API/api_response_type.dart';
+import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
+import 'package:khudrah_companies/network/repository/order_repository.dart';
 
 import '../pages/orders/order_details.dart';
 import '../resources/custom_colors.dart';
@@ -12,7 +16,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
   String orderStatus = '';
   String orderDate = '';
 
-  Color statusColor ;
+  Color statusColor;
   if (model.orderStatus == underProcess) {
     orderDate = model.orderInitializedDate!;
     orderStatus = LocaleKeys.under_process.tr();
@@ -21,12 +25,10 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
     orderDate = model.onDeliveryStatusDate!;
     orderStatus = LocaleKeys.on_delivery.tr();
     statusColor = CustomColors().darkBlueColor;
-
   } else {
     orderDate = model.deliveredStatusDate!;
     orderStatus = LocaleKeys.completed_order.tr();
     statusColor = CustomColors().primaryGreenColor;
-
   }
 
   return ListTile(
@@ -34,7 +36,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
       child: GestureDetector(
         onTap: () {
           // navigate to order status page
-          directToOrderDetails(context,model);
+          directToOrderDetails(context, model: model);
         },
         child: Stack(
           children: [
@@ -44,7 +46,7 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
                 child: Container(
                   width: 6,
                   height: scHeight * 0.12,
-                  color:statusColor,
+                  color: statusColor,
                 )),
             //background container
             Container(
@@ -130,14 +132,28 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
   );
 }
 
-void directToOrderDetails(context,model)async {
+void directToOrderDetails(context, {model, orderId}) async {
   String language = await PreferencesHelper.getSelectedLanguage;
+  OrderHeader orderHeaderModel = OrderHeader();
 
+  if (model == null) {
+    Map<String, dynamic> headerMap = await getHeaderMap();
+
+    OrderRepository orderRepository = OrderRepository(headerMap);
+
+    ApiResponse apiResponse = await orderRepository.getOrderById(orderId);
+
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      OrderHeader? responseModel = OrderHeader.fromJson(apiResponse.result);
+      orderHeaderModel = responseModel;
+    }
+  } else
+    orderHeaderModel = model;
   Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => OrderDetails(
-            orderModel: model,
-            language:language ,
-          )));
+                orderModel: orderHeaderModel,
+                language: language,
+              )));
 }

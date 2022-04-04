@@ -3,6 +3,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/designs/order_tile_design.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -44,94 +45,104 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   Widget notifCard(NotificationModel model) {
     return ListTile(
-      title: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 5),
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-              border: Border.all(
-                color: CustomColors().primaryGreenColor,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 0,
-                  child: Container(
-                    width: 5,
-                    height: MediaQuery.of(context).size.height * 0.1,
+      title: Center(
+        child: GestureDetector(
+          onTap: (){
+            if(model.orderId != null && model.orderId != '0' ){
+              directToOrderDetails(context,orderId:  model.orderId);
+
+            }
+          },
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+                  border: Border.all(
                     color: CustomColors().primaryGreenColor,
                   ),
                 ),
-                Positioned(
-                  left: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.14,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('images/ic_fruit_green.png'))),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Stack(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          //replace by order no
-                          child: Text(
-                            model.title!,
-                            style: TextStyle(
-                              color: CustomColors().primaryGreenColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-
-                      ],
+                    Positioned(
+                      left: 0,
+                      child: Container(
+                        width: 5,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        color: CustomColors().primaryGreenColor,
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        height: MediaQuery.of(context).size.height * 0.14,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('images/ic_fruit_green.png'))),
+                      ),
                     ),
                     Column(
-
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          //replace by actual date
-                          child: Text(
-                            model.sentDateTime!.toString(),
-                            style: TextStyle(
-                              color: CustomColors().primaryGreenColor,
-                              fontSize: 15,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              //replace by order no
+                              child: Text(
+                                model.title!,
+                                style: TextStyle(
+                                  color: CustomColors().primaryGreenColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                          ),
+
+                          ],
                         ),
-                        Container(
-                          //replace text by notification
-                          margin: EdgeInsets.symmetric(
-                              horizontal: MediaQuery.of(context).size.width * 0.12),
-                          child: Text(
-                           model.body!.toString(),
-                            style: TextStyle(
-                                fontSize: 16, color: CustomColors().darkBlueColor),
-                          ),
-                        ),
+                        Column(
+
+                          children: [
+                            Container(
+                              //replace by actual date
+                              child: Text(
+                                model.sentDateTime!.toString(),
+                                style: TextStyle(
+                                  color: CustomColors().primaryGreenColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              //replace text by notification
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: MediaQuery.of(context).size.width * 0.12),
+                              child: Text(
+                               model.body!.toString(),
+                                style: TextStyle(
+                                    fontSize: 16, color: CustomColors().darkBlueColor),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

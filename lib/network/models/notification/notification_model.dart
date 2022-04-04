@@ -14,7 +14,7 @@ class NotificationModel {
       String? sentDateTime, 
       bool? isSeccuss,}){
     _id = id;
-    _userId = userId;
+    _orderId = userId;
     _title = title;
     _body = body;
     _sentDateTime = sentDateTime;
@@ -23,21 +23,21 @@ class NotificationModel {
 
   NotificationModel.fromJson(dynamic json) {
     _id = json['id'];
-    _userId = json['userId'];
+    _orderId = json['orderId'];
     _title = json['title'];
     _body = json['body'];
     _sentDateTime = json['sentDateTime'];
     _isSeccuss = json['isSeccuss'];
   }
   String? _id;
-  String? _userId;
+  String? _orderId;
   String? _title;
   String? _body;
   String? _sentDateTime;
   bool? _isSeccuss;
 
   String? get id => _id;
-  String? get userId => _userId;
+  String? get orderId => _orderId;
   String? get title => _title;
   String? get body => _body;
   String? get sentDateTime => _sentDateTime;
@@ -46,7 +46,7 @@ class NotificationModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
-    map['userId'] = _userId;
+    map['orderId'] = _orderId;
     map['title'] = _title;
     map['body'] = _body;
     map['sentDateTime'] = _sentDateTime;
