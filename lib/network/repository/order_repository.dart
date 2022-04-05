@@ -67,7 +67,7 @@ class OrderRepository {
     }
 
     return await _client
-        .getOrders(orderId)
+        .getOrderById(orderId)
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
         .catchError((e) {
       int errorCode = 0;

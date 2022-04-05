@@ -5,7 +5,7 @@ abstract class ApiConst {
   static const String pdf_url =
       'http://alkhudrahproject-001-site2.ctempurl.com';
   static const String payment_token =
-      'eQWtcL16Qg90Be4BVBv4__A8ePMOZKeDj3dILlmQj-5K2SCrXdpx9TwzQcbSzzi_VG8TR08edI_eXtQVCCnRHojxKHBQy4rVZ7XlTNCCC9Q6wPWj_pyNnQwRBCAQOhJqbjPi61J6RI7lZvxsblcSmajlG6lhaDKLPiSjbdyugjrKlrb1fjntRt--vTGdnjNmiDM7LaYCR56Am6GEwTHNzNgs3M6aK2RflI2sHe0REASJ7Bb5KL0si0ku-VKjDEEqCXCqg_2ECOyHJ00hdbEEX6W7shUMNMvlZQVvbnKU4dH-OhabUyRUSkzg_3UpQiWNQX9dYNM-SY9g9iruTuyUp9-fKTLxfkQrrpO1GFSVf_vzFvAggNDCd1LJ_bdEbEPoDIasQ00ZoFKHHsEOYamtq2hLDGS5KcgShKjyMnQ3MTxKEtzxZ7j2Lso_MmyHt0NExOnro0smGpL9R3GZnk8LCSfIY4-S81JT3oxfO_D5C8GCmWugCORGkidylUB0V4VUilY74hLn_n_w0ggp0xwi8y1JrXkFf9fwKW1SLk_i3fchIX4O4LDKVwdWk43cS29Nrx_VJjDPMJlINEP4kA5sYPfiZ2Q5akIdBWLjkSIbxYXfGLsJGd-_eZGbEcN3-YQZn1C16lCB1Gqbk4nX4LkpHyF_eA6RF9GGIr-D9uZY3J-tmPqRzjUH8k4hNXfQR9Gt-1dyxg';
+      'VvXSKNFpsHFprBUzg6T4ZJK7ZjEkSMydS3v9e_Ro12ZQPQRUow45N2m-Xq-41MvSAo6BLx36tYZ6Xuk_c_AtAOsn0ZWAAgrKcytoFMuohaHA7hS2BOOdMyHqAEmNW5C11RPF7l_juOVmqYG7nqW3dwfj6uuNhNG_bi6-1FHDHePWm9BJIljxjqJTDG_ceFArToseu9UXwD-IGSfmHAtkg2Jeo7N6j5_wbTrxdB9OdN7OjU4lXquJgBZKfBfB3ubiZqyB39_PYIJ1w8iDJ9rdSCEdaLfWdV81kfF9RHKsb2v9yNFKfLy2lv4woYfKDEYpSBqqrJf4IZ4rPs9dK9h_n_cXAsZ_OtYeXCL3zorSrscgegr20WqcGHfb8GpKfDxRG08wl66lzT0yFi8I-H-7YNyTM5Xb6Q1neY1wCvZYo2mm50TwYBEi3g-OtvA7x7hBSm3J2ZCotN-yZY3ZrSmdoIzakG-wcfUIKGbzvYQTgtWOhygaLgGd5U_j9V56CR58xauKEEza2VgHI-7amKacAFc_OjvN9HXrxu_3b9TWiEMKpgkuy-eOB5Wks1Ye1yGQGsO1V0jK76nQvPVPEomypZuNIMFK6IpTS5I-p6ZVRgENC1qHzoePG3Cw5Ub9m4n_09xy1YwITHSKny8lcAOWJzJjmDFqsQPkvFWr4YaH13oAKS3CR0TTz306eVNYdUyK9Va0yg';
 
   //---------------auth ----------------
   static const String register_url = '/account/register';
@@ -55,6 +55,8 @@ abstract class ApiConst {
 //--------------- orders ----------------
 
   static const String get_orders = "/Order/getOrders";
+  static const String get_order_by_id = "/Order/getOrderById/{id}";
+
   static const String submit_order = "/Order/submitOrder";
 //--------------- orders ----------------
   static const String get_notification = "/Notification/getUserNotifications";
