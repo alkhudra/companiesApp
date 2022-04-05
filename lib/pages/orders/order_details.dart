@@ -548,15 +548,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                           context, paymentColor, paymentText, paymentIcon),
                       padding: EdgeInsets.symmetric(horizontal: 30),
                     ),
-                    if (model.paymentType == credit)
+             /*       if (model.paymentType == credit)
                       greenBtn(
                           LocaleKeys.pay_now.tr(),
                           EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           () {
 
-                            //todo: show payment page
-
-                          })
+                          })*/
                   ],
                 ),
                 SizedBox(

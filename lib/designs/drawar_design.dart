@@ -3,23 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
-import 'package:khudrah_companies/dialogs/message_dialog.dart';
-import 'package:khudrah_companies/dialogs/progress_dialog.dart';
-import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/route_helper.dart';
-import 'package:khudrah_companies/network/API/api_response_type.dart';
-import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
+
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
-import 'package:khudrah_companies/network/helper/network_helper.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';
-import 'package:khudrah_companies/network/repository/branches_repository.dart';
+
 import 'package:khudrah_companies/pages/account/account_settings.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
 import 'package:khudrah_companies/pages/credit_page.dart';
 import 'package:khudrah_companies/pages/language/language_setting.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-import 'package:khudrah_companies/router/route_constants.dart';
 
 late List<BranchModel> list;
 
@@ -291,11 +284,9 @@ Drawer drawerDesignWithName(context, String name, String email) {
           ),
           onTap: () {
             Navigator.pop(context);
-            PreferencesHelper.setUser(null);
-            PreferencesHelper.setUserLoggedIn(false);
-            PreferencesHelper.setUserFirstLogIn(false);
 
-            moveToNewStack(context, loginRoute);
+            logoutUser(context);
+
           },
         ),
         ListTile(

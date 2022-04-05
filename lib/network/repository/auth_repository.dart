@@ -16,9 +16,9 @@ import 'package:khudrah_companies/network/models/error_response_model.dart';
 class AuthRepository {
   late final RestClient _client;
 
-  AuthRepository(Map<String, dynamic> headerMap) {
+  AuthRepository() {
     _client = RestClient(Dio(
-      BaseOptions(contentType: 'application/json', headers: headerMap),
+      BaseOptions(contentType: 'application/json'),
     ));
   }
 

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/network/models/error_response_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -20,7 +21,7 @@ class HomeRepository {
     ));
   }
 
-  Future<ApiResponse> getHomeInfo() async {
+  Future<ApiResponse> getHomeInfo(context) async {
 
     return await _client
         .getHomeInfo()
@@ -36,7 +37,9 @@ class HomeRepository {
             errorMessage = res.statusMessage!;
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
-            } else
+            } if(errorCode == 401)
+              logoutUser(context);
+              else
               errorMessage = LocaleKeys.wrong_error.tr();
           }
           break;

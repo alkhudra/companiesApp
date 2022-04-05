@@ -184,7 +184,7 @@ class _PaymentPageState extends State<PaymentPage> {
   void initState() {
     super.initState();
     // TODO, don't forget to init the MyFatoorah Plugin with the following line
-    MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
+    MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.LIVE);
     // (Optional) un comment the following lines if you want to set up properties of AppBar.
     initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
     initiateSession();
