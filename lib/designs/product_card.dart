@@ -89,12 +89,17 @@ class ProductCard {
                           height: 30,
                         ),
                         Container(
+                          // width: 80,
                           padding: EdgeInsets.all(2),
-                          child: Text(
-                            ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor,
-                                fontWeight: FontWeight.w400),
+                          child: Expanded(
+                            child: Text(
+                              ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              style: TextStyle(
+                                  color: CustomColors().primaryGreenColor,
+                                  fontWeight: FontWeight.w400),
+                            ),
                           ),
                         ),
                         SizedBox(
