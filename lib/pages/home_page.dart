@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> {
       body: FutureBuilder<HomeSuccessResponseModel?>(
         future: getHomePage(), //provider.fetchData(),
         builder: (context, snapshot) {
+          print(snapshot.data);
           if (snapshot.hasData) {
             return homePageDesign(snapshot.data);
           } else

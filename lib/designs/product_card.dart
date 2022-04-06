@@ -36,11 +36,12 @@ class ProductCard {
       onDeleteBtnClicked}
       /*    {counter ,increaseCount, decreaseCount}*/
       ) {
-    num? price = (productModel.hasSpecialPrice == true
+    String? price = (productModel.hasSpecialPrice == true
             ? productModel.netSpecialPrice
-            : productModel.netPrice)
-        ?.toDouble();
+            : productModel.netPrice)?.toStringAsFixed(2);
+        
 
+ //   price = price.toStringAsFixed(1);
     bool? isFavourite = productModel.isFavourite;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;

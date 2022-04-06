@@ -46,7 +46,6 @@ Future<void> main() async {
         fallbackLocale: Locale('en'),
         child: MyApp()),
   );
-
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -89,7 +88,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     setValues();
-
+/*
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -128,7 +127,7 @@ class _MyAppState extends State<MyApp> {
               );
             });
       }
-    });
+    });*/
   }
 
   void showNotification() async {
