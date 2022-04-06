@@ -33,9 +33,9 @@ void logoutUser(context) async {
     print('logout successfully');
   });
 
-/*  PreferencesHelper.setUser(null);
+  PreferencesHelper.setUser(null);
   PreferencesHelper.setUserLoggedIn(false);
   PreferencesHelper.setUserFirstLogIn(false);
-  moveToNewStack(context, loginRoute);*/
+  moveToNewStack(context, loginRoute);
 
 }

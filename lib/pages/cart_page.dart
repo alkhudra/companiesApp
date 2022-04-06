@@ -406,7 +406,7 @@ class _CartPageState extends State<CartPage> {
   void directToCheckoutPage(SuccessCartResponseModel model) async {
     //todo: test
     if (unavailableItemsList.length > 0) {
-      Navigator.pop(context);
+   //   Navigator.pop(context);
 
       showUnavailableItemsDialog(() {
         for (CartProductsList item in unavailableItemsList) {
