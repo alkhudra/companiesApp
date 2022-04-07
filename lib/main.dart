@@ -151,7 +151,10 @@ class _MyAppState extends State<MyApp> {
                 color: CustomColors().primaryGreenColor,
                 playSound: true,
                 //TODO: Add custom icon
-                icon: '@mipmap/ic_launcher')));
+                icon: '@mipmap/ic_launcher'),
+                // iOS: IOSNotificationDetails()
+          )
+      );
   }
 
   @override
