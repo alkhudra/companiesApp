@@ -54,6 +54,7 @@ class _PaymentPageState extends State<PaymentPage> {
   String _loading = "Loading...";
   var sessionIdValue = "";
   String _response = '';
+  bool hasPaid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -284,11 +285,19 @@ class _PaymentPageState extends State<PaymentPage> {
         (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
               if (result.isSuccess())
                 {
+
                   setState(() {
                     print(invoiceId);
                     print(result.response!.toJson());
                     _response = result.response!.toJson().toString();
-                  })
+
+
+                    setState(() {
+                      hasPaid = true;
+
+                      OrderHelper.callApi(context, widget.userCart!,
+                          widget.branchModel, hasPaid, visa);
+                    });                  })
                 }
               else
                 {
@@ -296,6 +305,8 @@ class _PaymentPageState extends State<PaymentPage> {
                     print(invoiceId);
                     print(result.error!.toJson());
                     _response = result.error!.message!;
+                    OrderHelper.viewCompleteOrderPage(context, false);
+
                   })
                 }
             });

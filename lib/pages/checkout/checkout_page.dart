@@ -59,36 +59,11 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  String _response = '';
-  final String mAPIKey = ApiConst.payment_token;
   static BranchModel selectedBranch = BranchModel();
 
   TextEditingController addressController = TextEditingController();
 
-  String _loading = "Loading...";
-  var sessionIdValue = "";
-
   static String address = '';
-  static MFPaymentCardView mfPaymentCardView = MFPaymentCardView(
-    inputColor: CustomColors().primaryGreenColor,
-    //  labelColor: CustomColors().primaryGreenColor,
-//      errorColor: Colors.blue,
-    borderColor: CustomColors().primaryGreenColor,
-//      fontSize: 14,
-    borderWidth: 1,
-    borderRadius: 10,
-//      cardHeight: 220,
-    cardHolderNameHint: "card holder name hint",
-    cardNumberHint: "card number hint",
-    expiryDateHint: "expiry date hint",
-    cvvHint: "cvv hint",
-    showLabels: false,
-//
-//cardHolderNameLabel: "card holder name label",
-//      cardNumberLabel: "card number label",
-//      expiryDateLabel: "expiry date label",
-//      cvvLabel: "cvv label",
-  );
 
   BranchModel dropdownValue =
       BranchModel(branchName: LocaleKeys.select_branch.tr(), address: '----');
@@ -215,9 +190,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   //checkout button
                   Container(
                     child: greenBtn(
-                        isPayOnlineSelected == true
-                            ? LocaleKeys.continue_payment.tr()
-                            : LocaleKeys.send_order.tr(),
+                         LocaleKeys.send_order.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
                       if (addressController.text != '') {
                         if (isPayDebitSelected == true){
@@ -406,7 +379,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 SizedBox(
                   height: 20,
                 ),
-                if (isPayOnlineSelected == true) onlineView(),
                 SizedBox(
                   height: 100,
                 ),
@@ -421,139 +393,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  Widget onlineView() {
-    return Column(
-      children: [
-        // cards view
-        // apple pay
-        // stc pay
-        // price view
-
-        createPaymentCardView(),
-        /*       Container(
-          alignment: Alignment.bottomCenter,
-          child: greenBtn(LocaleKeys.continue_payment.tr(), EdgeInsets.only(bottom: 100),
-              () {
-            if (addressController.text != '') {
-              payWithEmbeddedPayment();
-            } else {
-              showErrorMessageDialog(
-                  context, LocaleKeys.select_branch_note.tr());
-            }
-          }),
-        ),*/
-      ],
-    );
-  }
-
-  ///********
-  ///
-  ///payment methods
-  ///
-  ///********
-
-  void payWithEmbeddedPayment() {
-    var request = MFExecutePaymentRequest.constructor(0.100);
-    mfPaymentCardView.pay(
-        request,
-        widget.language == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN,
-        (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
-              if (result.isSuccess())
-                {
-                  setState(() {
-                    print("invoiceId: " + invoiceId);
-                    print("Response: " + result.response!.toJson().toString());
-                    _response = result.response!.toJson().toString();
-                    // continue order ( api , show success page)
-                    setState(() {
-                      isSuccess = true;
-                      hasPaid = true;
-                    });
-
-                    //  callApi(context,widget.userCart!);
-                  })
-                }
-              else
-                {
-                  setState(() {
-                    print("invoiceId: " + invoiceId);
-                    print("Error: " + result.error!.toJson().toString());
-                    _response = result.error!.message!;
-                    isSuccess = false;
-                    OrderHelper.viewCompleteOrderPage(context, false);
-                    // continue order (  show fail page)
-                  })
-                }
-            });
-
-    setState(() {
-      _response = _loading;
-    });
-  }
-  //------------------------
-
-  void initiatePayment(String amount) {
-    var request = new MFInitiatePaymentRequest(
-        double.parse(amount), MFCurrencyISO.SAUDI_ARABIA_SAR);
-
-    MFSDK.initiatePayment(
-        request,
-        widget.language == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN,
-        (MFResult<MFInitiatePaymentResponse> result) => {
-              if (result.isSuccess())
-                {
-                  setState(() {
-                    isOnlineAvailable = true;
-                    print(result.response!.toJson());
-                    _response = ""; //result.response.toJson().toString();
-                    /*      paymentMethods.addAll(result.response.paymentMethods);
-                for (int i = 0; i < paymentMethods.length; i++)
-                  isSelected.add(false);*/
-                  })
-                }
-              else
-                {
-                  setState(() {
-                    isOnlineAvailable = false;
-                    print(result.error!.toJson());
-                    _response = result.error!.message!;
-                  })
-                }
-            });
-
-    setState(() {
-      _response = _loading;
-    });
-  }
-  //------------------------
-
-  void initiateSession() {
-    MFSDK.initiateSession((MFResult<MFInitiateSessionResponse> result) => {
-          if (result.isSuccess())
-            {mfPaymentCardView.load(result.response!)}
-          else
-            {
-              setState(() {
-                isOnlineAvailable = false;
-                print("Response: " +
-                    result.error!.toJson().toString().toString());
-                _response = result.error!.message!;
-              })
-            }
-        });
-  }
-  //------------------------
-
-  createPaymentCardView() {
-    return mfPaymentCardView;
-  }
-  //------------------------
-
-  ///********
-  ///
-  ///api  methods
-  ///
-  ///********
 
   ///********
   ///
@@ -564,16 +403,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
 
-    if (isPayOnlineSelected == true) {
-      setState(() {
-        // TODO, don't forget to init the MyFatoorah Plugin with the following line
-        MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.TEST);
-        // (Optional) un comment the following lines if you want to set up properties of AppBar.
-        initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
-        initiateSession();
-        // MFSDK.setUpAppBar(isShowAppBar: false);
-      });
-    }
+
   }
   //------------------------
 
