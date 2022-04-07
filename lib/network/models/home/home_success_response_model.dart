@@ -55,5 +55,8 @@ class HomeSuccessResponseModel {
     return map;
   }
 
-
+  @override
+  String toString() {
+    return 'HomeSuccessResponseModel{_user: $_user, _productsList: $_productsList}';
+  }
 }

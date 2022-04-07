@@ -132,7 +132,8 @@ class ProfileRepository {
             errorMessage = res.statusMessage!;
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
-            } else
+            }
+            else
               errorMessage = LocaleKeys.wrong_error.tr();
           }
           break;

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
@@ -5,8 +7,10 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
+import 'package:khudrah_companies/helpers/number_helper.dart';
 import 'package:khudrah_companies/helpers/order_helper.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/cart/user_cart.dart';
@@ -42,33 +46,15 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  bool condition = true;
   final String mAPIKey = ApiConst.payment_token;
 
-  MFPaymentCardView mfPaymentCardView = MFPaymentCardView(
-    inputColor: CustomColors().primaryGreenColor,
-    //  labelColor: CustomColors().primaryGreenColor,
-//      errorColor: Colors.blue,
-    borderColor: CustomColors().primaryGreenColor,
-//      fontSize: 14,
-    borderWidth: 1,
-    borderRadius: 10,
-//      cardHeight: 220,
-    cardHolderNameHint: "card holder name hint",
-    cardNumberHint: "card number hint",
-    expiryDateHint: "expiry date hint",
-    cvvHint: "cvv hint",
-    showLabels: true,
-//
-//cardHolderNameLabel: "card holder name label",
-//      cardNumberLabel: "card number label",
-//      expiryDateLabel: "expiry date label",
-//      cvvLabel: "cvv label",
-  );
-
+  List<PaymentMethods> paymentMethods = [];
+  List<bool> isSelected = [];
+  int selectedPaymentMethodIndex = -1;
   String _loading = "Loading...";
   var sessionIdValue = "";
   String _response = '';
+  bool hasPaid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -158,16 +144,41 @@ class _PaymentPageState extends State<PaymentPage> {
                   //checkout button
                   Container(
                     child: greenBtn(LocaleKeys.continue_payment.tr(),
-                        EdgeInsets.symmetric(vertical: 4), () {}),
+                        EdgeInsets.symmetric(vertical: 4), pay),
                   ),
                 ],
               ),
             ],
           ),
         ),
-        body:
-        createPaymentCardView()
-    ,
+        body: Container(
+          child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                /* crossAxisSpacing: 0.0,
+                  mainAxisSpacing: 0.0,
+              childAspectRatio: 10/10.5*/
+              ),
+              itemCount: paymentMethods.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Image.network(paymentMethods[index].imageUrl!,
+                          width: 60.0, height: 60.0),
+                      Checkbox(
+                          value: isSelected[index],
+                          onChanged: (bool? value) {
+                            setState(() {
+                              setPaymentMethodSelected(index, value!);
+                            });
+                          })
+                    ],
+                  ),
+                );
+              }),
+        ),
         //slide up panel height
         minHeight: scHeight * 0.07,
         maxHeight: hasDiscount ? scHeight * 0.39 : 235,
@@ -183,49 +194,12 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    // TODO, don't forget to init the MyFatoorah Plugin with the following line
     MFSDK.init(mAPIKey, MFCountry.SAUDI_ARABIA, MFEnvironment.LIVE);
     // (Optional) un comment the following lines if you want to set up properties of AppBar.
     initiatePayment(widget.userCart!.totalNetCartPrice!.toString());
-    initiateSession();
+    //initiateSession();
   }
 
-  void payWithEmbeddedPayment() {
-    var request = MFExecutePaymentRequest.constructor(0.100);
-    mfPaymentCardView.pay(
-        request,
-        widget.language == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN,
-        (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
-              if (result.isSuccess())
-                {
-                  setState(() {
-                    print("invoiceId: " + invoiceId);
-                    print("Response: " + result.response!.toJson().toString());
-                    _response = result.response!.toJson().toString();
-                    // continue order ( api , show success page)
-
-                    OrderHelper.callApi(context, widget.userCart!,
-                        widget.branchModel, true, visa);
-                  })
-                }
-              else
-                {
-                  setState(() {
-                    print("invoiceId: " + invoiceId);
-                    print("Error: " + result.error!.toJson().toString());
-                    _response = result.error!.message!;
-
-                    OrderHelper. viewCompleteOrderPage(context , false);
-
-                    // continue order (  show fail page)
-                  })
-                }
-            });
-
-    setState(() {
-      _response = _loading;
-    });
-  }
   //------------------------
 
   void initiatePayment(String amount) {
@@ -234,16 +208,22 @@ class _PaymentPageState extends State<PaymentPage> {
 
     MFSDK.initiatePayment(
         request,
-        widget.language == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN,
+        displayLanguage(widget.language),
         (MFResult<MFInitiatePaymentResponse> result) => {
               if (result.isSuccess())
                 {
                   setState(() {
                     print(result.response!.toJson());
-                    _response = ""; //result.response.toJson().toString();
-                    /*      paymentMethods.addAll(result.response.paymentMethods);
-                for (int i = 0; i < paymentMethods.length; i++)
-                  isSelected.add(false);*/
+                    _response = result.response!.toJson().toString();
+                    paymentMethods.addAll(result.response!.paymentMethods!);
+
+                    for (int i = 0; i < paymentMethods.length; i++){
+                      if(Platform.isAndroid  && paymentMethods[i].paymentMethodId == 13){
+                        paymentMethods.removeAt(i);
+                      }
+                      isSelected.add(false);
+
+                    }
                   })
                 }
               else
@@ -260,7 +240,7 @@ class _PaymentPageState extends State<PaymentPage> {
     });
   }
   //------------------------
-
+/*
   void initiateSession() {
     MFSDK.initiateSession((MFResult<MFInitiateSessionResponse> result) => {
           if (result.isSuccess())
@@ -274,10 +254,85 @@ class _PaymentPageState extends State<PaymentPage> {
               })
             }
         });
-  }
+  }*/
   //------------------------
 
-  createPaymentCardView() {
+/*  createPaymentCardView() {
     return mfPaymentCardView;
+  }*/
+  //------------------------
+
+  void pay() {
+    if (selectedPaymentMethodIndex == -1) {
+      showErrorMessageDialog(context, "Please select payment method first");
+    } else {
+      executeRegularPayment(
+          paymentMethods[selectedPaymentMethodIndex].paymentMethodId!);
+    }
+  }
+
+  void executeRegularPayment(int paymentMethodId) {
+    var request = new MFExecutePaymentRequest(paymentMethodId,
+        double.parse(widget.userCart!.totalNetCartPrice!.toString()));
+
+    // For recurring
+    // request?.recurringModel = RecurringModel(MFRecurringType.monthly, iteration: 5);
+
+    MFSDK.executePayment(
+        context,
+        request,
+        displayLanguage(widget.language),
+        (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+              if (result.isSuccess())
+                {
+
+                  setState(() {
+                    print(invoiceId);
+                    print(result.response!.toJson());
+                    _response = result.response!.toJson().toString();
+
+
+                    setState(() {
+                      hasPaid = true;
+
+                      OrderHelper.callApi(context, widget.userCart!,
+                          widget.branchModel, hasPaid, visa);
+                    });                  })
+                }
+              else
+                {
+                  setState(() {
+                    print(invoiceId);
+                    print(result.error!.toJson());
+                    _response = result.error!.message!;
+                    OrderHelper.viewCompleteOrderPage(context, false);
+
+                  })
+                }
+            });
+
+    setState(() {
+      _response = _loading;
+    });
+  }
+
+  static displayLanguage(lan) {
+    return lan == 'ar' ? MFAPILanguage.AR : MFAPILanguage.EN;
+  }
+
+  void setPaymentMethodSelected(int index, bool value) {
+    for (int i = 0; i < isSelected.length; i++) {
+      if (i == index) {
+        isSelected[i] = value;
+        if (value) {
+          selectedPaymentMethodIndex = index;
+          //   visibilityObs = paymentMethods[index].isDirectPayment;
+        } else {
+          selectedPaymentMethodIndex = -1;
+          //  visibilityObs = false;
+        }
+      } else
+        isSelected[i] = false;
+    }
   }
 }

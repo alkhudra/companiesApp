@@ -19,6 +19,10 @@ import 'package:khudrah_companies/network/repository/cart_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
+import 'number_helper.dart';
+
+
+
 Widget cartDetailsItem(String title, String value) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
@@ -334,15 +338,7 @@ Widget cartTile(BuildContext context, String language,
   ]);
 }
 
-String currency = LocaleKeys.sar.tr();
 
-String getTextWithCurrency(num value) {
-  return ' $value ' + currency;
-}
-
-String getTextWithPercentage(num value) {
-  return ' $value %';
-}
 
 Widget addToCartBtnContainer(BuildContext context,
     {productsModel,

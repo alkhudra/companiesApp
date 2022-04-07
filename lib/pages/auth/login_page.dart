@@ -213,6 +213,7 @@ class _LogInPageState extends State<LogInPage> {
 
 
     String? token = await FirebaseMessaging.instance.getToken();
+    print('notification token is $token');
     AuthRepository registerRepository = AuthRepository();
 
 

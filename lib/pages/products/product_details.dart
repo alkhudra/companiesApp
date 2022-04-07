@@ -6,6 +6,7 @@ import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
+import 'package:khudrah_companies/helpers/number_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
@@ -72,10 +73,9 @@ class _ProductDetailsState extends State<ProductDetails> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    price = (model.hasSpecialPrice == true
-            ? model.specialPrice
-            : model.originalPrice)
-        ?.toDouble();
+    price =
+        (model.hasSpecialPrice == true ? model.netSpecialPrice : model.netPrice);
+
     String? description =
         language == 'ar' ? model.arDescription : model.description;
     String? productId = model.productId;
@@ -259,7 +259,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
-                          ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
+                          (getTextWithCurrency(price!) + ' / ' + unit!),
                           style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontWeight: FontWeight.w600,
@@ -286,7 +286,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                               fontSize: 20,
                               fontWeight: FontWeight.w500),
                         ),
-                        //TODO: replace with tab bar
                         Divider(
                           thickness: 1.5,
                           color: CustomColors().primaryGreenColor,
@@ -324,8 +323,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     Container(
                       child: Text(
                         total > 0
-                            ? ("$total " + LocaleKeys.sar.tr())
-                            : ("$price " + LocaleKeys.sar.tr()),
+                            ? getTextWithCurrency(total)
+                            : getTextWithCurrency(price!),
                         style: TextStyle(
                           color: CustomColors().primaryGreenColor,
                           fontWeight: FontWeight.w600,
@@ -463,5 +462,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   //---------------------
+
+
 
 }
