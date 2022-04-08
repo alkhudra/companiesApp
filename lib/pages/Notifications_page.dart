@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
@@ -158,6 +159,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
     User user = await PreferencesHelper.getUser;
     name = user.companyName!;
     email = user.email!;
+
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // NotificationSettings settings = await messaging.requestPermission(
+    //   alert: true,
+    //   announcement: false,
+    //   badge: true,
+    //   carPlay: false,
+    //   criticalAlert: false,
+    //   provisional: false,
+    //   sound: true,
+    // );
+
+    // print('User granted permission: ${settings.authorizationStatus}');
   }
 
   Future<GetNotificationResponseModel> getListData() async{
