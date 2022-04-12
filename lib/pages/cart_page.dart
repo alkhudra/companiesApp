@@ -44,7 +44,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   static String language = '';
-  bool isTrashBtnEnabled = true;
+  bool isTrashBtnEnabled = true , isPricesOrQtyChanged  = false;
   static String productId = '';
   static late User user;
 
@@ -88,18 +88,22 @@ class _CartPageState extends State<CartPage> {
       SuccessCartResponseModel? responseModel =
           SuccessCartResponseModel.fromJson(apiResponse.result);
 
-
       if (responseModel.userCart != null) {
-        for (CartProductsList productsCartList
+        for (CartProductsList cartItem
             in responseModel.userCart!.cartProductsList!) {
-          if (productsCartList.productModel!.isDeleted == true ||
-              productsCartList.productModel!.isAvailabe == false) {
-            unavailableItemsList.add(productsCartList);
+          if (cartItem.productModel!.isDeleted == true ||
+              cartItem.productModel!.isAvailabe == false ||
+              cartItem.productModel!.quantity == 0) {
+            unavailableItemsList.add(cartItem);
             print(unavailableItemsList.toString());
+          }
+          if(cartItem.hasSpecialProductPriceChanged == true ||
+              cartItem.hasOriginalProductPriceChanged == true ||
+              cartItem.hasUserProductQuantityChanged == true ){
+            isPricesOrQtyChanged = true;
           }
         }
       }
-
 
       return responseModel;
     } else {
@@ -116,36 +120,56 @@ class _CartPageState extends State<CartPage> {
     if (model!.userCart != null) {
       list = model.userCart!.cartProductsList!;
 
-      if (unavailableItemsList.length != 0) {
-        print(model.message!);
-        showMessageDialog(context, model.message!, '', noPage);
-      }
-
       num priceAfterDiscount = model.userCart!.totalDiscount!;
       num? subtotal = model.userCart!.totalCartPrice!;
       num? vat = model.userCart!.totalCartVAT15!;
       num total = model.userCart!.totalNetCartPrice!;
       num? discount = model.userCart!.discountPercentage! * 100;
       bool? hasDiscount = model.userCart!.hasDiscount;
+      String
+          priceMessage =
+          LocaleKeys.cart_qty_price_changed_note.tr();
 
-      //todo: code for show image
-/*
-      for(CartProductsList? cartProductsList in list ){
-        if(cartProductsList?.hasOriginalProductPriceChanged == true ||
-            cartProductsList?.hasUserProductQuantityChanged == true ||
-            cartProductsList?.hasSpecialProductPriceChanged == true){
-          isQtyChanged = true;
-          break;
-        }
-      }
 
-      print('ischanged is $isQtyChanged');*/
       return SlidingUpPanel(
         body: Padding(
           padding: EdgeInsets.only(bottom: scHeight * 0.27),
           child: Expanded(
             child: Column(
               children: [
+                if (unavailableItemsList.isNotEmpty == true || isPricesOrQtyChanged == true)
+                  Visibility(
+                      child: Container(
+                          //width: MediaQuery.of(context).size.width * 0.9,
+                          padding: EdgeInsets.all(15),
+                          child: Text(
+                            priceMessage,
+                            style: TextStyle(
+                                color: CustomColors().blackColor,
+                                fontSize: 15),
+                          ),
+                          decoration: BoxDecoration(
+                            // border: Border.all(
+                            //   color: CustomColors().primaryGreenColor,
+                            // ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: CustomColors()
+                                    .blackColor
+                                    .withOpacity(0.4),
+                                offset: Offset(2, 2),
+                                blurRadius: 5,
+                                spreadRadius: 0.2,
+                              )
+                            ],
+                            color: CustomColors().contactBG,
+                          )),
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      visible: unavailableItemsList
+                          .isNotEmpty || isPricesOrQtyChanged == true
+                  ),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -166,13 +190,25 @@ class _CartPageState extends State<CartPage> {
                                   productId =
                                       list[index].productModel!.productId!;
                                   deleteFromCart(context,
-                                      index: index, productId: productId);
+                                          index: index, productId: productId)
+                                      .then((result) {
+                                    if (result == true) {
+                                      setState(() {
+                                        //   Navigator.pop(context);
+                                        isTrashBtnEnabled = true;
+                                        list.removeAt(index);
+                                      });
+                                    } else {
+                                      showErrorMessageDialog(
+                                          context, LocaleKeys.wrong_error.tr());
+                                    }
+                                  });
                                 },
                               )
                             ],
                           ),
                           child:
-                              cartTile(context, language, list, index, () {}));
+                              cartTile(context, language, list, index));
                     },
                     itemCount: list.length,
                   ),
@@ -276,7 +312,7 @@ class _CartPageState extends State<CartPage> {
   //--------
 
   //--------
-  void deleteFromCart(BuildContext context,
+  Future<bool> deleteFromCart(BuildContext context,
       {int? index, String? productId}) async {
     if (isTrashBtnEnabled) {
       isTrashBtnEnabled = false;
@@ -292,21 +328,33 @@ class _CartPageState extends State<CartPage> {
       apiResponse = await cartRepository.deleteProductFromCart(productId!);
 
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        isTrashBtnEnabled = true;
+
+        return true;
         MessageResponseModel model =
             MessageResponseModel.fromJson(apiResponse.result);
-        //  Navigator.pop(context);
-        setState(() {
-          isTrashBtnEnabled = true;
-          list.removeAt(index!);
-        });
+        if (index != null) {
+          setState(() {
+            //   Navigator.pop(context);
+            isTrashBtnEnabled = true;
+            list.removeAt(index);
+          });
+        } else {
+          setState(() {});
+        }
         print(model.message!);
+        //Navigator.pop(context);
+
         //    showSuccessMessage(context, model.message!);
       } else {
-        //  Navigator.pop(context);
+        //   Navigator.pop(context);
+
         isTrashBtnEnabled = true;
+        return false;
         showErrorMessageDialog(context, apiResponse.message);
       }
     }
+    return false;
   }
   //--------
 
@@ -404,23 +452,43 @@ class _CartPageState extends State<CartPage> {
   //--------
 
   void directToCheckoutPage(SuccessCartResponseModel model) async {
-    //todo: test
     if (unavailableItemsList.length > 0) {
-   //   Navigator.pop(context);
-
       showUnavailableItemsDialog(() {
+        Navigator.pop(context);
+
+        showLoaderDialog(context);
+
         for (CartProductsList item in unavailableItemsList) {
-          deleteFromCart(context, productId: item.productModel!.productId);
+          deleteFromCart(context, productId: item.productModel!.productId)
+              .then((value) {
+            Navigator.pop(context);
+
+            if (value) {
+              list.remove(item);
+              unavailableItemsList.remove(item);
+              setState(() {
+                if (unavailableItemsList.length == 0) {
+                  //     Navigator.pop(context);
+                  if (list.isNotEmpty)
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return CheckoutPage(
+                          currentUser: user,
+                          userCart: model.userCart,
+                          branchList: branchList,
+                          language: language);
+                    }));
+                }
+              });
+            } else {
+              showErrorMessageDialog(context, LocaleKeys.wrong_error.tr());
+            }
+          });
         }
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CheckoutPage(
-              currentUser: user,
-              userCart: model.userCart,
-              branchList: branchList,
-              language: language);
-        }));
       });
     } else {
+      //Navigator.pop(context);
+
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return CheckoutPage(
             currentUser: user,

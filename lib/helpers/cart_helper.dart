@@ -77,7 +77,7 @@ Widget cartTotalDesign(num total) {
 }
 
 Widget cartTile(BuildContext context, String language,
-    List<CartProductsList?> list, int index, Function() messageAction) {
+    List<CartProductsList?> list, int index) {
   ProductsModel model = list[index]!.productModel!;
   Size size = MediaQuery.of(context).size;
   double scWidth = size.width;
@@ -104,46 +104,8 @@ Widget cartTile(BuildContext context, String language,
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
 
-  String priceMessage = isPriceChanged == true
-      ? LocaleKeys.cart_price_changed_note.tr()
-      : isQtyChanged == true
-          ? LocaleKeys.cart_qty_changed_note.tr()
-          : LocaleKeys.cart_qty_price_changed_note.tr();
-
-  //String qtyMessage = isQtyChanged ? LocaleKeys.cart_qty_changed_note : '';
   return Column(children: [
-    if (isPriceChanged == true || isQtyChanged == true)
-      Visibility(
-        child: GestureDetector(
-          onTap: messageAction,
-          child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              padding: EdgeInsets.all(15),
-              child: Text(
-                priceMessage,
-                style:
-                    TextStyle(color: CustomColors().blackColor, fontSize: 15),
-              ),
-              decoration: BoxDecoration(
-                // border: Border.all(
-                //   color: CustomColors().primaryGreenColor,
-                // ),
-                boxShadow: [
-                  BoxShadow(
-                    color: CustomColors().blackColor.withOpacity(0.4),
-                    offset: Offset(2, 2),
-                    blurRadius: 5,
-                    spreadRadius: 0.2,
-                  )
-                ],
-                color: CustomColors().contactBG,
-              )),
-        ),
-        maintainSize: true,
-        maintainAnimation: true,
-        maintainState: true,
-        visible: isPriceChanged! || isQtyChanged!,
-      ),
+
     ListTile(
 
       title: Column(
