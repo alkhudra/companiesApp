@@ -214,7 +214,7 @@ class _MyAppState extends State<MyApp> {
             accentColor: CustomColors().primaryGreenColor,
             primarySwatch: Colors.green,
           ),
-          home: tempHome()
+          home: getRout()//tempHome()
           // home: tempHome(),
           ),
     );

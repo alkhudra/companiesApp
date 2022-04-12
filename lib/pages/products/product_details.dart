@@ -338,10 +338,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                       productsModel: model,
                       onBtnClicked: () {
                         if (isAddToCartBtnEnabled) {
-                          setState(() {
-                            counter++;
-                          });
-                          addToCart(productId!);
+
+                          if (stockQty! > 0 ) {
+                            setState(() {
+                              counter++;
+                            });
+                            addToCart(productId!);
+                            //onIncreaseBtnClicked();
+                          } else
+                            showSuccessMessage(
+                                context, LocaleKeys.no_stock.tr());
+
                         }
                       },
                       onDecreaseBtnClicked: () {

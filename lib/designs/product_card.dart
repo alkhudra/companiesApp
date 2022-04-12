@@ -155,8 +155,14 @@ class ProductCard {
                                 onBtnClicked: () {
                                   if (isAddToCartBtnEnabled) {
                                     //  provider.addToCart();
-                                    value.addToCart(context,productModel.productId);
-                                  //  onAddBtnClicked();
+
+                                    if (stockQty > 0 ) {
+                                      value.addToCart(context,productModel.productId);
+                                      //onIncreaseBtnClicked();
+                                    } else
+                                      showSuccessMessage(
+                                          context, LocaleKeys.no_stock.tr());
+
                                   }
                                 },
                                 onDecreaseBtnClicked: () {
@@ -338,7 +344,14 @@ class ProductCard {
                         userQty: productModel.userProductQuantity,
                         onBtnClicked: () {
                           if (isAddToCartBtnEnabled) {
-                            onAddBtnClicked();
+
+                            if (productModel.quantity! > 0 ) {
+                              onAddBtnClicked();
+                              //onIncreaseBtnClicked();
+                            } else
+                              showSuccessMessage(
+                                  context, LocaleKeys.no_stock.tr());
+
                           }
                         },
                         onDecreaseBtnClicked: () {
