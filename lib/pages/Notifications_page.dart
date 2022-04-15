@@ -159,20 +159,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
     User user = await PreferencesHelper.getUser;
     name = user.companyName!;
     email = user.email!;
-
-    // FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    // NotificationSettings settings = await messaging.requestPermission(
-    //   alert: true,
-    //   announcement: false,
-    //   badge: true,
-    //   carPlay: false,
-    //   criticalAlert: false,
-    //   provisional: false,
-    //   sound: true,
-    // );
-
-    // print('User granted permission: ${settings.authorizationStatus}');
   }
 
   Future<GetNotificationResponseModel> getListData() async{
@@ -201,8 +187,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       itemBuilder: (context, index) {
         return notifCard(getOrdersResponseModel.notificationList[index]);
       },
-      //replace count by array.length
-      itemCount: 10,
+      itemCount: getOrdersResponseModel.notificationList.length,
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.only(bottom: 25),
