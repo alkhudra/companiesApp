@@ -50,7 +50,7 @@ class _DashboardPageState extends State<DashboardPage> {
         bucket: bucket,
       ),
       floatingActionButton: FloatingActionButton(
-        //replace with logo icon
+        heroTag: 'HomeFAB',
         child: ImageIcon(
           AssetImage('images/logo.png'),
           size: 35,

@@ -59,7 +59,7 @@ class OrderRepository {
   //-----------------------------------
 
   Future<ApiResponse> getOrderById(
-      String orderId,
+      int orderId,
 
       ) async {
     if (orderId == null ) {
