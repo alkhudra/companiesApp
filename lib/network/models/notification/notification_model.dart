@@ -14,7 +14,7 @@ class NotificationModel {
       String? sentDateTime, 
       bool? isSeccuss,}){
     _id = id;
-    _orderId = userId;
+    _orderId = userId as int?;
     _title = title;
     _body = body;
     _sentDateTime = sentDateTime;
@@ -30,14 +30,14 @@ class NotificationModel {
     _isSeccuss = json['isSeccuss'];
   }
   String? _id;
-  String? _orderId;
+  int? _orderId;
   String? _title;
   String? _body;
   String? _sentDateTime;
   bool? _isSeccuss;
 
   String? get id => _id;
-  String? get orderId => _orderId;
+  int? get orderId => _orderId;
   String? get title => _title;
   String? get body => _body;
   String? get sentDateTime => _sentDateTime;

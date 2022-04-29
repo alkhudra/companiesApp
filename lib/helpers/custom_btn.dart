@@ -66,6 +66,7 @@ Widget loadMoreBtn(BuildContext context, Function() onPressed, double topMarg, d
       height: 45,
       width: 180,
       child: FloatingActionButton(
+        heroTag: 'LoadMore',
         child: Text(
           LocaleKeys.load_more.tr(),
           style: TextStyle(fontWeight: FontWeight.w600),

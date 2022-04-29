@@ -94,16 +94,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.12),
                               //replace by order no
                               child: Text(
                                 model.title!,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: CustomColors().primaryGreenColor,
-                                  fontSize: 18,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -111,30 +113,28 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
                           ],
                         ),
-                        Column(
-
-                          children: [
-                            Container(
-                              //replace by actual date
-                              child: Text(
-                                model.sentDateTime!.toString(),
-                                style: TextStyle(
-                                  color: CustomColors().primaryGreenColor,
-                                  fontSize: 15,
-                                ),
-                              ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.12),
+                          //replace by actual date
+                          child: Text(
+                            model.sentDateTime!.toString(),
+                            style: TextStyle(
+                              color: CustomColors().primaryGreenColor,
+                              fontSize: 14,
                             ),
-                            Container(
-                              //replace text by notification
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery.of(context).size.width * 0.12),
-                              child: Text(
-                               model.body!.toString(),
-                                style: TextStyle(
-                                    fontSize: 16, color: CustomColors().darkBlueColor),
-                              ),
-                            ),
-                          ],
+                          ),
+                        ),
+                        Container(
+                          //replace text by notification
+                          margin: EdgeInsets.symmetric(
+                              horizontal: MediaQuery.of(context).size.width * 0.12),
+                          child: Text(
+                           model.body!.toString(),
+                           overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 14, 
+                                color: CustomColors().darkBlueColor),
+                          ),
                         )
                       ],
                     ),
@@ -159,20 +159,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
     User user = await PreferencesHelper.getUser;
     name = user.companyName!;
     email = user.email!;
-
-    // FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    // NotificationSettings settings = await messaging.requestPermission(
-    //   alert: true,
-    //   announcement: false,
-    //   badge: true,
-    //   carPlay: false,
-    //   criticalAlert: false,
-    //   provisional: false,
-    //   sound: true,
-    // );
-
-    // print('User granted permission: ${settings.authorizationStatus}');
   }
 
   Future<GetNotificationResponseModel> getListData() async{
@@ -201,8 +187,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       itemBuilder: (context, index) {
         return notifCard(getOrdersResponseModel.notificationList[index]);
       },
-      //replace count by array.length
-      itemCount: 10,
+      itemCount: getOrdersResponseModel.notificationList.length,
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.only(bottom: 25),
