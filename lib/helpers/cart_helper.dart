@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
@@ -20,8 +22,6 @@ import 'package:khudrah_companies/pages/products/product_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 
 import 'number_helper.dart';
-
-
 
 Widget cartDetailsItem(String title, String value) {
   return Container(
@@ -105,9 +105,7 @@ Widget cartTile(BuildContext context, String language,
   bool isDeleted = model.isDeleted!;
 
   return Column(children: [
-
     ListTile(
-
       title: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -115,7 +113,6 @@ Widget cartTile(BuildContext context, String language,
             height: 5,
           ),
           GestureDetector(
-
             onTap: () {
               if (isDeleted == false &&
                   isAvailable == true &&
@@ -138,7 +135,6 @@ Widget cartTile(BuildContext context, String language,
                   Container(
                     width: 75,
                     height: 75,
-
                     child: ImageHelper.productImage(model.image),
                   ),
                   //category, name and price
@@ -146,13 +142,14 @@ Widget cartTile(BuildContext context, String language,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       //product name
                       Container(
                         child: Text(
                           '$name',
                           style: TextStyle(
-                              color: isAvailable == true || isDeleted == false ? CustomColors().brownColor : CustomColors().grayColor ,
+                              color: isAvailable == true || isDeleted == false
+                                  ? CustomColors().brownColor
+                                  : CustomColors().grayColor,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -167,7 +164,10 @@ Widget cartTile(BuildContext context, String language,
                               style: TextStyle(
                                   color: isPriceChanged!
                                       ? CustomColors().redColor
-                                      :isAvailable == true || isDeleted == false? CustomColors().primaryGreenColor : CustomColors().grayColor ,
+                                      : isAvailable == true ||
+                                              isDeleted == false
+                                          ? CustomColors().primaryGreenColor
+                                          : CustomColors().grayColor,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -177,7 +177,10 @@ Widget cartTile(BuildContext context, String language,
                               style: TextStyle(
                                   color: isQtyChanged == true
                                       ? CustomColors().redColor
-                                      : isAvailable == true || isDeleted == false? CustomColors().primaryGreenColor : CustomColors().grayColor ,
+                                      : isAvailable == true ||
+                                              isDeleted == false
+                                          ? CustomColors().primaryGreenColor
+                                          : CustomColors().grayColor,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -190,7 +193,10 @@ Widget cartTile(BuildContext context, String language,
                               style: TextStyle(
                                   color: isPriceChanged
                                       ? CustomColors().redColor
-                                      : isAvailable == true || isDeleted == false? CustomColors().primaryGreenColor : CustomColors().grayColor ,
+                                      : isAvailable == true ||
+                                              isDeleted == false
+                                          ? CustomColors().primaryGreenColor
+                                          : CustomColors().grayColor,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -300,8 +306,6 @@ Widget cartTile(BuildContext context, String language,
   ]);
 }
 
-
-
 Widget addToCartBtnContainer(BuildContext context,
     {productsModel,
     userQty,
@@ -406,7 +410,45 @@ qtyContainer(BuildContext context, int counter, Function() onDeleteBtnClicked,
   );
 }
 
-cartDBProcess(BuildContext context, String productId, String process) async {
+
+Future<Map<String, dynamic>> cartDBProcessProvider(
+    BuildContext context, String productId, String process) async {
+  showLoaderDialog(context);
+  //----------start api ----------------
+  ApiResponse apiResponse;
+  Map<String, dynamic> headerMap = await getHeaderMap();
+
+  CartRepository cartRepository = CartRepository(headerMap);
+  if (process == addToCartConst)
+    apiResponse = await cartRepository.addProductToCart(productId);
+  else if (process == addQtyToCartConst)
+    apiResponse = await cartRepository.addProductQtyToCart(productId);
+  else if (process == deleteFromCartConst)
+    apiResponse = await cartRepository.deleteProductFromCart(productId);
+  else
+    apiResponse = await cartRepository.deleteProductQtyFromCart(productId);
+
+  if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+    MessageResponseModel model =
+    MessageResponseModel.fromJson(apiResponse.result);
+    Navigator.pop(context);
+
+    return {
+      resultStatus: true,
+      resultMessage: model.message!,
+    };
+  } else {
+    Navigator.pop(context);
+
+    return {
+      resultStatus: true,
+      resultMessage: apiResponse.message!,
+    };
+    //throw ExceptionHelper(apiResponse.message);
+  }
+}
+ cartDBProcess(
+    BuildContext context, String productId, String process) async {
   showLoaderDialog(context);
   //----------start api ----------------
   ApiResponse apiResponse;
@@ -428,9 +470,15 @@ cartDBProcess(BuildContext context, String productId, String process) async {
     Navigator.pop(context);
 
     return model.message!;
+/*    return {
+      resultStatus: true,
+      resultMessage: model.message!,
+    };*/
   } else {
     Navigator.pop(context);
-    return apiResponse.message;
+
+    return  apiResponse.message!;
+
     //throw ExceptionHelper(apiResponse.message);
   }
 }

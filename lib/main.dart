@@ -199,7 +199,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ProductListProvider>(
-          create: (_) => ProductListProvider(),
+          create: (_) => ProductListProvider(context),
         ),
       ],
       child: MaterialApp(

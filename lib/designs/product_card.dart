@@ -181,7 +181,7 @@ class ProductCard {
                                   if (isIncreaseBtnEnabled) {
                                     if (productModel.userProductQuantity! <
                                         stockQty) {
-                                            value.increaseQty(qty ,context,productModel.productId);
+                                            value.increaseQty(qty!,productModel.productId);
                                       //onIncreaseBtnClicked();
                                     } else
                                       showSuccessMessage(

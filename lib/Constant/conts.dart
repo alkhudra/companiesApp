@@ -29,3 +29,8 @@ const stcPay = 'S';
 const applePay = 'A';
 
 
+
+const resultStatus = 'resultStatus';
+const resultMessage = 'resultMessage';
+
+
