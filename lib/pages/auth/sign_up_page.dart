@@ -72,20 +72,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: scHeight*0.05,),
-                  Container(
-                    child: Text(LocaleKeys.sign_up_title.tr(), 
-                    style: TextStyle(
-                      color: CustomColors().brownColor,
-                      fontSize: 25
-                    ),),
-                  ),
-                  Divider(
-                    color: CustomColors().grayColor,
-                    thickness: 1.8,
-                    indent: 60,
-                    endIndent: 60,
-                  ),
-                  SizedBox(height: scHeight*0.03,),
                   TextFieldDesign.textFieldStyle(
                     context: context,
                     verMarg: 5,
