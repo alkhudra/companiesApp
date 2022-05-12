@@ -307,7 +307,7 @@ Widget cartTile(BuildContext context, String language,
 }
 
 Widget addToCartBtnContainer(BuildContext context,
-    {productsModel,
+    {required ProductsModel productsModel,
     userQty,
     onDeleteBtnClicked,
     onIncreaseBtnClicked,
@@ -318,7 +318,7 @@ Widget addToCartBtnContainer(BuildContext context,
       child:
           productsModel.isDeleted == false && productsModel.isAvailabe == true
               //show add to cart options
-              ? productsModel.isAddedToCart == false && userQty == 0
+              ? productsModel.isAddedToCart == false &&  productsModel.userProductQuantity ==  0
                   //show cart button
                   ? cartBtn(
                       Icons.shopping_cart,

@@ -14,6 +14,13 @@ class ProductListProvider with ChangeNotifier {
 
   ProductListProvider(this.context , { this.productsList, this.qty  = 0 });
 
+
+  setList(List<ProductsModel>? productsList){
+    this.productsList = productsList;
+    
+  }
+
+
   increaseQty(int _qty, productId) async {
     qty = _qty;
     qty = qty + 1;
@@ -29,7 +36,6 @@ class ProductListProvider with ChangeNotifier {
 
   addToCart(context, productId) async {
     qty = 1;
-    // qty = _qty!;
     await cartDBProcessProvider(context, productId, addToCartConst)
         .then((resultMap) {
       if (resultMap.values.first == true) {

@@ -26,8 +26,10 @@ import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/home_repository.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
+import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/models/product/category_model.dart';
@@ -203,17 +205,39 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Container(
-            child: ListView.builder(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                ProductsModel model = home.productsList![index];
-                String productId = model.productId!;
-                return getProductCard(context, model, productId);
-              },
-              itemCount: home.productsList!.length,
+            child: Consumer<ProductListProvider>(
+
+              builder: (context, value, child) {
+
+                value.setList(home.productsList);
+                return ListView.builder(
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
+                      .onDrag,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final ProductsModel model = value.productsList![index];
+
+                  //  ProductsModel model = home.productsList![index];
+                    String productId = model.productId!;
+                    return getProductCard(context, model, productId,{
+                    if (model .quantity! > 0 ) {
+                    value.addToCart(context,productId)
+
+                    } else
+                    showSuccessMessage(
+                    context, LocaleKeys.no_stock.tr())
+
+                    }
+
+                    );
+                  },
+                  itemCount: value.productsList!.length,
+                );
+
+              }
             ),
+
           ),
           SizedBox(
             height: 30,
@@ -305,14 +329,14 @@ class _HomePageState extends State<HomePage> {
   }
 
 //----------------------
-  getProductCard(BuildContext context, ProductsModel model, String productId) {
+  getProductCard(BuildContext context, ProductsModel model, String productId , onAddBtn) {
     return ProductCard.productCardDesign(context, language, model, () {
       bool? isFavourite = model.isFavourite;
       ProductCard.addToFav(context, isFavourite, productId);
       setState(() {
         isFavourite = !isFavourite!;
       });
-    }/*, onIncreaseBtnClicked: () {
+    },onAddBtnClicked:onAddBtn /*, onIncreaseBtnClicked: () {
       setState(() {
         ProductCard.addQtyToCart(context, productId);
       });

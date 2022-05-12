@@ -219,7 +219,7 @@ class _LogInPageState extends State<LogInPage> {
 
     registerRepository
         .loginUser(
-            emailController.text, passController.text, token, Platform.isAndroid)
+            emailController.text, passController.text, token)
         .then((result) async {
       //-------- fail response ---------
 

@@ -134,8 +134,8 @@ Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
 
 void directToOrderDetails(context, {model, orderId}) async {
   String language = await PreferencesHelper.getSelectedLanguage;
-  OrderHeader orderHeaderModel = OrderHeader();
 
+  //todo: test
   if (model == null) {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
@@ -145,15 +145,21 @@ void directToOrderDetails(context, {model, orderId}) async {
 
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       OrderHeader? responseModel = OrderHeader.fromJson(apiResponse.result);
-      orderHeaderModel = responseModel;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderDetails(
+                orderModel: responseModel,
+                language: language,
+              )));
+
     }
   } else
-    orderHeaderModel = model;
   Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => OrderDetails(
-                orderModel: orderHeaderModel,
+                orderModel: model,
                 language: language,
               )));
 }
