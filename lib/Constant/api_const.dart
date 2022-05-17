@@ -1,7 +1,7 @@
 abstract class ApiConst {
   static const String basic_url =
       'http://alkhudrahproject-001-site2.ctempurl.com/api';
-  static const String dashboard_url = 'http://alkhadraunited.com/';
+  static const String dashboard_url ='http://alkhudrahproject-001-site1.ctempurl.com/' ;//'http://alkhadraunited.com/';
   static const String pdf_url =
       'http://alkhudrahproject-001-site2.ctempurl.com';
   static const String payment_token =

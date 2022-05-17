@@ -13,6 +13,9 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Constant/pref_cont.dart';
+import 'helpers/pref/pref_manager.dart';
 import 'helpers/pref/shared_pref_helper.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -31,7 +34,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  bool isUserLoggedIn = await PreferencesHelper.getIsUserLoggedIn == null ? false:await PreferencesHelper.getIsUserLoggedIn ;
+   bool isUserFirstLogin = await PreferencesHelper.getIsUserFirstLogIn == null ? true:await PreferencesHelper.getIsUserFirstLogIn ;
+
+
   await Firebase.initializeApp(
       // options:
       );
@@ -44,7 +52,10 @@ Future<void> main() async {
         supportedLocales: [Locale('en'), Locale('ar')],
         path: 'assets/locale/lang',
         fallbackLocale: Locale('en'),
-        child: MyApp()),
+        child: MyApp(
+          isUserLoggedIn: isUserLoggedIn,
+          isUserFirstLogin: isUserFirstLogin,
+        )),
   );
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
@@ -72,22 +83,24 @@ Future<void> main() async {
 // }
 
 class MyApp extends StatefulWidget {
-  const MyApp({
-    Key? key,
-  }) : super(key: key);
+  final bool isUserFirstLogin, isUserLoggedIn;
+  const MyApp(
+      {Key? key, required this.isUserLoggedIn, required this.isUserFirstLogin})
+      : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  static bool isUserFirstLogin = false;
-  static bool isUserLoggedIn = false;
+/*  static bool isUserFirstLogin = false;
+  static bool isUserLoggedIn = false;*/
+
   static int counter = 0;
   @override
   void initState() {
     super.initState();
-    setValues();
+    //setValues();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -163,35 +176,35 @@ class _MyAppState extends State<MyApp> {
         'Testing $counter',
         'How you doin?',
         NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                channelDescription: channel.description,
-                importance: Importance.high,
-                color: CustomColors().primaryGreenColor,
-                playSound: true,
-                //TODO: Add custom icon
-                icon: '@mipmap/ic_launcher'),
-                // iOS: IOSNotificationDetails()
-          )
-      );
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              channelDescription: channel.description,
+              importance: Importance.high,
+              color: CustomColors().primaryGreenColor,
+              playSound: true,
+              //TODO: Add custom icon
+              icon: '@mipmap/ic_launcher'),
+          // iOS: IOSNotificationDetails()
+        ));
 
-      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-        alert: true, // Required to display a heads up notification
-        badge: true,
-        sound: true,
-      );
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
 
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
 
-      NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
-
-      print('User granted permission: ${settings.authorizationStatus}');
+    print('User granted permission: ${settings.authorizationStatus}');
   }
 
   @override
@@ -214,7 +227,7 @@ class _MyAppState extends State<MyApp> {
             accentColor: CustomColors().primaryGreenColor,
             primarySwatch: Colors.green,
           ),
-          home: getRout()//tempHome()
+          home: getRout() //tempHome()
           // home: tempHome(),
           ),
     );
@@ -241,18 +254,20 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget getRout() {
-    print(isUserFirstLogin);
+    // print(isUserFirstLogin);
 
-    if (isUserFirstLogin == false && isUserLoggedIn == true)
+    if (widget.isUserFirstLogin == false && widget.isUserLoggedIn == true)
       return DashboardPage();
-    if (isUserFirstLogin == false && isUserLoggedIn == false)
+    if (widget.isUserFirstLogin == false && widget.isUserLoggedIn == false)
       return LogInPage();
     else
       return LanguagePage();
   }
 
+
+/*
   setValues() async {
     isUserFirstLogin = await PreferencesHelper.getIsUserFirstLogIn;
     isUserLoggedIn = await PreferencesHelper.getIsUserLoggedIn;
-  }
+  }*/
 }

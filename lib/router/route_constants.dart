@@ -20,7 +20,7 @@ const String dashBoardRoute = "dashBoard";
 const String branchListRoute = "branchList";
 
 final Map<String, WidgetBuilder> routMap = {
-  mainRoute: (BuildContext context) => new MyApp(),
+ // mainRoute: (BuildContext context) => new MyApp(),
   loginRoute: (BuildContext context) => new LogInPage(),
   dashBoardRoute: (BuildContext context) => new DashboardPage(),
  cartRoute: (BuildContext context) => new CartPage(),
