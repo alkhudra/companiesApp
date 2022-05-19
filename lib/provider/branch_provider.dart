@@ -14,23 +14,21 @@ class BranchProvider with ChangeNotifier {
 
   BranchProvider(this.context);
 
-
- Future loadData()async{
-   branchList = await getListData();
-   return branchList;
+  Future loadData() async {
+    if(branchList!.isEmpty)
+    branchList = await getListData();
+    return branchList;
   }
-  addBranchToList(BranchModel model){
 
+  addBranchToList(BranchModel model) {
     branchList!.add(model);
     notifyListeners();
   }
 
-  removeBranchFromList(BranchModel model){
-
+  removeBranchFromList(BranchModel model) {
     branchList!.remove(model);
     notifyListeners();
   }
-
 
   int get listCount {
     return branchList!.length;

@@ -29,6 +29,7 @@ import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/checkout/payment_page.dart';
 import 'package:khudrah_companies/pages/order_completed_page.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:myfatoorah_flutter/embeddedpayment/MFPaymentCardView.dart';
 import 'package:myfatoorah_flutter/model/executepayment/MFExecutePaymentRequest.dart';
@@ -39,18 +40,18 @@ import 'package:myfatoorah_flutter/utils/MFAPILanguage.dart';
 import 'package:myfatoorah_flutter/utils/MFCountry.dart';
 import 'package:myfatoorah_flutter/utils/MFEnvironment.dart';
 import 'package:myfatoorah_flutter/utils/MFResult.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CheckoutPage extends StatefulWidget {
   final User? currentUser;
   final UserCart? userCart;
-  final List<BranchModel>? branchList;
+
   final String language;
   const CheckoutPage(
       {Key? key,
       required this.currentUser,
       required this.userCart,
-      required this.branchList,
       required this.language})
       : super(key: key);
 
@@ -79,15 +80,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
   // for api
   bool isSuccess = false;
   bool hasPaid = false;
-  static late List<BranchModel> branches;
+
   String paymentMethod = 'C';
   @override
   Widget build(BuildContext context) {
     //  List<BranchModel> branches = widget.branchList!;
     // isDebitAllow = widget.currentUser!.hasCreditOption!;
-    branches = [dropdownValue];
-
-    for (BranchModel c in widget.branchList!) branches.add(c);
+    List<BranchModel> branches = [dropdownValue];
+    branches.addAll(
+        Provider.of<BranchProvider>(context, listen: false).getBranchList);
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -189,24 +190,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   cartTotalDesign(total),
                   //checkout button
                   Container(
-                    child: greenBtn(
-                         LocaleKeys.send_order.tr(),
+                    child: greenBtn(LocaleKeys.send_order.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
                       if (addressController.text != '') {
-                        if (isPayDebitSelected == true){
-                       //   payWithEmbeddedPayment();
-                         if(widget.currentUser!.companyBalance! <= 0 ) {
-                           showErrorMessageDialog(
-                               context, LocaleKeys.no_debit_balance.tr());
-                         }
-                        }
-                        else {
+                        if (isPayDebitSelected == true) {
+                          //   payWithEmbeddedPayment();
+                          if (widget.currentUser!.companyBalance! <= 0) {
+                            showErrorMessageDialog(
+                                context, LocaleKeys.no_debit_balance.tr());
+                          }
+                        } else {
                           //  continue order ( api , show success page)
                           setState(() {
                             OrderHelper.callApi(context, widget.userCart!,
                                 selectedBranch, hasPaid, paymentMethod);
                           });
-
                         }
                       } else {
                         showErrorMessageDialog(
@@ -235,6 +233,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         height: 1.5,
                         color: CustomColors().blackColor,
                         fontWeight: FontWeight.bold),
+                  ),
+                )
+            ,                  GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return BranchList();
+                        }));
+
+                  },
+                  child:  Row(
+                    children: [
+                      Icon(Icons.settings,color: CustomColors().brownColor,),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          LocaleKeys.control_branches.tr(),
+                          style: TextStyle(
+                            fontSize: 15,
+                            height: 1.5,
+                            color: CustomColors().brownColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -295,35 +320,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ),
 
-                // TODO: make user add branch if none
-                /* if (widget.branchList!.length != 0)
-                  GestureDetector(
-                    onTap: () {
-                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return BranchList();
-                      })).then((value) {
-                        setState(() {
-                          setBranches();
-                        });
-                        print('returned value $branches');
-
-                       });
-
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'no Branches press to add ',
-                        style: TextStyle(
-                            fontSize: 15,
-                            height: 1.5,
-                            color: CustomColors().redColor,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),*/
                 Container(
                   margin: EdgeInsets.all(10),
                   padding: const EdgeInsets.all(8.0),
@@ -393,7 +389,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-
   ///********
   ///
   ///general  methods
@@ -402,8 +397,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   void initState() {
     super.initState();
-
-
   }
   //------------------------
 

@@ -30,9 +30,11 @@ import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/cart_repository.dart';
 import 'package:khudrah_companies/pages/checkout/checkout_page.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CartPage extends StatefulWidget {
@@ -50,7 +52,6 @@ class _CartPageState extends State<CartPage> {
 
   List<CartProductsList> unavailableItemsList = [];
   static List<CartProductsList> list = [];
-  static List<BranchModel>? branchList = [];
 
   @override
   void initState() {
@@ -60,6 +61,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: FutureBuilder<SuccessCartResponseModel?>(
         future: getListData(),
@@ -361,7 +363,7 @@ class _CartPageState extends State<CartPage> {
   static void setValue() async {
     language = await PreferencesHelper.getSelectedLanguage;
     user = await PreferencesHelper.getUser;
-    branchList = await PreferencesHelper.getBranchesList;
+//await PreferencesHelper.getBranchesList;
   }
   //--------
 
@@ -475,7 +477,6 @@ class _CartPageState extends State<CartPage> {
                       return CheckoutPage(
                           currentUser: user,
                           userCart: model.userCart,
-                          branchList: branchList,
                           language: language);
                     }));
                 }
@@ -493,7 +494,6 @@ class _CartPageState extends State<CartPage> {
         return CheckoutPage(
             currentUser: user,
             userCart: model.userCart,
-            branchList: branchList,
             language: language);
       }));
     }

@@ -204,4 +204,5 @@ abstract class LocaleKeys {
   static const pay_now = "pay_now";
   static const no_debit_balance = "no_debit_balance";
   static const rejected = "rejected";
+  static const control_branches ="control_branches";
 }
