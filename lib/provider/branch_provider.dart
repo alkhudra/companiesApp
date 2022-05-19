@@ -16,10 +16,14 @@ class BranchProvider with ChangeNotifier {
 
   Future loadData() async {
     if(branchList!.isEmpty)
-    branchList = await getListData();
+    branchList = await getBranchListData();
     return branchList;
   }
 
+  setBranchList(List<BranchModel>? list){
+    branchList = list;
+    notifyListeners();
+  }
   addBranchToList(BranchModel model) {
     branchList!.add(model);
     notifyListeners();
@@ -35,6 +39,9 @@ class BranchProvider with ChangeNotifier {
   }
 
   UnmodifiableListView<BranchModel> get getBranchList {
+  //  if(branchList!.length !=0)
     return UnmodifiableListView(branchList!);
+   // else return loadData();
+
   }
 }

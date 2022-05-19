@@ -9,6 +9,7 @@ import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
@@ -40,6 +41,7 @@ Future<void> main() async {
   bool isUserLoggedIn = await PreferencesHelper.getIsUserLoggedIn == null ? false:await PreferencesHelper.getIsUserLoggedIn ;
    bool isUserFirstLogin = await PreferencesHelper.getIsUserFirstLogIn == null ? true:await PreferencesHelper.getIsUserFirstLogIn ;
 
+  String language = await PreferencesHelper.getSelectedLanguage == null ? 'en':await PreferencesHelper.getSelectedLanguage ;
 
   await Firebase.initializeApp(
       // options:
@@ -56,6 +58,7 @@ Future<void> main() async {
         child: MyApp(
           isUserLoggedIn: isUserLoggedIn,
           isUserFirstLogin: isUserFirstLogin,
+          language :language
         )),
   );
   await flutterLocalNotificationsPlugin
@@ -85,8 +88,9 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   final bool isUserFirstLogin, isUserLoggedIn;
+  final String language;
   const MyApp(
-      {Key? key, required this.isUserLoggedIn, required this.isUserFirstLogin})
+      {Key? key, required this.isUserLoggedIn, required this.isUserFirstLogin,required this.language})
       : super(key: key);
 
   @override
@@ -218,6 +222,10 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<BranchProvider>(
           create: (_) => BranchProvider(context),
+
+        ),
+        ChangeNotifierProvider<GeneralProvider>(
+          create: (_) => GeneralProvider(context,widget.language ),
 
         ),
       ],

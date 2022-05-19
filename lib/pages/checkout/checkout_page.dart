@@ -47,13 +47,11 @@ class CheckoutPage extends StatefulWidget {
   final User? currentUser;
   final UserCart? userCart;
 
-  final String language;
-  const CheckoutPage(
-      {Key? key,
-      required this.currentUser,
-      required this.userCart,
-      required this.language})
-      : super(key: key);
+  const CheckoutPage({
+    Key? key,
+    required this.currentUser,
+    required this.userCart,
+  }) : super(key: key);
 
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
@@ -234,18 +232,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         color: CustomColors().blackColor,
                         fontWeight: FontWeight.bold),
                   ),
-                )
-            ,                  GestureDetector(
+                ),
+                GestureDetector(
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                          return BranchList();
-                        }));
-
+                      return BranchList();
+                    }));
                   },
-                  child:  Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.settings,color: CustomColors().brownColor,),
+                      Icon(
+                        Icons.settings,
+                        color: CustomColors().brownColor,
+                      ),
                       Container(
                         margin: EdgeInsets.all(10),
                         padding: const EdgeInsets.all(8.0),
@@ -415,7 +415,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return PaymentPage(
                 userCart: widget.userCart,
-                language: widget.language,
                 branchModel: selectedBranch,
               );
             }));

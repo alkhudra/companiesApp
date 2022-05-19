@@ -77,10 +77,9 @@ class _BranchItemState extends State<BranchItem> {
     );
   }
 
-  void directToEditItem() async{
-    String language = await PreferencesHelper.getSelectedLanguage;
+  void directToEditItem() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return EditBranchPage(language : language,branchModel: widget.list[widget.index],cities: widget.cities,);
+      return EditBranchPage(branchModel: widget.list[widget.index],cities: widget.cities,);
     }));
   }
 }

@@ -17,7 +17,8 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/branches/branch_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/branches/success_branch_response_model.dart';
 import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
@@ -25,17 +26,16 @@ import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/pick_location_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
 
 class AddBranchesPage extends StatefulWidget {
-    final List<Cities> cities ;
-    final String language ;
+  final List<Cities> cities;
 
-  const AddBranchesPage({Key? key ,required this.cities,required this.language})
-      : super(key: key);
+  const AddBranchesPage({Key? key, required this.cities}) : super(key: key);
 
   @override
   _AddBranchesPageState createState() => _AddBranchesPageState();
@@ -71,8 +71,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     double scWidth = size.width;
     double scHeight = size.height;
     List<String> cities = [dropdownValue];
-    for(Cities c in widget.cities)
-    cities.add( widget.language == 'ar'? c.arCityName! : c.enCityName!);
+    for (Cities c in widget.cities)
+      cities.add(Provider.of<GeneralProvider>(context, listen: false)
+                  .userSelectedLanguage ==
+              'ar'
+          ? c.arCityName!
+          : c.enCityName!);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -171,7 +175,6 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                       });
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
-
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -359,17 +362,17 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
         return;
       }
 
-
       //-------- success response ---------
       address = '';
       alreadyUsedMap.clear();
       PickLocationPage.setValues();
       SuccessBranchResponseModel successBranchResponseModel =
-      SuccessBranchResponseModel.fromJson(result.result);
+          SuccessBranchResponseModel.fromJson(result.result);
       showSuccessMessage(context, successBranchResponseModel.message!);
 
       BranchModel branchModel = successBranchResponseModel.branchObject!;
-      Provider.of<BranchProvider>(context,listen: false).addBranchToList(branchModel);
+      Provider.of<BranchProvider>(context, listen: false)
+          .addBranchToList(branchModel);
 
       Navigator.pop(context);
       Navigator.pop(context);
@@ -415,7 +418,6 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   String getCityTxt() {
     return LocaleKeys.select_city.tr();
   }
-
 
   void backButtonClicked() {
     List<Function()> actions = [

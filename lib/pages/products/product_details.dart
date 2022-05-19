@@ -14,16 +14,18 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/full_image_page.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
-  final String language;
+
   const ProductDetails(
-      {Key? key, required this.productModel, required this.language})
+      {Key? key, required this.productModel})
       : super(key: key);
 
   @override
@@ -68,7 +70,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   //----------------------------
   Widget pageDesign(BuildContext context, AsyncSnapshot<ProductsModel?> hasData,
       ProductsModel model) {
-    String language = widget.language;
+    String language =  Provider.of<GeneralProvider>(context,listen: false).userSelectedLanguage;
+    ;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;

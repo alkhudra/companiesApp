@@ -21,6 +21,7 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,9 @@ import '../pick_location_page.dart';
 class EditBranchPage extends StatefulWidget {
   final BranchModel branchModel;
   final List<Cities> cities ;
-  final String language ;
 
-  const EditBranchPage({Key? key,required this.language, required this.branchModel,required this.cities}) : super(key: key);
+
+  const EditBranchPage({Key? key, required this.branchModel,required this.cities}) : super(key: key);
 
   @override
   _EditBranchPageState createState() => _EditBranchPageState();
@@ -83,11 +84,13 @@ class _EditBranchPageState extends State<EditBranchPage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
+    String lang =    Provider.of<GeneralProvider>(context,listen: false).userSelectedLanguage;
+
     List<String> cities = [dropdownValue];
     for(Cities c in widget.cities) {
       if(c.enCityName == city || c.arCityName == city)
-        city = widget.language == 'ar' ? c.arCityName! : c.enCityName!;
-      cities.add(widget.language == 'ar' ? c.arCityName! : c.enCityName!);
+        city = lang == 'ar' ? c.arCityName! : c.enCityName!;
+      cities.add(lang == 'ar' ? c.arCityName! : c.enCityName!);
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,

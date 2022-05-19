@@ -16,7 +16,9 @@ import 'package:khudrah_companies/network/models/orders/driver_user.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/order_items.dart';
 import 'package:khudrah_companies/pages/orders/order_list.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../helpers/cart_helper.dart';
@@ -25,10 +27,8 @@ import '../../network/models/cart/success_cart_response_model.dart';
 
 class OrderDetails extends StatefulWidget {
   final OrderHeader orderModel;
-  final String language;
-  const OrderDetails(
-      {Key? key, required this.orderModel, required this.language})
-      : super(key: key);
+
+  const OrderDetails({Key? key, required this.orderModel}) : super(key: key);
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
@@ -60,7 +60,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     if (widget.orderModel.driverUser != null)
       driverUser = widget.orderModel.driverUser!;
     return Scaffold(
-      appBar:  appBarDesign(context, LocaleKeys.order_status.tr()),
+      appBar: appBarDesign(context, LocaleKeys.order_status.tr()),
       body: model.orderStatus == onDelivery
           ? SlidingUpPanel(
               body: pageContent(model),
@@ -202,7 +202,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                   children: [
                     Container(
                       child: Text(
-                        widget.language == "ar"
+                        Provider.of<GeneralProvider>(context, listen: false)
+                                    .userSelectedLanguage ==
+                                "ar"
                             ? item.product!.arName!
                             : item.product!.name!,
                         style: TextStyle(
@@ -544,12 +546,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-
                       child: payButtonDesign(
                           context, paymentColor, paymentText, paymentIcon),
                       padding: EdgeInsets.symmetric(horizontal: 30),
                     ),
-             /*       if (model.paymentType == credit)
+                    /*       if (model.paymentType == credit)
                       greenBtn(
                           LocaleKeys.pay_now.tr(),
                           EdgeInsets.symmetric(horizontal: 20, vertical: 5),

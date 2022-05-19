@@ -15,8 +15,10 @@ import 'package:khudrah_companies/helpers/order_helper.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/cart/user_cart.dart';
 import 'package:khudrah_companies/pages/checkout/checkout_page.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:myfatoorah_flutter/embeddedpayment/MFPaymentCardView.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:myfatoorah_flutter/embeddedpayment/MFPaymentCardView.dart';
 import 'package:myfatoorah_flutter/model/executepayment/MFExecutePaymentRequest.dart';
@@ -32,13 +34,10 @@ import '../order_completed_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final UserCart? userCart;
-  final String language;
+
   final BranchModel branchModel;
   const PaymentPage(
-      {Key? key,
-      required this.userCart,
-      required this.language,
-      required this.branchModel})
+      {Key? key, required this.userCart, required this.branchModel})
       : super(key: key);
 
   @override
@@ -55,9 +54,12 @@ class _PaymentPageState extends State<PaymentPage> {
   var sessionIdValue = "";
   String _response = '';
   bool hasPaid = false;
-
+  String language = '';
   @override
   Widget build(BuildContext context) {
+    language = Provider.of<GeneralProvider>(context, listen: false)
+        .userSelectedLanguage;
+
     num priceAfterDiscount = widget.userCart!.totalDiscount!;
     num subtotal = widget.userCart!.totalCartPrice!;
     num vat = widget.userCart!.totalCartVAT15!;
@@ -208,7 +210,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     MFSDK.initiatePayment(
         request,
-        displayLanguage(widget.language),
+        displayLanguage(language),
         (MFResult<MFInitiatePaymentResponse> result) => {
               if (result.isSuccess())
                 {
@@ -217,12 +219,12 @@ class _PaymentPageState extends State<PaymentPage> {
                     _response = result.response!.toJson().toString();
                     paymentMethods.addAll(result.response!.paymentMethods!);
 
-                    for (int i = 0; i < paymentMethods.length; i++){
-                      if(Platform.isAndroid  && paymentMethods[i].paymentMethodId == 13){
+                    for (int i = 0; i < paymentMethods.length; i++) {
+                      if (Platform.isAndroid &&
+                          paymentMethods[i].paymentMethodId == 13) {
                         paymentMethods.removeAt(i);
                       }
                       isSelected.add(false);
-
                     }
                   })
                 }
@@ -281,23 +283,22 @@ class _PaymentPageState extends State<PaymentPage> {
     MFSDK.executePayment(
         context,
         request,
-        displayLanguage(widget.language),
+        displayLanguage(language),
         (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
               if (result.isSuccess())
                 {
-
                   setState(() {
                     print(invoiceId);
                     print(result.response!.toJson());
                     _response = result.response!.toJson().toString();
-
 
                     setState(() {
                       hasPaid = true;
 
                       OrderHelper.callApi(context, widget.userCart!,
                           widget.branchModel, hasPaid, visa);
-                    });                  })
+                    });
+                  })
                 }
               else
                 {
@@ -306,7 +307,6 @@ class _PaymentPageState extends State<PaymentPage> {
                     print(result.error!.toJson());
                     _response = result.error!.message!;
                     OrderHelper.viewCompleteOrderPage(context, false);
-
                   })
                 }
             });

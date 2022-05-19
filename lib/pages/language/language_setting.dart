@@ -1,6 +1,7 @@
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/route_helper.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 // import 'package:alkhudhrah_app/designs/bottom_nav_bar.dart';
 import 'package:khudrah_companies/designs/ButtonsDesign.dart';
@@ -9,6 +10,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';
 
 enum Languages { english, arabic }
@@ -25,6 +27,8 @@ class _LanguageSettingState extends State<LanguageSetting> {
     else
       await context.setLocale(Locale('ar'));
     PreferencesHelper.setSelectedLanguage(localeName);
+    Provider.of<GeneralProvider>(context,listen: false).setUserSelectedLanguage(localeName);
+
     moveToNewStack(context, dashBoardRoute);
   }
 

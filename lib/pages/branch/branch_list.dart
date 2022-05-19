@@ -19,6 +19,7 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/branch/edit_branch_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
@@ -114,14 +115,13 @@ class _BranchListState extends State<BranchList> {
   }
 
   void directToAddBranch(List<BranchModel> list) async {
-    String language = await PreferencesHelper.getSelectedLanguage;
+//    String language = await PreferencesHelper.getSelectedLanguage;
     cities = (await PreferencesHelper.getCitiesList)!;
 
-    final model =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddBranchesPage(
         cities: cities,
-        language: language,
+
       );
     }));
 

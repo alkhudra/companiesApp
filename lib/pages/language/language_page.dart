@@ -5,9 +5,11 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/welcome_page.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 
 class LanguagePage extends StatefulWidget {
   @override
@@ -32,7 +34,7 @@ class _LanguagePageState extends State<LanguagePage> {
   //  PreferencesHelper.setUserFirstLogIn(false);
 
     PreferencesHelper.setSelectedLanguage(localeName);
-
+    Provider.of<GeneralProvider>(context,listen: false).setUserSelectedLanguage(localeName);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return WelcomePage();
     }));

@@ -477,7 +477,7 @@ class _CartPageState extends State<CartPage> {
                       return CheckoutPage(
                           currentUser: user,
                           userCart: model.userCart,
-                          language: language);
+                        );
                     }));
                 }
               });
@@ -494,7 +494,7 @@ class _CartPageState extends State<CartPage> {
         return CheckoutPage(
             currentUser: user,
             userCart: model.userCart,
-            language: language);
+      );
       }));
     }
   }

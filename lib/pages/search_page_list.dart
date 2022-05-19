@@ -33,7 +33,6 @@ class _SearchListPageState extends State<SearchListPage> {
 
   int pageSize = listItemsCount;
   int pageNumber = 1;
-  static String language = 'ar';
   List<ProductsModel> list = [];
   bool isThereMoreItems = true;
   @override
@@ -54,29 +53,7 @@ class _SearchListPageState extends State<SearchListPage> {
     );
   }
 
-  //---------------------
 
-  @override
-  void initState() {
-    super.initState();
-    setValues();
-  }
-
-  //---------------------
-
-  static void setValues() async {
-    language = await PreferencesHelper.getSelectedLanguage;
-  }
-  //---------------------
-
-/*  Widget errorCase(AsyncSnapshot<ProductListResponseModel?> snapshot) {
-    if (snapshot.hasError) {
-      return Text('${snapshot.error}');
-    } else
-
-      // By default, show a loading spinner.
-      return loadingProgress();
-  }*/
   //---------------------
 
   Widget searchPageDesign(String keyWord) {
@@ -129,7 +106,7 @@ class _SearchListPageState extends State<SearchListPage> {
                     itemBuilder: (context, index) {
                       return ProductCard.productCardDesign(
                         context,
-                        language,
+
                         list[index],
                               () {
                             bool? isFavourite = list[index].isFavourite;

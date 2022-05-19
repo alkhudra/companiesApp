@@ -155,7 +155,7 @@ class _AllCategoryState extends State<AllCategory> {
   getProductCard(BuildContext context ,ProductsModel model ,String productId  ) {
 
     return ProductCard.productCardDesign(
-        context, language, model, () {
+        context,model, () {
       bool? isFavourite = model.isFavourite;
       ProductCard.addToFav(context, isFavourite,
           productId);

@@ -122,7 +122,7 @@ Widget cartTile(BuildContext context, String language,
                     MaterialPageRoute(
                         builder: (context) => ProductDetails(
                               productModel: model,
-                              language: language,
+
                             )));
             },
             child: Container(

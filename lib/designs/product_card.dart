@@ -14,6 +14,7 @@ import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -28,7 +29,7 @@ class ProductCard {
       isIncreaseBtnEnabled = true,
       isDecreaseBtnEnabled = true;
 
-  static productCardDesign(context, String language, ProductsModel productModel,
+  static productCardDesign(context,  ProductsModel productModel,
       Function() favPressed,
       {onAddBtnClicked,
       onIncreaseBtnClicked,
@@ -43,6 +44,7 @@ class ProductCard {
 
  //   price = price.toStringAsFixed(1);
     bool? isFavourite = productModel.isFavourite;
+    String language =  Provider.of<GeneralProvider>(context,listen: false).userSelectedLanguage;
 
     String? name = language == 'ar' ? productModel.arName : productModel.name;
     num? stockQty = productModel.quantity!;
@@ -213,7 +215,7 @@ class ProductCard {
               MaterialPageRoute(
                   builder: (context) => ProductDetails(
                         productModel: productModel,
-                        language: language,
+
                       )));
         });
   }
@@ -262,7 +264,7 @@ class ProductCard {
                 MaterialPageRoute(
                     builder: (context) => ProductDetails(
                           productModel: productModel,
-                          language: language,
+
                         )));
           },
           child: Column(
