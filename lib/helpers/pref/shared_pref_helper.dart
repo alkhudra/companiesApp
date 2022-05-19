@@ -10,6 +10,7 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 class PreferencesHelper {
   static Future<bool> get getIsUserFirstLogIn =>
       SharedPrefsManager.getBool(firstLogin);
+
   static Future setUserFirstLogIn(bool value) =>
       SharedPrefsManager.setBool(firstLogin, value);
 
@@ -92,6 +93,19 @@ class PreferencesHelper {
     final String encodedData = BranchModel.encode(branch);
 
     SharedPrefsManager.setString(branchList, encodedData);
+  }
+//--------------------
+
+  static Future<List<Cities>?> get getCitiesList async {
+    // Fetch and decode data
+    String cities = await SharedPrefsManager.getString(cityList);
+    return Cities.decode(cities);
+  }
+
+  static Future saveCitiesList(List<Cities> cities) async {
+    final String encodedData = Cities.encode(cities);
+
+    SharedPrefsManager.setString(cityList, encodedData);
   }
 //--------------------
 
