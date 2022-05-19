@@ -27,3 +27,4 @@ const  userID = "userID";
 
 const cities="cities";
 const branchList="branchList";
+const cityList ="cityList";

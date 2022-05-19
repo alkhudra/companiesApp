@@ -79,7 +79,7 @@ class _BranchItemState extends State<BranchItem> {
 
   void directToEditItem() async{
     String language = await PreferencesHelper.getSelectedLanguage;
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       return EditBranchPage(language : language,branchModel: widget.list[widget.index],cities: widget.cities,);
     }));
   }

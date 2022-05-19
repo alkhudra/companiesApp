@@ -24,9 +24,11 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/pick_location_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 
 class AddBranchesPage extends StatefulWidget {
     final List<Cities> cities ;
@@ -367,9 +369,12 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showSuccessMessage(context, successBranchResponseModel.message!);
 
       BranchModel branchModel = successBranchResponseModel.branchObject!;
+      Provider.of<BranchProvider>(context,listen: false).addBranchToList(branchModel);
+
+      Navigator.pop(context);
       Navigator.pop(context);
       // widget.addToList(branchModel);
-      Navigator.pop(context, branchModel);
+      //Navigator.pop(context, branchModel);
     });
   }
 

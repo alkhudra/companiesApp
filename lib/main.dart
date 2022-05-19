@@ -8,6 +8,7 @@ import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
@@ -213,6 +214,11 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider<ProductListProvider>(
           create: (_) => ProductListProvider(context),
+
+        ),
+        ChangeNotifierProvider<BranchProvider>(
+          create: (_) => BranchProvider(context),
+
         ),
       ],
       child: MaterialApp(

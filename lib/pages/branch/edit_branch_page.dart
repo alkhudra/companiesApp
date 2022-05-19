@@ -20,8 +20,10 @@ import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 
 import '../pick_location_page.dart';
 
@@ -490,10 +492,11 @@ class _EditBranchPageState extends State<EditBranchPage> {
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
       Navigator.pop(context);
+      Provider.of<BranchProvider>(context,listen: false).removeBranchFromList(widget.branchModel);
+      Navigator.pop(context);
 
-
-      Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => BranchList()));
+/*      Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) => BranchList()));*/
 
     });
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 
@@ -74,6 +76,24 @@ class Cities {
     map['enCityName'] = _enCityName;
     return map;
   }
+
+  static String encode(List<Cities> city) => json.encode(
+    city.map<Map<String, dynamic>>((city) => toMap(city)).toList(),
+  );
+
+  static List<Cities> decode(String city) =>
+      (json.decode(city) as List<dynamic>)
+          .map<Cities>((item) => Cities.fromJson(item))
+          .toList();
+
+
+
+  static Map<String, dynamic> toMap(Cities cities) => {
+ 'arCityName':cities.arCityName,
+ 'enCityName' : cities.enCityName,
+  };
+
+
 
 }
 

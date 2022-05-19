@@ -18,8 +18,10 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/pages/branch/edit_branch_page.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 import 'add_brunches_page.dart';
 import 'branch_item.dart';
@@ -39,18 +41,22 @@ class _BranchListState extends State<BranchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
-        backgroundColor: Colors.grey[100],
-        body: FutureBuilder<BranchListResponseModel?>(
-          future: getListData(),
+      appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
+      backgroundColor: Colors.grey[100],
+      body: Consumer<BranchProvider>(builder: (context, value, child) {
+        return FutureBuilder/*<BranchListResponseModel>*/(
+          future: value.loadData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return _buildBody(context, snapshot.data);
             } else
               return errorCase(snapshot);
           },
-        ));
+        );
+      }),
+    );
   }
+
 
   //-----------------------
 
@@ -76,48 +82,54 @@ class _BranchListState extends State<BranchList> {
   }
 
   //-----------------------
-  Widget _buildBody(BuildContext context, BranchListResponseModel? snapshot) {
+  Widget _buildBody(BuildContext context,/*BranchListResponseModel? */snapshot) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
-    return Column(
-      children: [
+  //  cities = snapshot!.cities!;
+    return Column(children: [
       Expanded(
-        child: snapshot!.branches!.length > 0
+        child: snapshot./*branches!.*/length > 0
             ? ListView.builder(
                 itemBuilder: (context, index) {
                   //  print(snapshot?[index].toString());
                   return BranchItem(
-                    list: snapshot.branches!,
+                    list: snapshot/*.branches!*/,
                     index: index,
                     cities: cities,
                   );
                 },
-                itemCount: snapshot.branches!.length,
+                itemCount: snapshot./*branches!.*/length,
               )
             : noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
       ),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
-        directToAddBranch(snapshot.branches!);
+        directToAddBranch(snapshot/*.branches!*/);
       }),
-      SizedBox(height: 30,),
+      SizedBox(
+        height: 30,
+      ),
     ]);
   }
 
   void directToAddBranch(List<BranchModel> list) async {
-
     String language = await PreferencesHelper.getSelectedLanguage;
+    cities = (await PreferencesHelper.getCitiesList)!;
+
     final model =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage(cities: cities,language: language,);
+      return AddBranchesPage(
+        cities: cities,
+        language: language,
+      );
     }));
 
-    if (model != null) {
+    /*  if (model != null) {
       setState(() {
         list.add(model);
       });
 
-    }
+    }*/
   }
 }
