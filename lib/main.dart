@@ -10,6 +10,7 @@ import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
+import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
@@ -119,7 +120,6 @@ class _MyAppState extends State<MyApp> {
                     channelDescription: channel.description,
                     color: CustomColors().primaryGreenColor,
                     playSound: true,
-                    //TODO: Add custom icon
                     icon: '@mipmap/ic_launcher')));
       }
     });
@@ -186,7 +186,6 @@ class _MyAppState extends State<MyApp> {
               importance: Importance.high,
               color: CustomColors().primaryGreenColor,
               playSound: true,
-              //TODO: Add custom icon
               icon: '@mipmap/ic_launcher'),
           // iOS: IOSNotificationDetails()
         ));
@@ -226,6 +225,10 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<GeneralProvider>(
           create: (_) => GeneralProvider(context,widget.language ),
+
+        ),
+        ChangeNotifierProvider<NotificationProvider>(
+          create: (_) => NotificationProvider(context),
 
         ),
       ],

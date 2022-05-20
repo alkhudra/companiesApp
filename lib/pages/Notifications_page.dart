@@ -15,7 +15,9 @@ import 'package:khudrah_companies/network/models/notification/notification_model
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/notification_repository.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
+import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:provider/provider.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
@@ -27,17 +29,20 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   static String name = '', email = '';
 
+  //todo:test notification page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<GetNotificationResponseModel>(
-        future: getListData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return pageDesign(context, snapshot.data!);
-          } else
-            return errorCase(snapshot);
-        },
+      body: Consumer<NotificationProvider>(builder: (context, value, child) {
+        return FutureBuilder(
+          future: getListData(value),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return pageDesign(context, snapshot.data!);
+            } else
+              return errorCase(snapshot);
+          },
+        );},
       ),
       appBar: bnbAppBar(context, LocaleKeys.notifications.tr()),
       endDrawer: drawerDesignWithName(context, name, email),
@@ -49,7 +54,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
       title: Center(
         child: GestureDetector(
           onTap: (){
-            if(model.orderId != null && model.orderId != '0' ){
+            if(model.orderId != null && model.orderId != 0){
+              print(model.orderId);
               directToOrderDetails(context,orderId:  model.orderId);
 
             }
@@ -161,33 +167,38 @@ class _NotificationsPageState extends State<NotificationsPage> {
     email = user.email!;
   }
 
-  Future<GetNotificationResponseModel> getListData() async{
+  Future getListData(NotificationProvider value) async{
 
-    Map<String, dynamic> headerMap = await getHeaderMap();
+    if(value.getNotificationList.isEmpty) {
+      Map<String, dynamic> headerMap = await getHeaderMap();
 
-    NotificationRepository orderRepository = NotificationRepository(headerMap);
+      NotificationRepository orderRepository = NotificationRepository(
+          headerMap);
 
-    ApiResponse apiResponse =
-        await orderRepository.getAllNotifications();
+      ApiResponse apiResponse =
+      await orderRepository.getAllNotifications();
 
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      GetNotificationResponseModel? responseModel =
-      GetNotificationResponseModel.fromJson(apiResponse.result);
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        GetNotificationResponseModel? responseModel =
+        GetNotificationResponseModel.fromJson(apiResponse.result);
 
-      //-----------------------------------
-      return responseModel;
-    } else {
-      throw ExceptionHelper(apiResponse.message);
-    }
+        print(responseModel.notificationList.toString());
+        value.setNotificationList(responseModel.notificationList);
+        //-----------------------------------
+        return responseModel.notificationList;
+      } else {
+        throw ExceptionHelper(apiResponse.message);
+      }
+    }else return value.notificationList;
   }
 
   Widget pageDesign(
-      BuildContext context, GetNotificationResponseModel getOrdersResponseModel) {
+      BuildContext context,  list) {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return notifCard(getOrdersResponseModel.notificationList[index]);
+        return notifCard(list[index]);
       },
-      itemCount: getOrdersResponseModel.notificationList.length,
+      itemCount:list.length,
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.only(bottom: 25),

@@ -4,7 +4,7 @@ import 'package:khudrah_companies/network/models/orders/order_items.dart';
 
 class OrderHeader {
   OrderHeader({
-      num? id, 
+      num? id,
       String? companyId, 
       String? branchId, 
       String? warehouseCode, 
@@ -168,6 +168,10 @@ class OrderHeader {
     return map;
   }
 
+  @override
+  String toString() {
+    return 'OrderHeader{_id: $_id}';
+  }
 }
 
 

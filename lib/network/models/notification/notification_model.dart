@@ -54,4 +54,8 @@ class NotificationModel {
     return map;
   }
 
+  @override
+  String toString() {
+    return 'NotificationModel{_orderId: $_orderId}';
+  }
 }
