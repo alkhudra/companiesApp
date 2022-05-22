@@ -12,6 +12,7 @@ import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/fav_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/notification_provider.dart';
+import 'package:khudrah_companies/provider/order_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
@@ -234,6 +235,10 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<FavoriteProvider>(
           create: (_) => FavoriteProvider(context),
+
+        ),
+        ChangeNotifierProvider<OrderProvider>(
+          create: (_) => OrderProvider(context),
 
         ),
       ],

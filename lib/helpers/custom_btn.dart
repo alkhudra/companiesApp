@@ -58,7 +58,7 @@ Widget greenBtnWithIcon(String txt, IconData icon,
       ));
 }
 
-Widget loadMoreBtn(BuildContext context, Function() onPressed, double topMarg, double botMarg) {
+Widget loadMoreBtn(BuildContext context,  onPressed, double topMarg, double botMarg) {
   return Container(
     margin: EdgeInsets.only(top: topMarg, bottom: botMarg),
     alignment: Alignment.bottomCenter,
@@ -71,9 +71,7 @@ Widget loadMoreBtn(BuildContext context, Function() onPressed, double topMarg, d
           LocaleKeys.load_more.tr(),
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        onPressed: () {
-          onPressed();
-        },
+        onPressed: onPressed,
         backgroundColor: CustomColors().grayColor,
         foregroundColor: CustomColors().darkBlueColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

@@ -12,10 +12,12 @@ import '../pages/orders/order_details.dart';
 import '../resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-Widget orderTileDesign(context, OrderHeader model, scWidth, scHeight) {
+Widget orderTileDesign(context, OrderHeader model) {
   String orderStatus = '';
   String orderDate = '';
-
+  Size size = MediaQuery.of(context).size;
+  double scWidth = size.width;
+  double scHeight = size.height;
   Color statusColor;
   if (model.orderStatus == underProcess) {
     orderDate = model.orderInitializedDate!;

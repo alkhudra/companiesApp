@@ -46,20 +46,26 @@ class _FavoritesPageState extends State<FavoritesPage> {
       isAddToCartBtnEnabled = true,
       isIncreaseBtnEnabled = true,
       isDecreaseBtnEnabled = true;
-  static List<ProductsModel> list = [];
   bool isThereMoreItems = false;
+  final ScrollController _controller = ScrollController();
 
-  bool isFirstCall = true;
   void setValues() async {
     User user = await PreferencesHelper.getUser;
     name = user.companyName!;
     email = user.email!;
   }
 
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      callData();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     setValues();
+    _controller.addListener(_scrollListener);
   }
 
   //todo: test paging
@@ -67,17 +73,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors().backgroundColor,
-      body: Consumer<FavoriteProvider>(
-        builder: (context, value, child) {
-          return FutureBuilder(
-            future:/* isFirstCall ? */ firstCall(value)/*: secondCall(value)*/,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return listDesign(value);
-              } else
-                return errorCase(snapshot);
-            },
-          );
+      body: FutureBuilder(
+        future: callData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return listDesign();
+          } else
+            return errorCase(snapshot);
         },
       ),
       appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
@@ -85,134 +87,104 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
-  loadMoreInfo(FavoriteProvider provider) async {
-    secondCall(provider);
-/*    setState(() {
-      pageNumber++;
-    });*/
-  }
-
   //-----------------------
 
-  Future firstCall(FavoriteProvider provider) async {
-    if(provider.favList!.isEmpty) {
+  Future callData() async {
+    final provider = Provider.of<FavoriteProvider>(context, listen: false);
+
+    if (provider.favList.isEmpty || provider.getLoadMoreDataStatus == true) {
       //----------start api ----------------
 
       Map<String, dynamic> headerMap = await getHeaderMap();
 
       ProductRepository productRepository = ProductRepository(headerMap);
 
-      ApiResponse apiResponse =
-      await productRepository.getFavoriteProducts(pageSize, pageNumber);
+      ApiResponse apiResponse = await productRepository.getFavoriteProducts(
+          pageSize, provider.pageNumber);
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
-        ProductListResponseModel.fromJson(apiResponse.result);
-        list = responseModel.products;
-        provider.setfavList(list);
+            ProductListResponseModel.fromJson(apiResponse.result);
+        provider.addMoreItemsToList(responseModel.products);
 
-        isFirstCall = false;
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)
-            isThereMoreItems = false;
+            provider.saveLoadMoreDataStatus(false);
           else
-            isThereMoreItems = true;
+            provider.saveLoadMoreDataStatus(true);
         } else {
-          isThereMoreItems = false;
-          pageNumber = 1;
+          provider.saveLoadMoreDataStatus(false);
+          provider.resetPageNumber();
         }
 
-        provider.setfavList(list);
-        print('list is $list');
+        print('loading more items btn in first call $isThereMoreItems');
         return responseModel.products;
       } else
         throw ExceptionHelper(apiResponse.message);
-    }else return provider.favList;
-  }
-
- secondCall(
-      FavoriteProvider provider) async {
- //
-   pageNumber++;
-    //----------start api ----------------
-    Map<String, dynamic> headerMap = await getHeaderMap();
-
-    ProductRepository productRepository = ProductRepository(headerMap);
-
-    ApiResponse apiResponse =
-        await productRepository.getFavoriteProducts(pageSize, pageNumber);
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      ProductListResponseModel? responseModel =
-          ProductListResponseModel.fromJson(apiResponse.result);
-
-      provider.addPagingListToList(responseModel.products);
-      list.addAll(responseModel.products);
-
-      if (responseModel.products.length > 0) {
-        if (responseModel.products.length < listItemsCount)
-          isThereMoreItems = false;
-        else
-          isThereMoreItems = true;
-      } else {
-        isThereMoreItems = false;
-      }
-      return responseModel;
     } else
-      throw ExceptionHelper(apiResponse.message);
+      return provider.favList;
   }
+
+
 
   //-----------------------
 
-  Widget listDesign(FavoriteProvider provider) {
-    return list.length > 0
-        ? Column(
-            children: [
-              Expanded(
-                child: GridView.builder(
-                  itemBuilder: (context, index) {
-                    String productId = list[index].productId!;
-                    return ProductCard.favoritesCard(context, list[index], () {
-                      deleteFromFav(context, productId).then((value) {
-                        if (value == true) {
-                          setState(() {
-                            list.remove(list[index]);
-                          });
-                        }
-                      });
-                    }, onIncreaseBtnClicked: () {
-                      setState(() {
-                        ProductCard.addQtyToCart(context, productId);
-                      });
-                    }, onDecreaseBtnClicked: () {
-                      setState(() {
-                        ProductCard.deleteQtyFromCart(context, productId);
-                      });
-                    }, onDeleteBtnClicked: () {
-                      setState(() {
-                        ProductCard.deleteFromCart(context, productId);
-                      });
-                    }, onAddBtnClicked: () {
-                      setState(() {
-                        ProductCard.addToCart(context, productId);
-                      });
+  Widget listDesign() {
+    return Consumer<FavoriteProvider>(
+      builder: (context, provider, child) {
+        return provider.listCount > 0
+            ? GridView.builder(
+                controller: _controller,
+                itemBuilder: (context, index) {
+                  if (provider.getLoadMoreDataStatus == true) {
+                    if (index == provider.favList.length - 1) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }
+                  String productId = provider.favList[index].productId!;
+                  return ProductCard.favoritesCard(
+                      context, provider.favList[index], () {
+                    deleteFromFav(context, productId).then((value) {
+
+                      if (value == true) {
+                        provider.removeFavItemFromList(provider.favList[index]);
+
+                    /*    setState(() {
+                          list.remove(list[index]);
+                        });*/
+                      }
                     });
-                  },
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      childAspectRatio: 14 / 17.4),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: list.length,
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
-                ),
-              ),
-              //TODO:test load more button
-              if (isThereMoreItems == true)
-                loadMoreBtn(context, secondCall(provider), 0, 0),
-            ],
-          )
-        : noItemDesign(LocaleKeys.no_fav_product.tr(), 'images/not_found.png');
+                  }, onIncreaseBtnClicked: () {
+                    setState(() {
+                      ProductCard.addQtyToCart(context, productId);
+                    });
+                  }, onDecreaseBtnClicked: () {
+                    setState(() {
+                      ProductCard.deleteQtyFromCart(context, productId);
+                    });
+                  }, onDeleteBtnClicked: () {
+                    setState(() {
+                      ProductCard.deleteFromCart(context, productId);
+                    });
+                  }, onAddBtnClicked: () {
+                    setState(() {
+                      ProductCard.addToCart(context, productId);
+                    });
+                  });
+                },
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
+              childAspectRatio: 14 / 17.4),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: provider.listCount,
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+              )
+            : noItemDesign(
+                LocaleKeys.no_fav_product.tr(), 'images/not_found.png');
+      },
+    );
   }
 
 //-----------------------

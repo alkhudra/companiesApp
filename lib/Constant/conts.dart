@@ -11,7 +11,7 @@ const waiting_approval = "waiting_approval";
 const registered = "registered";
 const rejected = "rejected";
 
-const listItemsCount = 5;
+const listItemsCount = 6;
 const addToCartConst = 'addToCart';
 const addQtyToCartConst = 'addQtyToCart';
 const deleteFromCartConst = 'deleteFromCart';
