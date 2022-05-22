@@ -1,10 +1,9 @@
 import 'dart:collection';
 
+import 'package:collection/src/iterable_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
-import 'package:khudrah_companies/pages/branch/branch_list.dart';
-import 'package:khudrah_companies/pages/branch/branch_wrapper.dart';
 
 class BranchProvider with ChangeNotifier {
   List<BranchModel>? branchList = [];
@@ -14,24 +13,31 @@ class BranchProvider with ChangeNotifier {
 
   BranchProvider(this.context);
 
-  Future loadData() async {
-    if(branchList!.isEmpty)
-    branchList = await getBranchListData();
-    return branchList;
-  }
 
   setBranchList(List<BranchModel>? list){
     branchList = list;
     notifyListeners();
   }
+  setCitiesList( List<Cities>?  list){
+    citiesList = list;
+    notifyListeners();
+  }
   addBranchToList(BranchModel model) {
-    branchList!.add(model);
+    branchList!.insert(0,model);
     notifyListeners();
   }
 
   removeBranchFromList(BranchModel model) {
-    branchList!.remove(model);
-    notifyListeners();
+    final branchId = model.id;
+    BranchModel? branchModel =
+    branchList!.firstWhereOrNull((element) {
+      return element.id == branchId;
+    });
+    if (branchModel != null) {
+      branchList!.remove(branchModel);
+      notifyListeners();
+    }
+
   }
 
   int get listCount {
@@ -42,6 +48,10 @@ class BranchProvider with ChangeNotifier {
   //  if(branchList!.length !=0)
     return UnmodifiableListView(branchList!);
    // else return loadData();
+
+  }
+  UnmodifiableListView<Cities> get getCitiesList {
+    return UnmodifiableListView(citiesList!);
 
   }
 }

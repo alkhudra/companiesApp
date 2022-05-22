@@ -9,6 +9,7 @@ import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
+import 'package:khudrah_companies/provider/fav_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
@@ -229,6 +230,10 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<NotificationProvider>(
           create: (_) => NotificationProvider(context),
+
+        ),
+        ChangeNotifierProvider<FavoriteProvider>(
+          create: (_) => FavoriteProvider(context),
 
         ),
       ],

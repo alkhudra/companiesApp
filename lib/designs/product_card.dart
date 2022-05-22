@@ -220,7 +220,7 @@ class ProductCard {
         });
   }
 
-  static favoritesCard(context, String language, ProductsModel productModel,
+  static favoritesCard(context, ProductsModel productModel,
       Function() favPressed,
       {onAddBtnClicked,
       onIncreaseBtnClicked,
@@ -229,6 +229,7 @@ class ProductCard {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
+    String language =  Provider.of<GeneralProvider>(context,listen: false).userSelectedLanguage;
 
     double? price = (productModel.hasSpecialPrice == true
             ? productModel.specialPrice

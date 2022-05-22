@@ -28,8 +28,6 @@ class NotificationsPage extends StatefulWidget {
 
 class _NotificationsPageState extends State<NotificationsPage> {
   static String name = '', email = '';
-
-  //todo:test notification page
   @override
   Widget build(BuildContext context) {
     return Scaffold(

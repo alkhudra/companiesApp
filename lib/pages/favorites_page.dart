@@ -23,7 +23,10 @@ import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
+import 'package:khudrah_companies/provider/fav_provider.dart';
+import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
+import 'package:provider/provider.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({Key? key}) : super(key: key);
@@ -45,13 +48,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
       isDecreaseBtnEnabled = true;
   static List<ProductsModel> list = [];
   bool isThereMoreItems = false;
-  static String language = 'ar';
 
+  bool isFirstCall = true;
   void setValues() async {
     User user = await PreferencesHelper.getUser;
     name = user.companyName!;
     email = user.email!;
-    language = await PreferencesHelper.getSelectedLanguage;
   }
 
   @override
@@ -60,35 +62,78 @@ class _FavoritesPageState extends State<FavoritesPage> {
     setValues();
   }
 
+  //todo: test paging
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors().backgroundColor,
-      body: FutureBuilder<ProductListResponseModel?>(
-        future: getInfoFromDB(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return listDesign(snapshot.data!);
-          } else
-            return errorCase(snapshot);
+      body: Consumer<FavoriteProvider>(
+        builder: (context, value, child) {
+          return FutureBuilder(
+            future:/* isFirstCall ? */ firstCall(value)/*: secondCall(value)*/,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return listDesign(value);
+              } else
+                return errorCase(snapshot);
+            },
+          );
         },
       ),
       appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
-      endDrawer: drawerDesignWithName(context,name , email ),
+      endDrawer: drawerDesignWithName(context, name, email),
     );
   }
 
-  loadMoreInfo() async {
-    setState(() {
+  loadMoreInfo(FavoriteProvider provider) async {
+    secondCall(provider);
+/*    setState(() {
       pageNumber++;
-    });
+    });*/
   }
 
   //-----------------------
 
-  Future<ProductListResponseModel?> getInfoFromDB() async {
-    //----------start api ----------------
+  Future firstCall(FavoriteProvider provider) async {
+    if(provider.favList!.isEmpty) {
+      //----------start api ----------------
 
+      Map<String, dynamic> headerMap = await getHeaderMap();
+
+      ProductRepository productRepository = ProductRepository(headerMap);
+
+      ApiResponse apiResponse =
+      await productRepository.getFavoriteProducts(pageSize, pageNumber);
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        ProductListResponseModel? responseModel =
+        ProductListResponseModel.fromJson(apiResponse.result);
+        list = responseModel.products;
+        provider.setfavList(list);
+
+        isFirstCall = false;
+        if (responseModel.products.length > 0) {
+          if (responseModel.products.length < listItemsCount)
+            isThereMoreItems = false;
+          else
+            isThereMoreItems = true;
+        } else {
+          isThereMoreItems = false;
+          pageNumber = 1;
+        }
+
+        provider.setfavList(list);
+        print('list is $list');
+        return responseModel.products;
+      } else
+        throw ExceptionHelper(apiResponse.message);
+    }else return provider.favList;
+  }
+
+ secondCall(
+      FavoriteProvider provider) async {
+ //
+   pageNumber++;
+    //----------start api ----------------
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     ProductRepository productRepository = ProductRepository(headerMap);
@@ -98,10 +143,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
           ProductListResponseModel.fromJson(apiResponse.result);
-      if (pageNumber == 1)
-        list = responseModel.products;
-      else
-        list.addAll(responseModel.products);
+
+      provider.addPagingListToList(responseModel.products);
+      list.addAll(responseModel.products);
 
       if (responseModel.products.length > 0) {
         if (responseModel.products.length < listItemsCount)
@@ -110,9 +154,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           isThereMoreItems = true;
       } else {
         isThereMoreItems = false;
-        pageNumber = 1;
       }
-      print('list is $list');
       return responseModel;
     } else
       throw ExceptionHelper(apiResponse.message);
@@ -120,7 +162,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   //-----------------------
 
-  Widget listDesign(ProductListResponseModel? snapshot) {
+  Widget listDesign(FavoriteProvider provider) {
     return list.length > 0
         ? Column(
             children: [
@@ -128,8 +170,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 child: GridView.builder(
                   itemBuilder: (context, index) {
                     String productId = list[index].productId!;
-                    return ProductCard.favoritesCard(
-                        context, language, list[index], () {
+                    return ProductCard.favoritesCard(context, list[index], () {
                       deleteFromFav(context, productId).then((value) {
                         if (value == true) {
                           setState(() {
@@ -166,8 +207,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
                 ),
               ),
-              //TODO: load more button
-              // if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo, 0, 0),
+              //TODO:test load more button
+              if (isThereMoreItems == true)
+                loadMoreBtn(context, secondCall(provider), 0, 0),
             ],
           )
         : noItemDesign(LocaleKeys.no_fav_product.tr(), 'images/not_found.png');

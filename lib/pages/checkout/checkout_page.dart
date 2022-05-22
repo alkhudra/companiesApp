@@ -18,12 +18,14 @@ import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
+import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 import 'package:khudrah_companies/network/models/cart/success_cart_response_model.dart';
 import 'package:khudrah_companies/network/models/cart/user_cart.dart';
 import 'package:khudrah_companies/network/models/orders/order_items.dart';
 import 'package:khudrah_companies/network/models/orders/submit_order_success_response_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/repository/branches_repository.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
 import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/branch/branch_list.dart';
@@ -80,13 +82,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
   bool hasPaid = false;
 
   String paymentMethod = 'C';
+  List<BranchModel> branches = [];
+
   @override
   Widget build(BuildContext context) {
     //  List<BranchModel> branches = widget.branchList!;
     // isDebitAllow = widget.currentUser!.hasCreditOption!;
-    List<BranchModel> branches = [dropdownValue];
-    branches.addAll(
-        Provider.of<BranchProvider>(context, listen: false).getBranchList);
+    // List<BranchModel> branches = [dropdownValue];
+    final provider = Provider.of<BranchProvider>(context, listen: false);
+
+/*
+    branches = [dropdownValue];
+*/      branches = [dropdownValue];
+
+    setBranchList(provider);
+/*    branches.addAll(
+        Provider.of<BranchProvider>(context, listen: false).getBranchList);*/
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -387,6 +398,38 @@ class _CheckoutPageState extends State<CheckoutPage> {
         maxHeight: hasDiscount ? scHeight * 0.39 : 235,
       ),
     );
+  }
+
+  //-----
+  setBranchList(BranchProvider value) async {
+
+    //todo: test showing list of branches first time and second time
+    if (value.branchList!.isEmpty && value.citiesList!.isEmpty) {
+      Map<String, dynamic> headerMap = await getHeaderMap();
+      String companyId = await PreferencesHelper.getUserID;
+
+      BranchRepository branchRepository = BranchRepository(headerMap);
+
+      ApiResponse apiResponse = await branchRepository.getAllBranch(companyId);
+
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        BranchListResponseModel? responseModel =
+            BranchListResponseModel.fromJson(apiResponse.result);
+
+        print(responseModel.branches.toString());
+        PreferencesHelper.saveBranchesList(responseModel.branches!);
+        PreferencesHelper.saveCitiesList(responseModel.cities!);
+        value.setBranchList(responseModel.branches);
+        value.setCitiesList(responseModel.cities);
+       // branches = [dropdownValue];
+        branches.insertAll(1, responseModel.branches!);
+        //branches = responseModel.branches!;
+      } else {
+        throw ExceptionHelper(apiResponse.message);
+      }
+    } else {
+      branches.addAll(value.getBranchList);
+    }
   }
 
   ///********

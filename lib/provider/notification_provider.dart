@@ -23,10 +23,10 @@ class NotificationProvider with ChangeNotifier {
   }
 
   removeNotificationFromList(NotificationModel model) {
-    final branchId = model.id;
+    final id = model.id;
     NotificationModel? notificationModel =
     notificationList!.firstWhereOrNull((element) {
-      return element.id == branchId;
+      return element.id == id;
     });
     if (notificationModel != null) {
       notificationList!.remove(notificationModel);

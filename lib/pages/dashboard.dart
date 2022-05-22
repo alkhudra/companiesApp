@@ -35,7 +35,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
    // branchStatus = widget.isHasBranch;
     super.initState();
     print('welcome in dashboard ');

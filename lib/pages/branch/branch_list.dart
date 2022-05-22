@@ -28,6 +28,7 @@ import 'add_brunches_page.dart';
 import 'branch_item.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 
+
 class BranchList extends StatefulWidget {
 //  final List<BranchModel> list;
 
@@ -38,7 +39,8 @@ class BranchList extends StatefulWidget {
 }
 
 class _BranchListState extends State<BranchList> {
-  static List<Cities> cities = [];
+  //todo: test cities in add , edit
+  late List<Cities> cities ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +48,7 @@ class _BranchListState extends State<BranchList> {
       backgroundColor: Colors.grey[100],
       body: Consumer<BranchProvider>(builder: (context, value, child) {
         return FutureBuilder/*<BranchListResponseModel>*/(
-          future: value.loadData(),
+          future: getListData(value),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return _buildBody(context, snapshot.data);
@@ -58,55 +60,64 @@ class _BranchListState extends State<BranchList> {
     );
   }
 
-
   //-----------------------
 
-  Future<BranchListResponseModel> getListData() async {
-    Map<String, dynamic> headerMap = await getHeaderMap();
-    String companyId = await PreferencesHelper.getUserID;
+  Future getListData(BranchProvider value) async {
+    if (value.branchList!.isEmpty && value.citiesList!.isEmpty) {
+      Map<String, dynamic> headerMap = await getHeaderMap();
+      String companyId = await PreferencesHelper.getUserID;
 
-    BranchRepository branchRepository = BranchRepository(headerMap);
+      BranchRepository branchRepository = BranchRepository(headerMap);
 
-    ApiResponse apiResponse = await branchRepository.getAllBranch(companyId);
+      ApiResponse apiResponse = await branchRepository.getAllBranch(companyId);
 
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      BranchListResponseModel? responseModel =
-          BranchListResponseModel.fromJson(apiResponse.result);
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        BranchListResponseModel? responseModel =
+            BranchListResponseModel.fromJson(apiResponse.result);
 
-      cities = responseModel.cities!;
-      print(responseModel.branches.toString());
-      PreferencesHelper.saveBranchesList(responseModel.branches!);
-      return responseModel;
+        cities = responseModel.cities!;
+        print(responseModel.branches.toString());
+        PreferencesHelper.saveBranchesList(responseModel.branches!);
+        PreferencesHelper.saveCitiesList(responseModel.cities!);
+        value.setBranchList(responseModel.branches);
+        value.setCitiesList(responseModel.cities);
+
+        return responseModel.branches;
+      } else {
+        throw ExceptionHelper(apiResponse.message);
+      }
     } else {
-      throw ExceptionHelper(apiResponse.message);
+      cities = value.getCitiesList;
+      return value.branchList;
     }
   }
 
   //-----------------------
-  Widget _buildBody(BuildContext context,/*BranchListResponseModel? */snapshot) {
+  Widget _buildBody(
+      BuildContext context, /*BranchListResponseModel? */ list) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
-  //  cities = snapshot!.cities!;
+    //  cities = snapshot!.cities!;
     return Column(children: [
       Expanded(
-        child: snapshot./*branches!.*/length > 0
+        child: list. /*branches!.*/ length > 0
             ? ListView.builder(
                 itemBuilder: (context, index) {
                   //  print(snapshot?[index].toString());
                   return BranchItem(
-                    list: snapshot/*.branches!*/,
+                    list: list /*.branches!*/,
                     index: index,
                     cities: cities,
                   );
                 },
-                itemCount: snapshot./*branches!.*/length,
+                itemCount: list. /*branches!.*/ length,
               )
             : noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
       ),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
-        directToAddBranch(snapshot/*.branches!*/);
+        directToAddBranch(list /*.branches!*/);
       }),
       SizedBox(
         height: 30,
@@ -114,22 +125,11 @@ class _BranchListState extends State<BranchList> {
     ]);
   }
 
-  void directToAddBranch(List<BranchModel> list) async {
-//    String language = await PreferencesHelper.getSelectedLanguage;
-    cities = (await PreferencesHelper.getCitiesList)!;
-
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+  void directToAddBranch(List<BranchModel> list) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddBranchesPage(
         cities: cities,
-
       );
     }));
-
-    /*  if (model != null) {
-      setState(() {
-        list.add(model);
-      });
-
-    }*/
   }
 }

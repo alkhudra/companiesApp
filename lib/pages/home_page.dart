@@ -8,6 +8,7 @@ import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
+import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
@@ -26,6 +27,8 @@ import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/home_repository.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
+import 'package:khudrah_companies/pages/products/product_list.dart';
+import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
@@ -97,7 +100,8 @@ class _HomePageState extends State<HomePage> {
     /*name = home.user!.companyName!;
     email = home.user!.email!;*/
     PreferencesHelper.saveBranchesList(home.user!.branches!);
-
+    Provider.of<BranchProvider>(context, listen: false)
+        .setBranchList(home.user!.branches!);
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -204,7 +208,8 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 10,
           ),
-          Container(
+
+           home.productsList!.isNotEmpty ? ProductList(home.productsList)/*Container(
             child: Consumer<ProductListProvider>(
 
               builder: (context, value, child) {
@@ -221,13 +226,13 @@ class _HomePageState extends State<HomePage> {
                   //  ProductsModel model = home.productsList![index];
                     String productId = model.productId!;
                     return getProductCard(context, model, productId,{
-                    if (model .quantity! > 0 ) {
+        *//*            if (model .quantity! > 0 ) {
                     value.addToCart(context,productId)
 
                     } else
                     showSuccessMessage(
                     context, LocaleKeys.no_stock.tr())
-
+*//*
                     }
 
                     );
@@ -238,7 +243,7 @@ class _HomePageState extends State<HomePage> {
               }
             ),
 
-          ),
+          )*/ : noItemDesign('txt',  'images/not_found.png'),
           SizedBox(
             height: 30,
           ),
@@ -306,7 +311,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddBranchesPage(
         cities: [],
-        language: language,
+
       );
     }));
   }
@@ -317,10 +322,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     setValues();
-    //todo: show after calling api
-    /*    if (widget.isHasBranch == false) {
-      showAddBranchDialog();
-    }*/
   }
 //----------------------
 
@@ -330,7 +331,7 @@ class _HomePageState extends State<HomePage> {
 
 //----------------------
   getProductCard(BuildContext context, ProductsModel model, String productId , onAddBtn) {
-    return ProductCard.productCardDesign(context, language, model, () {
+    return ProductCard.productCardDesign(context,model, () {
       bool? isFavourite = model.isFavourite;
       ProductCard.addToFav(context, isFavourite, productId);
       setState(() {

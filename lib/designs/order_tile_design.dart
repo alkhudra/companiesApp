@@ -136,30 +136,29 @@ void directToOrderDetails(context, {model, orderId}) async {
   String language = await PreferencesHelper.getSelectedLanguage;
 
   //todo: test
-  if (model == null) {
+  if (orderId != null) {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     OrderRepository orderRepository = OrderRepository(headerMap);
 
     ApiResponse apiResponse = await orderRepository.getOrderById(orderId);
-
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       OrderHeader? responseModel = OrderHeader.fromJson(apiResponse.result);
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => OrderDetails(
-                orderModel: responseModel,
-                language: language,
-              )));
+                    orderModel:responseModel,
 
-    }
-  } else
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => OrderDetails(
-                orderModel: model,
-                language: language,
-              )));
+                  )));
+    } else
+      print('fail direct ');
+  } else if (model != null)
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => OrderDetails(
+                  orderModel: model,
+
+                )));
 }
