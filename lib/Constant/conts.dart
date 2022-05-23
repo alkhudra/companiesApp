@@ -23,6 +23,7 @@ const delivered = "delivered";
 
 
 const cash = 'C';
+const bankTransfer = 'T';
 const credit = 'R';
 const visa = 'V';
 const stcPay = 'S';

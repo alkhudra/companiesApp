@@ -48,6 +48,7 @@ class SearchHelper{
             ),
             onTap: () {
               if(seController.text != ''){
+                //todo: reset search provider here
               if(fromSearchPage)
                 directToSearchPageFromSearchPage(context, seController);
                 else

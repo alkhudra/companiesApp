@@ -125,7 +125,7 @@ class _SearchListPageState extends State<SearchListPage> {
 
   Future getSearchResult(String searchWord) async {
     //----------start api ----------------
-    final provider = Provider.of<ProductProvider>(context, listen: false);
+    final provider = Provider.of<ProductProvider>(context, listen: true);
 
     if (provider.getLoadMoreDataStatus == true) {
     Map<String, dynamic> headerMap = await getHeaderMap();

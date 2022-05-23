@@ -193,5 +193,7 @@
   "rejected": "Thank you for choosing AlKhadra United Company ، and we are very sorry for not accepting your account",
   "control_branches": "Manage your branches",
   "no_products": "No Products",
+  "transfer": "Bank Transfer",
+
   "no_debit_balance": "You have no balance in credit payment, change payment method "
 }

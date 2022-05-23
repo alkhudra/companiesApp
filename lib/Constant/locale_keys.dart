@@ -206,4 +206,5 @@ abstract class LocaleKeys {
   static const rejected = "rejected";
   static const control_branches = "control_branches";
   static const no_products = "no_products";
+  static const transfer = "transfer";
 }

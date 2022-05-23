@@ -24,10 +24,10 @@ late List<BranchModel> list;
 
 Drawer drawerDesignWithName(context, String name, String email) {
   final provider = Provider.of<HomeProvider>(context, listen: true);
-  if(provider.user != null) {
+/*  if(provider.user != null) {
     name = provider.user.companyName!;
     email = provider.user.email!;
-  }
+  }*/
   return Drawer(
     child: ListView(
       padding: EdgeInsets.all(0.0),

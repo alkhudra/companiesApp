@@ -64,24 +64,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   TextEditingController addressController = TextEditingController();
 
-  static String address = '';
-
   BranchModel dropdownValue =
       BranchModel(branchName: LocaleKeys.select_branch.tr(), address: '----');
   int _selectedValueIndex = 0;
 
   // for view
-  bool isPayOnlineSelected = false;
   bool isPayDebitSelected = false;
-  bool isPayCashSelected = true;
   bool isDebitAllow = true;
   bool isOnlineAvailable = true;
 
   // for api
-  bool isSuccess = false;
   bool hasPaid = false;
 
-  String paymentMethod = 'C';
+  String paymentMethod = bankTransfer;
   List<BranchModel> branches = [];
 
   @override
@@ -91,13 +86,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     // List<BranchModel> branches = [dropdownValue];
     final provider = Provider.of<BranchProvider>(context, listen: false);
 
-/*
     branches = [dropdownValue];
-*/      branches = [dropdownValue];
 
     setBranchList(provider);
-/*    branches.addAll(
-        Provider.of<BranchProvider>(context, listen: false).getBranchList);*/
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -105,16 +96,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
     List<String> payMethod = [
       LocaleKeys.cash.tr(),
       LocaleKeys.credit_card.tr(),
+      LocaleKeys.transfer.tr(),
     ];
 
     List<IconData> iconList = [
       FontAwesomeIcons.moneyBillWave,
       FontAwesomeIcons.solidCreditCard,
+      FontAwesomeIcons.peopleArrows,
     ];
-
     if (isDebitAllow == true) {
       iconList.add(FontAwesomeIcons.receipt);
-      payMethod.insert(2, LocaleKeys.postpaid.tr());
+      payMethod.insert(3, LocaleKeys.postpaid.tr());
     }
 
     num priceAfterDiscount = widget.userCart!.totalDiscount!;
@@ -367,9 +359,31 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
 
                 //payment method list
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height /3)),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: payMethod.length,
+                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                      itemBuilder: (context, index) {
+                        return payButton(
+                          index: index,
+                          text: payMethod[index],
+                          color: index == _selectedValueIndex
+                              ? CustomColors().primaryGreenColor
+                              : CustomColors().darkGrayColor.withOpacity(0.6),
+                          iconData: iconList[index],
+                        );
+                      }),
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  /*        children: [
                     ...List.generate(
                       payMethod.length,
                       (index) => payButton(
@@ -380,15 +394,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               : CustomColors().darkGrayColor.withOpacity(0.6),
                           iconData: iconList[index]),
                     ),
-                  ],
+                  ],*/
                 ),
-
                 SizedBox(
                   height: 20,
                 ),
                 SizedBox(
                   height: 100,
                 ),
+
               ],
             ),
           ),
@@ -402,8 +416,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   //-----
   setBranchList(BranchProvider value) async {
-
-    if (value.branchList!.isEmpty && value.citiesList!.isEmpty) {
+    if (value.branchList!.isEmpty) {
       Map<String, dynamic> headerMap = await getHeaderMap();
       String companyId = await PreferencesHelper.getUserID;
 
@@ -419,8 +432,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
         PreferencesHelper.saveBranchesList(responseModel.branches!);
         PreferencesHelper.saveCitiesList(responseModel.cities!);
         value.setBranchList(responseModel.branches);
-        value.setCitiesList(responseModel.cities);
-       // branches = [dropdownValue];
+
+        // branches = [dropdownValue];
         branches.insertAll(1, responseModel.branches!);
         //branches = responseModel.branches!;
       } else {
@@ -463,35 +476,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
           } else {
             showErrorMessageDialog(context, LocaleKeys.select_branch_note.tr());
           }
-/*          setState(() {
-            if (isOnlineAvailable == true) {
-              isPayOnlineSelected = true;
-              isPayCashSelected = false;
-              isPayDebitSelected = false;
-              _selectedValueIndex = index;
-              paymentMethod = 'O';
-            }
-          });*/
         } else {
           if (text == LocaleKeys.postpaid.tr()) {
             setState(() {
               isPayDebitSelected = true;
-              isPayOnlineSelected = false;
-              isPayCashSelected = false;
-              isSuccess = true;
               hasPaid = false;
               paymentMethod = credit;
               _selectedValueIndex = index;
             });
-          } else {
+          } else if (text == LocaleKeys.cash.tr()) {
             setState(() {
-              isPayOnlineSelected = false;
               isPayDebitSelected = false;
-              isSuccess = true;
               hasPaid = false;
               _selectedValueIndex = index;
-              isPayCashSelected = true;
               paymentMethod = cash;
+            });
+          } else {
+            setState(() {
+              isPayDebitSelected = false;
+              hasPaid = false;
+              _selectedValueIndex = index;
+              paymentMethod = bankTransfer;
             });
           }
         }

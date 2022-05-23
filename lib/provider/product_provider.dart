@@ -8,9 +8,14 @@ class ProductProvider with ChangeNotifier {
   List<ProductsModel>? productsList = [];
   List<ProductsModel>? cartList = [];
   List<ProductsModel>? homePageList = [];
+  List<ProductsModel>? searchPageList = [];
 
   BuildContext context;
-
+  void resetSearchProvider() {
+    searchPageList!.clear();
+    pageNumber = 1;
+    isThereMoreItems = true;
+  }
   void resetProvider() {
     productsList!.clear();
     pageNumber = 1;

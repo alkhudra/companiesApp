@@ -7,7 +7,6 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 class BranchProvider with ChangeNotifier {
   List<BranchModel>? branchList = [];
-  List<Cities>? citiesList = [];
 
   BuildContext context;
 
@@ -18,10 +17,7 @@ class BranchProvider with ChangeNotifier {
     branchList = list;
     //notifyListeners();
   }
-  setCitiesList( List<Cities>?  list){
-    citiesList = list;
-    notifyListeners();
-  }
+
   addBranchToList(BranchModel model) {
     branchList!.insert(0,model);
     notifyListeners();
@@ -50,8 +46,5 @@ class BranchProvider with ChangeNotifier {
    // else return loadData();
 
   }
-  UnmodifiableListView<Cities> get getCitiesList {
-    return UnmodifiableListView(citiesList!);
 
-  }
 }

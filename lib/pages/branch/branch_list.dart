@@ -40,7 +40,7 @@ class BranchList extends StatefulWidget {
 
 class _BranchListState extends State<BranchList> {
   //todo: test cities in add , edit
-  late List<Cities> cities ;
+ static late List<Cities> cities ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +63,7 @@ class _BranchListState extends State<BranchList> {
   //-----------------------
 
   Future getListData(BranchProvider value) async {
-    if (value.branchList!.isEmpty && value.citiesList!.isEmpty) {
+    if (value.branchList!.isEmpty ) {
       Map<String, dynamic> headerMap = await getHeaderMap();
       String companyId = await PreferencesHelper.getUserID;
 
@@ -77,17 +77,17 @@ class _BranchListState extends State<BranchList> {
 
         cities = responseModel.cities!;
         print(responseModel.branches.toString());
+
+
         PreferencesHelper.saveBranchesList(responseModel.branches!);
         PreferencesHelper.saveCitiesList(responseModel.cities!);
         value.setBranchList(responseModel.branches);
-        value.setCitiesList(responseModel.cities);
 
         return responseModel.branches;
       } else {
         throw ExceptionHelper(apiResponse.message);
       }
     } else {
-      cities = value.getCitiesList;
       return value.branchList;
     }
   }

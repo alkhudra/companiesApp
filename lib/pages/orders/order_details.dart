@@ -36,7 +36,6 @@ class OrderDetails extends StatefulWidget {
 
 class _OrderDetailsState extends State<OrderDetails> {
   bool isTrashBtnEnabled = true;
-  static String productId = '';
 
   // num priceAfterDiscount = model.userCart!.priceAfterDiscount!;
   // num? subtotal = model.userCart!.totalNetCartPrice!;
@@ -343,9 +342,13 @@ class _OrderDetailsState extends State<OrderDetails> {
       paymentText = LocaleKeys.stc_pay.tr();
       //todo:edit stc pay icon
       paymentIcon = FontAwesomeIcons.gratipay;
-    } else {
+    } else if (model.paymentType == credit){
       paymentText = LocaleKeys.postpaid.tr();
       paymentIcon = FontAwesomeIcons.receipt;
+    }else{
+      paymentText = LocaleKeys.transfer.tr();
+      paymentIcon = FontAwesomeIcons.peopleArrows;
+
     }
 
     //--------
