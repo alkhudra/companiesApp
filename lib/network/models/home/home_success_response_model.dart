@@ -57,6 +57,6 @@ class HomeSuccessResponseModel {
 
   @override
   String toString() {
-    return 'HomeSuccessResponseModel{_user: $_user, _productsList: $_productsList}';
+    return 'HomeSuccessResponseModel{ _productsList: $_productsList}';
   }
 }

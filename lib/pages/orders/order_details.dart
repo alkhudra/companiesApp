@@ -7,7 +7,7 @@ import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:khudrah_companies/designs/product_card.dart';
+
 import 'package:khudrah_companies/helpers/contact_helper.dart';
 import 'package:khudrah_companies/helpers/image_helper.dart';
 import 'package:khudrah_companies/helpers/number_helper.dart';

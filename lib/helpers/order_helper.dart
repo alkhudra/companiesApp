@@ -15,7 +15,9 @@ import 'package:khudrah_companies/network/models/orders/order_items.dart';
 import 'package:khudrah_companies/network/models/orders/submit_order_success_response_model.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
 import 'package:khudrah_companies/pages/order_completed_page.dart';
+import 'package:khudrah_companies/provider/order_provider.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 
 class OrderHelper {
   static callApi(BuildContext context, UserCart userCart,
@@ -62,6 +64,8 @@ class OrderHelper {
           SubmitOrderSuccessResponseModel.fromJson(apiResponse.result);
       print(model.toString());
       Navigator.pop(context);
+
+      Provider.of<OrderProvider>(context, listen: true).addOrderToList(model.orderHeader!);
       OrderHelper. viewCompleteOrderPage(context , true ,model: model);
 
     } else {

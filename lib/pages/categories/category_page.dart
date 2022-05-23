@@ -5,7 +5,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
-import 'package:khudrah_companies/designs/product_card.dart';
+
 import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -16,9 +16,13 @@ import 'package:khudrah_companies/network/models/home/home_success_response_mode
 import 'package:khudrah_companies/network/models/product/get_products_list_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
+import 'package:khudrah_companies/pages/products/product_list.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/network/models/product/category_model.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:provider/provider.dart';
 
 class CategoryPage extends StatefulWidget {
   final CategoryItem categoriesItem;
@@ -32,157 +36,104 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   TextEditingController srController = TextEditingController();
   int pageSize = listItemsCount;
-  int pageNumber = 1;
-  static String language = 'ar';
 
-  List<ProductsModel> list = [];
-  bool isThereMoreItems = false;
-  static void setValues() async {
-    language = await PreferencesHelper.getSelectedLanguage;
+  final ScrollController _controller = ScrollController();
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      getInfoFromDB(widget.categoriesItem.id!);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    setValues();
+    _controller.addListener(_scrollListener);
   }
 
   @override
   Widget build(BuildContext context) {
-    final CategoryItem item = widget.categoriesItem;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        width: double.infinity,
-        child: Expanded(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 18,
-              ),
-                SearchHelper().searchBar(context, srController,false),
-              SizedBox(
-                height: 10,
-              ),
-              FutureBuilder<ProductListResponseModel?>(
-                future: getInfoFromDB(item.id!),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return getListDesign(snapshot.data);
-                  } else
-                    return errorCase(snapshot);
-                },
-              ),
-            ],
-          ),
+      body: SingleChildScrollView(
+        //   width: double.infinity,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 18,
+            ),
+            SearchHelper().searchBar(context, srController, false),
+            SizedBox(
+              height: 5,
+            ),
+            FutureBuilder(
+              future: getInfoFromDB(widget.categoriesItem.id!),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return getListDesign();
+                } else
+                  return errorCase(snapshot);
+              },
+            ),
+          ],
         ),
       ),
-      appBar: appBarDesign(context,
-        setCategoryName(item)!),
+      appBar: appBarDesign(context, setCategoryName(widget.categoriesItem)),
+      // endDrawer: drawerDesign(context),
     );
   }
 
   //------------
 
-  Widget getListDesign(ProductListResponseModel? snapshot) {
-
-    return list.length > 0 ? Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            // physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemBuilder:(context, index) {
-              ProductsModel model = list[index];
-              String productId=model.productId!;
-              return getProductCard(context,model,productId);
-            },
-            itemCount: list.length,
-          ),
-        ),
-        if (isThereMoreItems == true)
-          loadMoreBtn(context, loadMoreInfo, 20, 40),
-      ],
-    ): noItemDesign(LocaleKeys.no_items_category.tr(), 'images/not_found.png');
-
-  }
-
-
-//--------
-
-  Future<ProductListResponseModel?> getInfoFromDB(String categoryId) async {
-    //----------start api ----------------
-
-    Map<String, dynamic> headerMap = await getHeaderMap();
-
-    ProductRepository productRepository = ProductRepository(headerMap);
-
-    ApiResponse apiResponse = await productRepository.getProductByCategory(
-        categoryId, pageSize, pageNumber);
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      ProductListResponseModel? responseModel =
-          ProductListResponseModel.fromJson(apiResponse.result);
-      if (pageNumber == 1) list = responseModel.products;
-      else  list.addAll(responseModel.products);
-
-      if (responseModel.products.length > 0) {
-        if (responseModel.products.length < listItemsCount)
-          isThereMoreItems = false;
-        else
-          isThereMoreItems = true;
-
-      }else{
-        isThereMoreItems = false;
-        pageNumber = 1;
-      }
-      print('list is $list');
-      return responseModel;
-    } else
-      throw ExceptionHelper(apiResponse.message);
-  }
-//--------
-
-  loadMoreInfo() async {
-    setState(() {
-      pageNumber++;
+  Widget getListDesign() {
+    return Consumer<ProductProvider>(builder: (context, provider, child) {
+      return provider.productListCount > 0
+          ? ProductList(provider.productsList,enablePaging: true,controller: _controller,)
+          : noItemDesign(
+          LocaleKeys.no_items_category.tr(), 'images/not_found.png');
     });
-
   }
-  //--------
 
+//--------
+
+  Future getInfoFromDB(String categoryId) async {
+    //----------start api ----------------
+    final provider = Provider.of<ProductProvider>(context, listen: false);
+
+    if (provider.getLoadMoreDataStatus == true) {
+      Map<String, dynamic> headerMap = await getHeaderMap();
+
+      ProductRepository productRepository = ProductRepository(headerMap);
+
+      ApiResponse apiResponse = await productRepository.getProductByCategory(
+          categoryId, pageSize, provider.pageNumber);
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        ProductListResponseModel? responseModel =
+        ProductListResponseModel.fromJson(apiResponse.result);
+
+        provider.addItemsToProductList(responseModel.products);
+
+        if (responseModel.products.length > 0) {
+          if (responseModel.products.length < listItemsCount)
+            provider.saveLoadMoreDataStatus(false);
+          else
+            provider.saveLoadMoreDataStatus(true);
+        } else {
+          provider.saveLoadMoreDataStatus(false);
+          provider.resetPageNumber();
+        }
+
+        return responseModel.products;
+      } else
+        throw ExceptionHelper(apiResponse.message);
+    }else
+      return provider.productsList;
+  }
   String? setCategoryName(CategoryItem categoryList) {
+    String language =  Provider.of<GeneralProvider>(context, listen: true)
+        .userSelectedLanguage;
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
 
-  getProductCard(BuildContext context ,ProductsModel model ,String productId  ) {
-
-    return ProductCard.productCardDesign(
-        context, model, () {
-      bool? isFavourite = model.isFavourite;
-      ProductCard.addToFav(context, isFavourite,
-          productId);
-      setState(() {
-        isFavourite = !isFavourite!;
-      });
-    }, onIncreaseBtnClicked: () {
-      setState(() {
-        ProductCard.addQtyToCart(context, productId);
-      });
-    }, onDecreaseBtnClicked: () {
-      setState(() {
-        ProductCard.deleteQtyFromCart(context, productId);
-      });
-    }, onDeleteBtnClicked: () {
-      setState(() {
-        ProductCard.deleteFromCart(context, productId);
-      });
-    }, onAddBtnClicked: () {
-      setState(() {
-        ProductCard.addToCart(context, productId);
-      });
-    });
-
-  }
 
 }

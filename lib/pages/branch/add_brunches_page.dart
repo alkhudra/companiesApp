@@ -72,7 +72,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
     double scHeight = size.height;
     List<String> cities = [dropdownValue];
     for (Cities c in widget.cities)
-      cities.add(Provider.of<GeneralProvider>(context, listen: false)
+      cities.add(Provider.of<GeneralProvider>(context, listen: true)
                   .userSelectedLanguage ==
               'ar'
           ? c.arCityName!
@@ -371,7 +371,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       showSuccessMessage(context, successBranchResponseModel.message!);
 
       BranchModel branchModel = successBranchResponseModel.branchObject!;
-      Provider.of<BranchProvider>(context, listen: false)
+      Provider.of<BranchProvider>(context, listen: true)
           .addBranchToList(branchModel);
 
       Navigator.pop(context);

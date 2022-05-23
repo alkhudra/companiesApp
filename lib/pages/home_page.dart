@@ -9,7 +9,6 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
-import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
@@ -20,7 +19,6 @@ import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
-import 'package:khudrah_companies/network/home_page_helper.dart';
 import 'package:khudrah_companies/network/models/home/home_success_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
@@ -29,7 +27,8 @@ import 'package:khudrah_companies/network/repository/home_repository.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
 import 'package:khudrah_companies/pages/products/product_list.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
-import 'package:khudrah_companies/provider/product_list_provider.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
+import 'package:khudrah_companies/provider/home_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
@@ -60,8 +59,6 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    //   final provider=Provider.of<HomePageProvider>(context);
-
     return /*AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -76,7 +73,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           print(snapshot.data);
           if (snapshot.hasData) {
-            return homePageDesign(snapshot.data);
+            return homePageDesign(snapshot.data!);
           } else
             return errorCase(snapshot);
         },
@@ -85,23 +82,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   //---------------------
-  Widget homePageDesign(HomeSuccessResponseModel? home) {
+  Widget homePageDesign(
+      /*HomeProvider provider,*/ HomeSuccessResponseModel home) {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
+    // HomeSuccessResponseModel home = provider.homeModel;
     String categoryName = LocaleKeys.all_category.tr();
     List<CategoryItem>? categoryList = [
       CategoryItem(name: categoryName, arName: categoryName)
     ];
-    for (CategoryItem categoryItem in home!.categoriesList!) {
+    for (CategoryItem categoryItem in home.categoriesList!) {
       categoryList.add(categoryItem);
     }
     /*name = home.user!.companyName!;
     email = home.user!.email!;*/
     PreferencesHelper.saveBranchesList(home.user!.branches!);
-    Provider.of<BranchProvider>(context, listen: false)
+    Provider.of<BranchProvider>(context, listen: true)
         .setBranchList(home.user!.branches!);
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -130,13 +130,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
+
           //Categories items
           Container(
             margin: EdgeInsets.only(top: 25),
-         //   width: scWidth * 0.8,
+            //   width: scWidth * 0.8,
             height: scHeight * 0.16,
             child: ListView.builder(
               itemBuilder: (context, index) {
@@ -208,42 +206,15 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 10,
           ),
-
-           home.productsList!.isNotEmpty ? ProductList(home.productsList)/*Container(
-            child: Consumer<ProductListProvider>(
-
-              builder: (context, value, child) {
-
-                value.setList(home.productsList);
-                return ListView.builder(
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
-                      .onDrag,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final ProductsModel model = value.productsList![index];
-
-                  //  ProductsModel model = home.productsList![index];
-                    String productId = model.productId!;
-                    return getProductCard(context, model, productId,{
-        *//*            if (model .quantity! > 0 ) {
-                    value.addToCart(context,productId)
-
-                    } else
-                    showSuccessMessage(
-                    context, LocaleKeys.no_stock.tr())
-*//*
-                    }
-
-                    );
-                  },
-                  itemCount: value.productsList!.length,
-                );
-
-              }
-            ),
-
-          )*/ : noItemDesign('txt',  'images/not_found.png'),
+          Container(child:
+              Consumer<ProductProvider>(builder: (context, provider, child) {
+            return provider.productHomeListCount > 0
+                ? ProductList(
+                    provider.homePageList,
+                  )
+                : noItemDesign(
+                    LocaleKeys.no_products.tr(), 'images/not_found.png');
+          })),
           SizedBox(
             height: 30,
           ),
@@ -261,19 +232,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   //---------------------
-  Future<HomeSuccessResponseModel?> getHomePage() async {
+  Future<HomeSuccessResponseModel> getHomePage(
+      /*HomeProvider provider*/) async {
     //----------start api ----------------
+    final provider = Provider.of<ProductProvider>(context, listen: true);
 
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     HomeRepository homeRepository = HomeRepository(headerMap);
 
     ApiResponse apiResponse = await homeRepository.getHomeInfo(context);
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code)
-      return HomeSuccessResponseModel.fromJson(apiResponse.result);
-    else
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      HomeSuccessResponseModel model =
+          HomeSuccessResponseModel.fromJson(apiResponse.result);
+      provider.setHomeProductList(model.productsList!);
+      return model;
+    } else {
+      //      provider.setAlreadyHasDataStatus(false);
+
       throw ExceptionHelper(apiResponse.message);
+    }
   }
+
   //---------------------
 
   void showErrorDialog(String txt) {
@@ -283,38 +263,6 @@ class _HomePageState extends State<HomePage> {
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
-  void showAddBranchDialog() async {
-    await Future.delayed(Duration(milliseconds: 50));
-    List<Function()> actions = [
-      () {
-        addBranchesPage();
-        //   Navigator.pop(context);
-      },
-      () {
-        Navigator.pop(context);
-      }
-    ];
-    showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => showTwoBtnDialog(
-            context,
-            LocaleKeys.add_branch.tr(),
-            LocaleKeys.add_branch_note_dialog.tr(),
-            LocaleKeys.add_branch_now.tr(),
-            LocaleKeys.later.tr(),
-            actions));
-  }
-  ////---------------------------
-
-  void addBranchesPage() {
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddBranchesPage(
-        cities: [],
-
-      );
-    }));
-  }
   ////---------------------------
 
   @override
@@ -328,31 +276,4 @@ class _HomePageState extends State<HomePage> {
   String? setCategoryName(CategoryItem categoryList) {
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
-
-//----------------------
-  getProductCard(BuildContext context, ProductsModel model, String productId , onAddBtn) {
-    return ProductCard.productCardDesign(context,model, () {
-      bool? isFavourite = model.isFavourite;
-      ProductCard.addToFav(context, isFavourite, productId);
-      setState(() {
-        isFavourite = !isFavourite!;
-      });
-    },onAddBtnClicked:onAddBtn /*, onIncreaseBtnClicked: () {
-      setState(() {
-        ProductCard.addQtyToCart(context, productId);
-      });
-    }, onDecreaseBtnClicked: () {
-      setState(() {
-        ProductCard.deleteQtyFromCart(context, productId);
-      });
-    }, onDeleteBtnClicked: () {
-      setState(() {
-        ProductCard.deleteFromCart(context, productId);
-      });
-    }, onAddBtnClicked: () {
-      setState(() {
-        ProductCard.addToCart(context, productId);
-      });
-    }*/);
-     }
 }

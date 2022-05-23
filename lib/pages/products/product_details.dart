@@ -3,7 +3,6 @@ import 'package:khudrah_companies/Constant/api_const.dart';
 import 'package:khudrah_companies/Constant/conts.dart';
 import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
-import 'package:khudrah_companies/designs/product_card.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/number_helper.dart';
@@ -14,6 +13,8 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
 import 'package:khudrah_companies/pages/full_image_page.dart';
+import 'package:khudrah_companies/pages/products/product_widget/add_to_cart_widget.dart';
+import 'package:khudrah_companies/pages/products/product_widget/add_to_fav_widget.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -24,8 +25,7 @@ import 'package:provider/provider.dart';
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
 
-  const ProductDetails(
-      {Key? key, required this.productModel})
+  const ProductDetails({Key? key, required this.productModel})
       : super(key: key);
 
   @override
@@ -70,14 +70,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   //----------------------------
   Widget pageDesign(BuildContext context, AsyncSnapshot<ProductsModel?> hasData,
       ProductsModel model) {
-    String language =  Provider.of<GeneralProvider>(context,listen: false).userSelectedLanguage;
+    String language = Provider.of<GeneralProvider>(context, listen: false)
+        .userSelectedLanguage;
     ;
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
-    price =
-        (model.hasSpecialPrice == true ? model.netSpecialPrice : model.netPrice);
+    price = (model.hasSpecialPrice == true
+        ? model.netSpecialPrice
+        : model.netPrice);
 
     String? description =
         language == 'ar' ? model.arDescription : model.description;
@@ -214,27 +216,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                       ),
-                      MaterialButton(
-                        onPressed: () {
-                          if (hasData.hasError == false) {
-                            if (isAddToFavBtnEnabled) {
-                              ProductCard.addToFav(
-                                  context, isFavourite, productId!);
-                              setState(() {
-                                isFavourite = model.isFavourite;
-                                isFavourite == true
-                                    ? favIconColor = CustomColors().redColor
-                                    : favIconColor = CustomColors().grayColor;
-                              });
-                            }
-                          }
-                        },
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.favorite,
-                          color: favIconColor,
-                        ),
-                      ),
+                      AddToFavWidget(productModel: widget.productModel),
                     ],
                   ),
                   SizedBox(
@@ -335,56 +317,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
                     ),
-                    addToCartBtnContainer(
-                      context,
-                      userQty: model.userProductQuantity,
-                      productsModel: model,
-                      onBtnClicked: () {
-                        if (isAddToCartBtnEnabled) {
-
-                          if (stockQty! > 0 ) {
-                            setState(() {
-                              counter++;
-                            });
-                            addToCart(productId!);
-                            //onIncreaseBtnClicked();
-                          } else
-                            showSuccessMessage(
-                                context, LocaleKeys.no_stock.tr());
-
-                        }
-                      },
-                      onDecreaseBtnClicked: () {
-                        setState(() {
-                          if (isDecreaseBtnEnabled) {
-                            setState(() {
-                              counter > 1 ? counter-- : counter = 1;
-                            });
-                            deleteQtyFromCart(productId!);
-                          }
-                        });
-                      },
-                      onDeleteBtnClicked: () {
-                        if (isTrashBtnEnabled) {
-                          setState(() {
-                            counter = 0;
-                          });
-                          deleteFromCart(productId!);
-                        }
-                      },
-                      onIncreaseBtnClicked: () {
-                        if (isIncreaseBtnEnabled) {
-                          if (counter < stockQty!) {
-                            setState(() {
-                              counter++;
-                            });
-                            addQtyToCart(productId!);
-                          } else
-                            showSuccessMessage(
-                                context, LocaleKeys.no_stock.tr());
-                        }
-                      },
-                    ),
+                    AddToCartWidget(productModel: widget.productModel),
                   ],
                 ),
         ),
@@ -413,66 +346,5 @@ class _ProductDetailsState extends State<ProductDetails> {
       throw ExceptionHelper(apiResponse.message);
     }
   }
-
-  //----------------
-  void deleteFromCart(String productId) async {
-    print('counter $counter');
-    isTrashBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId, deleteFromCartConst);
-    showSuccessMessage(context, message);
-    setState(() {
-      isTrashBtnEnabled = true;
-      total = price!;
-    });
-
-    // Navigator.pop(context);
-  }
-  //----------------
-
-  void addToCart(String productId) async {
-    print('counter $counter');
-    isAddToCartBtnEnabled = false;
-    String message = await cartDBProcess(context, productId, addToCartConst);
-    showSuccessMessage(context, message);
-    setState(() {
-      isAddToCartBtnEnabled = true;
-      total = price!;
-    });
-    // Navigator.pop(context);
-  }
-
-  //---------------------
-  void addQtyToCart(String productId) async {
-    print('counter $counter , total $total');
-    isIncreaseBtnEnabled = false;
-    String message = await cartDBProcess(context, productId, addQtyToCartConst);
-    // showSuccessMessage(context, message);
-    print(message);
-
-    setState(() {
-      isIncreaseBtnEnabled = true;
-      total = price! * counter;
-    });
-  }
-
-  //---------------------
-  void deleteQtyFromCart(String productId) async {
-    print('counter $counter');
-    isDecreaseBtnEnabled = false;
-    String message =
-        await cartDBProcess(context, productId, deleteQtyFromCartConst);
-    //  showSuccessMessage(context, message);
-
-    print(message);
-    setState(() {
-      isDecreaseBtnEnabled = true;
-      total = total - price!;
-    });
-  }
-
-  //---------------------
-
-
 
 }

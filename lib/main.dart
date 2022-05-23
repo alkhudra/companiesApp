@@ -9,18 +9,16 @@ import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
-import 'package:khudrah_companies/provider/fav_provider.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
+import 'package:khudrah_companies/provider/home_provider.dart';
 import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/provider/order_provider.dart';
-import 'package:khudrah_companies/provider/product_list_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'Constant/pref_cont.dart';
-import 'helpers/pref/pref_manager.dart';
+
 import 'helpers/pref/shared_pref_helper.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -217,10 +215,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ProductListProvider>(
-          create: (_) => ProductListProvider(context),
 
-        ),
         ChangeNotifierProvider<BranchProvider>(
           create: (_) => BranchProvider(context),
 
@@ -233,12 +228,16 @@ class _MyAppState extends State<MyApp> {
           create: (_) => NotificationProvider(context),
 
         ),
-        ChangeNotifierProvider<FavoriteProvider>(
-          create: (_) => FavoriteProvider(context),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (_) => ProductProvider(context),
 
         ),
         ChangeNotifierProvider<OrderProvider>(
           create: (_) => OrderProvider(context),
+
+        ),
+        ChangeNotifierProvider<HomeProvider>(
+          create: (_) => HomeProvider(context),
 
         ),
       ],

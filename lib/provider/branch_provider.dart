@@ -16,7 +16,7 @@ class BranchProvider with ChangeNotifier {
 
   setBranchList(List<BranchModel>? list){
     branchList = list;
-    notifyListeners();
+    //notifyListeners();
   }
   setCitiesList( List<Cities>?  list){
     citiesList = list;

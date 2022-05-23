@@ -17,12 +17,12 @@ class OrderProvider with ChangeNotifier {
 
 
 
-  addFavToList(OrderHeader model) {
+  addOrderToList(OrderHeader model) {
     orderList.insert(0, model);
     notifyListeners();
   }
 
-  removeFavItemFromList(OrderHeader model) {
+  removeOrderFromList(OrderHeader model) {
     final id = model.id;
     OrderHeader? orderHeader = orderList.firstWhereOrNull((element) {
       return element.id == id;
@@ -34,8 +34,10 @@ class OrderProvider with ChangeNotifier {
   }
 
   addMoreItemsToList(List<OrderHeader> pagingList) {
+    var set = orderList.toSet();
+    set.addAll(pagingList);
+    orderList = set.toList();
 
-    orderList.addAll(pagingList);
     plusPageNumber();
 
     //  orderList.insertAll(orderList.indexOf(orderList.last),pagingList);

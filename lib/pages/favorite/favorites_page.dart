@@ -7,7 +7,7 @@ import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
-import 'package:khudrah_companies/designs/product_card.dart';
+
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
@@ -22,8 +22,9 @@ import 'package:khudrah_companies/network/models/product/get_products_list_respo
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
+import 'package:khudrah_companies/pages/favorite/fav_tile.dart';
 import 'package:khudrah_companies/pages/products/product_details.dart';
-import 'package:khudrah_companies/provider/fav_provider.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
     _controller.addListener(_scrollListener);
   }
 
-  //todo: test paging
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +90,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   //-----------------------
 
   Future callData() async {
-    final provider = Provider.of<FavoriteProvider>(context, listen: false);
+    final provider = Provider.of<ProductProvider>(context, listen: false);
 
     if (provider.favList.isEmpty || provider.getLoadMoreDataStatus == true) {
       //----------start api ----------------
@@ -104,7 +104,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
             ProductListResponseModel.fromJson(apiResponse.result);
-        provider.addMoreItemsToList(responseModel.products);
+        provider.addItemsToFavList(responseModel.products);
 
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)
@@ -129,9 +129,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
   //-----------------------
 
   Widget listDesign() {
-    return Consumer<FavoriteProvider>(
+    return Consumer<ProductProvider>(
       builder: (context, provider, child) {
-        return provider.listCount > 0
+        return provider.favListCount > 0
             ? GridView.builder(
                 controller: _controller,
                 itemBuilder: (context, index) {
@@ -140,36 +140,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       return Center(child: CircularProgressIndicator());
                     }
                   }
-                  String productId = provider.favList[index].productId!;
-                  return ProductCard.favoritesCard(
-                      context, provider.favList[index], () {
-                    deleteFromFav(context, productId).then((value) {
-
-                      if (value == true) {
-                        provider.removeFavItemFromList(provider.favList[index]);
-
-                    /*    setState(() {
-                          list.remove(list[index]);
-                        });*/
-                      }
-                    });
-                  }, onIncreaseBtnClicked: () {
-                    setState(() {
-                      ProductCard.addQtyToCart(context, productId);
-                    });
-                  }, onDecreaseBtnClicked: () {
-                    setState(() {
-                      ProductCard.deleteQtyFromCart(context, productId);
-                    });
-                  }, onDeleteBtnClicked: () {
-                    setState(() {
-                      ProductCard.deleteFromCart(context, productId);
-                    });
-                  }, onAddBtnClicked: () {
-                    setState(() {
-                      ProductCard.addToCart(context, productId);
-                    });
-                  });
+                  return FavoriteTile(productModel: provider.favList[index]);
                 },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -178,7 +149,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
               childAspectRatio: 14 / 17.4),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: provider.listCount,
+                itemCount: provider.favListCount,
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
               )
             : noItemDesign(
@@ -187,27 +158,5 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
-//-----------------------
 
-  static Future<bool> deleteFromFav(
-      BuildContext context, String productId) async {
-    // showLoaderDialog(context);
-    //----------start api ----------------
-
-    Map<String, dynamic> headerMap = await getHeaderMap();
-
-    ProductRepository productRepository = ProductRepository(headerMap);
-    ApiResponse apiResponse;
-
-    apiResponse = await productRepository.deleteProductFromFav(productId);
-
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      MessageResponseModel model =
-          MessageResponseModel.fromJson(apiResponse.result);
-      showSuccessMessage(context, model.message!);
-      return true;
-    } else {
-      throw ExceptionHelper(apiResponse.message);
-    }
-  }
 }

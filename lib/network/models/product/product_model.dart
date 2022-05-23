@@ -143,6 +143,12 @@ class ProductsModel {
   num? get vaT15OriginalValue => _vaT15OriginalValue;
   num? get netSpecialPrice => _netSpecialPrice;
   num? get vaT15SpecialPrice => _vaT15SpecialPrice;
+
+
+  set userProductQuantity(int? value) {
+    _userProductQuantity = value;
+  }
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = _productId;

@@ -84,7 +84,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    String lang =    Provider.of<GeneralProvider>(context,listen: false).userSelectedLanguage;
+    String lang =    Provider.of<GeneralProvider>(context,listen: true).userSelectedLanguage;
 
     List<String> cities = [dropdownValue];
     for(Cities c in widget.cities) {
@@ -495,7 +495,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
       Navigator.pop(context);
-      Provider.of<BranchProvider>(context,listen: false).removeBranchFromList(widget.branchModel);
+      Provider.of<BranchProvider>(context,listen: true).removeBranchFromList(widget.branchModel);
       Navigator.pop(context);
 
 /*      Navigator.pushReplacement(context, MaterialPageRoute(

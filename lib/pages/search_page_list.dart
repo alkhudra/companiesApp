@@ -5,7 +5,7 @@ import 'package:khudrah_companies/Constant/locale_keys.dart';
 import 'package:khudrah_companies/designs/appbar_design.dart';
 import 'package:khudrah_companies/designs/drawar_design.dart';
 import 'package:khudrah_companies/designs/no_item_design.dart';
-import 'package:khudrah_companies/designs/product_card.dart';
+
 import 'package:khudrah_companies/designs/search_bar.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
@@ -16,9 +16,12 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/product/get_products_list_response_model.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
+import 'package:khudrah_companies/pages/products/product_list.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
+import 'package:provider/provider.dart';
 
 class SearchListPage extends StatefulWidget {
   final String keyWords;
@@ -32,16 +35,26 @@ class _SearchListPageState extends State<SearchListPage> {
   final TextEditingController searchController = TextEditingController();
 
   int pageSize = listItemsCount;
-  int pageNumber = 1;
-  List<ProductsModel> list = [];
-  bool isThereMoreItems = true;
+
+  final ScrollController _controller = ScrollController();
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      getSearchResult(widget.keyWords);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_scrollListener);
+  }
   @override
   Widget build(BuildContext context) {
     String keyWord  = widget.keyWords;
     return Scaffold(
       appBar: appBarDesign(context, LocaleKeys.search_title.tr()),
       // key: _scaffoldState,
-      body: FutureBuilder<ProductListResponseModel?>(
+      body: FutureBuilder(
         future: getSearchResult(keyWord),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -95,40 +108,14 @@ class _SearchListPageState extends State<SearchListPage> {
             height: 10,
           ),
 
-          Container(
-            child:  list.length != 0 ? Container(
-              child: Column(
-                children: [
-                  ListView.builder(
-                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ProductCard.productCardDesign(
-                        context,
+      Consumer<ProductProvider>(builder: (context, provider, child) {
+        return provider.productListCount > 0
+            ? ProductList(provider.productsList,enablePaging: true,controller: _controller,)
+            : noItemDesign(
+            LocaleKeys.no_result.tr(), 'images/not_found.png');
+      }),
 
-                        list[index],
-                              () {
-                            bool? isFavourite = list[index].isFavourite;
-                            ProductCard.addToFav(context, isFavourite,
-                                list[index].productId!);
-                            setState(() {
-                              isFavourite = !isFavourite!;
-                            });
-                          }
-                      );
-                    },
-                    itemCount:list.length,
-                  ),
-                  if (isThereMoreItems == true) loadMoreBtn(context, loadMoreInfo, 20, 40),
 
-                ],
-
-              ),
-
-            ):
-             noItemDesign(LocaleKeys.no_result.tr(),'images/not_found.png'),
-          ),
 
         ],
       ),
@@ -136,42 +123,37 @@ class _SearchListPageState extends State<SearchListPage> {
   }
   //---------------------
 
-  Future<ProductListResponseModel?> getSearchResult(String searchWord) async {
+  Future getSearchResult(String searchWord) async {
     //----------start api ----------------
+    final provider = Provider.of<ProductProvider>(context, listen: false);
 
+    if (provider.getLoadMoreDataStatus == true) {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     ProductRepository productRepository = ProductRepository(headerMap);
 
     ApiResponse apiResponse = await productRepository.getSearchProducts(
-        searchWord, pageSize, pageNumber);
+        searchWord, pageSize, provider.pageNumber);
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       ProductListResponseModel? responseModel =
           ProductListResponseModel.fromJson(apiResponse.result);
-      if (pageNumber == 1) list = responseModel.products;
-      else  list.addAll(responseModel.products);
+
+      provider.addItemsToProductList(responseModel.products);
 
       if (responseModel.products.length > 0) {
         if (responseModel.products.length < listItemsCount)
-          isThereMoreItems = false;
+          provider.saveLoadMoreDataStatus(false);
         else
-        isThereMoreItems = true;
-
-      }else{
-        isThereMoreItems = false;
-        pageNumber = 1;
+          provider.saveLoadMoreDataStatus(true);
+      } else {
+        provider.saveLoadMoreDataStatus(false);
+        provider.resetPageNumber();
       }
-      print('list is $list');
-      return responseModel;
+      return responseModel.products;
     } else
       throw ExceptionHelper(apiResponse.message);
-  }
+  }else
+      return provider.productsList;}
   //---------------------
 
-  loadMoreInfo() async {
-    setState(() {
-      pageNumber++;
-    });
-
-  }
 }
