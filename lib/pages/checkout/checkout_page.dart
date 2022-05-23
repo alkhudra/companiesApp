@@ -403,7 +403,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   //-----
   setBranchList(BranchProvider value) async {
 
-    //todo: test showing list of branches first time and second time
     if (value.branchList!.isEmpty && value.citiesList!.isEmpty) {
       Map<String, dynamic> headerMap = await getHeaderMap();
       String companyId = await PreferencesHelper.getUserID;

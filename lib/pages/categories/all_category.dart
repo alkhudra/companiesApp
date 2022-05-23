@@ -92,6 +92,7 @@ class _AllCategoryState extends State<AllCategory> {
   }
 
   Future getInfoFromDB() async {
+    //todo:problem in calling redundancy and other category
     final provider = Provider.of<ProductProvider>(context, listen: true);
 
     if (provider.getLoadMoreDataStatus == true) {

@@ -19,8 +19,6 @@ class ProductProvider with ChangeNotifier {
 
   setHomeProductList(List<ProductsModel>? _productsList) {
     homePageList = _productsList;
-
-
   }
 
 

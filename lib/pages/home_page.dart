@@ -27,6 +27,7 @@ import 'package:khudrah_companies/network/repository/home_repository.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
 import 'package:khudrah_companies/pages/products/product_list.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
+import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/provider/home_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -207,7 +208,7 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Container(child:
-              Consumer<ProductProvider>(builder: (context, provider, child) {
+              Consumer<HomeProvider>(builder: (context, provider, child) {
             return provider.productHomeListCount > 0
                 ? ProductList(
                     provider.homePageList,
@@ -235,8 +236,9 @@ class _HomePageState extends State<HomePage> {
   Future<HomeSuccessResponseModel> getHomePage(
       /*HomeProvider provider*/) async {
     //----------start api ----------------
-    final provider = Provider.of<ProductProvider>(context, listen: true);
+    final provider = Provider.of<HomeProvider>(context, listen: true);
 
+    //todo: test home provider and connect to product provider
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     HomeRepository homeRepository = HomeRepository(headerMap);
@@ -246,6 +248,7 @@ class _HomePageState extends State<HomePage> {
       HomeSuccessResponseModel model =
           HomeSuccessResponseModel.fromJson(apiResponse.result);
       provider.setHomeProductList(model.productsList!);
+      provider.setUser(model.user!);
       return model;
     } else {
       //      provider.setAlreadyHasDataStatus(false);
