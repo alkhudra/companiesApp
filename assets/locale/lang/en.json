@@ -194,6 +194,7 @@
   "control_branches": "Manage your branches",
   "no_products": "No Products",
   "transfer": "Bank Transfer",
+  "error_in_order": "You Have an account problem while continuing order , please contact us for help ",
 
   "no_debit_balance": "You have no balance in credit payment, change payment method "
 }

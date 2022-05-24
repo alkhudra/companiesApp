@@ -207,4 +207,5 @@ abstract class LocaleKeys {
   static const control_branches = "control_branches";
   static const no_products = "no_products";
   static const transfer = "transfer";
+  static const error_in_order = "error_in_order";
 }

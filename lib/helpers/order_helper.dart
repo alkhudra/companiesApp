@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khudrah_companies/Constant/api_const.dart';
+import 'package:khudrah_companies/Constant/locale_keys.dart';
+import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/contact_helper.dart';
 import 'package:khudrah_companies/helpers/route_helper.dart';
@@ -18,7 +20,7 @@ import 'package:khudrah_companies/pages/order_completed_page.dart';
 import 'package:khudrah_companies/provider/order_provider.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class OrderHelper {
   static callApi(BuildContext context, UserCart userCart,
       BranchModel selectedBranch, bool hasPaid, String paymentMethod) async {
@@ -68,7 +70,18 @@ class OrderHelper {
       Provider.of<OrderProvider>(context, listen: true).addOrderToList(model.orderHeader!);
       OrderHelper. viewCompleteOrderPage(context , true ,model: model);
 
-    } else {
+    } else if(apiResponse.apiStatus.code == ApiResponseType.BadRequest.code) {
+      // Company did not pay before the deadline
+      Navigator.pop(context);
+
+
+      showDialog<String>(
+          context: context,
+          builder: (BuildContext context) =>
+              showMessageDialog(context, LocaleKeys.error.tr(),  LocaleKeys.error_in_order.tr(), dashBoardRoute));
+
+
+    }else{
       Navigator.pop(context);
       //return apiResponse.message;
       OrderHelper. viewCompleteOrderPage(context , false);

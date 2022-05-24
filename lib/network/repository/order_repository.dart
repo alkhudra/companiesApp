@@ -147,8 +147,8 @@ class OrderRepository {
           if (res != null) {
             errorCode = res.statusCode!;
             errorMessage = res.statusMessage!;
-            if (errorCode == 500) {
-              errorMessage = res.data['Message'];
+            if (errorCode == 400) {
+              errorMessage = res.data['message'];
             } else {
               errorMessage = LocaleKeys.wrong_error.tr();
             }

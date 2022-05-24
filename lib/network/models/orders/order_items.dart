@@ -137,5 +137,8 @@ class SubmitOrderItems {
     return map;
   }
 
-
+  @override
+  String toString() {
+    return 'SubmitOrderItems{_productId: $_productId, _userProductQuantity: $_userProductQuantity, _totalProductPrice: $_totalProductPrice, _totalNetProductPrice: $_totalNetProductPrice, _totalProductVAT15: $_totalProductVAT15, _orderedProductPrice: $_orderedProductPrice, _orderedNetProductPrice: $_orderedNetProductPrice}';
+  }
 }

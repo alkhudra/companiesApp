@@ -76,7 +76,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   // for api
   bool hasPaid = false;
 
-  String paymentMethod = bankTransfer;
+  String paymentMethod = cash;
   List<BranchModel> branches = [];
 
   @override
