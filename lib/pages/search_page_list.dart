@@ -25,7 +25,7 @@ import 'package:provider/provider.dart';
 
 class SearchListPage extends StatefulWidget {
   final String keyWords;
-  const SearchListPage({Key? key,required this.keyWords}) : super(key: key);
+  const SearchListPage({Key? key, required this.keyWords}) : super(key: key);
 
   @override
   _SearchListPageState createState() => _SearchListPageState();
@@ -48,9 +48,10 @@ class _SearchListPageState extends State<SearchListPage> {
     super.initState();
     _controller.addListener(_scrollListener);
   }
+
   @override
   Widget build(BuildContext context) {
-    String keyWord  = widget.keyWords;
+    String keyWord = widget.keyWords;
     return Scaffold(
       appBar: appBarDesign(context, LocaleKeys.search_title.tr()),
       // key: _scaffoldState,
@@ -58,14 +59,13 @@ class _SearchListPageState extends State<SearchListPage> {
         future: getSearchResult(keyWord),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return searchPageDesign( keyWord);
+            return searchPageDesign(keyWord);
           } else
             return errorCase(snapshot);
         },
       ),
     );
   }
-
 
   //---------------------
 
@@ -82,7 +82,7 @@ class _SearchListPageState extends State<SearchListPage> {
           ),
           //Search bar and button
           Container(
-            child: SearchHelper().searchBar(context, searchController,true),
+            child: SearchHelper().searchBar(context, searchController, true),
           ),
           SizedBox(
             height: 20,
@@ -95,7 +95,7 @@ class _SearchListPageState extends State<SearchListPage> {
           Container(
             margin: EdgeInsets.only(left: 15, right: 15),
             child: Text(
-              LocaleKeys.search_result.tr() +'  "$keyWord"',
+              LocaleKeys.search_result.tr() + '  "$keyWord"',
               style: TextStyle(
                 color: CustomColors().darkBlueColor,
                 fontSize: 22,
@@ -108,15 +108,16 @@ class _SearchListPageState extends State<SearchListPage> {
             height: 10,
           ),
 
-      Consumer<ProductProvider>(builder: (context, provider, child) {
-        return provider.productListCount > 0
-            ? ProductList(provider.productsList,enablePaging: true,controller: _controller,)
-            : noItemDesign(
-            LocaleKeys.no_result.tr(), 'images/not_found.png');
-      }),
-
-
-
+          Consumer<ProductProvider>(builder: (context, provider, child) {
+            return provider.searchPageListCount > 0
+                ? ProductList(
+                    provider.searchPageList,
+                    enablePaging: true,
+                    controller: _controller,
+                  )
+                : noItemDesign(
+                    LocaleKeys.no_result.tr(), 'images/not_found.png');
+          }),
         ],
       ),
     );
@@ -124,36 +125,40 @@ class _SearchListPageState extends State<SearchListPage> {
   //---------------------
 
   Future getSearchResult(String searchWord) async {
+    ////todo: problem in search
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: true);
 
-    if (provider.getLoadMoreDataStatus == true) {
-    Map<String, dynamic> headerMap = await getHeaderMap();
+    if (provider.isNewSearch || provider.getLoadMoreDataStatus) {
+      Map<String, dynamic> headerMap = await getHeaderMap();
 
-    ProductRepository productRepository = ProductRepository(headerMap);
+      ProductRepository productRepository = ProductRepository(headerMap);
 
-    ApiResponse apiResponse = await productRepository.getSearchProducts(
-        searchWord, pageSize, provider.pageNumber);
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      ProductListResponseModel? responseModel =
-          ProductListResponseModel.fromJson(apiResponse.result);
+      ApiResponse apiResponse = await productRepository.getSearchProducts(
+          searchWord, pageSize, provider.pageNumber);
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        ProductListResponseModel? responseModel =
+            ProductListResponseModel.fromJson(apiResponse.result);
 
-      provider.addItemsToProductList(responseModel.products);
+        print('search word is '+ searchWord);
+        print('result is '+ responseModel.products.toString());
+        provider.addItemsToSearchList(responseModel.products);
 
-      if (responseModel.products.length > 0) {
-        if (responseModel.products.length < listItemsCount)
+        if (responseModel.products.length > 0) {
+          if (responseModel.products.length < listItemsCount)
+            provider.saveLoadMoreDataStatus(false);
+          else
+            provider.saveLoadMoreDataStatus(true);
+        } else {
           provider.saveLoadMoreDataStatus(false);
-        else
-          provider.saveLoadMoreDataStatus(true);
-      } else {
-        provider.saveLoadMoreDataStatus(false);
-        provider.resetPageNumber();
-      }
-      return responseModel.products;
+          provider.resetPageNumber();
+        }
+        return responseModel.products;
+      } else
+        throw ExceptionHelper(apiResponse.message);
     } else
-      throw ExceptionHelper(apiResponse.message);
-  }else
-      return provider.productsList;}
+      return provider.searchPageList;
+  }
   //---------------------
 
 }

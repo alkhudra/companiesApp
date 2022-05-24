@@ -33,7 +33,7 @@ Future<Map<String, dynamic>> getAuthHeaderMap() async {
 }
 
 
-Widget errorCase(AsyncSnapshot<dynamic?> snapshot,{context, alreadyHasData = false}) {
+Widget errorCase(AsyncSnapshot<dynamic?> snapshot) {
 
    if (snapshot.hasError) {
     return Center(
@@ -61,10 +61,39 @@ Widget errorCase(AsyncSnapshot<dynamic?> snapshot,{context, alreadyHasData = fal
       ],
     ));
    } else
-
-    // if(alreadyHasData == false)
-    // By default, show a loading spinner.
+     // By default, show a loading spinner.
      return loadingProgress();
-
-
 }
+
+Widget errorCaseInProviderCase(AsyncSnapshot<dynamic?> snapshot ,Widget widget) {
+
+if(snapshot.hasError){
+
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 250,
+              height: 250,
+              child: Image.asset(
+                'images/logo.png',
+              ),
+            ),
+            SizedBox(height: 15,),
+            // Text('Oops!', style: TextStyle(
+            //   color: CustomColors().darkBlueColor,
+            //   fontSize: 16,
+            //   fontWeight: FontWeight.w700
+            // ),),
+            SizedBox(height: 5,),
+            errorText('${snapshot.error}'),
+
+            // Image(image: AssetImage('images/green_fruit.png')),
+            // Text('${snapshot.error}' ,),
+          ],
+        ));
+  }
+else return widget;
+}
+

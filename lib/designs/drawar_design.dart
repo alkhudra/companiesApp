@@ -12,7 +12,7 @@ import 'package:khudrah_companies/pages/branch/branch_list.dart';
 import 'package:khudrah_companies/pages/contact_us.dart';
 import 'package:khudrah_companies/pages/credit_page.dart';
 import 'package:khudrah_companies/pages/language/language_setting.dart';
-import 'package:khudrah_companies/provider/home_provider.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -23,11 +23,7 @@ late List<BranchModel> list;
 
 
 Drawer drawerDesignWithName(context, String name, String email) {
-  final provider = Provider.of<HomeProvider>(context, listen: true);
-/*  if(provider.user != null) {
-    name = provider.user.companyName!;
-    email = provider.user.email!;
-  }*/
+
   return Drawer(
     child: ListView(
       padding: EdgeInsets.all(0.0),

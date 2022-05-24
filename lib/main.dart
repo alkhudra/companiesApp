@@ -11,7 +11,6 @@ import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
-import 'package:khudrah_companies/provider/home_provider.dart';
 import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/provider/order_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
@@ -236,10 +235,7 @@ class _MyAppState extends State<MyApp> {
           create: (_) => OrderProvider(context),
 
         ),
-        ChangeNotifierProvider<HomeProvider>(
-          create: (_) => HomeProvider(context),
 
-        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

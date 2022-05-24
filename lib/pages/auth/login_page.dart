@@ -31,7 +31,7 @@ import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/reset_password/enter_code_page.dart';
 import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
-import 'package:khudrah_companies/provider/home_provider.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -243,7 +243,7 @@ class _LogInPageState extends State<LogInPage> {
 
       PreferencesHelper.setUserToken(model.token);
       PreferencesHelper.getUserToken.then((value) => print('token : $value'));
-      Provider.of<HomeProvider>(context, listen: false).setUser(user);
+      Provider.of<ProductProvider>(context, listen: false).setUser(user);
 
       PreferencesHelper.setUser(user);
       PreferencesHelper.setUserLoggedIn(true);

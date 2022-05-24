@@ -29,7 +29,6 @@ import 'package:khudrah_companies/pages/products/product_list.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';
-import 'package:khudrah_companies/provider/home_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +56,7 @@ class _HomePageState extends State<HomePage> {
 
   //---------------------
 
+
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -69,39 +69,39 @@ class _HomePageState extends State<HomePage> {
       endDrawer: drawerDesignWithName(context, name, email),
       appBar: bnbAppBar(context, LocaleKeys.home.tr()),
       // key: _scaffoldState,
-      body: FutureBuilder<HomeSuccessResponseModel?>(
+      body: FutureBuilder(
         future: getHomePage(), //provider.fetchData(),
         builder: (context, snapshot) {
-          print(snapshot.data);
           if (snapshot.hasData) {
-            return homePageDesign(snapshot.data!);
-          } else
-            return errorCase(snapshot);
+            return homePageDesign();
+          } else {
+            if (Provider.of<ProductProvider>(context, listen: false).alreadyHasData == false)
+            return  errorCase(snapshot);
+            else return errorCaseInProviderCase(snapshot,homePageDesign());
+          }
         },
       ),
     );
   }
 
   //---------------------
-  Widget homePageDesign(
-      /*HomeProvider provider,*/ HomeSuccessResponseModel home) {
+  Widget homePageDesign() {
+
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     // HomeSuccessResponseModel home = provider.homeModel;
-    String categoryName = LocaleKeys.all_category.tr();
+/*    String categoryName = LocaleKeys.all_category.tr();
     List<CategoryItem>? categoryList = [
       CategoryItem(name: categoryName, arName: categoryName)
     ];
-    for (CategoryItem categoryItem in home.categoriesList!) {
+    for (CategoryItem categoryItem in provider.categoryList!) {
       categoryList.add(categoryItem);
-    }
+    }*/
     /*name = home.user!.companyName!;
     email = home.user!.email!;*/
-    PreferencesHelper.saveBranchesList(home.user!.branches!);
-    Provider.of<BranchProvider>(context, listen: true)
-        .setBranchList(home.user!.branches!);
+
 
     return SingleChildScrollView(
       child: Column(
@@ -132,90 +132,101 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          //Categories items
-          Container(
-            margin: EdgeInsets.only(top: 25),
-            //   width: scWidth * 0.8,
-            height: scHeight * 0.16,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Container(
-                      // width: scWidth * 0.27,
-                      width: scWidth * 0.23,
-                      // height: scHeight * 0.11,
-                      height: scHeight * 0.1,
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                      child: GestureDetector(
-                        child: ImageHelper.categoryImage(
-                            categoryList[index].image),
-                        onTap: () {
-                          if (index != 0) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CategoryPage(
-                                        categoriesItem: categoryList[index],
-                                      )),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AllCategory()),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      setCategoryName(categoryList[index])!,
-                      style: TextStyle(
-                          color: CustomColors().brownColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                );
-              },
-              itemCount: categoryList.length,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          //Newest deals title and button
+        Consumer<ProductProvider>(
+            builder: (context, provider, child) {
 
-          //Temp gesture detect, remove when done
-          Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Text(
-              LocaleKeys.newest_deals.tr(),
-              style: TextStyle(
-                color: CustomColors().darkBlueColor,
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(child:
-              Consumer<HomeProvider>(builder: (context, provider, child) {
-            return provider.productHomeListCount > 0
-                ? ProductList(
-                    provider.homePageList,
-                  )
-                : noItemDesign(
-                    LocaleKeys.no_products.tr(), 'images/not_found.png');
-          })),
+
+              return Column(
+              children: [
+
+                //Categories items
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  //   width: scWidth * 0.8,
+                  height: scHeight * 0.16,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Container(
+                            // width: scWidth * 0.27,
+                            width: scWidth * 0.23,
+                            // height: scHeight * 0.11,
+                            height: scHeight * 0.1,
+                            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                            child: GestureDetector(
+                              child: ImageHelper.categoryImage(
+                                  provider.  categoryList[index].image),
+                              onTap: () {
+                                if (index != 0) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CategoryPage(
+                                          categoriesItem: provider.categoryList[index],
+                                        )),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllCategory()),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            setCategoryName(provider.categoryList[index])!,
+                            style: TextStyle(
+                                color: CustomColors().brownColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      );
+                    },
+                    itemCount: provider.categoryListCount,//categoryList.length,
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                //Newest deals title and button
+
+                //Temp gesture detect, remove when done
+                Container(
+              //    margin: EdgeInsets.only(left: 15, right: 15),
+                  child: Text(
+                    LocaleKeys.newest_deals.tr(),
+                    style: TextStyle(
+                      color: CustomColors().darkBlueColor,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(child:
+                /* Consumer<HomeProvider>(builder: (context, provider, child) {
+                   return*/ provider.productHomeListCount > 0
+                    ? ProductList(
+                  provider.homePageList,
+                )
+                    : noItemDesign(
+                    LocaleKeys.no_products.tr(), 'images/not_found.png')
+                ),
+              ],
+            );}
+          )
+,
           SizedBox(
             height: 30,
           ),
@@ -233,28 +244,39 @@ class _HomePageState extends State<HomePage> {
   }
 
   //---------------------
-  Future<HomeSuccessResponseModel> getHomePage(
-      /*HomeProvider provider*/) async {
+  Future getHomePage() async {
+
+
     //----------start api ----------------
-    final provider = Provider.of<HomeProvider>(context, listen: true);
+    final provider = Provider.of<ProductProvider>(context, listen: false);
+    if(provider.homePageList!.isEmpty) {
+      print('getting home items from db');
 
-    //todo: test home provider and connect to product provider
-    Map<String, dynamic> headerMap = await getHeaderMap();
+      Map<String, dynamic> headerMap = await getHeaderMap();
 
-    HomeRepository homeRepository = HomeRepository(headerMap);
+      HomeRepository homeRepository = HomeRepository(headerMap);
 
-    ApiResponse apiResponse = await homeRepository.getHomeInfo(context);
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-      HomeSuccessResponseModel model =
-          HomeSuccessResponseModel.fromJson(apiResponse.result);
-      provider.setHomeProductList(model.productsList!);
-      provider.setUser(model.user!);
-      return model;
-    } else {
-      //      provider.setAlreadyHasDataStatus(false);
+      ApiResponse apiResponse = await homeRepository.getHomeInfo(context);
+      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+        HomeSuccessResponseModel model =
+        HomeSuccessResponseModel.fromJson(apiResponse.result);
 
-      throw ExceptionHelper(apiResponse.message);
-    }
+
+        PreferencesHelper.saveBranchesList(model.user!.branches!);
+        Provider.of<BranchProvider>(context, listen: false)
+            .setBranchList(model.user!.branches!);
+
+
+        provider.setHomeProductList(model.productsList!);
+        provider.setHomeCategoryList(model.categoriesList!);
+        provider.setAlreadyHasDataStatus(true);
+        provider.setUser(model.user!);
+        provider.setHomeModel(model);
+        return model;
+      } else {
+        throw ExceptionHelper(apiResponse.message);
+      }
+    }return provider.getHomeModel;
   }
 
   //---------------------

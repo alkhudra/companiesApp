@@ -95,6 +95,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     if (provider.favList.isEmpty || provider.getLoadMoreDataStatus == true) {
       //----------start api ----------------
 
+      print('getting fav items from db');
       Map<String, dynamic> headerMap = await getHeaderMap();
 
       ProductRepository productRepository = ProductRepository(headerMap);

@@ -3,6 +3,8 @@ import 'package:khudrah_companies/designs/text_field_design.dart';
 import 'package:khudrah_companies/pages/search_page_list.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
+import 'package:provider/provider.dart';
 
 class SearchHelper{
   Widget searchBar(context, seController,fromSearchPage) {
@@ -48,11 +50,9 @@ class SearchHelper{
             ),
             onTap: () {
               if(seController.text != ''){
-                //todo: reset search provider here
-              if(fromSearchPage)
-                directToSearchPageFromSearchPage(context, seController);
-                else
-              directToSearchPage(context, seController);}
+
+                  directToSearchPage(context, seController,fromSearchPage:fromSearchPage);
+              }
             },
           ),
         ],
@@ -61,21 +61,24 @@ class SearchHelper{
   }
 
 
-  static void directToSearchPageFromSearchPage(BuildContext context, TextEditingController? controller){
-    String txt = controller!.text;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SearchListPage(
-            keyWords: txt,
-          )),
-    );
-    FocusScope.of(context).unfocus();
-    controller.clear();
-  }
 
-  static void directToSearchPage(BuildContext context, TextEditingController? controller){
+
+  static void directToSearchPage(BuildContext context,TextEditingController? controller, {fromSearchPage = false}){
+
+    //todo: reset search provider here
+
+    Provider.of<ProductProvider>(context, listen: false).resetSearchList();
     String txt = controller!.text;
+
+/*    if(fromSearchPage)
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SearchListPage(
+              keyWords: txt,
+            )),
+      );
+    else*/
     Navigator.push(
       context,
       MaterialPageRoute(

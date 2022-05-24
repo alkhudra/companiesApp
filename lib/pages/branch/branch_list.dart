@@ -39,7 +39,6 @@ class BranchList extends StatefulWidget {
 }
 
 class _BranchListState extends State<BranchList> {
-  //todo: test cities in add , edit
  static late List<Cities> cities ;
   @override
   Widget build(BuildContext context) {
