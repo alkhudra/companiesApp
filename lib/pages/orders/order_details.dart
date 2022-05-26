@@ -632,7 +632,8 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
           ),
           SizedBox(
-            height: 220,
+            //TODO: check with under processing and being delivered
+            height: widget.orderModel.orderStatus == 'Delivered' ? 220 : 25,
           ),
         ],
       ),
