@@ -367,7 +367,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           //Stepper container
           ExpansionTile(
               initiallyExpanded: false,
-              title: titleTextDesign(LocaleKeys.track_order.tr()),
+              title: titleTextDesignForExpanTile(LocaleKeys.track_order.tr()),
               children: [
                 Container(
                   width: scWidth,
@@ -632,7 +632,8 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
           ),
           SizedBox(
-            height: 220,
+            //TODO: check with under processing and being delivered
+            height: widget.orderModel.orderStatus == 'Delivered' ? 220 : 25,
           ),
         ],
       ),
@@ -642,6 +643,19 @@ class _OrderDetailsState extends State<OrderDetails> {
   titleTextDesign(text) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
+      child: Text(
+        text,
+        style: TextStyle(
+            color: CustomColors().brownColor,
+            fontWeight: FontWeight.w800,
+            fontSize: 19),
+      ),
+    );
+  }
+
+    titleTextDesignForExpanTile(text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Text(
         text,
         style: TextStyle(

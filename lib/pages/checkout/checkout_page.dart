@@ -245,6 +245,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   },
                   child: Row(
                     children: [
+                      SizedBox(width: 18,),
                       Icon(
                         Icons.settings,
                         color: CustomColors().brownColor,
@@ -362,6 +363,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 Container(
                   margin: EdgeInsets.only(bottom: 30),
                   child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
@@ -400,7 +402,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   height: 20,
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 120,
                 ),
 
               ],
