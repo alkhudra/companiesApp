@@ -18,6 +18,7 @@ import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
 
+import 'designs/order_tile_design.dart';
 import 'helpers/pref/shared_pref_helper.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -32,6 +33,14 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  if(message.data != null) {
+    Map<String, dynamic> map = message.data;
+    if (map.containsKey('order_id')) {
+      print(map['order_id']);
+
+   //   directToOrderDetails( , orderId: map['order_id'] );
+    }
+  }
   print('A bg msg just showed up : ${message.messageId}');
 }
 
@@ -70,21 +79,7 @@ Future<void> main() async {
       alert: true, badge: true, sound: true);
 }
 
-// Future init() async  1q2a{
-// WidgetsFlutterBinding.ensureInitialized();
-// await Firebase.initializeApp();
-// FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-// await flutterLocalNotificationsPlugin
-// .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-// ?.createNotificationChannel(channel);
-
-// await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-//   alert: true,
-//   badge: true,
-//   sound: true
-// );
-// }
 
 class MyApp extends StatefulWidget {
   final bool isUserFirstLogin, isUserLoggedIn;
@@ -98,8 +93,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-/*  static bool isUserFirstLogin = false;
-  static bool isUserLoggedIn = false;*/
 
   static int counter = 0;
   @override
@@ -143,72 +136,9 @@ class _MyAppState extends State<MyApp> {
             });
       }
     });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published');
-      RemoteNotification? notification = message.notification;
 
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text('Notification.title'),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body!)],
-                  ),
-                ),
-              );
-            });
-      }
-    });
   }
 
-  void showNotification() async {
-    setState(() {
-      counter++;
-    });
-
-    String? token = await FirebaseMessaging.instance.getToken();
-
-    print('token:' + token!);
-
-    flutterLocalNotificationsPlugin.show(
-        0,
-        'Testing $counter',
-        'How you doin?',
-        NotificationDetails(
-          android: AndroidNotificationDetails(channel.id, channel.name,
-              channelDescription: channel.description,
-              importance: Importance.high,
-              color: CustomColors().primaryGreenColor,
-              playSound: true,
-              icon: '@mipmap/ic_launcher'),
-          // iOS: IOSNotificationDetails()
-        ));
-
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true, // Required to display a heads up notification
-      badge: true,
-      sound: true,
-    );
-
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    print('User granted permission: ${settings.authorizationStatus}');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,25 +185,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  //replace getRout widget with tempHome to test local notifs
-  Widget tempHome() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Testing Notifications'),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: TextButton(
-              child: Text('Send local Notif'),
-              onPressed: showNotification,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget getRout() {
     // print(isUserFirstLogin);
@@ -287,9 +199,4 @@ class _MyAppState extends State<MyApp> {
   }
 
 
-/*
-  setValues() async {
-    isUserFirstLogin = await PreferencesHelper.getIsUserFirstLogIn;
-    isUserLoggedIn = await PreferencesHelper.getIsUserLoggedIn;
-  }*/
 }
