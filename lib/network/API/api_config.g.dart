@@ -8,7 +8,7 @@ part of 'api_config.dart';
 
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://alkhudrahproject-001-site2.ctempurl.com/api';
+    baseUrl ??= 'https://alkhadraunited.com/api';
   }
 
   final Dio _dio;
@@ -51,8 +51,8 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<dynamic>(
-        Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/Account/logout',
+        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            .compose(_dio.options, '/account/logout',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
@@ -426,11 +426,11 @@ class _RestClient implements RestClient {
   @override
   Future<dynamic> getOrderById(orderId) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'orderId': orderId};
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<dynamic>(
         Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/Order/getOrders',
+            .compose(_dio.options, '/Order/getOrderById/{id}',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;

@@ -1,7 +1,7 @@
 abstract class ApiConst {
   static const String basic_url =
-      'https://company.alkhadraunited.com/';// 'http://alkhudrahproject-001-site2.ctempurl.com/api';
-  static const String dashboard_url ='https://alkhadraunited.com/';//'http://alkhudrahproject-001-site1.ctempurl.com/' ;//'http://alkhadraunited.com/';
+     'https://alkhadraunited.com/api';// 'https://company.alkhadraunited.com/';// 'http://alkhudrahproject-001-site2.ctempurl.com/api';
+  static const String dashboard_url ='https://dashboard.alkhadraunited.com/';//'https://alkhadraunited.com/';//'http://alkhudrahproject-001-site1.ctempurl.com/' ;//'http://alkhadraunited.com/';
   static const String pdf_url =  'https://company.alkhadraunited.com/';
      // 'http://alkhudrahproject-001-site2.ctempurl.com';
   static const String payment_token =
@@ -10,7 +10,7 @@ abstract class ApiConst {
   //---------------auth ----------------
   static const String register_url = '/account/register';
   static const String login_url = '/account/login';
-  static const String logout_url = '/Account/logout';
+  static const String logout_url = '/account/logout';
   static const String get_user_info_url = '/account/getRegisteredUser/{id}';
   static const String update_profile_url = '/account/updateUser/{id}';
   static const String reset_password_url = '/account/resetPassword';

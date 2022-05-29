@@ -13,6 +13,7 @@ class User {
     bool? hasCreditOption,
     num? companyBalance,
     int? branchNumber,
+    bool? isDeleted,
     List<BranchModel>? branches,
   }) {
     _id = id;
@@ -25,6 +26,7 @@ class User {
     _companyName = companyName;
     _commercialRegistrationNo = commercialRegistrationNo;
     _vatNo = vatNo;
+    _isDeleted = isDeleted;
     _branchNumber = branchNumber;
     _branches = branches;
   }
@@ -41,6 +43,7 @@ class User {
     _companyStatus = json['companyStatus'];
     _hasCreditOption = json['hasCreditOption'];
     _branchNumber = json['branchNumber'];
+    _isDeleted= json['isDeleted'];
     if (json['branches'] != null) {
       _branches = [];
       json['branches'].forEach((v) {
@@ -58,6 +61,7 @@ class User {
   String? _companyStatus;
   num? _companyBalance;
   int? _branchNumber;
+  bool? _isDeleted;
   List<BranchModel>? _branches;
   bool? _hasCreditOption;
   String? get id => _id;
@@ -74,6 +78,8 @@ class User {
   num? get companyBalance => _companyBalance;
   String? get vatNo => _vatNo;
 
+  bool? get isDeleted => _isDeleted;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
@@ -87,7 +93,7 @@ class User {
     map['hasCreditOption'] = _hasCreditOption;
     map['branchNumber'] = _branchNumber;
     map['companyStatus'] = _companyStatus;
-
+    map['isDeleted']  = _isDeleted;
     if (_branches != null) {
       map['branches'] = _branches?.map((v) => v.toJson()).toList();
     }

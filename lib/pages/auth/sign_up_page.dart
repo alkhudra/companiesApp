@@ -350,8 +350,9 @@ class _SignUpPageState extends State<SignUpPage> {
     showLoaderDialog(context);
     //----------start api ----------------
 
+    Map<String, dynamic> headerMap = await getAuthHeaderMap();
 
-    AuthRepository registerRepository = AuthRepository();
+    AuthRepository registerRepository = AuthRepository(headerMap);
     registerRepository
         .registerUser(
             emailController.text,

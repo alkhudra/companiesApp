@@ -212,11 +212,13 @@ class _LogInPageState extends State<LogInPage> {
 
     showLoaderDialog(context);
     //----------start api ----------------
-
-
+   // String? token;
+  //  FirebaseMessaging.instance.getToken().onError((error, stackTrace) => token = '').then((value) => token = value);
     String? token = await FirebaseMessaging.instance.getToken();
     print('notification token is $token');
-    AuthRepository registerRepository = AuthRepository();
+    Map<String, dynamic> headerMap = await getAuthHeaderMap();
+
+    AuthRepository registerRepository = AuthRepository(headerMap);
 
 
     registerRepository
@@ -234,6 +236,13 @@ class _LogInPageState extends State<LogInPage> {
       //-------- success response ---------
       SuccessLoginResponseModel model =
           SuccessLoginResponseModel.fromJson(result.result);
+
+      //check if account is not deleted
+      if(model.user!.isDeleted == true){
+        Navigator.pop(context);
+        showErrorDialog(LocaleKeys.deleted_account.tr());
+        return;
+      }
 
       print(model.user.toString());
       User user = model.user!;
