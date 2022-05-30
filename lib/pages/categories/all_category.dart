@@ -33,7 +33,7 @@ class AllCategory extends StatefulWidget {
 class _AllCategoryState extends State<AllCategory> {
   TextEditingController srController = TextEditingController();
   int pageSize = listItemsCount;
-
+  bool _isFirstCall = true;
   final ScrollController _controller = ScrollController();
 
   void _scrollListener() {
@@ -92,9 +92,13 @@ class _AllCategoryState extends State<AllCategory> {
   }
 
   Future getInfoFromDB() async {
-    //todo:problem in calling redundancy and other category
     final provider = Provider.of<ProductProvider>(context, listen: true);
 
+    if(_isFirstCall){
+      provider.resetPageNumber();
+      provider.resetProductList();
+      _isFirstCall = false;
+    }
     if (provider.getLoadMoreDataStatus == true) {
       //----------start api ----------------
 
@@ -107,10 +111,11 @@ class _AllCategoryState extends State<AllCategory> {
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
             ProductListResponseModel.fromJson(apiResponse.result);
-        print('all items is ');
 
-        print(responseModel.products);
+
+
         provider.addItemsToProductList(responseModel.products);
+        provider.plusPageNumber();
 
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)

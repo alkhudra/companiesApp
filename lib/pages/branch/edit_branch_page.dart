@@ -30,10 +30,11 @@ import '../pick_location_page.dart';
 
 class EditBranchPage extends StatefulWidget {
   final BranchModel branchModel;
-  final List<Cities> cities ;
+  final List<Cities> cities;
 
-
-  const EditBranchPage({Key? key, required this.branchModel,required this.cities}) : super(key: key);
+  const EditBranchPage(
+      {Key? key, required this.branchModel, required this.cities})
+      : super(key: key);
 
   @override
   _EditBranchPageState createState() => _EditBranchPageState();
@@ -71,7 +72,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
     nationalIDAddressController.text = widget.branchModel.nationalAddressNo!;
     phoneController.text = widget.branchModel.phoneNumber!;
     addressController.text = widget.branchModel.address!.toString();
-   city = widget.branchModel.city!;
+    city = widget.branchModel.city != null ? widget.branchModel.city! : '';
 
     double lat = widget.branchModel.latitude!.toDouble();
     double lng = widget.branchModel.longitude!.toDouble();
@@ -84,11 +85,12 @@ class _EditBranchPageState extends State<EditBranchPage> {
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    String lang =    Provider.of<GeneralProvider>(context,listen: true).userSelectedLanguage;
+    String lang = Provider.of<GeneralProvider>(context, listen: true)
+        .userSelectedLanguage;
 
     List<String> cities = [dropdownValue];
-    for(Cities c in widget.cities) {
-      if(c.enCityName == city || c.arCityName == city)
+    for (Cities c in widget.cities) {
+      if (c.enCityName == city || c.arCityName == city)
         city = lang == 'ar' ? c.arCityName! : c.enCityName!;
       cities.add(lang == 'ar' ? c.arCityName! : c.enCityName!);
     }
@@ -173,7 +175,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
                 child: ButtonTheme(
                   alignedDropdown: true,
                   child: DropdownButtonFormField<String>(
-                    value: city,
+                    value: city!= '' ? city : dropdownValue,
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
@@ -184,7 +186,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
                         if (newValue != dropdownValue) {
                           city = newValue!;
                           print(city);
-                        }else city = widget.branchModel.city!;
+                        } else
+                          city = widget.branchModel.city != null ? widget.branchModel.city!  : '';
                       });
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
@@ -377,14 +380,14 @@ class _EditBranchPageState extends State<EditBranchPage> {
       alreadyUsedMap.clear();
       PickLocationPage.setValues();
       SuccessBranchResponseModel successBranchResponseModel =
-      SuccessBranchResponseModel.fromJson(result.result);
+          SuccessBranchResponseModel.fromJson(result.result);
       showSuccessMessage(context, successBranchResponseModel.message!);
       BranchModel branchModel = successBranchResponseModel.branchObject!;
 
       Navigator.pop(context);
-   //   Navigator.pop(context, branchModel);
-      Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => BranchList()));
+      //   Navigator.pop(context, branchModel);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => BranchList()));
     });
   }
 
@@ -495,12 +498,12 @@ class _EditBranchPageState extends State<EditBranchPage> {
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
       Navigator.pop(context);
-      Provider.of<BranchProvider>(context,listen: true).removeBranchFromList(widget.branchModel);
+      Provider.of<BranchProvider>(context, listen: true)
+          .removeBranchFromList(widget.branchModel);
       Navigator.pop(context);
 
 /*      Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) => BranchList()));*/
-
     });
   }
 }

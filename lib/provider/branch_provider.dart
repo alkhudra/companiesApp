@@ -7,12 +7,16 @@ import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
 class BranchProvider with ChangeNotifier {
   List<BranchModel>? branchList = [];
+  List<Cities>? citiesList = [];
 
   BuildContext context;
 
   BranchProvider(this.context);
 
 
+  setCities(List<Cities>? cities ){
+    citiesList =cities;
+  }
   setBranchList(List<BranchModel>? list){
     branchList = list;
     //notifyListeners();

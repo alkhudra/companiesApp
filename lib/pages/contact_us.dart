@@ -42,15 +42,15 @@ class _ContactUsState extends State<ContactUs> {
     );
   }
 
-
   //---------------------
 
   Widget getContactUsDesign(ContactUsResponseModel? model) {
-    String phone = model!.phoneNumber!;
-       String twitter= model.twitter!;
-    String email = model.email!;
-    num lat = model.latitude!;
-    num lng = model.longitude!;
+    print(model.toString());
+    String phone = model!.phoneNumber != null ? model.phoneNumber! : '';
+    String twitter = model.twitter != null ? model.twitter! : '';
+    String email = model.email != null ? model.email! : '';
+    num lat = model.latitude != null ? model.latitude! : 0;
+    num lng = model.longitude != null ? model.longitude! : 0;
 
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
@@ -154,7 +154,8 @@ class _ContactUsState extends State<ContactUs> {
                     // alignment: Alignment.center,
                     width: scWidth * 0.5,
                     child: Text(
-                      email,maxLines: 1,
+                      email,
+                      maxLines: 1,
                       style: TextStyle(
                           color: CustomColors().darkBlueColor,
                           fontSize: 15,
@@ -372,9 +373,11 @@ class _ContactUsState extends State<ContactUs> {
     HomeRepository homeRepository = HomeRepository(headerMap);
 
     ApiResponse apiResponse = await homeRepository.getContactInfo();
-    if (apiResponse.apiStatus.code == ApiResponseType.OK.code)
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+
+
       return ContactUsResponseModel.fromJson(apiResponse.result);
-    else
+    } else
       throw ExceptionHelper(apiResponse.message);
   }
 }

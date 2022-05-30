@@ -48,6 +48,7 @@ class AddToCartWidget extends StatelessWidget {
                     EdgeInsets.symmetric(horizontal: 5), () {
                     if (_isAddToCartBtnEnabled) {
                       _isAddToCartBtnEnabled = false;
+                      print('product id '+ productModel.productId!);
                       cartDBProcess(
                               context, productModel.productId!, addToCartConst)
                           .then((value) {

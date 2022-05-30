@@ -38,7 +38,6 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   double price = 6.0;
-  static String name = '', email = '';
   int counter = 0;
   int pageSize = listItemsCount;
   int pageNumber = 1;
@@ -47,14 +46,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
       isAddToCartBtnEnabled = true,
       isIncreaseBtnEnabled = true,
       isDecreaseBtnEnabled = true;
-  bool isThereMoreItems = false;
+  bool isThereMoreItems = false , _isFirstCall = true;
   final ScrollController _controller = ScrollController();
 
-  void setValues() async {
-    User user = await PreferencesHelper.getUser;
-    name = user.companyName!;
-    email = user.email!;
-  }
+
 
   void _scrollListener() {
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
@@ -65,7 +60,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   void initState() {
     super.initState();
-    setValues();
     _controller.addListener(_scrollListener);
   }
 
@@ -83,7 +77,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
         },
       ),
       appBar: bnbAppBar(context, LocaleKeys.favorites.tr()),
-      endDrawer: drawerDesignWithName(context, name, email),
     );
   }
 
@@ -92,10 +85,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Future callData() async {
     final provider = Provider.of<ProductProvider>(context, listen: false);
 
+
     if (provider.favList.isEmpty || provider.getLoadMoreDataStatus == true) {
       //----------start api ----------------
 
-      print('getting fav items from db');
+      print('@@@@@@@@@ getting fav items from db @@@@@@@@@@@');
       Map<String, dynamic> headerMap = await getHeaderMap();
 
       ProductRepository productRepository = ProductRepository(headerMap);
@@ -105,7 +99,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
             ProductListResponseModel.fromJson(apiResponse.result);
+
+
         provider.addItemsToFavList(responseModel.products);
+        provider.plusPageNumber();
+
 
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)
@@ -114,7 +112,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             provider.saveLoadMoreDataStatus(true);
         } else {
           provider.saveLoadMoreDataStatus(false);
-          provider.resetPageNumber();
+        //  provider.resetPageNumber();
         }
 
         print('loading more items btn in first call $isThereMoreItems');

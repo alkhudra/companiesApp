@@ -79,6 +79,7 @@ class AddToFavWidget extends StatelessWidget {
           MessageResponseModel.fromJson(apiResponse.result);
       showSuccessMessage(context, model.message!);
 
+
       return true;
     } else {
       throw ExceptionHelper(apiResponse.message);

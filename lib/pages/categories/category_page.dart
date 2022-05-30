@@ -36,7 +36,7 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   TextEditingController srController = TextEditingController();
   int pageSize = listItemsCount;
-
+  bool _isFirstCall = true;
   final ScrollController _controller = ScrollController();
   void _scrollListener() {
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
@@ -99,7 +99,11 @@ class _CategoryPageState extends State<CategoryPage> {
   Future getInfoFromDB(String categoryId) async {
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: false);
-
+    if(_isFirstCall){
+      provider.resetPageNumber();
+      provider.resetProductList();
+      _isFirstCall = false;
+    }
     if (provider.getLoadMoreDataStatus == true) {
       Map<String, dynamic> headerMap = await getHeaderMap();
 
@@ -111,7 +115,10 @@ class _CategoryPageState extends State<CategoryPage> {
         ProductListResponseModel? responseModel =
         ProductListResponseModel.fromJson(apiResponse.result);
 
+        //provider.resetFavProductList();
         provider.addItemsToProductList(responseModel.products);
+        provider.plusPageNumber();
+
 
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)

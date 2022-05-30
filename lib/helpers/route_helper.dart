@@ -6,7 +6,9 @@ import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';
+import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
+import 'package:provider/provider.dart';
 
 void moveToNewStack(BuildContext context, String routeString) {
   Navigator.of(context)
@@ -36,6 +38,7 @@ void logoutUser(context) async {
   PreferencesHelper.setUser(null);
   PreferencesHelper.setUserLoggedIn(false);
   PreferencesHelper.setUserFirstLogIn(false);
+  Provider.of<ProductProvider>(context, listen: false).clearProvider();
   moveToNewStack(context, loginRoute);
 
 }

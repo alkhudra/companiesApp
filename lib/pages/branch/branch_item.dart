@@ -34,6 +34,7 @@ class _BranchItemState extends State<BranchItem> {
       onTap: () {
         directToEditItem();
       },
+
       child: Container(
         height: scHeight * 0.08,
         decoration: BoxDecoration(

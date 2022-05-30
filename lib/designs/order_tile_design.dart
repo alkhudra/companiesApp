@@ -7,6 +7,7 @@ import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
+import 'package:khudrah_companies/pages/orders/order_list.dart';
 
 import '../pages/orders/order_details.dart';
 import '../resources/custom_colors.dart';
@@ -150,17 +151,18 @@ void directToOrderDetails(context, {model, orderId}) async {
           context,
           MaterialPageRoute(
               builder: (context) => OrderDetails(
-                    orderModel:responseModel,
-
+                    orderModel: responseModel,
                   )));
-    } else
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => OrderList()));
       print('fail direct ');
+    }
   } else if (model != null)
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => OrderDetails(
                   orderModel: model,
-
                 )));
 }
