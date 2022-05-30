@@ -4,9 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
-import 'package:khudrah_companies/pages/branch/add_brunches_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
-import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';
@@ -14,7 +12,6 @@ import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/notification_provider.dart';
 import 'package:khudrah_companies/provider/order_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
-import 'package:khudrah_companies/router/custom_route.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
 

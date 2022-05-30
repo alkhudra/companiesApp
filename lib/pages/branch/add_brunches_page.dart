@@ -109,7 +109,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               obscTxt: false,
               lbTxt: getBranchName(),
             ),
-            TextFieldDesign.textFieldStyle(
+            TextFieldDesign.phoneTextFieldStyle(
               context: context,
               verMarg: 5,
               horMarg: 0,
@@ -164,7 +164,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
-                    style: TextStyle(color: CustomColors().darkGrayColor),
+                    style: TextStyle(color: CustomColors().darkGrayColor, fontFamily: 'Almarai'),
                     onChanged: (String? newValue) {
                       setState(() {
                         if (newValue != dropdownValue) {
