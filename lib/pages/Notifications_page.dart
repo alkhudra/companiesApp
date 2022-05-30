@@ -27,7 +27,7 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  static String name = '', email = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +43,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
         );},
       ),
       appBar: bnbAppBar(context, LocaleKeys.notifications.tr()),
-      endDrawer: drawerDesignWithName(context, name, email),
     );
   }
 
@@ -156,14 +155,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
   void initState() {
     super.initState();
 
-    setValues();
   }
 
-  void setValues() async {
-    User user = await PreferencesHelper.getUser;
-    name = user.companyName!;
-    email = user.email!;
-  }
 
   Future getListData(NotificationProvider value) async{
 

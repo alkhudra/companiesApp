@@ -103,205 +103,120 @@ Widget cartTile(BuildContext context, String language,
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
 
-  return Column(children: [
-    ListTile(
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 5,
-          ),
-          GestureDetector(
-            onTap: () {
-              if (isDeleted == false &&
-                  isAvailable == true &&
-                  userQty <= stockQty)
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProductDetails(
-                              productModel: model,
+  return
+         Column(
+           children: [
+             GestureDetector(
+               onTap: () {
+                 if (isDeleted == false &&
+                     isAvailable == true &&
+                     userQty <= stockQty)
+                   Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                           builder: (context) => ProductDetails(
+                                 productModel: model,
 
-                            )));
-            },
-            child: Container(
-              width: double.infinity,
-              height: scHeight * 0.1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 75,
-                    height: 75,
-                    child: ImageHelper.productImage(model.image),
-                  ),
-                  //category, name and price
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //product name
-                      Container(
-                        child: Text(
-                          '$name',
-                          style: TextStyle(
-                              color: isAvailable == true || isDeleted == false
-                                  ? CustomColors().brownColor
-                                  : CustomColors().grayColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
+                               )));
+               },
+               child: ListTile(
+                 title: Column(
+                   mainAxisAlignment: MainAxisAlignment.start,
+                   children: [
+                     Container(
+                       width: double.infinity,
+                       height: scHeight * 0.1,
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                         children: [
+                           Container(
+                             width: 75,
+                             height: 75,
+                             child: ImageHelper.productImage(model.image),
+                           ),
+                           //category, name and price
+                           Column(
+                             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
+                               //product name
+                               Container(
+                                 child: Text(
+                                   '$name',
+                                   style: TextStyle(
+                                       color: isAvailable == true || isDeleted == false
+                                           ? CustomColors().brownColor
+                                           : CustomColors().grayColor,
+                                       fontWeight: FontWeight.w600),
+                                 ),
+                               ),
 
-                      // price
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text(
-                              getTextWithCurrency(price!),
-                              style: TextStyle(
-                                  color: isPriceChanged!
-                                      ? CustomColors().redColor
-                                      : isAvailable == true ||
-                                              isDeleted == false
-                                          ? CustomColors().primaryGreenColor
-                                          : CustomColors().grayColor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              ' ×  $userQty  ',
-                              style: TextStyle(
-                                  color: isQtyChanged == true
-                                      ? CustomColors().redColor
-                                      : isAvailable == true ||
-                                              isDeleted == false
-                                          ? CustomColors().primaryGreenColor
-                                          : CustomColors().grayColor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          SizedBox(
-                            width: scHeight * 0.08,
-                          ),
-                          Container(
-                            child: Text(
-                              getTextWithCurrency(productTotal),
-                              style: TextStyle(
-                                  color: isPriceChanged
-                                      ? CustomColors().redColor
-                                      : isAvailable == true ||
-                                              isDeleted == false
-                                          ? CustomColors().primaryGreenColor
-                                          : CustomColors().grayColor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  //counter
-                  /*     Container(
-                    width: scWidth * 0.071,
-                    height: scHeight * 0.13,
-                    decoration: BoxDecoration(
-                      color: CustomColors().grayColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            child: Text(
-                              '-',
-                              style: TextStyle(
-                                color: CustomColors().darkBlueColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            //Decrease count method
-                          },
-                        ),
-                        Container(
-                          child: Text(
-                            '$userQty',
-                            // '$counter',
-                            style: TextStyle(
-                              color: CustomColors().darkBlueColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            child: Text(
-                              '+',
-                              style: TextStyle(
-                                color: CustomColors().darkBlueColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            //increase count method
-                          },
-                        ),
-                      ],
-                    ),
-                  ),*/
-                  SizedBox(
-                    width: 10,
-                  ),
+                               // price
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                 children: [
+                                   Container(
+                                     child: Text(
+                                       getTextWithCurrency(price!),
+                                       style: TextStyle(
+                                           color: isPriceChanged!
+                                               ? CustomColors().redColor
+                                               : isAvailable == true ||
+                                                       isDeleted == false
+                                                   ? CustomColors().primaryGreenColor
+                                                   : CustomColors().grayColor,
+                                           fontWeight: FontWeight.w500),
+                                     ),
+                                   ),
+                                   Container(
+                                     child: Text(
+                                       ' ×  $userQty  ',
+                                       style: TextStyle(
+                                           color: isQtyChanged == true
+                                               ? CustomColors().redColor
+                                               : isAvailable == true ||
+                                                       isDeleted == false
+                                                   ? CustomColors().primaryGreenColor
+                                                   : CustomColors().grayColor,
+                                           fontWeight: FontWeight.w500),
+                                     ),
+                                   ),
+                                   SizedBox(
+                                     width: scHeight * 0.08,
+                                   ),
+                                   Container(
+                                     child: Text(
+                                       getTextWithCurrency(productTotal),
+                                       style: TextStyle(
+                                           color: isPriceChanged
+                                               ? CustomColors().redColor
+                                               : isAvailable == true ||
+                                                       isDeleted == false
+                                                   ? CustomColors().primaryGreenColor
+                                                   : CustomColors().grayColor,
+                                           fontWeight: FontWeight.w600),
+                                     ),
+                                   ),
 
-                  // Container(
-                  //   child: Stack(
-                  //     children: [
-                  //       VerticalDivider(
-                  //         thickness: 30,
-                  //         color: CustomColors().primaryGreenColor,
-                  //       ),
-                  //       Container(
-                  //         alignment: Alignment.center,
-                  //         width: 2,
-                  //         child: IconButton(
-                  //           onPressed: () {},
-                  //           icon: Icon(Icons.arrow_back_ios,
-                  //             color: CustomColors().darkGrayColor,),
-                  //           padding: EdgeInsets.zero,
-                  //           constraints: BoxConstraints(),
-                  //         ),
-                  //       ),
-                  //       // GestureDetector(
-                  //       //   child: Container(
-                  //       //     child: Center(child: Icon(Icons.arrow_back_ios_new_rounded)),
-                  //       //   ),
-                  //       //   onTap: () {},
-                  //       // ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
-    ),
-    Divider(
-      thickness: 1,
-      color: CustomColors().grayColor,
-    )
-  ]);
+
+                                 ],
+                               ),
+                             ],
+                           ),
+                         ],
+                       ),
+                     ),
+                   ],
+                 ),
+               ),
+             ),
+
+             Divider(
+               thickness: 1,
+               color: CustomColors().grayColor,
+             ),
+           ],
+         );
 }
 

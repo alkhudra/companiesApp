@@ -75,27 +75,32 @@ class TextFieldDesign {
         borderRadius: BorderRadius.circular(60),
         border: Border.all(color: CustomColors().primaryGreenColor, width: 1.5),
       ),
-      child: Expanded(
-        child: TextFormField(
-          enabled: enabled,
-          obscureText: obscTxt,
-          keyboardType: kbType,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validat,
-          style: TextStyle(
-              color: CustomColors().blackColor, fontWeight: FontWeight.w600),
-          decoration: InputDecoration(
-            labelText: lbTxt,
-            labelStyle: TextStyle(
-                color: CustomColors().blackColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w400),
-            contentPadding: EdgeInsets.only(left: 20, right: 20),
-            focusColor: CustomColors().blackColor,
-            border: InputBorder.none,
-            counterText: "",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: TextFormField(
+              enabled: enabled,
+              obscureText: obscTxt,
+              keyboardType: kbType,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: validat,
+              style: TextStyle(
+                  color: CustomColors().blackColor, fontWeight: FontWeight.w600),
+              decoration: InputDecoration(
+                labelText: lbTxt,
+                labelStyle: TextStyle(
+                    color: CustomColors().blackColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+                contentPadding: EdgeInsets.only(left: 20, right: 20),
+                focusColor: CustomColors().blackColor,
+                border: InputBorder.none,
+                counterText: "",
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -117,23 +122,29 @@ class TextFieldDesign {
         borderRadius: BorderRadius.circular(60),
         border: Border.all(color: CustomColors().primaryGreenColor, width: 1.5),
       ),
-      child: Expanded(
-        child: TextFormField(
-          //  initialValue: initValue,
-          controller: controller,
-          keyboardType: kbType,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validat,
-          style: TextStyle(
-              color: CustomColors().blackColor, fontWeight: FontWeight.w600),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(left: 20, right: 20),
-            //     hintText: initValue,
-            focusColor: CustomColors().blackColor,
-            border: InputBorder.none,
-            counterText: "",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+
+        children: [
+          Expanded(
+            child: TextFormField(
+              //  initialValue: initValue,
+              controller: controller,
+              keyboardType: kbType,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: validat,
+              style: TextStyle(
+                  color: CustomColors().blackColor, fontWeight: FontWeight.w600),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 20, right: 20),
+                //     hintText: initValue,
+                focusColor: CustomColors().blackColor,
+                border: InputBorder.none,
+                counterText: "",
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -155,27 +166,33 @@ class TextFieldDesign {
         borderRadius: BorderRadius.circular(40),
         border: Border.all(color: CustomColors().primaryGreenColor, width: 1.5),
       ),
-      child: Expanded(
-        child: TextFormField(
-          maxLines: 4,
-          //  initialValue: initValue,
-          controller: controller,
-          keyboardType: kbType,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validat,
-          style: TextStyle(color: CustomColors().blackColor, fontSize: 15),
-          decoration: InputDecoration(
-            labelText: initValue,
-            labelStyle: TextStyle(
-                color: CustomColors().blackColor.withOpacity(0.7),
-                fontSize: 16,
-                fontWeight: FontWeight.w400),
-            contentPadding: EdgeInsets.only(left: 20, right: 20, top: 10),
-            focusColor: CustomColors().blackColor,
-            border: InputBorder.none,
-            counterText: "",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+
+        children: [
+          Expanded(
+            child: TextFormField(
+              maxLines: 4,
+              //  initialValue: initValue,
+              controller: controller,
+              keyboardType: kbType,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: validat,
+              style: TextStyle(color: CustomColors().blackColor, fontSize: 15),
+              decoration: InputDecoration(
+                labelText: initValue,
+                labelStyle: TextStyle(
+                    color: CustomColors().blackColor.withOpacity(0.7),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+                contentPadding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                focusColor: CustomColors().blackColor,
+                border: InputBorder.none,
+                counterText: "",
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -183,6 +200,7 @@ class TextFieldDesign {
 
   static searchFieldStyle(
       {context,
+        bool? fromSearchPage,
       double? verMarg,
       double? horMarg,
       TextEditingController? controller,
@@ -204,7 +222,7 @@ class TextFieldDesign {
               textInputAction: TextInputAction.search,
               onFieldSubmitted: (value) {
                 if(controller!.text != '')
-                SearchHelper.directToSearchPage(context,controller);
+                SearchHelper.directToSearchPage(context,controller,fromSearchPage: fromSearchPage);
               },
               controller: controller,
 

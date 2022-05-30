@@ -32,7 +32,6 @@ class _OrderListState extends State<OrderList> {
   int pageSize = listItemsCount;
   // List<OrderHeader> list = [];
   bool isThereMoreItems = false;
-  static String name = '', email = '';
 
   final ScrollController _controller = ScrollController();
 
@@ -45,15 +44,10 @@ class _OrderListState extends State<OrderList> {
   @override
   void initState() {
     super.initState();
-    setValues();
     _controller.addListener(_scrollListener);
   }
 
-  void setValues() async {
-    User user = await PreferencesHelper.getUser;
-    name = user.companyName!;
-    email = user.email!;
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +65,6 @@ class _OrderListState extends State<OrderList> {
       ),
       // endDrawer: drawerDesign(context),
       appBar: bnbAppBar(context, LocaleKeys.my_orders.tr()),
-      endDrawer: drawerDesignWithName(context, name, email),
     );
   }
 //---------------------

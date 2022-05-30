@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
 
   //---------------------
 
-
+  bool _isLoadedHome = false;
   final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -214,22 +214,19 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(child:
-                /* Consumer<HomeProvider>(builder: (context, provider, child) {
-                   return*/ provider.productHomeListCount > 0
-                    ? ProductList(
+                provider.productHomeListCount > 0
+                 ? ProductList(
                   provider.homePageList,
                 )
-                    : noItemDesign(
-                    LocaleKeys.no_products.tr(), 'images/not_found.png')
-                ),
+                 : noItemDesign(
+                 LocaleKeys.no_products.tr(), 'images/not_found.png'),
               ],
             );}
           )
 ,
-          SizedBox(
+      /*    SizedBox(
             height: 30,
-          ),
+          ),*/
         ],
       ),
     );
@@ -249,8 +246,9 @@ class _HomePageState extends State<HomePage> {
 
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: false);
-    if(provider.homePageList!.isEmpty) {
-      print('getting home items from db');
+    if(_isLoadedHome == false){
+  //  if(provider.homePageList!.isEmpty) {
+      print('@@@@@@@@@@ getting home items from db @@@@@@@@@@@@@@@');
 
       Map<String, dynamic> headerMap = await getHeaderMap();
 
@@ -266,7 +264,11 @@ class _HomePageState extends State<HomePage> {
         Provider.of<BranchProvider>(context, listen: false)
             .setBranchList(model.user!.branches!);
 
+        _isLoadedHome = true;
 
+
+        provider. clearProvider();
+        print('user id '+ model.user!.id!);
         provider.setHomeProductList(model.productsList!);
         provider.setHomeCategoryList(model.categoriesList!);
         provider.setAlreadyHasDataStatus(true);

@@ -6,9 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:provider/provider.dart';
 
-class SearchHelper{
-  Widget searchBar(context, seController,fromSearchPage) {
-
+class SearchHelper {
+  bool _isSearchEnable = true;
+  Widget searchBar(context, seController, fromSearchPage) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -26,22 +26,21 @@ class SearchHelper{
           // SizedBox(width: 5,),
           Container(
             margin: EdgeInsets.only(left: 5, right: 5),
-            width: MediaQuery.of(context).size.width/1.3,
+            width: MediaQuery.of(context).size.width / 1.3,
             child: TextFieldDesign.searchFieldStyle(
               context: context,
               verMarg: 2,
               horMarg: 0,
               controller: seController,
-
+              fromSearchPage: fromSearchPage,
               initValue: LocaleKeys.search_term.tr(),
-
             ),
           ),
           GestureDetector(
             child: Container(
               padding: EdgeInsets.all(8.0),
-              width: MediaQuery.of(context).size.width*0.08,
-              height: MediaQuery.of(context).size.height*0.04,
+              width: MediaQuery.of(context).size.width * 0.08,
+              height: MediaQuery.of(context).size.height * 0.04,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('images/logo.png'),
@@ -49,9 +48,10 @@ class SearchHelper{
               ),
             ),
             onTap: () {
-              if(seController.text != ''){
-
-                  directToSearchPage(context, seController,fromSearchPage:fromSearchPage);
+              if (seController.text != '') {
+                if (_isSearchEnable)
+                  directToSearchPage(context, seController,
+                      fromSearchPage: fromSearchPage);
               }
             },
           ),
@@ -60,32 +60,31 @@ class SearchHelper{
     );
   }
 
+  static void directToSearchPage(
+      BuildContext context, TextEditingController? controller,
+      {fromSearchPage = false}) {
+    final provider = Provider.of<ProductProvider>(context, listen: false);
 
-
-
-  static void directToSearchPage(BuildContext context,TextEditingController? controller, {fromSearchPage = false}){
-
-    //todo: reset search provider here
-
-    Provider.of<ProductProvider>(context, listen: false).resetSearchList();
     String txt = controller!.text;
 
-/*    if(fromSearchPage)
+    if (fromSearchPage == true) {
+     // provider.resetSearchList();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => SearchListPage(
-              keyWords: txt,
-            )),
+                  keyWords: txt,
+                )),
       );
-    else*/
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SearchListPage(
-            keyWords: txt,
-          )),
-    );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SearchListPage(
+                  keyWords: txt,
+                )),
+      );
+    }
     FocusScope.of(context).unfocus();
     controller.clear();
   }

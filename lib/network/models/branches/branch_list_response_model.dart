@@ -93,7 +93,9 @@ class Cities {
  'enCityName' : cities.enCityName,
   };
 
-
-
+  @override
+  String toString() {
+    return 'Cities{_arCityName: $_arCityName, _enCityName: $_enCityName}';
+  }
 }
 

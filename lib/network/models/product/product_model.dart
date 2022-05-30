@@ -184,6 +184,6 @@ class ProductsModel {
 
   @override
   String toString() {
-    return 'ProductsModel{_arName: $_arName}';
+    return 'ProductsModel{_arName: $_arName, _userProductQuantity: $_userProductQuantity}';
   }
 }

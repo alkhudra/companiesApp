@@ -39,18 +39,19 @@ class BranchList extends StatefulWidget {
 }
 
 class _BranchListState extends State<BranchList> {
- static late List<Cities> cities ;
+
+  bool getData= false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarDesign(context, LocaleKeys.branch_list.tr()),
       backgroundColor: Colors.grey[100],
       body: Consumer<BranchProvider>(builder: (context, value, child) {
-        return FutureBuilder/*<BranchListResponseModel>*/(
+        return FutureBuilder(
           future: getListData(value),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return _buildBody(context, snapshot.data);
+              return _buildBody(context, value);
             } else
               return errorCase(snapshot);
           },
@@ -62,7 +63,7 @@ class _BranchListState extends State<BranchList> {
   //-----------------------
 
   Future getListData(BranchProvider value) async {
-    if (value.branchList!.isEmpty ) {
+    if (/*value.branchList!.isEmpty*/ getData == false ) {
       Map<String, dynamic> headerMap = await getHeaderMap();
       String companyId = await PreferencesHelper.getUserID;
 
@@ -74,57 +75,60 @@ class _BranchListState extends State<BranchList> {
         BranchListResponseModel? responseModel =
             BranchListResponseModel.fromJson(apiResponse.result);
 
-        cities = responseModel.cities!;
-        print(responseModel.branches.toString());
+     //   cities = responseModel.cities!;
+        print('cities '+ responseModel.cities.toString());
 
 
         PreferencesHelper.saveBranchesList(responseModel.branches!);
         PreferencesHelper.saveCitiesList(responseModel.cities!);
         value.setBranchList(responseModel.branches);
+        value.setCities(responseModel.cities);
 
-        return responseModel.branches;
+
+        getData = true;
+        return responseModel;
       } else {
         throw ExceptionHelper(apiResponse.message);
       }
     } else {
-      return value.branchList;
+      return value;
     }
   }
 
   //-----------------------
   Widget _buildBody(
-      BuildContext context, /*BranchListResponseModel? */ list) {
-    Size size = MediaQuery.of(context).size;
-    double scWidth = size.width;
-    double scHeight = size.height;
+      BuildContext context, BranchProvider  provider) {
 
+
+    List<Cities>  cities =  provider.citiesList!;
     //  cities = snapshot!.cities!;
-    return Column(children: [
-      Expanded(
-        child: list. /*branches!.*/ length > 0
-            ? ListView.builder(
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          provider.branchList!.  length > 0
+          ? Expanded(
+            child: ListView.builder(
                 itemBuilder: (context, index) {
                   //  print(snapshot?[index].toString());
                   return BranchItem(
-                    list: list /*.branches!*/,
+                    list:  provider.branchList! ,
                     index: index,
                     cities: cities,
                   );
                 },
-                itemCount: list. /*branches!.*/ length,
-              )
-            : noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
-      ),
+                itemCount:  provider.branchList!.length,
+              ),
+          )
+          : noItemDesign(LocaleKeys.no_branches.tr(), 'images/not_found.png'),
       greenBtn(LocaleKeys.add_new_branch.tr(), EdgeInsets.all(20), () {
-        directToAddBranch(list /*.branches!*/);
+        directToAddBranch( provider.branchList!, cities/*.branches!*/);
       }),
-      SizedBox(
-        height: 30,
-      ),
+
     ]);
   }
 
-  void directToAddBranch(List<BranchModel> list) {
+  void directToAddBranch(List<BranchModel> list, cities) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddBranchesPage(
         cities: cities,

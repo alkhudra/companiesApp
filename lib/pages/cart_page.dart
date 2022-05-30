@@ -136,88 +136,84 @@ class _CartPageState extends State<CartPage> {
       return SlidingUpPanel(
         body: Padding(
           padding: EdgeInsets.only(bottom: scHeight * 0.27),
-          child: Expanded(
-            child: Column(
-              children: [
-                if (unavailableItemsList.isNotEmpty == true || isPricesOrQtyChanged == true)
-                  Visibility(
-                      child: Container(
-                          //width: MediaQuery.of(context).size.width * 0.9,
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            priceMessage,
-                            style: TextStyle(
-                                color: CustomColors().blackColor,
-                                fontSize: 15),
-                          ),
-                          decoration: BoxDecoration(
-                            // border: Border.all(
-                            //   color: CustomColors().primaryGreenColor,
-                            // ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: CustomColors()
-                                    .blackColor
-                                    .withOpacity(0.4),
-                                offset: Offset(2, 2),
-                                blurRadius: 5,
-                                spreadRadius: 0.2,
-                              )
-                            ],
-                            color: CustomColors().contactBG,
-                          )),
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      visible: unavailableItemsList
-                          .isNotEmpty || isPricesOrQtyChanged == true
-                  ),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    // physics: ScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Slidable(
-                          key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: const BehindMotion(),
-                            dismissible: DismissiblePane(onDismissed: () {}),
-                            children: [
-                              SlidableAction(
-                                flex: 2,
-                                backgroundColor: CustomColors().redColor,
-                                icon: Icons.delete,
-                                label: LocaleKeys.delete_from_cart.tr(),
-                                onPressed: (BuildContext context) {
-                                  productId =
-                                      list[index].productModel!.productId!;
-                                  deleteFromCart(context,
-                                          index: index, productId: productId)
-                                      .then((result) {
-                                    if (result == true) {
-                                      setState(() {
-                                        //   Navigator.pop(context);
-                                        isTrashBtnEnabled = true;
-                                        list.removeAt(index);
-                                      });
-                                    } else {
-                                      showErrorMessageDialog(
-                                          context, LocaleKeys.wrong_error.tr());
-                                    }
-                                  });
-                                },
-                              )
-                            ],
-                          ),
-                          child:
-                              cartTile(context, language, list, index));
-                    },
-                    itemCount: list.length,
-                  ),
+          child: Column(
+            children: [
+              if (unavailableItemsList.isNotEmpty == true || isPricesOrQtyChanged == true)
+                Visibility(
+                    child: Container(
+                        //width: MediaQuery.of(context).size.width * 0.9,
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          priceMessage,
+                          style: TextStyle(
+                              color: CustomColors().blackColor,
+                              fontSize: 15),
+                        ),
+                        decoration: BoxDecoration(
+                          // border: Border.all(
+                          //   color: CustomColors().primaryGreenColor,
+                          // ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: CustomColors()
+                                  .blackColor
+                                  .withOpacity(0.4),
+                              offset: Offset(2, 2),
+                              blurRadius: 5,
+                              spreadRadius: 0.2,
+                            )
+                          ],
+                          color: CustomColors().contactBG,
+                        )),
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    visible: unavailableItemsList
+                        .isNotEmpty || isPricesOrQtyChanged == true
                 ),
-                // SizedBox(height: 40,)
-              ],
-            ),
+              ListView.builder(
+                shrinkWrap: true,
+                // physics: ScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Slidable(
+                      key: const ValueKey(0),
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        dismissible: DismissiblePane(onDismissed: () {}),
+                        children: [
+                          SlidableAction(
+                            flex: 2,
+                            backgroundColor: CustomColors().redColor,
+                            icon: Icons.delete,
+                            label: LocaleKeys.delete_from_cart.tr(),
+                            onPressed: (BuildContext context) {
+                              productId =
+                                  list[index].productModel!.productId!;
+                              deleteFromCart(context,
+                                      index: index, productId: productId)
+                                  .then((result) {
+                                if (result == true) {
+                                  setState(() {
+                                    //   Navigator.pop(context);
+                                    isTrashBtnEnabled = true;
+                                    list.removeAt(index);
+                                  });
+                                } else {
+                                  showErrorMessageDialog(
+                                      context, LocaleKeys.wrong_error.tr());
+                                }
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                      child:
+                          cartTile(context, language, list, index));
+                },
+                itemCount: list.length,
+              ),
+              // SizedBox(height: 40,)
+            ],
           ),
         ),
         minHeight: scHeight * 0.07,

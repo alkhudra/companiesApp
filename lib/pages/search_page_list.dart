@@ -35,7 +35,7 @@ class _SearchListPageState extends State<SearchListPage> {
   final TextEditingController searchController = TextEditingController();
 
   int pageSize = listItemsCount;
-
+  bool _isNewSearch = true;
   final ScrollController _controller = ScrollController();
   void _scrollListener() {
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
@@ -125,11 +125,15 @@ class _SearchListPageState extends State<SearchListPage> {
   //---------------------
 
   Future getSearchResult(String searchWord) async {
-    ////todo: problem in search
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: true);
 
-    if (provider.isNewSearch || provider.getLoadMoreDataStatus) {
+    if(_isNewSearch){
+      provider.resetSearchList();
+      _isNewSearch = false;
+    }
+
+    if ( provider.searchPageList.isEmpty || provider.getLoadMoreDataStatus == true) {
       Map<String, dynamic> headerMap = await getHeaderMap();
 
       ProductRepository productRepository = ProductRepository(headerMap);
@@ -142,7 +146,10 @@ class _SearchListPageState extends State<SearchListPage> {
 
         print('search word is '+ searchWord);
         print('result is '+ responseModel.products.toString());
+
+
         provider.addItemsToSearchList(responseModel.products);
+        provider.plusPageNumber();
 
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)
@@ -153,6 +160,8 @@ class _SearchListPageState extends State<SearchListPage> {
           provider.saveLoadMoreDataStatus(false);
           provider.resetPageNumber();
         }
+
+      //  _isNewSearch = provider.getLoadMoreDataStatus == true ? true: false;
         return responseModel.products;
       } else
         throw ExceptionHelper(apiResponse.message);
