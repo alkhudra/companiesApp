@@ -41,8 +41,11 @@ class _CategoryPageState extends State<CategoryPage> {
   bool _isFirstCall = true;
   final ScrollController _controller = ScrollController();
   void _scrollListener() {
+    print('//// get data from listener /// ');
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
       getInfoFromDB(widget.categoriesItem.id!);
+      print('///// call data done ////');
+
     }
   }
 
@@ -116,6 +119,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
       ApiResponse apiResponse = await productRepository.getProductByCategory(
           categoryId, pageSize, provider.pageNumber);
+      print('category id is $categoryId');
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
             ProductListResponseModel.fromJson(apiResponse.result);

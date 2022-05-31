@@ -13,6 +13,7 @@ import 'package:khudrah_companies/dialogs/passowrd_dialog.dart';
 import 'package:khudrah_companies/dialogs/progress_dialog.dart';
 import 'package:khudrah_companies/helpers/custom_btn.dart';
 import 'package:khudrah_companies/helpers/info_correcter_helper.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/helpers/pref/pref_manager.dart';
 import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
@@ -272,10 +273,7 @@ class _EditProfileState extends State<EditProfile> {
       showSuccessMessage(context, model.message!);
 
       PreferencesHelper.setUser(model.user!);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //replace with dashboard
-        return DashboardPage();
-      }));
+      moveToNewStack(context, dashBoardRoute);
     });
   }
 

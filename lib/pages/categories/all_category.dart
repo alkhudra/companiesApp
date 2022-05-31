@@ -39,6 +39,7 @@ class _AllCategoryState extends State<AllCategory> {
   final ScrollController _controller = ScrollController();
 
   void _scrollListener() {
+    print('/////////// @@@@@@@@@@@@@@@@@@@ run listenner');
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
       getInfoFromDB();
     }
@@ -107,6 +108,7 @@ class _AllCategoryState extends State<AllCategory> {
     }
     if (provider.getLoadMoreDataStatus == true) {
       //----------start api ----------------
+      print('get product list from db');
 
       Map<String, dynamic> headerMap = await getHeaderMap();
 

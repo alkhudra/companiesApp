@@ -26,6 +26,7 @@ class ProductProvider with ChangeNotifier {
     productsList = [];
     isThereMoreItems = true;
     //  notifyListeners();
+    print('/////////// @@@@@@@@@@@@@@@@@@@ product list reset done');
   }
 
   clearProvider() {
