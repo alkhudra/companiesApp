@@ -23,6 +23,8 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:provider/provider.dart';
 
+import '../search_page_list.dart';
+
 class AllCategory extends StatefulWidget {
   const AllCategory({Key? key}) : super(key: key);
 
@@ -85,7 +87,11 @@ class _AllCategoryState extends State<AllCategory> {
   Widget getListDesign() {
     return Consumer<ProductProvider>(builder: (context, provider, child) {
       return provider.productListCount > 0
-          ? ProductList(provider.productsList,enablePaging: true,controller: _controller,)
+          ? ProductList(
+              provider.productsList,
+              enablePaging: true,
+              controller: _controller,
+            )
           : noItemDesign(
               LocaleKeys.no_items_category.tr(), 'images/not_found.png');
     });
@@ -94,7 +100,7 @@ class _AllCategoryState extends State<AllCategory> {
   Future getInfoFromDB() async {
     final provider = Provider.of<ProductProvider>(context, listen: true);
 
-    if(_isFirstCall){
+    if (_isFirstCall) {
       provider.resetPageNumber();
       provider.resetProductList();
       _isFirstCall = false;
@@ -111,8 +117,6 @@ class _AllCategoryState extends State<AllCategory> {
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
             ProductListResponseModel.fromJson(apiResponse.result);
-
-
 
         provider.addItemsToProductList(responseModel.products);
         provider.plusPageNumber();
@@ -135,6 +139,5 @@ class _AllCategoryState extends State<AllCategory> {
   }
 
   //-------------------
-
 
 }

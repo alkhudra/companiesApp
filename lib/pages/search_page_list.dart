@@ -24,8 +24,10 @@ import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:provider/provider.dart';
 
 class SearchListPage extends StatefulWidget {
+/*
   final String keyWords;
   const SearchListPage({Key? key, required this.keyWords}) : super(key: key);
+*/
 
   @override
   _SearchListPageState createState() => _SearchListPageState();
@@ -35,11 +37,16 @@ class _SearchListPageState extends State<SearchListPage> {
   final TextEditingController searchController = TextEditingController();
 
   int pageSize = listItemsCount;
-  bool _isNewSearch = true;
+  bool _isStartSearch = false;
+  List<ProductsModel> list = [];
+  int pageNumber = 1;
+  String keyWord = '';
+
+  bool _isMoreItems = true;
   final ScrollController _controller = ScrollController();
   void _scrollListener() {
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-      getSearchResult(widget.keyWords);
+      getSearchResult(searchController.text);
     }
   }
 
@@ -51,11 +58,12 @@ class _SearchListPageState extends State<SearchListPage> {
 
   @override
   Widget build(BuildContext context) {
-    String keyWord = widget.keyWords;
+    //String keyWord = widget.keyWords;
     return Scaffold(
       appBar: appBarDesign(context, LocaleKeys.search_title.tr()),
       // key: _scaffoldState,
-      body: FutureBuilder(
+      body: searchPageDesign(),
+      /*    body: FutureBuilder(
         future: getSearchResult(keyWord),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -63,15 +71,14 @@ class _SearchListPageState extends State<SearchListPage> {
           } else
             return errorCase(snapshot);
         },
-      ),
+      ),*/
     );
   }
 
   //---------------------
 
-  Widget searchPageDesign(String keyWord) {
+  Widget searchPageDesign(/*String keyWord*/) {
     Size size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -82,7 +89,14 @@ class _SearchListPageState extends State<SearchListPage> {
           ),
           //Search bar and button
           Container(
-            child: SearchHelper().searchBar(context, searchController, true),
+            child: SearchHelper().searchBar(context, searchController, true,
+                onclickAction: () {
+              if (searchController.text != '') {
+                getSearchResult(searchController.text);
+                FocusScope.of(context).unfocus();
+              }
+              //  searchController.clear();
+            }),
           ),
           SizedBox(
             height: 20,
@@ -92,81 +106,88 @@ class _SearchListPageState extends State<SearchListPage> {
             height: 10,
           ),
           //Newest deals title and button
-          Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Text(
-              LocaleKeys.search_result.tr() + '  "$keyWord"',
-              style: TextStyle(
-                color: CustomColors().darkBlueColor,
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-
-          Consumer<ProductProvider>(builder: (context, provider, child) {
-            return provider.searchPageListCount > 0
-                ? ProductList(
-                    provider.searchPageList,
-                    enablePaging: true,
-                    controller: _controller,
-                  )
-                : noItemDesign(
-                    LocaleKeys.no_result.tr(), 'images/not_found.png');
-          }),
+          if (_isStartSearch == true)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  child: Text(
+                    LocaleKeys.search_result.tr() + '  ' + keyWord,
+                    style: TextStyle(
+                      color: CustomColors().darkBlueColor,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                list.length > 0
+                    ? ProductList(
+                        list,
+                        enablePaging: true,
+                        controller: _controller,
+                      )
+                    : noItemDesign(
+                        LocaleKeys.no_result.tr(), 'images/not_found.png')
+              ],
+            )
+          //   }),
         ],
       ),
     );
   }
   //---------------------
 
-  Future getSearchResult(String searchWord) async {
+  void getSearchResult(String searchWord) async {
     //----------start api ----------------
-    final provider = Provider.of<ProductProvider>(context, listen: true);
 
-    if(_isNewSearch){
-      provider.resetSearchList();
-      _isNewSearch = false;
-    }
+    showLoaderDialog(context);
+    Map<String, dynamic> headerMap = await getHeaderMap();
+    ProductRepository productRepository = ProductRepository(headerMap);
 
-    if ( provider.searchPageList.isEmpty || provider.getLoadMoreDataStatus == true) {
-      Map<String, dynamic> headerMap = await getHeaderMap();
+    ApiResponse apiResponse = await productRepository.getSearchProducts(
+        searchWord, pageSize, pageNumber);
 
-      ProductRepository productRepository = ProductRepository(headerMap);
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      ProductListResponseModel? responseModel =
+          ProductListResponseModel.fromJson(apiResponse.result);
 
-      ApiResponse apiResponse = await productRepository.getSearchProducts(
-          searchWord, pageSize, provider.pageNumber);
-      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-        ProductListResponseModel? responseModel =
-            ProductListResponseModel.fromJson(apiResponse.result);
-
-        print('search word is '+ searchWord);
-        print('result is '+ responseModel.products.toString());
-
-
-        provider.addItemsToSearchList(responseModel.products);
-        provider.plusPageNumber();
-
-        if (responseModel.products.length > 0) {
-          if (responseModel.products.length < listItemsCount)
-            provider.saveLoadMoreDataStatus(false);
-          else
-            provider.saveLoadMoreDataStatus(true);
+      print('search word is ' + searchWord);
+      print('result is ' + responseModel.products.toString());
+      if (responseModel.products.length > 0) {
+        if (responseModel.products.length < listItemsCount) {
+          _isMoreItems = false;
+          pageNumber = 1;
         } else {
-          provider.saveLoadMoreDataStatus(false);
-          provider.resetPageNumber();
+          _isMoreItems = true;
+          pageNumber += 1;
         }
+      } else {
+        _isMoreItems = false;
+        pageNumber = 1;
+      }
 
-      //  _isNewSearch = provider.getLoadMoreDataStatus == true ? true: false;
-        return responseModel.products;
-      } else
-        throw ExceptionHelper(apiResponse.message);
+      if (pageNumber == 1)
+        list = responseModel.products;
+      else
+        list.addAll(responseModel.products);
+
+      Navigator.pop(context);
+      setState(() {
+        keyWord = searchController.text != null ? searchController.text : '';
+
+        _isStartSearch = true;
+      });
+      Provider.of<ProductProvider>(context, listen: false)
+          .addItemsToProductList(responseModel.products);
+
     } else
-      return provider.searchPageList;
+      throw ExceptionHelper(apiResponse.message);
   }
   //---------------------
 

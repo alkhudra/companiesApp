@@ -22,7 +22,6 @@ class HomeRepository {
   }
 
   Future<ApiResponse> getHomeInfo(context) async {
-
     return await _client
         .getHomeInfo()
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
@@ -37,9 +36,10 @@ class HomeRepository {
             errorMessage = res.statusMessage!;
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
-            } if(errorCode == 401)
+            }
+            if (errorCode == 401)
               logoutUser(context);
-              else
+            else
               errorMessage = LocaleKeys.wrong_error.tr();
           }
           break;
@@ -51,7 +51,7 @@ class HomeRepository {
       return ApiResponse(apiResponseType, null, errorMessage);
     });
   }
-  
+
 //-----------------
 
   Future<ApiResponse> updateProfile(
@@ -100,7 +100,7 @@ class HomeRepository {
                 if (errorCode == 400) {
                   // final de = jsonDecode(res.data.toString());
                   ErrorResponseModel errorResponseModel =
-                  ErrorResponseModel.fromJson(res.data);
+                      ErrorResponseModel.fromJson(res.data);
                   errorMessage = errorResponseModel.error!.message!;
                   print(errorMessage);
                 }
@@ -120,7 +120,6 @@ class HomeRepository {
 //-----------------
 
   Future<ApiResponse> getContactInfo() async {
-
     return await _client
         .getContactInfo()
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
@@ -135,9 +134,10 @@ class HomeRepository {
             errorMessage = res.statusMessage!;
             if (errorCode == 500) {
               errorMessage = res.data['Message'];
-            } else
-              errorMessage = LocaleKeys.wrong_error.tr();
-          }
+            }
+          } else
+            errorMessage = LocaleKeys.wrong_error.tr();
+
           break;
         default:
       }

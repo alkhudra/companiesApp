@@ -24,6 +24,8 @@ import 'package:khudrah_companies/network/models/product/category_model.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:provider/provider.dart';
 
+import '../search_page_list.dart';
+
 class CategoryPage extends StatefulWidget {
   final CategoryItem categoriesItem;
   const CategoryPage({Key? key, required this.categoriesItem})
@@ -52,7 +54,6 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -88,9 +89,13 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget getListDesign() {
     return Consumer<ProductProvider>(builder: (context, provider, child) {
       return provider.productListCount > 0
-          ? ProductList(provider.productsList,enablePaging: true,controller: _controller,)
+          ? ProductList(
+              provider.productsList,
+              enablePaging: true,
+              controller: _controller,
+            )
           : noItemDesign(
-          LocaleKeys.no_items_category.tr(), 'images/not_found.png');
+              LocaleKeys.no_items_category.tr(), 'images/not_found.png');
     });
   }
 
@@ -99,7 +104,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Future getInfoFromDB(String categoryId) async {
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: false);
-    if(_isFirstCall){
+    if (_isFirstCall) {
       provider.resetPageNumber();
       provider.resetProductList();
       _isFirstCall = false;
@@ -113,12 +118,11 @@ class _CategoryPageState extends State<CategoryPage> {
           categoryId, pageSize, provider.pageNumber);
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
-        ProductListResponseModel.fromJson(apiResponse.result);
+            ProductListResponseModel.fromJson(apiResponse.result);
 
         //provider.resetFavProductList();
         provider.addItemsToProductList(responseModel.products);
         provider.plusPageNumber();
-
 
         if (responseModel.products.length > 0) {
           if (responseModel.products.length < listItemsCount)
@@ -133,14 +137,13 @@ class _CategoryPageState extends State<CategoryPage> {
         return responseModel.products;
       } else
         throw ExceptionHelper(apiResponse.message);
-    }else
+    } else
       return provider.productsList;
   }
+
   String? setCategoryName(CategoryItem categoryList) {
-    String language =  Provider.of<GeneralProvider>(context, listen: true)
+    String language = Provider.of<GeneralProvider>(context, listen: true)
         .userSelectedLanguage;
     return language == 'ar' ? categoryList.arName : categoryList.name;
   }
-
-
 }

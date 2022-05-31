@@ -86,7 +86,8 @@ class TextFieldDesign {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: validat,
               style: TextStyle(
-                  color: CustomColors().blackColor, fontWeight: FontWeight.w600),
+                  color: CustomColors().blackColor,
+                  fontWeight: FontWeight.w600),
               decoration: InputDecoration(
                 labelText: lbTxt,
                 labelStyle: TextStyle(
@@ -124,7 +125,6 @@ class TextFieldDesign {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-
         children: [
           Expanded(
             child: TextFormField(
@@ -134,7 +134,8 @@ class TextFieldDesign {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: validat,
               style: TextStyle(
-                  color: CustomColors().blackColor, fontWeight: FontWeight.w600),
+                  color: CustomColors().blackColor,
+                  fontWeight: FontWeight.w600),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: 20, right: 20),
                 //     hintText: initValue,
@@ -168,7 +169,6 @@ class TextFieldDesign {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-
         children: [
           Expanded(
             child: TextFormField(
@@ -200,11 +200,12 @@ class TextFieldDesign {
 
   static searchFieldStyle(
       {context,
-        bool? fromSearchPage,
+      bool? fromSearchPage,
       double? verMarg,
       double? horMarg,
       TextEditingController? controller,
-      String? initValue}) {
+      String? initValue,
+      onActionClicked}) {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
@@ -221,11 +222,20 @@ class TextFieldDesign {
             child: TextFormField(
               textInputAction: TextInputAction.search,
               onFieldSubmitted: (value) {
-                if(controller!.text != '')
-                SearchHelper.directToSearchPage(context,controller,fromSearchPage: fromSearchPage);
+                if (fromSearchPage == true) {
+                  if (controller!.text != '') onActionClicked();
+                }
+              },
+              readOnly: !fromSearchPage!,
+              onTap: () {
+                if (fromSearchPage == false)
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchListPage()),
+                  );
               },
               controller: controller,
-
+              maxLines: 1,
               keyboardType: TextInputType.text,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               style: TextStyle(

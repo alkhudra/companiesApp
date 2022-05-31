@@ -30,7 +30,7 @@ class _ContactUsState extends State<ContactUs> {
       // endDrawer: drawerDesign(context),
       backgroundColor: Colors.grey[100],
       appBar: appBarDesign(context, LocaleKeys.contact_us.tr()),
-      body: FutureBuilder<ContactUsResponseModel?>(
+      body: FutureBuilder<dynamic>(
         future: getContactUsInfo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -44,9 +44,10 @@ class _ContactUsState extends State<ContactUs> {
 
   //---------------------
 
-  Widget getContactUsDesign(ContactUsResponseModel? model) {
+  Widget getContactUsDesign(ContactUsResponseModel model) {
+
     print(model.toString());
-    String phone = model!.phoneNumber != null ? model.phoneNumber! : '';
+    String phone = model.phoneNumber != null ? model.phoneNumber! : '';
     String twitter = model.twitter != null ? model.twitter! : '';
     String email = model.email != null ? model.email! : '';
     num lat = model.latitude != null ? model.latitude! : 0;
@@ -373,10 +374,13 @@ class _ContactUsState extends State<ContactUs> {
     HomeRepository homeRepository = HomeRepository(headerMap);
 
     ApiResponse apiResponse = await homeRepository.getContactInfo();
+
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      print(apiResponse.result);
 
 
-      return ContactUsResponseModel.fromJson(apiResponse.result);
+        return ContactUsResponseModel.fromJson(apiResponse.result);
+
     } else
       throw ExceptionHelper(apiResponse.message);
   }

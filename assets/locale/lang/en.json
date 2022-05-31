@@ -185,7 +185,7 @@
   "on_delivery": "On Delivery",
   "completed_order": "Delivered!",
   "no_current_orders": "There are no current orders ",
-  "no_finished_orders": "There are no finished orders ",
+  "no_finished_orders": "There are no orders ",
   "items": "items",
   "apple_pay": "Apple Pay",
   "stc_pay": "STC Pay",
