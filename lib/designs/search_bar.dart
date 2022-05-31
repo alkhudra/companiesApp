@@ -7,34 +7,23 @@ import 'package:khudrah_companies/provider/product_provider.dart';
 import 'package:provider/provider.dart';
 
 class SearchHelper {
-  bool _isSearchEnable = true;
-  Widget searchBar(context, seController, fromSearchPage) {
+  Widget searchBar(context, seController, fromSearchPage, {onclickAction}) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // SizedBox(width: 10,),
-          // Container(
-          //   child: IconButton(
-          //     icon: Icon(Icons.menu_rounded,),
-          //     color: CustomColors().brownColor,
-          //     iconSize: 28,
-          //     onPressed: () {},
-          //   ),
-          // ),
-          // SizedBox(width: 5,),
           Container(
             margin: EdgeInsets.only(left: 5, right: 5),
             width: MediaQuery.of(context).size.width / 1.3,
             child: TextFieldDesign.searchFieldStyle(
-              context: context,
-              verMarg: 2,
-              horMarg: 0,
-              controller: seController,
-              fromSearchPage: fromSearchPage,
-              initValue: LocaleKeys.search_term.tr(),
-            ),
+                context: context,
+                verMarg: 2,
+                horMarg: 0,
+                controller: seController,
+                fromSearchPage: fromSearchPage,
+                initValue: LocaleKeys.search_term.tr(),
+                onActionClicked: onclickAction),
           ),
           GestureDetector(
             child: Container(
@@ -47,45 +36,18 @@ class SearchHelper {
                 ),
               ),
             ),
-            onTap: () {
-              if (seController.text != '') {
-                if (_isSearchEnable)
-                  directToSearchPage(context, seController,
-                      fromSearchPage: fromSearchPage);
-              }
-            },
+            onTap: fromSearchPage == true
+                ? onclickAction
+                : () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchListPage()),
+                    );
+                    FocusScope.of(context).unfocus();
+                  },
           ),
         ],
       ),
     );
-  }
-
-  static void directToSearchPage(
-      BuildContext context, TextEditingController? controller,
-      {fromSearchPage = false}) {
-    final provider = Provider.of<ProductProvider>(context, listen: false);
-
-    String txt = controller!.text;
-
-    if (fromSearchPage == true) {
-     // provider.resetSearchList();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SearchListPage(
-                  keyWords: txt,
-                )),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SearchListPage(
-                  keyWords: txt,
-                )),
-      );
-    }
-    FocusScope.of(context).unfocus();
-    controller.clear();
   }
 }

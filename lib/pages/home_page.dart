@@ -26,6 +26,7 @@ import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/repository/home_repository.dart';
 import 'package:khudrah_companies/pages/categories/all_category.dart';
 import 'package:khudrah_companies/pages/products/product_list.dart';
+import 'package:khudrah_companies/pages/search_page_list.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/genral_provider.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';
@@ -75,9 +76,12 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             return homePageDesign();
           } else {
-            if (Provider.of<ProductProvider>(context, listen: false).alreadyHasData == false)
-            return  errorCase(snapshot);
-            else return errorCaseInProviderCase(snapshot,homePageDesign());
+            if (Provider.of<ProductProvider>(context, listen: false)
+                    .alreadyHasData ==
+                false)
+              return errorCase(snapshot);
+            else
+              return errorCaseInProviderCase(snapshot, homePageDesign());
           }
         },
       ),
@@ -86,7 +90,6 @@ class _HomePageState extends State<HomePage> {
 
   //---------------------
   Widget homePageDesign() {
-
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -101,7 +104,6 @@ class _HomePageState extends State<HomePage> {
     }*/
     /*name = home.user!.companyName!;
     email = home.user!.email!;*/
-
 
     return SingleChildScrollView(
       child: Column(
@@ -132,13 +134,11 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-        Consumer<ProductProvider>(
-            builder: (context, provider, child) {
-
-
-              return Column(
+          Consumer<ProductProvider>(builder: (context, provider, child) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 //Categories items
                 Container(
                   margin: EdgeInsets.only(top: 25),
@@ -153,18 +153,20 @@ class _HomePageState extends State<HomePage> {
                             width: scWidth * 0.23,
                             // height: scHeight * 0.11,
                             height: scHeight * 0.1,
-                            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 3),
                             child: GestureDetector(
                               child: ImageHelper.categoryImage(
-                                  provider.  categoryList[index].image),
+                                  provider.categoryList[index].image),
                               onTap: () {
                                 if (index != 0) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => CategoryPage(
-                                          categoriesItem: provider.categoryList[index],
-                                        )),
+                                              categoriesItem:
+                                                  provider.categoryList[index],
+                                            )),
                                   );
                                 } else {
                                   Navigator.push(
@@ -188,7 +190,8 @@ class _HomePageState extends State<HomePage> {
                         ],
                       );
                     },
-                    itemCount: provider.categoryListCount,//categoryList.length,
+                    itemCount:
+                        provider.categoryListCount, //categoryList.length,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                   ),
@@ -200,7 +203,7 @@ class _HomePageState extends State<HomePage> {
 
                 //Temp gesture detect, remove when done
                 Container(
-              //    margin: EdgeInsets.only(left: 15, right: 15),
+                  margin: EdgeInsets.only(left: 15, right: 15),
                   child: Text(
                     LocaleKeys.newest_deals.tr(),
                     style: TextStyle(
@@ -215,16 +218,15 @@ class _HomePageState extends State<HomePage> {
                   height: 10,
                 ),
                 provider.productHomeListCount > 0
-                 ? ProductList(
-                  provider.homePageList,
-                )
-                 : noItemDesign(
-                 LocaleKeys.no_products.tr(), 'images/not_found.png'),
+                    ? ProductList(
+                        provider.homePageList,
+                      )
+                    : noItemDesign(
+                        LocaleKeys.no_products.tr(), 'images/not_found.png'),
               ],
-            );}
-          )
-,
-      /*    SizedBox(
+            );
+          }),
+          /*    SizedBox(
             height: 30,
           ),*/
         ],
@@ -242,12 +244,10 @@ class _HomePageState extends State<HomePage> {
 
   //---------------------
   Future getHomePage() async {
-
-
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: false);
-    if(_isLoadedHome == false){
-  //  if(provider.homePageList!.isEmpty) {
+    if (provider.alreadyHasData == false || _isLoadedHome == false) {
+      //  if(provider.homePageList!.isEmpty) {
       print('@@@@@@@@@@ getting home items from db @@@@@@@@@@@@@@@');
 
       Map<String, dynamic> headerMap = await getHeaderMap();
@@ -257,8 +257,7 @@ class _HomePageState extends State<HomePage> {
       ApiResponse apiResponse = await homeRepository.getHomeInfo(context);
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         HomeSuccessResponseModel model =
-        HomeSuccessResponseModel.fromJson(apiResponse.result);
-
+            HomeSuccessResponseModel.fromJson(apiResponse.result);
 
         PreferencesHelper.saveBranchesList(model.user!.branches!);
         Provider.of<BranchProvider>(context, listen: false)
@@ -266,9 +265,8 @@ class _HomePageState extends State<HomePage> {
 
         _isLoadedHome = true;
 
-
-        provider. clearProvider();
-        print('user id '+ model.user!.id!);
+        provider.clearProvider();
+        print('user id ' + model.user!.id!);
         provider.setHomeProductList(model.productsList!);
         provider.setHomeCategoryList(model.categoriesList!);
         provider.setAlreadyHasDataStatus(true);
@@ -278,7 +276,8 @@ class _HomePageState extends State<HomePage> {
       } else {
         throw ExceptionHelper(apiResponse.message);
       }
-    }return provider.getHomeModel;
+    }
+    return provider.getHomeModel;
   }
 
   //---------------------

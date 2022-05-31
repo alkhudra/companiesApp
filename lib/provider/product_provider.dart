@@ -137,7 +137,7 @@ class ProductProvider with ChangeNotifier {
     addItemsToCartList(cartList1);
     print('product list items is ' + productsList.toString());
 
-    notifyListeners();
+ //   notifyListeners();
   }
 
   ////////////////////////////
@@ -212,6 +212,8 @@ class ProductProvider with ChangeNotifier {
     searchPageList.addAll(pagingList
         .where((a) => searchPageList.every((b) => a.productId != b.productId)));
 
+
+    print('search list is ' + searchPageList .toString());
     addItemsToProductList(pagingList);
   }
 
@@ -327,6 +329,7 @@ class ProductProvider with ChangeNotifier {
 
   void saveLoadMoreDataStatus(bool newStatus) {
     isThereMoreItems = newStatus;
+    print('isThereMoreItems == $isThereMoreItems');
     notifyListeners();
   }
 
@@ -342,6 +345,8 @@ class ProductProvider with ChangeNotifier {
 
   void resetPageNumber() {
     pageNumber = 1;
+    print(' /// pageNumber now is $pageNumber /// ');
+
   }
 
   int get getPageNumber {
