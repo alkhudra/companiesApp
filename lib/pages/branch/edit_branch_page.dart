@@ -122,7 +122,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
               controller: nameController,
               kbType: TextInputType.name,
               obscTxt: false,
-              lbTxt: getBranchName(),
+              lbTxt: getBranchName(),              textInputAction: TextInputAction.next,
+
             ),
             TextFieldDesign.textFieldStyle(
               context: context,
@@ -131,7 +132,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
               controller: phoneController,
               kbType: TextInputType.phone,
               obscTxt: false,
-              lbTxt: getPhoneTxt(),
+              lbTxt: getPhoneTxt(),   textInputAction: TextInputAction.next,
             ),
             TextFieldDesign.textFieldStyle(
               context: context,
@@ -139,7 +140,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
               horMarg: 0,
               controller: districtController,
               kbType: TextInputType.name,
-              obscTxt: false,
+              obscTxt: false,   textInputAction: TextInputAction.next,
               lbTxt: getBranchDistrict(),
             ),
             TextFieldDesign.textFieldStyle(
@@ -148,13 +149,13 @@ class _EditBranchPageState extends State<EditBranchPage> {
               horMarg: 0,
               controller: streetController,
               kbType: TextInputType.name,
-              obscTxt: false,
+              obscTxt: false,   textInputAction: TextInputAction.next,
               lbTxt: getBranchStreet(),
             ),
             TextFieldDesign.textFieldStyle(
               context: context,
               verMarg: 5,
-              horMarg: 0,
+              horMarg: 0,   textInputAction: TextInputAction.done,
               controller: nationalIDAddressController,
               kbType: TextInputType.number,
               obscTxt: false,
@@ -182,6 +183,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
                     style: TextStyle(color: CustomColors().darkGrayColor),
 
                     onChanged: (String? newValue) {
+                      FocusScope.of(context).unfocus();
+
                       setState(() {
                         if (newValue != dropdownValue) {
                           city = newValue!;
@@ -223,6 +226,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
                 EdgeInsets.all(20), () {
               if (isPickLocationBtnEnabled) {
                 isPickLocationBtnEnabled = false;
+                FocusScope.of(context).unfocus();
+
                 addLocation();
               }
             }),
@@ -301,6 +306,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
   //Add setState to method to update
   //status without restarting app
   void editBranch() async {
+    FocusScope.of(context).unfocus();
+
     print('city is $city');
     if (nameController.value.text == '') {
       showErrorDialog(LocaleKeys.branch_name_required.tr());
@@ -449,6 +456,8 @@ class _EditBranchPageState extends State<EditBranchPage> {
 //-------------------------------
 
   void deleteBranchConfirmation() {
+    FocusScope.of(context).unfocus();
+
     isDeleteBtnEnabled = false;
 
     List<Function()> actions = [

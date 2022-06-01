@@ -76,6 +76,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   controller: passController,
                   kbType: TextInputType.visiblePassword,
                   obscTxt: false,
+                  textInputAction: TextInputAction.next,
                   lbTxt: LocaleKeys.password.tr(),
                 ),
                 SizedBox(
@@ -83,6 +84,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
                 TextFieldDesign.textFieldStyle(
                   context: context,
+                  textInputAction: TextInputAction.done,
                   verMarg: 5,
                   horMarg: 0,
                   controller: confirmPassController,
@@ -107,7 +109,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       shape: StadiumBorder(),
                       child: ButtonsDesign.buttonsText(
                           LocaleKeys.reset_password.tr(),
-                          CustomColors().primaryWhiteColor, 15),
+                          CustomColors().primaryWhiteColor,
+                          15),
                       color: CustomColors().primaryGreenColor,
                     )),
               ],
@@ -176,13 +179,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
-  showSuccessDialog(BuildContext context, String message) async{
+  showSuccessDialog(BuildContext context, String message) async {
     bool isLoggedIn = await PreferencesHelper.getIsUserLoggedIn;
     String route;
-    if(isLoggedIn)
-      route = loginRoute ;
-    else route = dashBoardRoute;
-
+    if (isLoggedIn)
+      route = loginRoute;
+    else
+      route = dashBoardRoute;
 
     showDialog<String>(
         context: context,

@@ -99,26 +99,26 @@ class _LogInPageState extends State<LogInPage> {
                   height: scHeight * 0.19,
                 ),
                 TextFieldDesign.textFieldStyle(
-                  context: context,
-                  verMarg: 5,
-                  horMarg: 0,
-                  controller: emailController,
-                  kbType: TextInputType.emailAddress,
-                  obscTxt: false,
-                  lbTxt: LocaleKeys.email.tr(),
-                ),
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: emailController,
+                    kbType: TextInputType.emailAddress,
+                    obscTxt: false,
+                    lbTxt: LocaleKeys.email.tr(),
+                    textInputAction: TextInputAction.next),
                 SizedBox(
                   height: 3,
                 ),
                 TextFieldDesign.textFieldStyle(
-                  context: context,
-                  verMarg: 5,
-                  horMarg: 0,
-                  controller: passController,
-                  kbType: TextInputType.visiblePassword,
-                  obscTxt: true,
-                  lbTxt: LocaleKeys.password.tr(),
-                ),
+                    context: context,
+                    verMarg: 5,
+                    horMarg: 0,
+                    controller: passController,
+                    kbType: TextInputType.visiblePassword,
+                    obscTxt: true,
+                    lbTxt: LocaleKeys.password.tr(),
+                    textInputAction: TextInputAction.done),
                 SizedBox(
                   height: scHeight / 20,
                 ),
@@ -212,18 +212,16 @@ class _LogInPageState extends State<LogInPage> {
 
     showLoaderDialog(context);
     //----------start api ----------------
-   // String? token;
-  //  FirebaseMessaging.instance.getToken().onError((error, stackTrace) => token = '').then((value) => token = value);
+    // String? token;
+    //  FirebaseMessaging.instance.getToken().onError((error, stackTrace) => token = '').then((value) => token = value);
     String? token = await FirebaseMessaging.instance.getToken();
     print('notification token is $token');
     Map<String, dynamic> headerMap = await getAuthHeaderMap();
 
     AuthRepository registerRepository = AuthRepository(headerMap);
 
-
     registerRepository
-        .loginUser(
-            emailController.text, passController.text, token)
+        .loginUser(emailController.text, passController.text, token)
         .then((result) async {
       //-------- fail response ---------
 
@@ -238,7 +236,7 @@ class _LogInPageState extends State<LogInPage> {
           SuccessLoginResponseModel.fromJson(result.result);
 
       //check if account is not deleted
-      if(model.user!.isDeleted == true){
+      if (model.user!.isDeleted == true) {
         Navigator.pop(context);
         showErrorDialog(LocaleKeys.deleted_account.tr());
         return;

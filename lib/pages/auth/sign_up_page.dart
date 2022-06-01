@@ -47,194 +47,200 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
 
     return Scaffold(
-
       backgroundColor: CustomColors().backgroundColor,
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Container(
               margin: EdgeInsets.only(top: 200, bottom: 30),
-              width: MediaQuery.of(context).size.width/0.9,
-              height: MediaQuery.of(context).size.height*1.05,
+              width: MediaQuery.of(context).size.width / 0.9,
+              height: MediaQuery.of(context).size.height * 1.05,
               decoration: CardDesign.largeCardDesign(),
               child: Container(
-              // color: Colors.red,
-              width: scWidth/2,
-              height: scHeight,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: scHeight*0.05,),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: ownerController,
-                    kbType: TextInputType.name,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.owner_name.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: companyNameController,
-                    kbType: TextInputType.name,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.company_name.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: emailController,
-                    kbType: TextInputType.emailAddress,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.email.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: phoneController,
-                    kbType: TextInputType.phone,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.phone.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: commercialNoController,
-                    kbType: TextInputType.number,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.commercial_no.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: vatNoController,
-                    kbType: TextInputType.number,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.vat_no.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: branchesController,
-                    kbType: TextInputType.number,
-                    obscTxt: false,
-                    lbTxt: LocaleKeys.branches_no.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: passwordController,
-                    kbType: TextInputType.visiblePassword,
-                    obscTxt: true,
-                    lbTxt: LocaleKeys.password.tr(),
-                  ),
-                  TextFieldDesign.textFieldStyle(
-                    context: context,
-                    verMarg: 5,
-                    horMarg: 0,
-                    controller: confirmPasswordController,
-                    kbType: TextInputType.visiblePassword,
-                    obscTxt: true,
-                    lbTxt: LocaleKeys.confirm_pass.tr(),
-                  ),
-                  SizedBox(height: scHeight*0.03,),
-                  Container(
-                      margin: EdgeInsets.only(bottom: scHeight*0.01),
-                      padding: EdgeInsets.only(right: 10, left: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          directToTerms();
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(LocaleKeys.terms_conditions_note.tr(),
-                                style: TextStyle(
-                                    color: CustomColors().blackColor)),
-                                    SizedBox(height: 8,),
-                            Text(LocaleKeys.terms_conditions.tr(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors().primaryGreenColor))
-                          ],
-                        ),
-                      )),
-                      SizedBox(height: 10,),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      padding: EdgeInsets.only(right: 10, left: 10),
-                      child: GestureDetector(
-                        onTap: () {
-
-                          directToLogIn();
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(LocaleKeys.already_have_account.tr(),
-                                style: TextStyle(
-                                    color: CustomColors().blackColor)),
-                            Text(' ' + LocaleKeys.log_in.tr().toUpperCase(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors().primaryGreenColor))
-                          ],
-                        ),
-                      )
+                // color: Colors.red,
+                width: scWidth / 2,
+                height: scHeight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: scHeight * 0.05,
                     ),
-                      SizedBox(height: scHeight*0.05,),
-                  // Container(
-                  //     height: ButtonsDesign.buttonsHeight,
-                  //     margin: EdgeInsets.only(left: 50, right: 50),
-                  //     child: MaterialButton(
-                  //       onPressed: () {
-                  //         if (isBtnEnabled)
-                  //           continueSignUp(emailController.text);
-                  //       },
-                  //       shape: StadiumBorder(),
-                  //       child: ButtonsDesign.buttonsText(
-                  //           LocaleKeys.continue_btn.tr(),
-                  //           CustomColors().primaryWhiteColor),
-                  //       color: CustomColors().primaryGreenColor,
-                  //     ))
-                ],
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: ownerController,
+                        kbType: TextInputType.name,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.owner_name.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: companyNameController,
+                        kbType: TextInputType.name,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.company_name.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: emailController,
+                        kbType: TextInputType.emailAddress,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.email.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: phoneController,
+                        kbType: TextInputType.phone,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.phone.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: commercialNoController,
+                        kbType: TextInputType.number,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.commercial_no.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: vatNoController,
+                        kbType: TextInputType.number,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.vat_no.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: branchesController,
+                        kbType: TextInputType.number,
+                        obscTxt: false,
+                        lbTxt: LocaleKeys.branches_no.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: passwordController,
+                        kbType: TextInputType.visiblePassword,
+                        obscTxt: true,
+                        lbTxt: LocaleKeys.password.tr(),
+                        textInputAction: TextInputAction.next),
+                    TextFieldDesign.textFieldStyle(
+                        context: context,
+                        verMarg: 5,
+                        horMarg: 0,
+                        controller: confirmPasswordController,
+                        kbType: TextInputType.visiblePassword,
+                        obscTxt: true,
+                        lbTxt: LocaleKeys.confirm_pass.tr(),
+                        textInputAction: TextInputAction.done),
+                    SizedBox(
+                      height: scHeight * 0.03,
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(bottom: scHeight * 0.01),
+                        padding: EdgeInsets.only(right: 10, left: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            directToTerms();
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(LocaleKeys.terms_conditions_note.tr(),
+                                  style: TextStyle(
+                                      color: CustomColors().blackColor)),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(LocaleKeys.terms_conditions.tr(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors().primaryGreenColor))
+                            ],
+                          ),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding: EdgeInsets.only(right: 10, left: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            directToLogIn();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(LocaleKeys.already_have_account.tr(),
+                                  style: TextStyle(
+                                      color: CustomColors().blackColor)),
+                              Text(' ' + LocaleKeys.log_in.tr().toUpperCase(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors().primaryGreenColor))
+                            ],
+                          ),
+                        )),
+                    SizedBox(
+                      height: scHeight * 0.05,
+                    ),
+                    // Container(
+                    //     height: ButtonsDesign.buttonsHeight,
+                    //     margin: EdgeInsets.only(left: 50, right: 50),
+                    //     child: MaterialButton(
+                    //       onPressed: () {
+                    //         if (isBtnEnabled)
+                    //           continueSignUp(emailController.text);
+                    //       },
+                    //       shape: StadiumBorder(),
+                    //       child: ButtonsDesign.buttonsText(
+                    //           LocaleKeys.continue_btn.tr(),
+                    //           CustomColors().primaryWhiteColor),
+                    //       color: CustomColors().primaryGreenColor,
+                    //     ))
+                  ],
+                ),
               ),
             ),
-            ),
             Positioned(
-              bottom: scHeight*0.015,
+              bottom: scHeight * 0.015,
               right: 40,
               left: 40,
               child: Container(
-                height: ButtonsDesign.buttonsHeight,
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: MaterialButton(
-                  onPressed: () {
-                    if (isBtnEnabled)
-                      continueSignUp(emailController.text);
-                  },
-                  shape: StadiumBorder(),
-                  child: ButtonsDesign.buttonsText(
-                      LocaleKeys.continue_btn.tr(),
-                      CustomColors().primaryWhiteColor, 15),
-                  color: CustomColors().primaryGreenColor,
-                )),
+                  height: ButtonsDesign.buttonsHeight,
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  child: MaterialButton(
+                    onPressed: () {
+                      if (isBtnEnabled) continueSignUp(emailController.text);
+                    },
+                    shape: StadiumBorder(),
+                    child: ButtonsDesign.buttonsText(
+                        LocaleKeys.continue_btn.tr(),
+                        CustomColors().primaryWhiteColor,
+                        15),
+                    color: CustomColors().primaryGreenColor,
+                  )),
             ),
             brandNameMiddle(),
           ],
@@ -248,10 +254,10 @@ class _SignUpPageState extends State<SignUpPage> {
     showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.error.tr(), txt,noPage));
+            showMessageDialog(context, LocaleKeys.error.tr(), txt, noPage));
   }
 
-  void continueSignUp(String userEmail) async{
+  void continueSignUp(String userEmail) async {
     if (ownerController.value.text == '') {
       // print('owner name');
 
@@ -298,7 +304,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
       return;
     }
-
 
     if (vatNoController.value.text == '') {
       showErrorDialog(LocaleKeys.vat_no_required.tr());
@@ -376,46 +381,41 @@ class _SignUpPageState extends State<SignUpPage> {
 
       //-------- success response ---------
       print(result.result);
-      SuccessRegisterResponseModel model = SuccessRegisterResponseModel.fromJson(result.result);
+      SuccessRegisterResponseModel model =
+          SuccessRegisterResponseModel.fromJson(result.result);
       print(model.userId);
 
       PreferencesHelper.setUserID(model.userId);
-      PreferencesHelper.getUserID.then((value) =>  print( value));
-
+      PreferencesHelper.getUserID.then((value) => print(value));
 
       PreferencesHelper.setUserLoggedIn(false);
       PreferencesHelper.setUserFirstLogIn(false);
       Navigator.pop(context);
 
-
-
       showWelcomeDialog(context);
-
     });
   }
 
   showWelcomeDialog(BuildContext context) {
-
     showDialog<String>(
         context: context,
-        builder: (BuildContext context) =>
-            showMessageDialog(context, LocaleKeys.registered_success.tr(),LocaleKeys.auth_note.tr() ,loginRoute));
-
+        builder: (BuildContext context) => showMessageDialog(
+            context,
+            LocaleKeys.registered_success.tr(),
+            LocaleKeys.auth_note.tr(),
+            loginRoute));
   }
 
   void directToLogIn() {
-
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) {
-          return LogInPage();
-        }));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return LogInPage();
+    }));
   }
 
-  void directToTerms() async{
-
+  void directToTerms() async {
     String selectedLanguage = await PreferencesHelper.getSelectedLanguage;
 
-    openURL('http://alkhudrahproject-001-site2.ctempurl.com/GeneralView/GetTermsConditions?lang=$selectedLanguage');
-
+    openURL(
+        'http://alkhudrahproject-001-site2.ctempurl.com/GeneralView/GetTermsConditions?lang=$selectedLanguage');
   }
 }

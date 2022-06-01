@@ -20,7 +20,8 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/models/auth/success_edit_profile_response_model.dart';
-import 'package:khudrah_companies/network/models/user_model.dart';import 'package:khudrah_companies/network/models/message_response_model.dart';
+import 'package:khudrah_companies/network/models/user_model.dart';
+import 'package:khudrah_companies/network/models/message_response_model.dart';
 import 'package:khudrah_companies/network/repository/edit_profile_repository.dart';
 import 'package:khudrah_companies/network/repository/auth_repository.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
@@ -86,77 +87,78 @@ class _EditProfileState extends State<EditProfile> {
       backgroundColor: Colors.grey[100],
       body: Container(
         alignment: Alignment.topCenter,
-         margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 20),
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
         color: CustomColors().primaryWhiteColor,
         child: Column(
           children: [
+            TextFieldDesign.textFieldStyle(
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: ownNameController,
+                kbType: TextInputType.name,
+                obscTxt: false,
+                lbTxt: LocaleKeys.owner_name.tr(),
+                textInputAction: TextInputAction.next
 
+                //  initValue: LocaleKeys.owner_name.tr(),
+                ),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: ownNameController,
-              kbType: TextInputType.name,
-              obscTxt: false,
-              lbTxt:  LocaleKeys.owner_name.tr(),
-              //  initValue: LocaleKeys.owner_name.tr(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: compNameController,
+                kbType: TextInputType.name,
+                obscTxt: false,
+                lbTxt: LocaleKeys.comp_name.tr(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: compNameController,
-              kbType: TextInputType.name,
-              obscTxt: false,
-              lbTxt: LocaleKeys.comp_name.tr(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: emailController,
+                kbType: TextInputType.emailAddress,
+                obscTxt: false,
+                lbTxt: LocaleKeys.change_email.tr(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: emailController,
-              kbType: TextInputType.emailAddress,
-              obscTxt: false,
-               lbTxt: LocaleKeys.change_email.tr(),
-            ),
-            TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: phoneController,
-              kbType: TextInputType.phone,
-              obscTxt: false,
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: phoneController,
+                kbType: TextInputType.phone,
+                obscTxt: false,
                 lbTxt: LocaleKeys.change_phone.tr(),
-            ),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: commercialNoController,
-              kbType: TextInputType.number,
-              obscTxt: false,
-              lbTxt: LocaleKeys.commercial_no.tr(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: commercialNoController,
+                kbType: TextInputType.number,
+                obscTxt: false,
+                lbTxt: LocaleKeys.commercial_no.tr(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: vatNoController,
-              kbType: TextInputType.number,
-              obscTxt: false,
-                 lbTxt: LocaleKeys.vat_no.tr(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: vatNoController,
+                kbType: TextInputType.number,
+                obscTxt: false,
+                lbTxt: LocaleKeys.vat_no.tr(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: branchNoController,
-              kbType: TextInputType.number,
-              obscTxt: false,
-                  lbTxt: LocaleKeys.branches_no.tr(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: branchNoController,
+                kbType: TextInputType.number,
+                obscTxt: false,
+                lbTxt: LocaleKeys.branches_no.tr(),
+                textInputAction: TextInputAction.done),
             greenBtn(LocaleKeys.save_changes.tr(),
                 EdgeInsets.only(left: 20, right: 20, top: 20), () {
               if (isBtnEnabled) editProfileInfo();
@@ -268,7 +270,8 @@ class _EditProfileState extends State<EditProfile> {
       }
 
       //-------- success response ---------
-      SuccessEditProfileResponseModel model = SuccessEditProfileResponseModel.fromJson(result.result);
+      SuccessEditProfileResponseModel model =
+          SuccessEditProfileResponseModel.fromJson(result.result);
       Navigator.pop(context);
       showSuccessMessage(context, model.message!);
 
