@@ -164,7 +164,7 @@
   "*Product prices are inclusive of VAT": "*Product prices are inclusive of VAT",
   "cart_qty_price_changed_note": "Some product prices and quantity have changed in your cart, Please review your cart before checkout",
   "select_branch": "Select Branch",
-  "select_branch_note": "Please Select the branch you want to deliver to , the branch address will be appear in the address field, you can make changes to the address ",
+  "select_branch_note": "Please Select the branch you want the products delivered to. \n \n The branch address will appear in the address field and you can make any modifications required. ",
   "branch_address": "Branch Address ",
   "continue_payment": "Continue to Pay ",
   "products_in_order": "Ordered Products",
