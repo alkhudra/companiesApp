@@ -13,7 +13,7 @@ class TextFieldDesign {
       String? lbTxt,
       validat,
       enabled,
-      obscTxt}) {
+      obscTxt,textInputAction}) {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
@@ -29,6 +29,7 @@ class TextFieldDesign {
           Expanded(
             child: TextFormField(
               enabled: enabled,
+              textInputAction: textInputAction,
               obscureText: obscTxt,
               controller: controller,
               keyboardType: kbType,
@@ -105,50 +106,7 @@ class TextFieldDesign {
       ),
     );
   }
-//-----------------------------------------
 
-  static editTextFieldStyle(
-      {context,
-      double? verMarg,
-      double? horMarg,
-      TextEditingController? controller,
-      TextInputType? kbType,
-      /*String? initValue,*/ validat}) {
-    return Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(horizontal: horMarg!, vertical: verMarg!),
-      width: MediaQuery.of(context).size.width / 1.15,
-      height: MediaQuery.of(context).size.height / 15,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(60),
-        border: Border.all(color: CustomColors().primaryGreenColor, width: 1.5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: TextFormField(
-              //  initialValue: initValue,
-              controller: controller,
-              keyboardType: kbType,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: validat,
-              style: TextStyle(
-                  color: CustomColors().blackColor,
-                  fontWeight: FontWeight.w600),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, right: 20),
-                //     hintText: initValue,
-                focusColor: CustomColors().blackColor,
-                border: InputBorder.none,
-                counterText: "",
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 //-----------------------------------------
 
   static emptyLargeFieldStyle(
@@ -176,6 +134,7 @@ class TextFieldDesign {
               //  initialValue: initValue,
               controller: controller,
               keyboardType: kbType,
+              textInputAction: TextInputAction.done,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: validat,
               style: TextStyle(color: CustomColors().blackColor, fontSize: 15),

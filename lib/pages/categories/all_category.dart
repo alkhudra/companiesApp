@@ -40,11 +40,16 @@ class _AllCategoryState extends State<AllCategory> {
 
   void _scrollListener() {
     print('/////////// @@@@@@@@@@@@@@@@@@@ run listenner');
-    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+    if (_controller.position.pixels >= _controller.position.maxScrollExtent) {
       getInfoFromDB();
     }
   }
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
 
+  }
   @override
   void initState() {
     super.initState();
@@ -97,29 +102,26 @@ class _AllCategoryState extends State<AllCategory> {
               LocaleKeys.no_items_category.tr(), 'images/not_found.png');
     });
   }
-
   Future getInfoFromDB() async {
-    final provider = Provider.of<ProductProvider>(context, listen: true);
-
+    //----------start api ----------------
+    final provider = Provider.of<ProductProvider>(context, listen: false);
     if (_isFirstCall) {
       provider.resetPageNumber();
       provider.resetProductList();
       _isFirstCall = false;
     }
     if (provider.getLoadMoreDataStatus == true) {
-      //----------start api ----------------
-      print('get product list from db');
-
       Map<String, dynamic> headerMap = await getHeaderMap();
 
       ProductRepository productRepository = ProductRepository(headerMap);
 
       ApiResponse apiResponse =
-          await productRepository.getProducts(pageSize, provider.pageNumber);
+      await productRepository.getProducts(pageSize, provider.pageNumber);
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
-            ProductListResponseModel.fromJson(apiResponse.result);
+        ProductListResponseModel.fromJson(apiResponse.result);
 
+        //provider.resetFavProductList();
         provider.addItemsToProductList(responseModel.products);
         provider.plusPageNumber();
 
@@ -139,6 +141,7 @@ class _AllCategoryState extends State<AllCategory> {
     } else
       return provider.productsList;
   }
+
 
   //-------------------
 

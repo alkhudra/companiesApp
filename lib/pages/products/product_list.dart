@@ -19,38 +19,43 @@ class ProductList extends StatelessWidget {
   List<ProductsModel>? productsList;
 
   bool enablePaging;
-  dynamic controller = ScrollController();
-  ProductList(this.productsList, { this.enablePaging = false,this.controller }) ;
+  ScrollController? controller = ScrollController();
+  ProductList(this.productsList, {this.enablePaging = false, this.controller});
 
   @override
   Widget build(BuildContext context) {
-   final productProvider =  Provider.of<ProductProvider>(context, listen: true);
+    final productProvider = Provider.of<ProductProvider>(context, listen: true);
 
-
-       // .setBranchList(home.user!.branches!);
-    return  ListView.builder(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+    // .setBranchList(home.user!.branches!);
+    return Column(
+      children: [
+        ListView.builder(
+          // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           shrinkWrap: true,
-          controller: enablePaging == true ? controller: null,
-          physics: NeverScrollableScrollPhysics(),
+          controller: enablePaging == true ? controller : null,
+          //  physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if(enablePaging) {
-              if (productProvider.getLoadMoreDataStatus == true) {
-                if (index == productProvider.productListCount - 1) {
-                  return Center(child: CircularProgressIndicator());
-                }
-              }
-            }
+            /*    if(enablePaging) {
+                  if (productProvider.getLoadMoreDataStatus == true) {
+                    if (index == productProvider.productListCount - 1) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }
+                }*/
             final ProductsModel model = productsList![index];
-            return ProductTile(
-              productModel: model);
+            return ProductTile(productModel: model);
           },
           itemCount: productsList!.length,
-        );
-     // },
-   // );
+        ),
+        if (enablePaging == true &&
+            productProvider.getLoadMoreDataStatus == true)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            child: Center(child: CircularProgressIndicator()),
+          )
+      ],
+    );
+    // },
+    // );
   }
-
-
-
 }

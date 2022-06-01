@@ -101,50 +101,50 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
               ),
             ),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: nameController,
-              kbType: TextInputType.name,
-              obscTxt: false,
-              lbTxt: getBranchName(),
-            ),
-            TextFieldDesign.phoneTextFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: phoneController,
-              kbType: TextInputType.phone,
-              obscTxt: false,
-              lbTxt: getPhoneTxt(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: nameController,
+                kbType: TextInputType.name,
+                obscTxt: false,
+                lbTxt: getBranchName(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: districtController,
-              kbType: TextInputType.name,
-              obscTxt: false,
-              lbTxt: getBranchDistrict(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: phoneController,
+                kbType: TextInputType.phone,
+                obscTxt: false,
+                lbTxt: getPhoneTxt(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: streetController,
-              kbType: TextInputType.name,
-              obscTxt: false,
-              lbTxt: getBranchStreet(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: districtController,
+                kbType: TextInputType.name,
+                obscTxt: false,
+                lbTxt: getBranchDistrict(),
+                textInputAction: TextInputAction.next),
             TextFieldDesign.textFieldStyle(
-              context: context,
-              verMarg: 5,
-              horMarg: 0,
-              controller: nationalIDAddressController,
-              kbType: TextInputType.number,
-              obscTxt: false,
-              lbTxt: getNationalAddressTxt(),
-            ),
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: streetController,
+                kbType: TextInputType.name,
+                obscTxt: false,
+                lbTxt: getBranchStreet(),
+                textInputAction: TextInputAction.next),
+            TextFieldDesign.textFieldStyle(
+                context: context,
+                verMarg: 5,
+                horMarg: 0,
+                controller: nationalIDAddressController,
+                kbType: TextInputType.number,
+                obscTxt: false,
+                lbTxt: getNationalAddressTxt(),
+                textInputAction: TextInputAction.done),
             Container(
               width: scWidth / 1.15,
               height: scHeight / 15,
@@ -164,8 +164,11 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                     decoration: InputDecoration.collapsed(hintText: ''),
                     // icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
-                    style: TextStyle(color: CustomColors().darkGrayColor, fontFamily: 'Almarai'),
+                    style: TextStyle(
+                        color: CustomColors().darkGrayColor,
+                        fontFamily: 'Almarai'),
                     onChanged: (String? newValue) {
+                      FocusScope.of(context).unfocus();
                       setState(() {
                         if (newValue != dropdownValue) {
                           city = newValue!;
@@ -207,6 +210,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
             greenBtnWithIcon(LocaleKeys.add_location.tr(), Icons.my_location,
                 EdgeInsets.all(20), () {
               if (isPickLocationBtnEnabled) {
+                FocusScope.of(context).unfocus();
                 isPickLocationBtnEnabled = false;
                 addLocation();
               }
@@ -288,6 +292,7 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
   //Add setState to method to update
   //status without restarting app
   void addBranch() async {
+    FocusScope.of(context).unfocus();
     if (nameController.value.text == '') {
       showErrorDialog(LocaleKeys.branch_name_required.tr());
       return;

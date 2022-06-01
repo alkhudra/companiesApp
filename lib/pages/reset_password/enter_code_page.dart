@@ -82,6 +82,7 @@ class _EnterCodePageState extends State<EnterCodePage> {
                     controller: controller,
                     kbType: TextInputType.text,
                     obscTxt: false,
+                    textInputAction: TextInputAction.done,
                     lbTxt: LocaleKeys.enter_code.tr(),
                   ),
                 ),
