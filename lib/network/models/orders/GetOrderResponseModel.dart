@@ -1,9 +1,11 @@
-
+import 'package:khudrah_companies/network/models/orders/driver_user.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
-
+import 'package:khudrah_companies/network/models/orders/order_items.dart';
 
 
 class GetOrdersResponseModel {
+
+
   List<OrderHeader> _orderList = [];
   String? message;
 
@@ -11,7 +13,7 @@ class GetOrdersResponseModel {
       _orderList; //BranchListResponseModel(this._branches, this.message);
 
   GetOrdersResponseModel.fromJson(dynamic json) {
-    //  message = json['message'];
+//  message = json['message'];
 
     if (json != null) {
       _orderList = [];
@@ -26,8 +28,6 @@ class GetOrdersResponseModel {
   String toString() {
     return 'GetOrdersResponseModel{_orderList: $_orderList}';
   }
-
-  GetOrdersResponseModel();
 
 }
 

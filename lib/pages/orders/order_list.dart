@@ -12,7 +12,8 @@ import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
-import 'package:khudrah_companies/network/models/orders/get_orders_response_model.dart';
+import 'package:khudrah_companies/network/models/orders/GetOrderResponseModel.dart';
+import 'package:khudrah_companies/network/models/orders/order_header.dart';
 
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:khudrah_companies/network/repository/order_repository.dart';
@@ -28,9 +29,9 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
- // int pageNumber = 1;
+  int pageNumber = 1;
   int pageSize = listItemsCount;
-  // List<OrderHeader> list = [];
+  List<OrderHeader> list = [];
   bool isThereMoreItems = false;
 
   final ScrollController _controller = ScrollController();
@@ -47,14 +48,12 @@ class _OrderListState extends State<OrderList> {
     _controller.addListener(_scrollListener);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors().backgroundColor,
 
-      body: FutureBuilder(
+      body: FutureBuilder<GetOrdersResponseModel?>(
         future: getListData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -69,94 +68,68 @@ class _OrderListState extends State<OrderList> {
   }
 //---------------------
 
-  pageDesign(BuildContext context) {
-/*    List<OrderHeader> currentOrder = [], finishedOrder = [];
-    for (OrderHeader orderItems in model.orderList) {
-      if (orderItems.orderStatus == delivered) {
-        finishedOrder.add(orderItems);
-      } else {
-        currentOrder.add(orderItems);
-      }
-    }*/
-
-
-    return Consumer<OrderProvider>(
-      builder: (context, value, child) {
-        return value.listCount > 0
-            ? ListView.builder(
+ Widget pageDesign(BuildContext context) {
+   return list.length > 0
+        ?  Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
                 controller: _controller,
                 itemBuilder: ((context, index) {
-                  if(value.getLoadMoreDataStatus == true) {
-                    if (index == value.orderList.length-1) {
-                      return Center(
-                        child: CircularProgressIndicator(), //value.getLoadMoreDataStatus == true ? CircularProgressIndicator():null,
-                      );
-                    }
-                  }
-                  return orderTileDesign(
-                      context, value.getorderList[index]);
+                  return orderTileDesign(context, list[index]);
                 }),
-                itemCount: value.listCount,
-              )
-            : noItemDesign(
-                LocaleKeys.no_finished_orders.tr(), 'images/not_found.png');
-      },
-    );
+                itemCount: list.length,
+              ),
+              if (isThereMoreItems == true)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                  child: Center(child: CircularProgressIndicator()),
+                )
+            ],
+          )
+        : noItemDesign(
+            LocaleKeys.no_finished_orders.tr(), 'images/not_found.png');
   }
 
   //--------------------------
-  getListData() async {
-    final provider = Provider.of<OrderProvider>(context, listen: false);
+ Future<GetOrdersResponseModel?> getListData() async {
 
-    if (provider.orderList.isEmpty || provider.getLoadMoreDataStatus == true) {
-      Map<String, dynamic> headerMap = await getHeaderMap();
+    Map<String, dynamic> headerMap = await getHeaderMap();
 
-      OrderRepository orderRepository = OrderRepository(headerMap);
+    OrderRepository orderRepository = OrderRepository(headerMap);
 
-      ApiResponse apiResponse =
-          await orderRepository.getAllOrders(pageSize, provider.pageNumber);
+    ApiResponse apiResponse =
+        await orderRepository.getAllOrders(pageSize, pageNumber);
+    if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+      print('order list is ' + apiResponse.result.toString());
 
-      if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
-        GetOrdersResponseModel? responseModel =
-            GetOrdersResponseModel.fromJson(apiResponse.result);
+      if(apiResponse.result != []) {
+        GetOrdersResponseModel responseModel =
+        GetOrdersResponseModel.fromJson(apiResponse.result);
 
-        print(responseModel.orderList.length);
-
-        provider.addMoreItemsToList(responseModel.orderList);
-
-        if (responseModel.orderList.length > 0) {
-          if (responseModel.orderList.length < listItemsCount)
-            provider.saveLoadMoreDataStatus(false);
-          else
-            provider.saveLoadMoreDataStatus(true);
-        } else {
-          provider.saveLoadMoreDataStatus(false);
-       //   provider.resetPageNumber();
-        }
-
-        //  orderList = responseModel.orderList;
-        /*  if (pageNumber == 1)
-          orderList = responseModel.orderList;
+        if (pageNumber == 1)
+          list = responseModel.orderList;
         else
-          orderList.addAll(responseModel.orderList);
+          list.addAll(responseModel.orderList);
 
         if (responseModel.orderList.length > 0) {
           if (responseModel.orderList.length < listItemsCount) {
             isThereMoreItems = false;
           } else {
             isThereMoreItems = true;
+            pageNumber ++;
           }
         } else {
           isThereMoreItems = false;
           pageNumber = 1;
-        }*/
-        //-----------------------------------
-        return responseModel.orderList;
-      } else {
-        throw ExceptionHelper(apiResponse.message);
+        }
+        return responseModel;
       }
-    } else
+      //-----------------------------------
 
-    return provider.orderList;
+    } else {
+      throw ExceptionHelper(apiResponse.message);
+    }
+
   }
 }

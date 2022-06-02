@@ -35,4 +35,8 @@ class ApiResponse {
     }
   }
 
+  @override
+  String toString() {
+    return 'ApiResponse{apiStatus: $apiStatus, result: $result, _customMessage: $_customMessage}';
+  }
 }

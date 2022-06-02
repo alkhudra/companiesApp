@@ -67,7 +67,7 @@ class OrderHelper {
       print(model.toString());
       Navigator.pop(context);
 
-      Provider.of<OrderProvider>(context, listen: true).addOrderToList(model.orderHeader!);
+    //  Provider.of<OrderProvider>(context, listen: true).addOrderToList(model.orderHeader!);
       OrderHelper. viewCompleteOrderPage(context , true ,model: model);
 
     } else if(apiResponse.apiStatus.code == ApiResponseType.BadRequest.code) {
@@ -78,7 +78,7 @@ class OrderHelper {
       showDialog<String>(
           context: context,
           builder: (BuildContext context) =>
-              showMessageDialog(context, LocaleKeys.error.tr(),  LocaleKeys.error_in_order.tr(), dashBoardRoute));
+              showMessageDialog(context, LocaleKeys.error.tr(),  LocaleKeys.error_in_order.tr(), noPage));
 
 
     }else{

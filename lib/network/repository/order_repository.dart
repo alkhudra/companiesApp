@@ -29,7 +29,7 @@ class OrderRepository {
     }
 
     return await _client
-        .getOrders(pageSize, pageNumber)
+        .getOrders(pageNumber, pageSize)
         .then((value) => ApiResponse(ApiResponseType.OK, value, ''))
         .catchError((e) {
       int errorCode = 0;
@@ -50,7 +50,6 @@ class OrderRepository {
         default:
       }
       log("Got error : $errorCode -> $errorMessage");
-
       var apiResponseType = ApiResponse.convert(errorCode);
       return ApiResponse(apiResponseType, null, errorMessage);
     });
