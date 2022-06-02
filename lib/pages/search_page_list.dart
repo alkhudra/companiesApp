@@ -114,7 +114,7 @@ class _SearchListPageState extends State<SearchListPage> {
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   child: Text(
-                    LocaleKeys.search_result.tr() + '  ' + keyWord,
+                    LocaleKeys.search_result.tr() + ' \' ' + keyWord + ' \' ',
                     style: TextStyle(
                       color: CustomColors().darkBlueColor,
                       fontSize: 22,

@@ -22,7 +22,10 @@ Widget noItemDesign(String txt, String imageUrl) {
           //   fontWeight: FontWeight.w700
           // ),),
           SizedBox(height: 5,),
-          errorText(txt),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 50),
+            child: errorText(txt)
+          ),
           // Image(image: AssetImage('images/green_fruit.png')),
           // Text('${snapshot.error}' ,),
         ],
@@ -32,7 +35,9 @@ Widget noItemDesign(String txt, String imageUrl) {
 Widget errorText(String txt){
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child: Text(txt, style: TextStyle(
+    child: Text(txt, 
+    textAlign: TextAlign.center,
+    style: TextStyle(
       color: CustomColors().primaryGreenColor,
       fontSize: 15,
     ),),
