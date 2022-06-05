@@ -15,8 +15,6 @@ import 'package:khudrah_companies/provider/order_provider.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
-
-import 'designs/order_tile_design.dart';
 import 'helpers/pref/shared_pref_helper.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -35,8 +33,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     Map<String, dynamic> map = message.data;
     if (map.containsKey('order_id')) {
       print(map['order_id']);
-
-    //  directToOrderDetails(context, orderId: map['order_id']);
     }
   }
   print('A bg msg just showed up : ${message.messageId}');
@@ -96,20 +92,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    //setValues();
-
-    // Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    //   await Firebase.initializeApp();
-    //   if(message.data != null) {
-    //     Map<String, dynamic> map = message.data;
-    //     if (map.containsKey('orderId')) {
-    //       print(map['orderId']);
-
-    //      directToOrderDetails(context, orderId: map['orderId']);
-    //     }
-    //   }
-    //   print('A bg msg just showed up : ${message.messageId}');
-    // }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -126,16 +108,6 @@ class _MyAppState extends State<MyApp> {
                     playSound: true,
                     icon: '@mipmap/ic_launcher')));
       }
-      // if(message.data != null) {
-      // Map<String, dynamic> map = message.data;
-      // //order_id
-      //   if (map.containsKey('orderId')) {
-      //     print(map['orderId']);
-
-      //   directToOrderDetails(context, orderId: int.parse(map['orderId']));
-      //   }
-      // }
-
 
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -158,19 +130,6 @@ class _MyAppState extends State<MyApp> {
               );
             });
       }
-
-
-      // if(message.data != null) {
-      // Map<String, dynamic> map = message.data;
-      // print(message.data);
-      // print(map['orderId']);
-      //   if (map.containsKey('orderId')) {
-      //     print(map['orderId']);
-
-      //   directToOrderDetails(context, orderId: int.parse(map['orderId']));
-      //   }
-      // }
-
     });
 
   }

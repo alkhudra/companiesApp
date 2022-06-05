@@ -1,6 +1,8 @@
 abstract class ApiConst {
   static const String basic_url =
-     'https://alkhadraunited.com/api';// 'https://company.alkhadraunited.com/';// 'http://alkhudrahproject-001-site2.ctempurl.com/api';
+    //  'https://alkhadraunited.com/api';
+     'https://company.alkhadraunited.com/';
+    //  'http://alkhudrahproject-001-site2.ctempurl.com/api';
   static const String dashboard_url ='https://dashboard.alkhadraunited.com/';//'https://alkhadraunited.com/';//'http://alkhudrahproject-001-site1.ctempurl.com/' ;//'http://alkhadraunited.com/';
   static const String pdf_url =  'https://dashboard.alkhadraunited.com/';
      // 'http://alkhudrahproject-001-site2.ctempurl.com';
