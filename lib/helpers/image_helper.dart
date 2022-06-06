@@ -44,6 +44,7 @@ class ImageHelper {
           height: 70,
           child: 
           CircleAvatar(
+
             backgroundImage: NetworkImage(
                 ApiConst.dashboard_url + imageUrl,
             //     errorBuilder: (BuildContext context, Object exception,
