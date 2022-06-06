@@ -58,10 +58,9 @@ class OrderRepository {
   //-----------------------------------
 
   Future<ApiResponse> getOrderById(
-      int orderId,
-
-      ) async {
-    if (orderId == null ) {
+    int orderId,
+  ) async {
+    if (orderId == null) {
       return ApiResponse(ApiResponseType.BadRequest, null, '');
     }
 
@@ -92,6 +91,7 @@ class OrderRepository {
       return ApiResponse(apiResponseType, null, errorMessage);
     });
   }
+
   //-----------------------------------
   Future<ApiResponse> submitOrder({
     List<SubmitOrderItems>? orderItem,
@@ -104,8 +104,8 @@ class OrderRepository {
     num? totalOrderVAT15,
     bool? hasDiscount,
     num? discountPercentage,
-    num? totalDiscount,}
-  ) async {
+    num? totalDiscount,
+  }) async {
     if (orderItem == null ||
         companyId == null ||
         branchId == null ||

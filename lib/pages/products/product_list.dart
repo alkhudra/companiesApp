@@ -33,7 +33,7 @@ class ProductList extends StatelessWidget {
           // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           shrinkWrap: true,
           controller: enablePaging == true ? controller : null,
-          //  physics: NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             /*    if(enablePaging) {
                   if (productProvider.getLoadMoreDataStatus == true) {

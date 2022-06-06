@@ -55,7 +55,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
         child: GestureDetector(
           onTap: () {
             if (model.orderId != null && model.orderId != 0) {
-              print(model.orderId);
+              print('order id from notification is  ' + model.orderId.toString());
               directToOrderDetails(context, orderId: model.orderId);
             }
           },

@@ -137,12 +137,13 @@ Widget orderTileDesign(context, OrderHeader model) {
 
 void directToOrderDetails(context, {model, orderId}) async {
 
-  if (orderId != null) {
+  if (orderId != null && orderId!= 0 ) {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
     OrderRepository orderRepository = OrderRepository(headerMap);
 
     ApiResponse apiResponse = await orderRepository.getOrderById(orderId);
+
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       OrderHeader? responseModel = OrderHeader.fromJson(apiResponse.result);
       Navigator.push(
@@ -151,10 +152,6 @@ void directToOrderDetails(context, {model, orderId}) async {
               builder: (context) => OrderDetails(
                     orderModel: responseModel,
                   )));
-    } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => OrderList()));
-      print('fail direct ');
     }
   } else if (model != null)
     Navigator.push(
