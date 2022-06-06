@@ -482,21 +482,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
           if (text == LocaleKeys.postpaid.tr()) {
             setState(() {
               isPayDebitSelected = true;
-              hasPaid = true;
+              hasPaid = false;
               paymentMethod = credit;
               _selectedValueIndex = index;
             });
           } else if (text == LocaleKeys.cash.tr()) {
             setState(() {
               isPayDebitSelected = false;
-              hasPaid = true;
+              hasPaid = false;
               _selectedValueIndex = index;
               paymentMethod = cash;
             });
           } else {
             setState(() {
               isPayDebitSelected = false;
-              hasPaid = true;
+              hasPaid = false;
               _selectedValueIndex = index;
               paymentMethod = bankTransfer;
             });

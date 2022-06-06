@@ -5,7 +5,7 @@ String currency = LocaleKeys.sar.tr();
 String getTextWithCurrency(num value) {
   String num = convertTo2Decimals(value);
 
-  return ' $num ' + currency;
+  return ' $num ' + LocaleKeys.sar.tr();
 }
 
 String getTextWithPercentage(num value) {

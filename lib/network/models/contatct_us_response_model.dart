@@ -1,19 +1,19 @@
-
 class ContactUsResponseModel {
   ContactUsResponseModel({
-      String? email, 
-      String? phoneNumber, 
-      String? whatsApp,
+    String? email,
+    String? phoneNumber,
+    String? whatsApp,
     String? twitter,
-      double? longitude, 
-      double? latitude,}){
-    _email = email;
-    _phoneNumber = phoneNumber;
-    _whatsApp = whatsApp;
-    _longitude = longitude;
-    _twitter =twitter;
-    _latitude = latitude;
-}
+    num? longitude,
+    num? latitude,
+  }) {
+    _email = email == null ? '' : email;
+    _phoneNumber = phoneNumber == null ? '' : phoneNumber;
+    _whatsApp = whatsApp == null ? '' : whatsApp;
+    _longitude = longitude == 0 ? 0.0 : longitude;
+    _twitter = twitter == null ? '' : twitter;
+    _latitude = latitude == 0 ? 0.0 : latitude;
+  }
 
   ContactUsResponseModel.fromJson(dynamic json) {
     _email = json['email'];
@@ -27,14 +27,14 @@ class ContactUsResponseModel {
   String? _phoneNumber;
   String? _twitter;
   String? _whatsApp;
-  double? _longitude;
-  double? _latitude;
+  num? _longitude;
+  num? _latitude;
 
   String? get email => _email;
   String? get phoneNumber => _phoneNumber;
   String? get whatsApp => _whatsApp;
-  double? get longitude => _longitude;
-  double? get latitude => _latitude;
+  num? get longitude => _longitude;
+  num? get latitude => _latitude;
   String? get twitter => _twitter;
 
   Map<String, dynamic> toJson() {
@@ -47,5 +47,4 @@ class ContactUsResponseModel {
     map['latitude'] = _latitude;
     return map;
   }
-
 }

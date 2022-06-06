@@ -237,8 +237,8 @@ class _HomePageState extends State<HomePage> {
   //------------------------
   static void setValues() async {
     User user = await PreferencesHelper.getUser;
-    name = user.companyName!;
-    email = user.email!;
+    name = user.companyName!=null? user.companyName! :"";
+    email = user.email != null ?user.email! :"" ;
     language = await PreferencesHelper.getSelectedLanguage;
   }
 
