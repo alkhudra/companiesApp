@@ -37,15 +37,22 @@ class ImageHelper {
 
 //-----------------------
 
-  static driverImage(String? imageUrl) {
+  static driverImage(context, String? imageUrl) {
     return imageUrl != null
-        ? Image.network(
-      ApiConst.dashboard_url + imageUrl,
-      errorBuilder: (BuildContext context, Object exception,
-          StackTrace? stackTrace) {
-        return  driverIcon();
-      },
-    )
+        ? Container(
+          width: 70,
+          height: 70,
+          child: 
+          CircleAvatar(
+            backgroundImage: NetworkImage(
+                ApiConst.dashboard_url + imageUrl,
+            //     errorBuilder: (BuildContext context, Object exception,
+            //   StackTrace? stackTrace) {
+            // return  driverIcon();
+            //     },
+              ),
+          ),
+        )
         :   driverIcon();
   }
 

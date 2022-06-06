@@ -95,7 +95,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ],
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -104,7 +104,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             //driver profile pic
-                            ImageHelper.driverImage(driverUser.image),
+                            ImageHelper.driverImage(context, driverUser.image),
                             SizedBox(
                               width: 20,
                             ),
