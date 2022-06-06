@@ -136,9 +136,7 @@ Widget orderTileDesign(context, OrderHeader model) {
 }
 
 void directToOrderDetails(context, {model, orderId}) async {
-  String language = await PreferencesHelper.getSelectedLanguage;
 
-  //todo: test
   if (orderId != null) {
     Map<String, dynamic> headerMap = await getHeaderMap();
 
