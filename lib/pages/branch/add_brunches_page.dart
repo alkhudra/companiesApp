@@ -176,6 +176,8 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
                         } else
                           city = ' ';
                       });
+                      FocusScope.of(context).unfocus();
+
                     },
                     items: cities.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -374,13 +376,14 @@ class _AddBranchesPageState extends State<AddBranchesPage> {
       SuccessBranchResponseModel successBranchResponseModel =
           SuccessBranchResponseModel.fromJson(result.result);
       showSuccessMessage(context, successBranchResponseModel.message!);
+      Navigator.pop(context);
+      Navigator.pop(context);
 
       BranchModel branchModel = successBranchResponseModel.branchObject!;
-      Provider.of<BranchProvider>(context, listen: true)
+      Provider.of<BranchProvider>(context, listen: false)
           .addBranchToList(branchModel);
 
-      Navigator.pop(context);
-      Navigator.pop(context);
+
       // widget.addToList(branchModel);
       //Navigator.pop(context, branchModel);
     });

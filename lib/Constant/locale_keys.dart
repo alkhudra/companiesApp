@@ -209,4 +209,5 @@ abstract class LocaleKeys {
   static const transfer = "transfer";
   static const error_in_order = "error_in_order";
   static const deleted_account = "deleted_account";
+  static const no_notification = "no_notification";
 }

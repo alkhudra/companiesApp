@@ -13,31 +13,36 @@ class BranchProvider with ChangeNotifier {
 
   BranchProvider(this.context);
 
-
-  setCities(List<Cities>? cities ){
-    citiesList =cities;
+  clearProvider() {
+    branchList = [];
+    citiesList = [];
   }
-  setBranchList(List<BranchModel>? list){
-    branchList = list;
+
+  setCities(List<Cities>? list) {
+    citiesList!.addAll(list!
+        .where((a) => citiesList!.every((b) => a.arCityName != b.arCityName)));
+  }
+
+  setBranchList(List<BranchModel>? list) {
+    branchList!
+        .addAll(list!.where((a) => branchList!.every((b) => a.id != b.id)));
     //notifyListeners();
   }
 
   addBranchToList(BranchModel model) {
-    branchList!.insert(0,model);
+    branchList!.insert(0, model);
     notifyListeners();
   }
 
   removeBranchFromList(BranchModel model) {
     final branchId = model.id;
-    BranchModel? branchModel =
-    branchList!.firstWhereOrNull((element) {
+    BranchModel? branchModel = branchList!.firstWhereOrNull((element) {
       return element.id == branchId;
     });
     if (branchModel != null) {
       branchList!.remove(branchModel);
       notifyListeners();
     }
-
   }
 
   int get listCount {
@@ -45,10 +50,8 @@ class BranchProvider with ChangeNotifier {
   }
 
   UnmodifiableListView<BranchModel> get getBranchList {
-  //  if(branchList!.length !=0)
+    //  if(branchList!.length !=0)
     return UnmodifiableListView(branchList!);
-   // else return loadData();
-
+    // else return loadData();
   }
-
 }

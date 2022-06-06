@@ -392,9 +392,10 @@ class _EditBranchPageState extends State<EditBranchPage> {
       BranchModel branchModel = successBranchResponseModel.branchObject!;
 
       Navigator.pop(context);
+      Navigator.pop(context);
       //   Navigator.pop(context, branchModel);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => BranchList()));
+   /*   Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => BranchList()));*/
     });
   }
 
@@ -507,7 +508,7 @@ class _EditBranchPageState extends State<EditBranchPage> {
           MessageResponseModel.fromJson(result.result);
       showSuccessMessage(context, messageResponseModel.message!);
       Navigator.pop(context);
-      Provider.of<BranchProvider>(context, listen: true)
+      Provider.of<BranchProvider>(context, listen: false)
           .removeBranchFromList(widget.branchModel);
       Navigator.pop(context);
 

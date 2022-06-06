@@ -1,8 +1,9 @@
 abstract class ApiConst {
   static const String basic_url =
-     'https://alkhadraunited.com/api';// 'https://company.alkhadraunited.com/';// 'http://alkhudrahproject-001-site2.ctempurl.com/api';
-  static const String dashboard_url ='https://dashboard.alkhadraunited.com/';//'https://alkhadraunited.com/';//'http://alkhudrahproject-001-site1.ctempurl.com/' ;//'http://alkhadraunited.com/';
-  static const String pdf_url =  'https://dashboard.alkhadraunited.com/';
+   'https://alkhadraunited.com/api';
+ // 'http://alkhudrahproject-001-site2.ctempurl.com/api';
+  static const String dashboard_url ='https://dashboard.alkhadraunited.com/';//'https://alkhadraunited.com/';//'http://alkhudrahproject-001-site1.ctempurl.com/' ;
+  static const String pdf_url =  'https://alkhadraunited.com/';
      // 'http://alkhudrahproject-001-site2.ctempurl.com';
   static const String payment_token =
       'VvXSKNFpsHFprBUzg6T4ZJK7ZjEkSMydS3v9e_Ro12ZQPQRUow45N2m-Xq-41MvSAo6BLx36tYZ6Xuk_c_AtAOsn0ZWAAgrKcytoFMuohaHA7hS2BOOdMyHqAEmNW5C11RPF7l_juOVmqYG7nqW3dwfj6uuNhNG_bi6-1FHDHePWm9BJIljxjqJTDG_ceFArToseu9UXwD-IGSfmHAtkg2Jeo7N6j5_wbTrxdB9OdN7OjU4lXquJgBZKfBfB3ubiZqyB39_PYIJ1w8iDJ9rdSCEdaLfWdV81kfF9RHKsb2v9yNFKfLy2lv4woYfKDEYpSBqqrJf4IZ4rPs9dK9h_n_cXAsZ_OtYeXCL3zorSrscgegr20WqcGHfb8GpKfDxRG08wl66lzT0yFi8I-H-7YNyTM5Xb6Q1neY1wCvZYo2mm50TwYBEi3g-OtvA7x7hBSm3J2ZCotN-yZY3ZrSmdoIzakG-wcfUIKGbzvYQTgtWOhygaLgGd5U_j9V56CR58xauKEEza2VgHI-7amKacAFc_OjvN9HXrxu_3b9TWiEMKpgkuy-eOB5Wks1Ye1yGQGsO1V0jK76nQvPVPEomypZuNIMFK6IpTS5I-p6ZVRgENC1qHzoePG3Cw5Ub9m4n_09xy1YwITHSKny8lcAOWJzJjmDFqsQPkvFWr4YaH13oAKS3CR0TTz306eVNYdUyK9Va0yg';

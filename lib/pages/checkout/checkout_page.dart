@@ -74,7 +74,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   bool isOnlineAvailable = true;
 
   // for api
-  bool hasPaid = false;
+  bool hasPaid = true;
 
   String paymentMethod = cash;
   List<BranchModel> branches = [];
@@ -482,21 +482,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
           if (text == LocaleKeys.postpaid.tr()) {
             setState(() {
               isPayDebitSelected = true;
-              hasPaid = false;
+              hasPaid = true;
               paymentMethod = credit;
               _selectedValueIndex = index;
             });
           } else if (text == LocaleKeys.cash.tr()) {
             setState(() {
               isPayDebitSelected = false;
-              hasPaid = false;
+              hasPaid = true;
               _selectedValueIndex = index;
               paymentMethod = cash;
             });
           } else {
             setState(() {
               isPayDebitSelected = false;
-              hasPaid = false;
+              hasPaid = true;
               _selectedValueIndex = index;
               paymentMethod = bankTransfer;
             });

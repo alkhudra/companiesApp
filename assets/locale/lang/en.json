@@ -196,6 +196,7 @@
   "transfer": "Bank Transfer",
   "error_in_order": "You Have an account problem while continuing order , please contact us for help ",
   "deleted_account": "Your account has been inactive , please contact us",
+  "no_notification": "There are no Notifications",
 
   "no_debit_balance": "You have no balance in credit payment, change payment method "
 }
