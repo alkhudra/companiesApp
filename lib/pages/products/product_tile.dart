@@ -38,94 +38,48 @@ class ProductTile extends StatelessWidget {
         : productModel.enItemUnitDesc;
 
     //--------------------------
-    return GestureDetector(
-        child: ListTile(
-          title: Column(
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //left side of card
-                    Container(
-                      width: scWidth * 0.17,
-                      height: scHeight * 0.17,
-                      child: ImageHelper.productImage(productModel.image),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    //center of card
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10, top: 15),
-                          child: Text(
-                            '$name',
-                            style: TextStyle(
-                                color: CustomColors().brownColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          // width: 80,
-                          padding: EdgeInsets.all(2),
-                          child: Text(
-                            ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      padding: EdgeInsets.only(right: 5, left: 5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          AddToFavWidget(productModel: productModel),
-                          //Counter
-
-                          SizedBox(
-                            height: 15,
-                          ),
-                          AddToCartWidget(productModel: productModel),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: 2,
-                color: CustomColors().grayColor,
-              )
-            ],
+    return ListTile(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductDetails(
+                  productModel: productModel,
+                )));
+      },
+      leading: ImageHelper.productImage(productModel.image),
+      trailing:  AddToCartWidget(productModel: productModel),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '$name'.length > 20
+                  ? '${name?.substring(0, 20)} ...'
+                  :'$name',
+              style: TextStyle(
+                  color: CustomColors().brownColor,
+                  fontWeight: FontWeight.bold,
+                  ),
+            ),
           ),
-        ),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProductDetails(
-                        productModel: productModel,
-                      )));
-        });
+          //center of card
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: TextStyle(
+                  color: CustomColors().primaryGreenColor,
+                  fontWeight: FontWeight.w400),
+            ),
+          ),
+
+
+        ],
+      ),
+    );
   }
 }

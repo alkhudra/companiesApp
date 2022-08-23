@@ -208,7 +208,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: Text(
-                          '$name',
+                          '$name'.length > 30
+                              ? '${name?.substring(0, 30)} ...'
+                              : '$name',
+                          maxLines: 1,
                           style: TextStyle(
                             color: CustomColors().blackColor.withOpacity(0.9),
                             fontWeight: FontWeight.w600,
@@ -226,6 +229,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: Text(
                       '$category',
+                      maxLines: 1,
                       style: TextStyle(
                         color: CustomColors().darkGrayColor,
                         fontWeight: FontWeight.bold,
@@ -245,6 +249,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                         child: Text(
                           (getTextWithCurrency(price!) + ' / ' + unit!),
+                          maxLines: 1,
                           style: TextStyle(
                             color: CustomColors().primaryGreenColor,
                             fontWeight: FontWeight.w600,
@@ -286,6 +291,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       margin: EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
                         '$description',
+                        maxLines: 7,
                         overflow: TextOverflow.clip,
                       ),
                     ),
@@ -310,6 +316,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         total > 0
                             ? getTextWithCurrency(total)
                             : getTextWithCurrency(price!),
+                        maxLines: 1,
                         style: TextStyle(
                           color: CustomColors().primaryGreenColor,
                           fontWeight: FontWeight.w600,
@@ -346,5 +353,4 @@ class _ProductDetailsState extends State<ProductDetails> {
       throw ExceptionHelper(apiResponse.message);
     }
   }
-
 }

@@ -171,7 +171,10 @@ class _CartPageState extends State<CartPage> {
                     visible: unavailableItemsList
                         .isNotEmpty || isPricesOrQtyChanged == true
                 ),
-              ListView.builder(
+              ListView.separated(
+                separatorBuilder: (context, index) {
+                  return Divider();
+                },
                 shrinkWrap: true,
                 // physics: ScrollPhysics(),
                 itemBuilder: (context, index) {
@@ -179,10 +182,9 @@ class _CartPageState extends State<CartPage> {
                       key: const ValueKey(0),
                       endActionPane: ActionPane(
                         motion: const BehindMotion(),
-                        dismissible: DismissiblePane(onDismissed: () {}),
                         children: [
                           SlidableAction(
-                            flex: 2,
+
                             backgroundColor: CustomColors().redColor,
                             icon: Icons.delete,
                             label: LocaleKeys.delete_from_cart.tr(),

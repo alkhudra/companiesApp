@@ -29,11 +29,15 @@ class ProductList extends StatelessWidget {
     // .setBranchList(home.user!.branches!);
     return Column(
       children: [
-        ListView.builder(
+        ListView.separated(
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
           // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           shrinkWrap: true,
           controller: enablePaging == true ? controller : null,
           physics: NeverScrollableScrollPhysics(),
+          primary: false,
           itemBuilder: (context, index) {
             /*    if(enablePaging) {
                   if (productProvider.getLoadMoreDataStatus == true) {

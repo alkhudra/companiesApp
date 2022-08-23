@@ -97,126 +97,94 @@ Widget cartTile(BuildContext context, String language,
       : 0;
   num stockQty = list[index]!.productModel!.quantity!;
 
-  num productTotal = list[index]!.totalProductPrice != null
+  num productTotal =list[index]!.totalProductPrice != null
       ? list[index]!.totalProductPrice!
       : 0;
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
 
-  return
-         Column(
-           children: [
-             GestureDetector(
-               onTap: () {
-                 if (isDeleted == false &&
-                     isAvailable == true &&
-                     userQty <= stockQty)
-                   Navigator.push(
-                       context,
-                       MaterialPageRoute(
-                           builder: (context) => ProductDetails(
-                                 productModel: model,
+  return ListTile(
+    onTap: () {
+      if (isDeleted == false && isAvailable == true && userQty <= stockQty)
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductDetails(
+                      productModel: model,
+                    )));
+    },
+    leading: ImageHelper.productImage(model.image),
+    trailing: Icon(Icons.arrow_right_sharp),
+    title: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        //product name
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Text(
+             // '$name',
+              '$name'.length > 20
+                  ? '${name?.substring(0, 20)} ...'
+                  :'$name',
+              maxLines: 1,
+              style: TextStyle(
+                  color: isAvailable == true || isDeleted == false
+                      ? CustomColors().brownColor
+                      : CustomColors().grayColor,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
 
-                               )));
-               },
-               child: ListTile(
-                 title: Column(
-                   mainAxisAlignment: MainAxisAlignment.start,
-                   children: [
-                     Container(
-                       width: double.infinity,
-                       height: scHeight * 0.1,
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: [
-                           Container(
-                             width: 75,
-                             height: 75,
-                             child: ImageHelper.productImage(model.image),
-                           ),
-                           //category, name and price
-                           Column(
-                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                               //product name
-                               Container(
-                                 child: Text(
-                                   '$name',
-                                   style: TextStyle(
-                                       color: isAvailable == true || isDeleted == false
-                                           ? CustomColors().brownColor
-                                           : CustomColors().grayColor,
-                                       fontWeight: FontWeight.w600),
-                                 ),
-                               ),
-
-                               // price
-                               Row(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   Container(
-                                     child: Text(
-                                       getTextWithCurrency(price!),
-                                       style: TextStyle(
-                                           color: isPriceChanged!
-                                               ? CustomColors().redColor
-                                               : isAvailable == true ||
-                                                       isDeleted == false
-                                                   ? CustomColors().primaryGreenColor
-                                                   : CustomColors().grayColor,
-                                           fontWeight: FontWeight.w500),
-                                     ),
-                                   ),
-                                   Container(
-                                     child: Text(
-                                       ' ×  $userQty  ',
-                                       style: TextStyle(
-                                           color: isQtyChanged == true
-                                               ? CustomColors().redColor
-                                               : isAvailable == true ||
-                                                       isDeleted == false
-                                                   ? CustomColors().primaryGreenColor
-                                                   : CustomColors().grayColor,
-                                           fontWeight: FontWeight.w500),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: scHeight * 0.08,
-                                   ),
-                                   Container(
-                                     child: Text(
-                                       getTextWithCurrency(productTotal),
-                                       style: TextStyle(
-                                           color: isPriceChanged
-                                               ? CustomColors().redColor
-                                               : isAvailable == true ||
-                                                       isDeleted == false
-                                                   ? CustomColors().primaryGreenColor
-                                                   : CustomColors().grayColor,
-                                           fontWeight: FontWeight.w600),
-                                     ),
-                                   ),
-
-
-                                 ],
-                               ),
-                             ],
-                           ),
-                         ],
-                       ),
-                     ),
-                   ],
-                 ),
-               ),
-             ),
-
-             Divider(
-               thickness: 1,
-               color: CustomColors().grayColor,
-             ),
-           ],
-         );
+        // price
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    getTextWithCurrency(price!),
+                    maxLines: 1,
+                    style: TextStyle(
+                        color: isPriceChanged!
+                            ? CustomColors().redColor
+                            : isAvailable == true || isDeleted == false
+                                ? CustomColors().primaryGreenColor
+                                : CustomColors().grayColor,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                     ' ×  $userQty  ',
+                    maxLines: 1,
+                    style: TextStyle(
+                        color: isQtyChanged == true
+                            ? CustomColors().redColor
+                            : isAvailable == true || isDeleted == false
+                                ? CustomColors().primaryGreenColor
+                                : CustomColors().grayColor,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Text(
+                 getTextWithCurrency(productTotal),
+                maxLines: 1,
+                style: TextStyle(
+                    color: isPriceChanged
+                        ? CustomColors().redColor
+                        : isAvailable == true || isDeleted == false
+                            ? CustomColors().primaryGreenColor
+                            : CustomColors().grayColor,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
-
