@@ -58,7 +58,8 @@ Widget greenBtnWithIcon(String txt, IconData icon,
       ));
 }
 
-Widget loadMoreBtn(BuildContext context,  onPressed, double topMarg, double botMarg) {
+Widget loadMoreBtn(
+    BuildContext context, onPressed, double topMarg, double botMarg) {
   return Container(
     margin: EdgeInsets.only(top: topMarg, bottom: botMarg),
     alignment: Alignment.bottomCenter,
@@ -81,27 +82,28 @@ Widget loadMoreBtn(BuildContext context,  onPressed, double topMarg, double botM
   );
 }
 
-Widget unAvailableBtn(String txt, EdgeInsetsGeometry edgeInsetsGeometry,
-    double scHeight, double txtSize) {
+Widget unAvailableBtn() {
   return Container(
-    // height: ButtonsDesign.buttonsHeight,
-    height: scHeight,
-    margin: edgeInsetsGeometry,
+    height: 40,
+    width: 100,
+    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
     decoration: BoxDecoration(
-      color: CustomColors().brownColor.withOpacity(0.6),
+      color: CustomColors().darkGrayColor,
       borderRadius: BorderRadius.circular(30),
     ),
-    child: ButtonsDesign.buttonsText(
-        txt, CustomColors().primaryWhiteColor, txtSize),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ButtonsDesign.buttonsText(LocaleKeys.not_available_product.tr(),
+          CustomColors().primaryWhiteColor, 11.6),
+    ),
   );
 }
 
-Widget cartBtn(IconData icon, EdgeInsetsGeometry edgeInsetsGeometry,
-    Function() onPressed) {
+Widget cartBtn(Function() onPressed) {
   return Container(
       height: 40,
       width: 80,
-      margin: edgeInsetsGeometry,
+      margin: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(),
       child: MaterialButton(
         onPressed: onPressed,
@@ -110,7 +112,7 @@ Widget cartBtn(IconData icon, EdgeInsetsGeometry edgeInsetsGeometry,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon,
+              Icons.shopping_cart,
               color: CustomColors().primaryWhiteColor,
               size: 26,
             ),

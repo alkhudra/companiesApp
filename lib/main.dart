@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
+import 'package:khudrah_companies/pages/home_page.dart';
 import 'package:khudrah_companies/pages/language/language_page.dart';
 import 'package:khudrah_companies/provider/branch_provider.dart';
 import 'package:khudrah_companies/provider/product_provider.dart';

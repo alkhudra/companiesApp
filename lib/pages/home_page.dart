@@ -36,7 +36,7 @@ import 'package:provider/provider.dart';
 import 'branch/add_brunches_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/models/product/category_model.dart';
-import 'cart_page.dart';
+import 'cart/cart_page.dart';
 import 'categories/category_page.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -94,19 +94,9 @@ class _HomePageState extends State<HomePage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-    // HomeSuccessResponseModel home = provider.homeModel;
-/*    String categoryName = LocaleKeys.all_category.tr();
-    List<CategoryItem>? categoryList = [
-      CategoryItem(name: categoryName, arName: categoryName)
-    ];
-    for (CategoryItem categoryItem in provider.categoryList!) {
-      categoryList.add(categoryItem);
-    }*/
-    /*name = home.user!.companyName!;
-    email = home.user!.email!;*/
 
-    return SingleChildScrollView(
-      child: Column(
+    return ListView.builder( itemBuilder: (context, index) {
+      return  Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -230,7 +220,7 @@ class _HomePageState extends State<HomePage> {
             height: 30,
           ),*/
         ],
-      ),
+      );}, itemCount: 1,
     );
   }
 

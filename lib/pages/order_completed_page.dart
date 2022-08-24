@@ -9,7 +9,7 @@ import 'package:khudrah_companies/helpers/pref/shared_pref_helper.dart';
 import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/network/models/orders/order_header.dart';
 import 'package:khudrah_companies/network/models/orders/submit_order_success_response_model.dart';
-import 'package:khudrah_companies/pages/cart_page.dart';
+import 'package:khudrah_companies/pages/cart/cart_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/orders/order_details.dart';
 import 'package:khudrah_companies/resources/custom_colors.dart';

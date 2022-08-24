@@ -6,6 +6,8 @@ import 'package:khudrah_companies/pages/auth/sign_up_page.dart';
 import 'package:khudrah_companies/pages/welcome_page.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 
+import '../pages/home_page.dart';
+
 
 class CustomRouter {
   static Route<dynamic> generatedRoute(RouteSettings settings) {

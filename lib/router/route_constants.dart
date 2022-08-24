@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:khudrah_companies/pages/auth/login_page.dart';
-import 'package:khudrah_companies/pages/cart_page.dart';
+import 'package:khudrah_companies/pages/cart/cart_page.dart';
 import 'package:khudrah_companies/pages/dashboard.dart';
 
 import '../main.dart';
+import '../pages/home_page.dart';
 
 const String homeRoute = "home";
 const String aboutRoute = "about";

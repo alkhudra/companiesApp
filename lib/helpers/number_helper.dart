@@ -6,7 +6,7 @@ String currency = LocaleKeys.sar.tr();
 String getTextWithCurrency(num value) {
   String num = convertTo2Decimals(value);
   String numString =
-      '$num'.length > 7 ? '${num.toString().substring(0, 7)} ...' : '$num';
+      '$num'.length > 6 ? '${num.toString().substring(0, 6)} ...' : '$num';
   return ' $numString ' + LocaleKeys.sar.tr();
 }
 

@@ -238,6 +238,7 @@ class ProductProvider with ChangeNotifier {
     print('cart list ' + cartList.toString());
     notifyListeners();
   }
+  ///////////////////////////////////////////////////////
 
   addCartItemToCartList(ProductsModel model) {
     model.userProductQuantity = model.userProductQuantity! + 1;
@@ -247,18 +248,12 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isItemInCartList(ProductsModel model) {
-    final id = model.productId;
+  ///////////////////////////////////////////////////////
 
-    return cartList.contains(id);
-    /*   ProductsModel? productsModel = cartList.firstWhereOrNull((element) {
-      return element.productId == id;
-    });
-    if (productsModel != null) {
-      return true;
-    } else
-      return false;*/
+  bool isItemInCart(ProductsModel model){
+    return /*!model.isAddedToCart!*/ !cartList.contains(model.productId) && model.userProductQuantity! ==   0;
   }
+  ///////////////////////////////////////////////////////
 
   int getQtyOfItem(ProductsModel model) {
     int qty = model.userProductQuantity!;
@@ -275,8 +270,10 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
+
+  ///////////////////////////////////////////////////////
   increaseQtyOfItem(ProductsModel model) {
-    int qty = model.userProductQuantity!;
+    int qty = getQtyOfItem(model);
 
     qty++;
     final id = model.productId;
@@ -289,6 +286,7 @@ class ProductProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+  ///////////////////////////////////////////////////////
 
   decreaseQtyOfItem(ProductsModel model) {
     int qty = model.userProductQuantity!;
@@ -304,6 +302,7 @@ class ProductProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+  ///////////////////////////////////////////////////////
 
   removeItemFromCartList(ProductsModel model) {
     final id = model.productId;
@@ -320,7 +319,11 @@ class ProductProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+  ///////////////////////////////////////////////////////
 
+  int get cartListCount {
+    return cartList.length;
+  }
   ////////////////////////////
   ////// pagination //////////
   ////////////////////////////

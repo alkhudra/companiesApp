@@ -6,12 +6,15 @@ import 'package:khudrah_companies/designs/no_item_design.dart';
 import 'package:khudrah_companies/dialogs/message_dialog.dart';
 import 'package:khudrah_companies/helpers/cart_helper.dart';
 import 'package:khudrah_companies/helpers/number_helper.dart';
+import 'package:khudrah_companies/helpers/route_helper.dart';
 import 'package:khudrah_companies/helpers/snack_message.dart';
 import 'package:khudrah_companies/network/API/api_response.dart';
 import 'package:khudrah_companies/network/API/api_response_type.dart';
 import 'package:khudrah_companies/network/helper/network_helper.dart';
 import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/repository/product_repository.dart';
+import 'package:khudrah_companies/pages/cart/cart_page.dart';
+import 'package:khudrah_companies/pages/dashboard.dart';
 import 'package:khudrah_companies/pages/full_image_page.dart';
 import 'package:khudrah_companies/pages/products/product_widget/add_to_cart_widget.dart';
 import 'package:khudrah_companies/pages/products/product_widget/add_to_fav_widget.dart';
@@ -21,6 +24,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:khudrah_companies/network/helper/exception_helper.dart';
 import 'package:khudrah_companies/router/route_constants.dart';
 import 'package:provider/provider.dart';
+
+import '../../helpers/custom_btn.dart';
+import '../../provider/product_provider.dart';
+import 'package:badges/badges.dart';
+
+import '../cart/cart_badge.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductsModel productModel;
@@ -72,7 +81,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       ProductsModel model) {
     String language = Provider.of<GeneralProvider>(context, listen: false)
         .userSelectedLanguage;
-    ;
+
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
@@ -83,18 +92,15 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     String? description =
         language == 'ar' ? model.arDescription : model.description;
-    String? productId = model.productId;
     String? category =
         language == 'ar' ? model.arCategoryName : model.categoryName;
     String? unit =
         language == 'ar' ? model.arItemUnitDesc : model.enItemUnitDesc;
 
     String? name = language == 'ar' ? model.arName : model.name;
-    bool? isFavourite = model.isFavourite;
-    num? stockQty = model.quantity;
-    Color favIconColor = isFavourite == true
-        ? CustomColors().redColor
-        : CustomColors().grayColor;
+
+    var productProvider = Provider.of<ProductProvider>(context, listen: true);
+    num userQty = productProvider.getQtyOfItem(model);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -190,17 +196,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Container(
-                  //   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  //   child: Text(
-                  //     '$category',
-                  //     style: TextStyle(
-                  //       color: CustomColors().darkGrayColor,
-                  //       fontWeight: FontWeight.bold,
-                  //       fontSize: 17,
-                  //     ),
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -208,8 +203,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: Text(
-                          '$name'.length > 30
-                              ? '${name?.substring(0, 30)} ...'
+                          '$name'.length > 25
+                              ? '${name?.substring(0, 25)} ...'
                               : '$name',
                           maxLines: 1,
                           style: TextStyle(
@@ -219,7 +214,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                       ),
-                      AddToFavWidget(productModel: widget.productModel),
+                      Row(
+                        children: [
+                          AddToFavWidget(productModel: widget.productModel),
+                         // CartBadge(),
+
+                        ],
+                      )
                     ],
                   ),
                   SizedBox(
@@ -313,9 +314,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   children: [
                     Container(
                       child: Text(
-                        total > 0
-                            ? getTextWithCurrency(total)
-                            : getTextWithCurrency(price!),
+                        getTextWithCurrency((userQty * price!) == 0
+                            ? price!
+                            : (userQty * price!)),
                         maxLines: 1,
                         style: TextStyle(
                           color: CustomColors().primaryGreenColor,
@@ -324,7 +325,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
                     ),
-                    AddToCartWidget(productModel: widget.productModel),
+                    model.isDeleted == false &&
+                        model.isAvailabe == true ?  AddToCartWidget(productModel: model) : unAvailableBtn(),
                   ],
                 ),
         ),

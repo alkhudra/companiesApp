@@ -35,155 +35,116 @@ class AddToCartWidget extends StatelessWidget {
         _isDecreaseBtnEnabled = true;
     return Container(
         margin: EdgeInsets.only(top: 10),
-        child: productModel.isDeleted == false &&
-                productModel.isAvailabe == true
-            //show add to cart options
-            ? productProvider.isItemInCartList(productModel) == false &&
-                    productProvider.getQtyOfItem(productModel) ==
-                        0 //productModel.isAddedToCart == false &&  productModel.userProductQuantity ==  0
-                //show cart button
-                ? cartBtn(
-                    Icons.shopping_cart,
-                    // LocaleKeys.add_cart.tr(),
-                    EdgeInsets.symmetric(horizontal: 5), () {
-                    if (_isAddToCartBtnEnabled) {
-                      _isAddToCartBtnEnabled = false;
-                      print('product id '+ productModel.productId!);
-                      cartDBProcess(
-                              context, productModel.productId!, addToCartConst)
-                          .then((value) {
-                        if (value) {
-                          _isAddToCartBtnEnabled = true;
-                          productProvider.addCartItemToCartList(productModel);
-                        } else
-                          _isAddToCartBtnEnabled = true;
-                      });
-                    }
-                  })
-                //show counter
-                : Container(
-                    margin: EdgeInsets.symmetric(vertical: 5),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    width: scWidth * 0.25,
-                    height: scHeight * 0.04,
-                    decoration: BoxDecoration(
-                      color: CustomColors().grayColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        productProvider.getQtyOfItem(productModel) == 1
-                            ? GestureDetector(
-                                onTap: () {
-                                  if (_isTrashBtnEnabled) {
-                                    _isTrashBtnEnabled = false;
-                                    cartDBProcess(
-                                            context,
-                                            productModel.productId!,
-                                            deleteFromCartConst)
-                                        .then((value) {
-                                      if (value) {
-                                        _isTrashBtnEnabled = true;
+        child: productProvider.isItemInCart(productModel)
+            //show cart button
+            ? cartBtn(() {
+                if (_isAddToCartBtnEnabled) {
+                  _isAddToCartBtnEnabled = false;
+                  print('product id ' + productModel.productId!);
+                  if (productModel.isDeleted == false &&
+                      productModel.isAvailabe == true) {
+                    cartDBProcess(
+                            context, productModel.productId!, addToCartConst)
+                        .then((value) {
+                      if (value) {
+                        _isAddToCartBtnEnabled = true;
+                        productProvider.addCartItemToCartList(productModel);
+                      } else
+                        _isAddToCartBtnEnabled = true;
+                    });
+                  } else {
+                    showSuccessMessage(
+                        context, LocaleKeys.not_available_product.tr());
+                  }
+                }
+              })
+            //show counter
+            : Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                width: scWidth * 0.25,
+                height: scHeight * 0.04,
+                decoration: BoxDecoration(
+                  color: CustomColors().grayColor,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    productProvider.getQtyOfItem(productModel) == 1
+                        ? GestureDetector(
+                            onTap: () {
+                              if (_isTrashBtnEnabled) {
+                                _isTrashBtnEnabled = false;
+                                cartDBProcess(context, productModel.productId!,
+                                        deleteFromCartConst)
+                                    .then((value) {
+                                  if (value) {
+                                    _isTrashBtnEnabled = true;
 
-                                        productProvider.removeItemFromCartList(
-                                            productModel);
-                                      } else
-                                        _isTrashBtnEnabled = true;
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  child: Icon(
-                                    Icons.delete_outline_outlined,
-                                    color: CustomColors().primaryGreenColor,
-                                  ),
-                                ),
-                              )
-                            : GestureDetector(
-                                onTap: () {
-                                  if (_isDecreaseBtnEnabled) {
-                                    _isDecreaseBtnEnabled = false;
-                                    cartDBProcess(
-                                            context,
-                                            productModel.productId!,
-                                            deleteQtyFromCartConst)
-                                        .then((value) {
-                                      if (value) {
-                                        _isDecreaseBtnEnabled = true;
+                                    productProvider
+                                        .removeItemFromCartList(productModel);
+                                  } else
+                                    _isTrashBtnEnabled = true;
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.delete_outline_outlined,
+                              color: CustomColors().primaryGreenColor,
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              if (_isDecreaseBtnEnabled) {
+                                _isDecreaseBtnEnabled = false;
+                                cartDBProcess(context, productModel.productId!,
+                                        deleteQtyFromCartConst)
+                                    .then((value) {
+                                  if (value) {
+                                    _isDecreaseBtnEnabled = true;
 
-                                        productProvider
-                                            .decreaseQtyOfItem(productModel);
-                                      } else
-                                        _isDecreaseBtnEnabled = true;
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  child: Text(
-                                    '-',
-                                    style: TextStyle(
-                                      color: CustomColors().darkBlueColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          child: Text(
-                            productProvider
-                                .getQtyOfItem(productModel)
-                                .toString(),
-                            style: TextStyle(
-                              color: CustomColors().blackColor,
-                              fontWeight: FontWeight.bold,
+                                    productProvider
+                                        .decreaseQtyOfItem(productModel);
+                                  } else
+                                    _isDecreaseBtnEnabled = true;
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.remove,
+                              color: CustomColors().primaryGreenColor,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if (_isIncreaseBtnEnabled) {
-                              _isIncreaseBtnEnabled = false;
-                              cartDBProcess(context, productModel.productId!,
-                                      addQtyToCartConst)
-                                  .then((value) {
-                                if (value) {
-                                  _isIncreaseBtnEnabled = true;
-                                  productProvider
-                                      .increaseQtyOfItem(productModel);
-                                } else
-                                  _isIncreaseBtnEnabled = true;
-                              });
-                            }
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            child: Text(
-                              '+',
-                              style: TextStyle(
-                                color: CustomColors().darkBlueColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      productProvider.getQtyOfItem(productModel).toString(),
+                      style: TextStyle(
+                        color: CustomColors().blackColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  )
-            //show product unavailable
-            : unAvailableBtn(
-                LocaleKeys.not_available_product.tr(),
-                EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                MediaQuery.of(context).size.height * 0.04,
-                11.6));
+                    GestureDetector(
+                      onTap: () {
+                        if (_isIncreaseBtnEnabled) {
+                          _isIncreaseBtnEnabled = false;
+                          cartDBProcess(context, productModel.productId!,
+                                  addQtyToCartConst)
+                              .then((value) {
+                            if (value) {
+                              _isIncreaseBtnEnabled = true;
+                              productProvider.increaseQtyOfItem(productModel);
+                            } else
+                              _isIncreaseBtnEnabled = true;
+                          });
+                        }
+                      },
+                      child: Icon(
+                        Icons.add,
+                        color: CustomColors().primaryGreenColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ));
   }
 
 /////////////////////////////
@@ -210,7 +171,8 @@ class AddToCartWidget extends StatelessWidget {
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
       MessageResponseModel model =
           MessageResponseModel.fromJson(apiResponse.result);
-      showSuccessMessage(context, model.message!);
+      if (process == addToCartConst)
+        showSuccessMessage(context, model.message!);
 
       Navigator.pop(context);
 
