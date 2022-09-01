@@ -8,6 +8,8 @@ import 'package:khudrah_companies/network/models/product/product_model.dart';
 import 'package:khudrah_companies/network/models/user_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../helpers/snack_message.dart';
+
 class ProductProvider with ChangeNotifier {
   List<ProductsModel> favList = [];
   List<ProductsModel> productsList = [];
@@ -138,7 +140,7 @@ class ProductProvider with ChangeNotifier {
     addItemsToCartList(cartList1);
     print('product list items is ' + productsList.toString());
 
- //   notifyListeners();
+    //   notifyListeners();
   }
 
   ////////////////////////////
@@ -213,8 +215,7 @@ class ProductProvider with ChangeNotifier {
     searchPageList.addAll(pagingList
         .where((a) => searchPageList.every((b) => a.productId != b.productId)));
 
-
-    print('search list is ' + searchPageList .toString());
+    print('search list is ' + searchPageList.toString());
     addItemsToProductList(pagingList);
   }
 
@@ -225,24 +226,16 @@ class ProductProvider with ChangeNotifier {
   addItemsToCartList(List<ProductsModel> pagingList) {
     cartList.addAll(pagingList
         .where((a) => cartList.every((b) => a.productId != b.productId)));
-/*
-    cartList += pagingList;
-*/ /*    for(ProductsModel productsModel in pagingList) {
-      if (favList.contains(productsModel.productId)){
-        print('delete item ' + productsModel.name!);
-        favList.remove(productsModel);
-      }
-    }*/ /*
 
-    cartList = cartList.toSet().toList();*/
+    cartList = cartList.toSet().toList();
     print('cart list ' + cartList.toString());
     notifyListeners();
   }
   ///////////////////////////////////////////////////////
 
   addCartItemToCartList(ProductsModel model) {
-    model.userProductQuantity = model.userProductQuantity! + 1;
     cartList.insert(0, model);
+    model.userProductQuantity = model.userProductQuantity! + 1;
 
     print('item added to cart list provider');
     notifyListeners();
@@ -250,55 +243,83 @@ class ProductProvider with ChangeNotifier {
 
   ///////////////////////////////////////////////////////
 
-  bool isItemInCart(ProductsModel model){
-    return /*!model.isAddedToCart!*/ !cartList.contains(model.productId) && model.userProductQuantity! ==   0;
+  bool isItemInCart(ProductsModel model) {
+    bool value = false;
+    cartList.firstWhereOrNull((element) {
+      return element.productId == model.productId
+          ? value = true
+          : value = false;
+    });
+    print('is item in cart  ##### : ' + value.toString());
+    return /*!model.isAddedToCart! !cartList.contains(model.productId) && !model.isAddedToCart!;
+   && model.userProductQuantity! ==   0;*/
+
+        value;
+    // !cartList.contains(model.productId);
+  }
+  ///////////////////////////////////////////////////////
+
+  ProductsModel? getItemFromCartList(String id) {
+
+    ProductsModel? productsModel=   cartList.firstWhereOrNull((element) {
+      return element.productId ==id;
+    });
+
+    return productsModel;
   }
   ///////////////////////////////////////////////////////
 
   int getQtyOfItem(ProductsModel model) {
-    int qty = model.userProductQuantity!;
-
     final id = model.productId;
     ProductsModel? productsModel = cartList.firstWhereOrNull((element) {
       return element.productId == id;
     });
 
     if (productsModel != null) {
-      return qty;
+      return productsModel.userProductQuantity!;
     } else {
       return 0;
     }
   }
 
-
   ///////////////////////////////////////////////////////
   increaseQtyOfItem(ProductsModel model) {
-    int qty = getQtyOfItem(model);
-
-    qty++;
     final id = model.productId;
     ProductsModel? productsModel = cartList.firstWhereOrNull((element) {
       return element.productId == id;
     });
 
-    if (productsModel != null) {
-      productsModel.userProductQuantity = qty;
+    if (productsModel != null && productsModel.userProductQuantity != null) {
+      if (productsModel.userProductQuantity! < productsModel.quantity!) {
+        productsModel.userProductQuantity =
+            productsModel.userProductQuantity! + 1;
+      }
+
+      print(productsModel.userProductQuantity);
+
       notifyListeners();
     }
   }
   ///////////////////////////////////////////////////////
 
   decreaseQtyOfItem(ProductsModel model) {
-    int qty = model.userProductQuantity!;
-
-    qty--;
     final id = model.productId;
     ProductsModel? productsModel = cartList.firstWhereOrNull((element) {
       return element.productId == id;
     });
 
-    if (productsModel != null) {
-      productsModel.userProductQuantity = qty;
+    if (productsModel != null && productsModel.userProductQuantity != null) {
+      if (productsModel.userProductQuantity! > 0) {
+        if (productsModel.userProductQuantity! == 1) {
+          productsModel.userProductQuantity = 0;
+          cartList.remove(productsModel);
+        } else {
+          productsModel.userProductQuantity =
+              productsModel.userProductQuantity! - 1;
+        }
+      }
+
+      print(productsModel.userProductQuantity);
       notifyListeners();
     }
   }
@@ -311,7 +332,7 @@ class ProductProvider with ChangeNotifier {
     });
     if (productsModel != null) {
       model.userProductQuantity = 0;
-
+      model.isAddedToCart = false;
       cartList.remove(productsModel);
       print('item removed from cart list provider');
       print('items in cart list ' + cartList.toString());
@@ -350,7 +371,6 @@ class ProductProvider with ChangeNotifier {
   void resetPageNumber() {
     pageNumber = 1;
     print(' /// pageNumber now is $pageNumber /// ');
-
   }
 
   int get getPageNumber {

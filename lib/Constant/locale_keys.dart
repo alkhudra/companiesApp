@@ -186,6 +186,8 @@ abstract class LocaleKeys {
   static const credit_card = "credit_card";
   static const postpaid = "postpaid";
   static const send_order = "send_order";
+  static const select_online_payment = "select_online_payment";
+
   static const order_complete_successfully = "order_complete_successfully";
   static const order_complete_fail = "order_complete_fail";
   static const display_order = "display_order";

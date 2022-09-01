@@ -70,23 +70,25 @@ class _OrderListState extends State<OrderList> {
 
  Widget pageDesign(BuildContext context) {
    return list.length > 0
-        ?  Column(
-            children: [
+        ?  /*Column(
+            children: [*/
               ListView.builder(
                 shrinkWrap: true,
                 controller: _controller,
+//                physics: NeverScrollableScrollPhysics(),
+
                 itemBuilder: ((context, index) {
                   return orderTileDesign(context, list[index]);
                 }),
                 itemCount: list.length,
-              ),
-              if (isThereMoreItems == true)
+              )
+         /*     if (isThereMoreItems == true)
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                   child: Center(child: CircularProgressIndicator()),
                 )
             ],
-          )
+          )*/
         : noItemDesign(
             LocaleKeys.no_finished_orders.tr(), 'images/not_found.png');
   }

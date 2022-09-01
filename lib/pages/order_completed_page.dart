@@ -71,7 +71,7 @@ class _OrderCompletedPageState extends State<OrderCompletedPage> {
                     ),
                   ),
                 ),
-                if (widget.isSuccess == true && widget.model != null)
+                if (widget.isSuccess == true && widget.model != null && widget.model!.orderHeader != null )
                   Column(
                     children: [
                       Padding(
@@ -108,10 +108,10 @@ class _OrderCompletedPageState extends State<OrderCompletedPage> {
                     moveToNewStack(context, dashBoardRoute);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Text(LocaleKeys.main_page.tr(),
                         style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 20,
                             color: CustomColors().primaryGreenColor)),
                   ),
                 ),

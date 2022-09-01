@@ -29,27 +29,30 @@ class ProductList extends StatelessWidget {
     // .setBranchList(home.user!.branches!);
     return Column(
       children: [
-        ListView.separated(
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
-          // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          shrinkWrap: true,
-          controller: enablePaging == true ? controller : null,
-          physics: NeverScrollableScrollPhysics(),
-          primary: false,
-          itemBuilder: (context, index) {
-            /*    if(enablePaging) {
-                  if (productProvider.getLoadMoreDataStatus == true) {
-                    if (index == productProvider.productListCount - 1) {
-                      return Center(child: CircularProgressIndicator());
+        Padding(
+          padding: const EdgeInsets.only(bottom: 18.0),
+          child: ListView.separated(
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+            // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            shrinkWrap: true,
+            controller: enablePaging == true ? controller : null,
+            physics: NeverScrollableScrollPhysics(),
+            primary: false,
+            itemBuilder: (context, index) {
+              /*    if(enablePaging) {
+                    if (productProvider.getLoadMoreDataStatus == true) {
+                      if (index == productProvider.productListCount - 1) {
+                        return Center(child: CircularProgressIndicator());
+                      }
                     }
-                  }
-                }*/
-            final ProductsModel model = productsList![index];
-            return ProductTile(productModel: model);
-          },
-          itemCount: productsList!.length,
+                  }*/
+              final ProductsModel model = productsList![index];
+              return ProductTile(productModel: model);
+            },
+            itemCount: productsList!.length,
+          ),
         ),
         if (enablePaging == true &&
             productProvider.getLoadMoreDataStatus == true)

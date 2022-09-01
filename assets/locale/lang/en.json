@@ -1,5 +1,5 @@
 {
-  "alkhadra": "Al-Khadra Companies",
+  "alkhadra": "Al-Khadra'a Companies",
   "create_account": "Create an account",
   "log_in": "Sign In",
   "already_have_account": "Already Have an Account?",
@@ -13,7 +13,7 @@
   "sign_up": "Sign Up",
   "enter_code_note": "Enter the code sent to   ",
   "resend_code_note": "You didn't receive a code?  ",
-  "auth_note": "Thank you for choosing AlKhadra United Company. Please verify your email by clicking on the link sent to you, then kindly wait until your account is activated ",
+  "auth_note": "Thank you for choosing Al-Khadra'a United Company. Please verify your email by clicking on the link sent to you, then kindly wait until your account is activated ",
   "new_user": "New User?  ",
   "terms_conditions_note": "By tapping Sign up you accept all  ",
   "terms_conditions": "terms and conditions",
@@ -80,7 +80,7 @@
   "buildingno_required": "Please Enter the branch Building No",
   "buildingno_length_error": "Building No must be 4 numbers  ",
   "address_required": "Please Pick The branch address from the Map ",
-  "waiting_approval": "Thank you for choosing AlKhadra United Company. please wait until we activate your account ",
+  "waiting_approval": "Thank you for choosing Al-Khadra'a United Company. please wait until we activate your account ",
   "worng_password": "Wrong Password , if you forget your password click forget password below",
   "wrong_email": "Wrong Email, please try again",
   "pass_changed_done": "Password Reset Successful",
@@ -190,13 +190,14 @@
   "apple_pay": "Apple Pay",
   "stc_pay": "STC Pay",
   "pay_now": "Pay Now",
-  "rejected": "Thank You for Choosing AlKhadra United Company, but We Regret Informing You That Your Account Was Not Accepted",
+  "rejected": "Thank You for Choosing Al-Khadra'a United Company, but We Regret Informing You That Your Account Was Not Accepted",
   "control_branches": "Manage Your Branches",
   "no_products": "No Products",
   "transfer": "Bank Transfer",
   "error_in_order": "A Problem in the Account Occurred While Continuing Your Order, Please Contact Us for Help ",
   "deleted_account": "Your Account is Inactive, Please Contact Us",
   "no_notification": "There are no Notifications",
+  "select_online_payment": "Select your credit card type ",
 
   "no_debit_balance": "You Don't Have a Balance in Credit Payment. Please Change the Payment Method. "
 }

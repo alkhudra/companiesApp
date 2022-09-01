@@ -35,7 +35,7 @@ class AddToCartWidget extends StatelessWidget {
         _isDecreaseBtnEnabled = true;
     return Container(
         margin: EdgeInsets.only(top: 10),
-        child: productProvider.isItemInCart(productModel)
+        child: productProvider.isItemInCart(productModel) == false
             //show cart button
             ? cartBtn(() {
                 if (_isAddToCartBtnEnabled) {
@@ -126,15 +126,22 @@ class AddToCartWidget extends StatelessWidget {
                       onTap: () {
                         if (_isIncreaseBtnEnabled) {
                           _isIncreaseBtnEnabled = false;
-                          cartDBProcess(context, productModel.productId!,
-                                  addQtyToCartConst)
-                              .then((value) {
-                            if (value) {
-                              _isIncreaseBtnEnabled = true;
-                              productProvider.increaseQtyOfItem(productModel);
-                            } else
-                              _isIncreaseBtnEnabled = true;
-                          });
+                          var model = productProvider.getItemFromCartList(productModel.productId!);
+                          if(model != null &&
+                              (model.userProductQuantity! < model.quantity! )) {
+                            cartDBProcess(context, productModel.productId!,
+                                addQtyToCartConst)
+                                .then((value) {
+                              if (value) {
+                                _isIncreaseBtnEnabled = true;
+                                productProvider.increaseQtyOfItem(productModel);
+                              } else
+                                _isIncreaseBtnEnabled = true;
+                            });
+                          }else {
+                            _isIncreaseBtnEnabled = true;
+                            showSuccessMessage(context, LocaleKeys.no_stock.tr());
+                          }
                         }
                       },
                       child: Icon(

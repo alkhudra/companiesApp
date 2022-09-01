@@ -12,6 +12,8 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
+import '../../helpers/number_helper.dart';
+
 class ProductTile extends StatelessWidget {
   final ProductsModel productModel;
   ProductTile({
@@ -20,15 +22,11 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? price = (productModel.hasSpecialPrice == true
+    num? price = (productModel.hasSpecialPrice == true
             ? productModel.netSpecialPrice
             : productModel.netPrice)
-        ?.toStringAsFixed(2);
-    Size size = MediaQuery.of(context).size;
-    double scWidth = size.width;
-    double scHeight = size.height;
+        ?.toDouble();
 
-    //   price = price.toStringAsFixed(1);
     String language = Provider.of<GeneralProvider>(context, listen: true)
         .userSelectedLanguage;
 
@@ -44,31 +42,29 @@ class ProductTile extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ProductDetails(
-                  productModel: productModel,
-                )));
+                      productModel: productModel,
+                    )));
       },
       leading: ImageHelper.productImage(productModel.image),
-      trailing:  AddToCartWidget(productModel: productModel),
+      trailing: AddToCartWidget(productModel: productModel),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '$name'.length > 20
-                  ? '${name?.substring(0, 20)} ...'
-                  :'$name',
+              '$name'.length > 20 ? '${name?.substring(0, 20)} ...' : '$name',
               style: TextStyle(
-                  color: CustomColors().brownColor,
-                  fontWeight: FontWeight.bold,
-                  ),
+                color: CustomColors().brownColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           //center of card
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
+              (getTextWithCurrency(price!) + ' / ' + unit!),
               overflow: TextOverflow.ellipsis,
               softWrap: false,
               style: TextStyle(
@@ -76,8 +72,6 @@ class ProductTile extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
           ),
-
-
         ],
       ),
     );

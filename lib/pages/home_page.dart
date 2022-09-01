@@ -94,133 +94,140 @@ class _HomePageState extends State<HomePage> {
     double scWidth = size.width;
     double scHeight = size.height;
 
-
-    return ListView.builder( itemBuilder: (context, index) {
-      return  Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          //Search bar and button
-          Container(
-            child: SearchHelper().searchBar(context, searchController, false),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          //Categories title
-          Container(
-            width: scWidth * 15,
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Text(
-              LocaleKeys.categories.tr(),
-              style: TextStyle(
-                color: CustomColors().darkBlueColor,
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            //Search bar and button
+            Container(
+              child: SearchHelper().searchBar(context, searchController, false),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            //Categories title
+            Container(
+              width: scWidth * 15,
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Text(
+                LocaleKeys.categories.tr(),
+                style: TextStyle(
+                  color: CustomColors().darkBlueColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
-          ),
 
-          Consumer<ProductProvider>(builder: (context, provider, child) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //Categories items
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  //   width: scWidth * 0.8,
-                  height: scHeight * 0.16,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Container(
-                            // width: scWidth * 0.27,
-                            width: scWidth * 0.23,
-                            // height: scHeight * 0.11,
-                            height: scHeight * 0.1,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 3),
-                            child: GestureDetector(
-                              child: ImageHelper.categoryImage(
-                                  provider.categoryList[index].image),
-                              onTap: () {
-                                if (index != 0) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CategoryPage(
-                                              categoriesItem:
-                                                  provider.categoryList[index],
-                                            )),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AllCategory()),
-                                  );
-                                }
-                              },
+            Consumer<ProductProvider>(builder: (context, provider, child) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //Categories items
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    //   width: scWidth * 0.8,
+                    height: scHeight * 0.16,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Container(
+                              // width: scWidth * 0.27,
+                              width: scWidth * 0.23,
+                              // height: scHeight * 0.11,
+                              height: scHeight * 0.1,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 3),
+                              child: GestureDetector(
+                                child: ImageHelper.categoryImage(
+                                    provider.categoryList[index].image),
+                                onTap: () {
+                                  if (index != 0){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CategoryPage(
+                                                categoriesItem: provider
+                                                    .categoryList[index],
+                                              )),
+                                    );
+
+
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AllCategory()),
+                                    );
+                                  }
+                                },
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            setCategoryName(provider.categoryList[index])!,
-                            style: TextStyle(
-                                color: CustomColors().brownColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      );
-                    },
-                    itemCount:
-                        provider.categoryListCount, //categoryList.length,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                //Newest deals title and button
-
-                //Temp gesture detect, remove when done
-                Container(
-                  margin: EdgeInsets.only(left: 15, right: 15),
-                  child: Text(
-                    LocaleKeys.newest_deals.tr(),
-                    style: TextStyle(
-                      color: CustomColors().darkBlueColor,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              setCategoryName(provider.categoryList[index])!,
+                              style: TextStyle(
+                                  color: CustomColors().brownColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        );
+                      },
+                      itemCount:
+                          provider.categoryListCount, //categoryList.length,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                provider.productHomeListCount > 0
-                    ? ProductList(
-                        provider.homePageList,
-                      )
-                    : noItemDesign(
-                        LocaleKeys.no_products.tr(), 'images/not_found.png'),
-              ],
-            );
-          }),
-          /*    SizedBox(
+                  SizedBox(
+                    height: 5,
+                  ),
+                  //Newest deals title and button
+
+                  //Temp gesture detect, remove when done
+                  Container(
+                    margin: EdgeInsets.only(left: 15, right: 15),
+                    child: Text(
+                      LocaleKeys.newest_deals.tr(),
+                      style: TextStyle(
+                        color: CustomColors().darkBlueColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  provider.productHomeListCount > 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(bottom: 18.0),
+                          child: ProductList(
+                            provider.homePageList,
+                          ),
+                        )
+                      : noItemDesign(
+                          LocaleKeys.no_products.tr(), 'images/not_found.png'),
+                ],
+              );
+            }),
+            /*    SizedBox(
             height: 30,
           ),*/
-        ],
-      );}, itemCount: 1,
+          ],
+        );
+      },
+      itemCount: 1,
     );
   }
 
@@ -257,6 +264,12 @@ class _HomePageState extends State<HomePage> {
 
         provider.clearProvider();
         print('user id ' + model.user!.id!);
+        print('user credit balance ' + model.user!.companyBalance!.toString());
+        print('product home page  ###### : ' + model.productsList!.toString());
+
+        print('product home page count ###### : ' + model.productsList!.length.toString());
+        PreferencesHelper.setUser(model.user!);
+
         provider.setHomeProductList(model.productsList!);
         provider.setHomeCategoryList(model.categoriesList!);
         provider.setAlreadyHasDataStatus(true);

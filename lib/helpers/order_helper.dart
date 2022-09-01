@@ -62,9 +62,20 @@ class OrderHelper {
         orderItem: orderItemsList);
 
     if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
+
+      if(apiResponse.result["orderAccepted"] != null){
+        if(apiResponse.result["orderAccepted"]  == false)
+          {
+            Navigator.pop(context);
+
+            OrderHelper. viewCompleteOrderPage(context , false);
+
+            return;
+          }
+      }
       SubmitOrderSuccessResponseModel model =
           SubmitOrderSuccessResponseModel.fromJson(apiResponse.result);
-      print(model.toString());
+      print('result after complete order  ### : ' + model.toString());
       Navigator.pop(context);
 
     //  Provider.of<OrderProvider>(context, listen: true).addOrderToList(model.orderHeader!);
@@ -75,6 +86,7 @@ class OrderHelper {
       Navigator.pop(context);
 
 
+      print('error in order #### : '+ apiResponse.message);
       showDialog<String>(
           context: context,
           builder: (BuildContext context) =>

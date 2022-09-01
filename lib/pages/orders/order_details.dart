@@ -21,6 +21,7 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../designs/order_tile_design.dart';
 import '../../helpers/cart_helper.dart';
 import '../../helpers/custom_btn.dart';
 import '../../network/models/cart/success_cart_response_model.dart';
@@ -60,7 +61,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       driverUser = widget.orderModel.driverUser!;
     return Scaffold(
       appBar: appBarDesign(context, LocaleKeys.order_status.tr()),
-      body: model.orderStatus == onDelivery
+      body: /* model.orderStatus == onDelivery
           ? SlidingUpPanel(
               body: pageContent(model),
               minHeight: scHeight * 0.07,
@@ -168,94 +169,73 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
               ),
             )
-          : pageContent(model),
+          :*/
+          pageContent(model),
     );
   }
 //-------------list tile----------------
 
   Widget orderItem(OrderItems item, scHeight) {
     num? productPrice = item.orderedProductPrice;
+    String? name = Provider.of<GeneralProvider>(context, listen: false)
+                .userSelectedLanguage ==
+            "ar"
+        ? item.product!.arName!
+        : item.product!.name!;
     return ListTile(
+      leading: ImageHelper.productImage(item.product!.image),
       title: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 5,
-          ),
+          //product name
           Container(
-            width: double.infinity,
-            height: scHeight * 0.1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 75,
-                  height: 75,
-                  child: ImageHelper.productImage(item.product!.image),
-                ),
-                //category, name and price
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Text(
-                        Provider.of<GeneralProvider>(context, listen: false)
-                                    .userSelectedLanguage ==
-                                "ar"
-                            ? item.product!.arName!
-                            : item.product!.name!,
-                        style: TextStyle(
-                            color: CustomColors().brownColor,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: Text(
+                // '$name',
+                '$name'.length > 20 ? '${name.substring(0, 20)} ...' : '$name',
+                maxLines: 1,
+                style: TextStyle(
+                    color: CustomColors().brownColor,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
 
-                    // price
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Text(
-                            getTextWithCurrency(productPrice!),
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            ' × ' + item.userProductQuantity.toString(),
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        SizedBox(
-                          width: scHeight * 0.08,
-                        ),
-                        Container(
-                          child: Text(
-                            getTextWithCurrency(item.totalProductPrice!),
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
+          // price
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      getTextWithCurrency(productPrice!),
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: CustomColors().primaryGreenColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      ' ×  ' + item.userProductQuantity.toString(),
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: CustomColors().primaryGreenColor,
+                          fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
-
-                SizedBox(
-                  width: 10,
+                Text(
+                  getTextWithCurrency(item.totalProductPrice!),
+                  maxLines: 1,
+                  style: TextStyle(
+                      color: CustomColors().primaryGreenColor,
+                      fontWeight: FontWeight.w600),
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 10,
           ),
         ],
       ),
@@ -342,179 +322,168 @@ class _OrderDetailsState extends State<OrderDetails> {
       paymentText = LocaleKeys.stc_pay.tr();
       //todo:edit stc pay icon
       paymentIcon = FontAwesomeIcons.gratipay;
-    } else if (model.paymentType == credit){
+    } else if (model.paymentType == credit) {
       paymentText = LocaleKeys.postpaid.tr();
       paymentIcon = FontAwesomeIcons.receipt;
-    }else{
+    } else {
       paymentText = LocaleKeys.transfer.tr();
       paymentIcon = FontAwesomeIcons.peopleArrows;
-
     }
 
+    DriverUser driverUser = DriverUser();
+    if (model.driverUser != null) driverUser = widget.orderModel.driverUser!;
     //--------
     int listItemsNumber = model.orderItems!.length;
 
     Size size = MediaQuery.of(context).size;
     double scWidth = size.width;
     double scHeight = size.height;
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          //Stepper container
-          ExpansionTile(
-              initiallyExpanded: false,
-              title: titleTextDesignForExpanTile(LocaleKeys.track_order.tr()),
-              children: [
-                Container(
-                  width: scWidth,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: Stack(
-                    children: [
-                      Container(
-                        margin:
-                            EdgeInsets.only(left: 10, bottom: 10, right: 10),
-                        width: 4,
-                        height: 200,
-                        color: CustomColors().grayColor,
-                      ),
-                      Column(
+    return ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              //Stepper container
+              ExpansionTile(
+                  initiallyExpanded: false,
+                  title:
+                      titleTextDesignForExpanTile(LocaleKeys.track_order.tr()),
+                  children: [
+                    Container(
+                      width: scWidth,
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      child: Stack(
                         children: [
-                          //status title, isActive, isCompleted
-                          statusChange(
-                              LocaleKeys.under_process.tr(),
-                              model.orderStatus == underProcess,
-                              model.orderStatus != underProcess),
-                          statusChange(
-                              LocaleKeys.on_delivery.tr(),
-                              model.orderStatus == onDelivery,
-                              model.orderStatus == delivered),
-                          statusChange(
-                              LocaleKeys.completed_order.tr(),
-                              model.orderStatus == delivered,
-                              model.orderStatus == delivered),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 10, bottom: 10, right: 10),
+                            width: 4,
+                            height: 200,
+                            color: CustomColors().grayColor,
+                          ),
+                          Column(
+                            children: [
+                              //status title, isActive, isCompleted
+                              statusChange(
+                                  LocaleKeys.under_process.tr(),
+                                  model.orderStatus == underProcess,
+                                  model.orderStatus != underProcess),
+                              statusChange(
+                                  LocaleKeys.on_delivery.tr(),
+                                  model.orderStatus == onDelivery,
+                                  model.orderStatus == delivered),
+                              statusChange(
+                                  LocaleKeys.completed_order.tr(),
+                                  model.orderStatus == delivered,
+                                  model.orderStatus == delivered),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ]),
-          SizedBox(
-            height: 15,
-          ),
-          //order summary
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 5),
-                  width: scWidth * 0.9,
-                  height: scHeight * 0.12,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(55),
-                      bottomRight: Radius.circular(55),
                     ),
-                    border: Border.all(
-                      color: CustomColors().primaryGreenColor,
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        child: Container(
-                          width: 5,
-                          height: scHeight * 0.12,
+                  ]),
+              Divider(),
+              //order summary
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      width: scWidth * 0.9,
+                      height: scHeight * 0.12,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(55),
+                          bottomRight: Radius.circular(55),
+                        ),
+                        border: Border.all(
                           color: CustomColors().primaryGreenColor,
                         ),
                       ),
-                      Positioned(
-                        left: 0,
-                        child: Container(
-                          width: scWidth * 0.2,
-                          height: scHeight * 0.17,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('images/ic_fruit_green.png'))),
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Stack(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          Positioned(
+                            left: 0,
+                            child: Container(
+                              width: 5,
+                              height: scHeight * 0.12,
+                              color: CustomColors().primaryGreenColor,
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            child: Container(
+                              width: scWidth * 0.2,
+                              height: scHeight * 0.17,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'images/ic_fruit_green.png'))),
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                //replace by order no
-                                child: Text(
-                                  '#' + model.invoiceNumber.toString(),
-                                  style: TextStyle(
-                                    color: CustomColors().primaryGreenColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    //replace by order no
+                                    child: Text(
+                                      '#' + model.invoiceNumber.toString(),
+                                      style: TextStyle(
+                                        color: CustomColors().primaryGreenColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    //replace by actual date
+                                    child: Text(
+                                      orderDate,
+                                      style: TextStyle(
+                                        color: CustomColors().primaryGreenColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Container(
-                                //replace by actual date
+                                //replace text by notification
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: scWidth * 0.12),
                                 child: Text(
-                                  orderDate,
+                                  '($listItemsNumber) ' + LocaleKeys.items.tr(),
                                   style: TextStyle(
-                                    color: CustomColors().primaryGreenColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: CustomColors().darkBlueColor),
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                          Container(
-                            //replace text by notification
-                            margin: EdgeInsets.symmetric(
-                                horizontal: scWidth * 0.12),
-                            child: Text(
-                              '($listItemsNumber) ' + LocaleKeys.items.tr(),
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: CustomColors().darkBlueColor),
-                            ),
-                          )
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          //ordered products title
-          Row(
-            children: [
+              ),
+              Divider(),
+              //ordered products title
               titleTextDesign(LocaleKeys.products_in_order.tr()),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          //list of ordered products
-          LimitedBox(
-            maxHeight: scHeight * 20,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: ListView.builder(
+
+              //list of ordered products
+
+              Column(
+                children: [
+                  ListView.builder(
                     itemBuilder: (context, index) {
                       return orderItem(model.orderItems![index], scHeight);
                     },
@@ -523,136 +492,159 @@ class _OrderDetailsState extends State<OrderDetails> {
                     // dragStartBehavior: DragStartBehavior.down,
                     physics: NeverScrollableScrollPhysics(),
                   ),
-                ),
-              ],
-            ),
-          ),
-          //payment method
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    titleTextDesign(LocaleKeys.payment_method.tr()),
-                  ],
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: payButtonDesign(
-                          context, paymentColor, paymentText, paymentIcon),
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                    ),
-                    /*       if (model.paymentType == credit)
-                      greenBtn(
-                          LocaleKeys.pay_now.tr(),
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                          () {
+                ],
+              ),
 
-                          })*/
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-          //order details
-          Container(
-            //  height: MediaQuery.of(context).size.height * 0.3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    titleTextDesign(LocaleKeys.order_details.tr()),
-                  ],
-                ),
-                SizedBox(
-                  height: 25,
-                ),
+              if (model.orderStatus == onDelivery)
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    cartDetailsItem(LocaleKeys.subtotal.tr(),
-                        getTextWithCurrency(subtotal!)),
-                    cartDetailsItem(
-                        LocaleKeys.vat.tr(), getTextWithCurrency(vat!)),
-                    if (hasDiscount!)
-                      Column(
+                    Divider(),
+                    titleTextDesign(LocaleKeys.contact_driver.tr()),
+                    ListTile(
+                      trailing: //Call driver button
+                          Container(
+                              width: 45,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(35),
+                                  color: CustomColors().primaryGreenColor),
+                              child: TextButton(
+                                child: Icon(
+                                  FontAwesomeIcons.phone,
+                                  color: CustomColors().primaryWhiteColor,
+                                  size: 24,
+                                ),
+                                onPressed: () {
+                                  directToPhoneCall(
+                                      driverUser.phoneNumber != null
+                                          ? driverUser.phoneNumber!
+                                          : '');
+                                },
+                              )),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          cartDetailsItem(LocaleKeys.discount_percentage.tr(),
-                              getTextWithPercentage(discount!)),
-                          cartDetailsItem(LocaleKeys.discount.tr(),
-                              getTextWithCurrency(priceAfterDiscount!)),
+                          //driver name
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              driverUser.driverName != null
+                                  ? driverUser.driverName!
+                                  : '',
+                              style: TextStyle(
+                                  color: CustomColors().darkBlueColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+
+                          //driver number
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              driverUser.phoneNumber != null
+                                  ? driverUser.phoneNumber!
+                                  : '',
+                              style: TextStyle(
+                                  color: CustomColors()
+                                      .darkGrayColor
+                                      .withOpacity(0.8),
+                                  fontSize: 15),
+                            ),
+                          ),
                         ],
-                      )
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    //total
-                    cartTotalDesign(total!),
-                    //Receipt download button
-                    InkWell(
-                      child: Container(
-                          width: 50,
-                          height: 50,
-                          child: Image.asset('images/ic_file_pdf.png')),
-                      onTap: () {
-                        print(widget.orderModel.invoicePDFPath!);
-                        OrderHelper.displayInvoice(
-                            widget.orderModel.invoicePDFPath!,
-                            widget.orderModel.hasOrderCreatedFromDashboard!);
-                      },
+                      ),
+                      leading:
+                          ImageHelper.driverImage(context, driverUser.image),
                     ),
+
                   ],
                 ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: widget.orderModel.orderStatus == 'Delivered' ? 220 : 25,
-          ),
-        ],
-      ),
-    );
+              Divider(),
+              //payment method
+              titleTextDesign(LocaleKeys.payment_method.tr()),
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: payButtonDesign(
+                        context, paymentColor, paymentText, paymentIcon),
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                  ),
+                  /*       if (model.paymentType == credit)
+                          greenBtn(
+                              LocaleKeys.pay_now.tr(),
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                              () {
+
+                              })*/
+                ],
+              ),
+
+              //order details
+
+              Divider(),
+              titleTextDesign(LocaleKeys.order_details.tr()),
+
+              Row(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      cartDetailsItem(LocaleKeys.subtotal.tr(),
+                          getTextWithCurrency(subtotal!)),
+                      cartDetailsItem(
+                          LocaleKeys.vat.tr(), getTextWithCurrency(vat!)),
+                      if (hasDiscount!)
+                        Column(
+                          children: [
+                            cartDetailsItem(LocaleKeys.discount_percentage.tr(),
+                                getTextWithPercentage(discount!)),
+                            cartDetailsItem(LocaleKeys.discount.tr(),
+                                getTextWithCurrency(priceAfterDiscount!)),
+                          ],
+                        )
+                    ],
+                  ),
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  //total
+                  cartTotalDesign(total!),
+                  //Receipt download button
+                  InkWell(
+                    child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Image.asset('images/ic_file_pdf.png')),
+                    onTap: () {
+                      print(widget.orderModel.invoicePDFPath!);
+                      OrderHelper.displayInvoice(
+                          widget.orderModel.invoicePDFPath!,
+                          widget.orderModel.hasOrderCreatedFromDashboard!);
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: widget.orderModel.orderStatus == 'Delivered' ? 220 : 25,
+              ),
+            ],
+          );
+        });
   }
 
-  titleTextDesign(text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      child: Text(
-        text,
-        style: TextStyle(
-            color: CustomColors().brownColor,
-            fontWeight: FontWeight.w800,
-            fontSize: 19),
-      ),
-    );
-  }
 
-    titleTextDesignForExpanTile(text) {
+
+  titleTextDesignForExpanTile(text) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Text(

@@ -161,3 +161,20 @@ void directToOrderDetails(context, {model, orderId}) async {
                   orderModel: model,
                 )));
 }
+
+titleTextDesign(text) {
+  return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(
+          text,
+          style: TextStyle(
+              color: CustomColors().brownColor,
+              fontWeight: FontWeight.w800,
+              fontSize: 19),
+        ),
+      ),
+    ],
+  );
+}

@@ -149,6 +149,9 @@ class ProductsModel {
     _userProductQuantity = value;
   }
 
+  set isAddedToCart(bool? value) {
+    _isAddedToCart = value;
+  }
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = _productId;
@@ -184,6 +187,6 @@ class ProductsModel {
 
   @override
   String toString() {
-    return 'ProductsModel{_arName: $_arName, _userProductQuantity: $_userProductQuantity}';
+    return 'ProductsModel{_arName: $_arName, _quantity: $_quantity}';
   }
 }

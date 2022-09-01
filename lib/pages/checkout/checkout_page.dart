@@ -82,9 +82,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     //  List<BranchModel> branches = widget.branchList!;
-    // isDebitAllow = widget.currentUser!.hasCreditOption!;
+     isDebitAllow = widget.currentUser!.hasCreditOption!;
     // List<BranchModel> branches = [dropdownValue];
-    final provider = Provider.of<BranchProvider>(context, listen: false);
+    final provider = Provider.of<BranchProvider>(context, listen: true);
 
     branches = [dropdownValue];
 
@@ -119,6 +119,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       resizeToAvoidBottomInset: false,
       appBar: appBarDesign(context, LocaleKeys.checkout.tr()),
       body: SlidingUpPanel(
+
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
@@ -194,12 +195,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     child: greenBtn(LocaleKeys.send_order.tr(),
                         EdgeInsets.symmetric(vertical: 4), () {
                       if (addressController.text != '') {
-                        if (isPayDebitSelected == true) {
+                        if (isPayDebitSelected == true && widget.currentUser!.companyBalance! == 0) {
                           //   payWithEmbeddedPayment();
-                          if (widget.currentUser!.companyBalance! <= 0) {
+                          print(widget.currentUser!.companyBalance!.toString());
                             showErrorMessageDialog(
                                 context, LocaleKeys.no_debit_balance.tr());
-                          }
+
                         } else {
                           //  continue order ( api , show success page)
                           setState(() {
@@ -384,19 +385,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           iconData: iconList[index],
                         );
                       }),
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  /*        children: [
-                    ...List.generate(
-                      payMethod.length,
-                      (index) => payButton(
-                          index: index,
-                          text: payMethod[index],
-                          color: index == _selectedValueIndex
-                              ? CustomColors().primaryGreenColor
-                              : CustomColors().darkGrayColor.withOpacity(0.6),
-                          iconData: iconList[index]),
-                    ),
-                  ],*/
+
                 ),
                 SizedBox(
                   height: 20,
@@ -416,7 +405,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  //-----
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
   setBranchList(BranchProvider value) async {
     if (value.branchList!.isEmpty) {
       Map<String, dynamic> headerMap = await getHeaderMap();
@@ -455,7 +449,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
   }
-  //------------------------
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
   Widget payButton(
       {required String text,

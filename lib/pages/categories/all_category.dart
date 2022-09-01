@@ -44,12 +44,13 @@ class _AllCategoryState extends State<AllCategory> {
       getInfoFromDB();
     }
   }
+
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-
   }
+
   @override
   void initState() {
     super.initState();
@@ -60,29 +61,30 @@ class _AllCategoryState extends State<AllCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        //   width: double.infinity,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 18,
-            ),
-            SearchHelper().searchBar(context, srController, false),
-            SizedBox(
-              height: 5,
-            ),
-            FutureBuilder(
-              future: getInfoFromDB(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return getListDesign();
-                } else
-                  return errorCase(snapshot);
-              },
-            ),
-          ],
-        ),
-      ),
+      body: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                SizedBox(
+                  height: 18,
+                ),
+                SearchHelper().searchBar(context, srController, false),
+                SizedBox(
+                  height: 5,
+                ),
+                FutureBuilder(
+                  future: getInfoFromDB(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return getListDesign();
+                    } else
+                      return errorCase(snapshot);
+                  },
+                ),
+              ],
+            );
+          }),
       appBar: appBarDesign(context, LocaleKeys.all_category.tr()),
       // endDrawer: drawerDesign(context),
     );
@@ -102,6 +104,7 @@ class _AllCategoryState extends State<AllCategory> {
               LocaleKeys.no_items_category.tr(), 'images/not_found.png');
     });
   }
+
   Future getInfoFromDB() async {
     //----------start api ----------------
     final provider = Provider.of<ProductProvider>(context, listen: false);
@@ -116,10 +119,10 @@ class _AllCategoryState extends State<AllCategory> {
       ProductRepository productRepository = ProductRepository(headerMap);
 
       ApiResponse apiResponse =
-      await productRepository.getProducts(pageSize, provider.pageNumber);
+          await productRepository.getProducts(pageSize, provider.pageNumber);
       if (apiResponse.apiStatus.code == ApiResponseType.OK.code) {
         ProductListResponseModel? responseModel =
-        ProductListResponseModel.fromJson(apiResponse.result);
+            ProductListResponseModel.fromJson(apiResponse.result);
 
         //provider.resetFavProductList();
         provider.addItemsToProductList(responseModel.products);
@@ -141,7 +144,6 @@ class _AllCategoryState extends State<AllCategory> {
     } else
       return provider.productsList;
   }
-
 
   //-------------------
 

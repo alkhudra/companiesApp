@@ -111,9 +111,9 @@ class BranchModel {
       (json.decode(branch) as List<dynamic>)
           .map<BranchModel>((item) => BranchModel.fromJson(item))
           .toList();
+
   @override
   String toString() {
-    return 'BranchModel{_id: $_id, _branchName: $_branchName, _phoneNumber: $_phoneNumber, _address: $_address, _districtName: $_districtName, _streetName: $_streetName, _nationalAddressNo: $_nationalAddressNo, _city: $_city, _country: $_country, _longitude: $_longitude, _latitude: $_latitude, _companyId: $_companyId}';
+    return 'BranchModel{_branchName: $_branchName}';
   }
-
 }

@@ -5,8 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:khudrah_companies/network/models/branches/branch_list_response_model.dart';
 import 'package:khudrah_companies/network/models/branches/branch_model.dart';
 
+import '../Constant/locale_keys.dart';
+import 'package:easy_localization/easy_localization.dart';
 class BranchProvider with ChangeNotifier {
-  List<BranchModel>? branchList = [];
+  List<BranchModel>? branchList = [ ];
   List<Cities>? citiesList = [];
 
   BuildContext context;
@@ -26,11 +28,13 @@ class BranchProvider with ChangeNotifier {
   setBranchList(List<BranchModel>? list) {
     branchList!
         .addAll(list!.where((a) => branchList!.every((b) => a.id != b.id)));
+    print('branch list is ::: ' + branchList!.toString());
     //notifyListeners();
   }
 
+
   addBranchToList(BranchModel model) {
-    branchList!.insert(0, model);
+    branchList!.insert(1, model);
     notifyListeners();
   }
 

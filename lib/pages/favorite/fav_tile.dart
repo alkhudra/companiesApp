@@ -12,6 +12,8 @@ import 'package:khudrah_companies/resources/custom_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../helpers/number_helper.dart';
+
 class FavoriteTile extends StatelessWidget {
   final ProductsModel productModel;
   FavoriteTile({
@@ -26,9 +28,9 @@ class FavoriteTile extends StatelessWidget {
     String language = Provider.of<GeneralProvider>(context, listen: false)
         .userSelectedLanguage;
 
-    double? price = (productModel.hasSpecialPrice == true
-            ? productModel.specialPrice
-            : productModel.originalPrice)
+    num? price = (productModel.hasSpecialPrice == true
+            ? productModel.netSpecialPrice
+            : productModel.netPrice)
         ?.toDouble();
 
     String? unit = language == 'ar'
@@ -103,7 +105,9 @@ class FavoriteTile extends StatelessWidget {
                     alignment: Alignment.center,
                     margin: EdgeInsets.symmetric(vertical: 7),
                     child: Text(
-                      name!,
+                      '$name'.length > 20
+                          ? '${name?.substring(0, 20)} ...'
+                          : '$name',
                       style: TextStyle(
                         color: CustomColors().brownColor,
                         fontSize: 18.5,
@@ -116,30 +120,20 @@ class FavoriteTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         //price
-                        Container(
-                          child: Text(
-                            ("$price " + LocaleKeys.sar.tr() + ' / ' + unit!),
-                            style: TextStyle(
-                                color: CustomColors().primaryGreenColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600),
-                          ),
+                        Text(
+                          (getTextWithCurrency(price!) + ' / ' + unit!),
+                          style: TextStyle(
+                              color: CustomColors().primaryGreenColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
                   ),
                   // SizedBox(height: scHeight*0.01,),
                   //Counter and cart icon row
-                  Container(
-                    /* width: MediaQuery.of(context).size.width * 0.23,
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: CustomColors().primaryGreenColor,
-                            ),*/
-                    child: AddToCartWidget(
-                      productModel: productModel,
-                    ),
+                  AddToCartWidget(
+                    productModel: productModel,
                   ),
                 ],
               ),

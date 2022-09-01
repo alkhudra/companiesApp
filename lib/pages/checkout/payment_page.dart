@@ -30,6 +30,7 @@ import 'package:myfatoorah_flutter/utils/MFCountry.dart';
 import 'package:myfatoorah_flutter/utils/MFEnvironment.dart';
 import 'package:myfatoorah_flutter/utils/MFResult.dart';
 
+import '../../designs/order_tile_design.dart';
 import '../order_completed_page.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -72,14 +73,42 @@ class _PaymentPageState extends State<PaymentPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: appBarDesign(context, LocaleKeys.checkout.tr()),
-      body: SlidingUpPanel(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
-        ),
-        panel: Container(
-          height: scHeight * 0.16,
-          child: Column(
+      body: SingleChildScrollView(
+        child: Column(children: [
+          titleTextDesign(LocaleKeys.select_online_payment.tr()),
+          paymentMethods.length != 0
+              ? Container(
+                  height: 200,
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        /* crossAxisSpacing: 0.0,
+                      mainAxisSpacing: 0.0,
+                  childAspectRatio: 10/10.5*/
+                      ),
+                      itemCount: paymentMethods.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.network(paymentMethods[index].imageUrl!,
+                                  width: 60.0, height: 60.0),
+                              Checkbox(
+                                  value: isSelected[index],
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      setPaymentMethodSelected(index, value!);
+                                    });
+                                  })
+                            ],
+                          ),
+                        );
+                      }),
+                )
+              : CircularProgressIndicator(),
+          Divider(),
+          Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -88,20 +117,8 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
               Row(
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    child: Text(
-                      LocaleKeys.order_details.tr(),
-                      style: TextStyle(
-                          color: CustomColors().brownColor.withOpacity(0.7),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
-                    ),
-                  ),
+                  titleTextDesign(LocaleKeys.order_details.tr()),
                 ],
-              ),
-              SizedBox(
-                height: 25,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -133,11 +150,7 @@ class _PaymentPageState extends State<PaymentPage> {
               SizedBox(
                 height: 10,
               ),
-              Divider(
-                thickness: 1,
-                indent: 25,
-                endIndent: 25,
-              ),
+              Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -152,38 +165,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
             ],
           ),
-        ),
-        body: Container(
-          child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                /* crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 0.0,
-              childAspectRatio: 10/10.5*/
-              ),
-              itemCount: paymentMethods.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Image.network(paymentMethods[index].imageUrl!,
-                          width: 60.0, height: 60.0),
-                      Checkbox(
-                          value: isSelected[index],
-                          onChanged: (bool? value) {
-                            setState(() {
-                              setPaymentMethodSelected(index, value!);
-                            });
-                          })
-                    ],
-                  ),
-                );
-              }),
-        ),
-        //slide up panel height
-        minHeight: scHeight * 0.07,
-        maxHeight: hasDiscount ? scHeight * 0.39 : 235,
+        ]),
       ),
     );
   }

@@ -40,13 +40,13 @@ class ImageHelper {
   static driverImage(context, String? imageUrl) {
     return imageUrl != null
         ? Container(
-          width: 70,
-          height: 70,
+          width: 80,
+          height: 80,
           child: 
           CircleAvatar(
 
             backgroundImage: NetworkImage(
-                ApiConst.dashboard_url + imageUrl,
+                ApiConst.dashboard_url + imageUrl
             //     errorBuilder: (BuildContext context, Object exception,
             //   StackTrace? stackTrace) {
             // return  driverIcon();
@@ -58,14 +58,12 @@ class ImageHelper {
   }
 
  static driverIcon(){
-    return   Container(
-      child: Icon(
-        Icons.person_pin_rounded,
-        color: CustomColors()
-            .darkGrayColor
-            .withOpacity(0.3),
-        size: 55,
-      ),
+    return   Icon(
+      Icons.person_pin_rounded,
+      color: CustomColors()
+          .darkGrayColor
+          .withOpacity(0.3),
+      size: 55,
     );
   }
 }

@@ -76,14 +76,11 @@ Widget cartTotalDesign(num total) {
 }
 
 Widget cartTile(BuildContext context, String language,
-    List<CartProductsList?> list, int index) {
+    List<CartProductsList?> list, int index, onPressed) {
   ProductsModel model = list[index]!.productModel!;
-  Size size = MediaQuery.of(context).size;
-  double scWidth = size.width;
-  double scHeight = size.height;
 
   num? price =
-      (model.hasSpecialPrice == true ? model.specialPrice : model.originalPrice)
+      (model.hasSpecialPrice == true ? model.netSpecialPrice : model.netPrice)
           ?.toDouble();
   String? name = language == 'ar' ? model.arName : model.name;
 
@@ -97,22 +94,16 @@ Widget cartTile(BuildContext context, String language,
       : 0;
   num stockQty = list[index]!.productModel!.quantity!;
 
-  num productTotal =list[index]!.totalProductPrice != null
+  num productTotal = list[index]!.totalProductPrice != null
       ? list[index]!.totalProductPrice!
       : 0;
   bool isAvailable = model.isAvailabe!;
   bool isDeleted = model.isDeleted!;
 
   return ListTile(
-    onTap: () {
-      if (isDeleted == false && isAvailable == true && userQty <= stockQty)
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetails(
-                      productModel: model,
-                    )));
-    },
+    onTap: isDeleted == false && isAvailable == true && userQty <= stockQty
+        ? onPressed
+        : null,
     leading: ImageHelper.productImage(model.image),
     trailing: Icon(Icons.arrow_right_sharp),
     title: Column(
@@ -124,10 +115,8 @@ Widget cartTile(BuildContext context, String language,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: Text(
-             // '$name',
-              '$name'.length > 20
-                  ? '${name?.substring(0, 20)} ...'
-                  :'$name',
+              // '$name',
+              '$name'.length > 20 ? '${name?.substring(0, 20)} ...' : '$name',
               maxLines: 1,
               style: TextStyle(
                   color: isAvailable == true || isDeleted == false
@@ -158,7 +147,7 @@ Widget cartTile(BuildContext context, String language,
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                     ' ×  $userQty  ',
+                    ' ×  $userQty  ',
                     maxLines: 1,
                     style: TextStyle(
                         color: isQtyChanged == true
@@ -171,7 +160,7 @@ Widget cartTile(BuildContext context, String language,
                 ],
               ),
               Text(
-                 getTextWithCurrency(productTotal),
+                getTextWithCurrency(productTotal),
                 maxLines: 1,
                 style: TextStyle(
                     color: isPriceChanged
