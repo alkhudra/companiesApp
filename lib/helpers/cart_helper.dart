@@ -105,7 +105,7 @@ Widget cartTile(BuildContext context, String language,
         ? onPressed
         : null,
     leading: ImageHelper.productImage(model.image),
-    trailing: Icon(Icons.arrow_right_sharp),
+    trailing: Icon(Icons.arrow_left_sharp),
     title: Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.start,
